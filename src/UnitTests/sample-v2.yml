@@ -1,0 +1,188 @@
+swagger: '2.0'
+info:
+  title: My Service
+paths:
+  /:
+    get:
+      produces:
+        - application/json
+      responses:
+        '200':
+          schema:
+            type: string
+  /contacts:
+    get:
+      summary: Collection of contacts.
+      produces:
+        - application/json
+      responses:
+        '200':
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Contact'
+    post:
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/Contact'
+      responses:
+        '201':
+          schema:
+            $ref: '#/definitions/Contact'
+  '/contacts/{id}':
+    get:
+      summary: A specific contact.
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/Contact'
+    put:
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/Contact'
+      responses:
+        '204': { }
+    delete:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+      responses:
+        '204': { }
+  '/contacts/{id}/note':
+    get:
+      summary: The note for a specific contact.
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/Note'
+    put:
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/Note'
+      responses:
+        '204': { }
+  '/contacts/{id}/poke':
+    post:
+      summary: Pokes a contact.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+      responses:
+        '204': { }
+  '/contacts/{id}/picture':
+    get:
+      summary: A picture of a specific contact.
+      produces:
+        - image/jpeg
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+      responses:
+        '200':
+          schema: { }
+    put:
+      consumes:
+        - image/jpeg
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+        - in: body
+          name: body
+          schema: { }
+      responses:
+        '204': { }
+definitions:
+  Contact:
+    description: A contact in an address book.
+    required:
+      - firstName
+      - lastName
+    type: object
+    properties:
+      id:
+        description: The ID of the contact.
+        type: string
+      firstName:
+        description: The first name of the contact.
+        type: string
+      lastName:
+        description: The last name of the contact.
+        type: string
+  Note:
+    description: A note about a specific contact.
+    required:
+      - content
+    type: object
+    properties:
+      content:
+        description: The content of the note.
+        type: string
+x-endpoints:
+  contacts:
+    type: collection
+    description: Collection of contacts.
+    uri: ./contacts
+    element:
+      type: element
+      description: A specific contact.
+      children:
+        note:
+          type: element
+          description: The note for a specific contact.
+          uri: ./note
+          schema:
+            $ref: '#/definitions/Note'
+        poke:
+          type: action
+          description: Pokes a contact.
+          uri: ./poke
+        picture:
+          type: blob
+          description: A picture of a specific contact.
+          uri: ./picture
+    schema:
+      $ref: '#/definitions/Contact'

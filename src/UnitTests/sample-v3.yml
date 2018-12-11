@@ -1,0 +1,192 @@
+openapi: 3.0.1
+info:
+  title: My Service
+paths:
+  /:
+    get:
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: string
+  /contacts:
+    get:
+      summary: Collection of contacts.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Contact'
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contact'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+  '/contacts/{id}':
+    get:
+      summary: A specific contact.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+    put:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contact'
+      responses:
+        '204': { }
+    delete:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204': { }
+  '/contacts/{id}/note':
+    get:
+      summary: The note for a specific contact.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+    put:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Note'
+      responses:
+        '204': { }
+  '/contacts/{id}/poke':
+    post:
+      summary: Pokes a contact.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204': { }
+  '/contacts/{id}/picture':
+    get:
+      summary: A picture of a specific contact.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            image/jpeg:
+              schema: { }
+    put:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          image/jpeg:
+            schema: { }
+      responses:
+        '204': { }
+components:
+  schemas:
+    Contact:
+      required:
+        - firstName
+        - lastName
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the contact.
+        firstName:
+          type: string
+          description: The first name of the contact.
+        lastName:
+          type: string
+          description: The last name of the contact.
+      description: A contact in an address book.
+    Note:
+      required:
+        - content
+      type: object
+      properties:
+        content:
+          type: string
+          description: The content of the note.
+      description: A note about a specific contact.
+x-endpoints:
+  contacts:
+    type: collection
+    description: Collection of contacts.
+    uri: ./contacts
+    element:
+      type: element
+      description: A specific contact.
+      children:
+        note:
+          type: element
+          description: The note for a specific contact.
+          uri: ./note
+          schema:
+            $ref: '#/components/schemas/Note'
+        poke:
+          type: action
+          description: Pokes a contact.
+          uri: ./poke
+        picture:
+          type: blob
+          description: A picture of a specific contact.
+          uri: ./picture
+    schema:
+      $ref: '#/components/schemas/Contact'
