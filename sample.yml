@@ -1,0 +1,267 @@
+swagger: '2.0'
+
+info:
+  version: v1
+  title: My Service
+  contact:
+    url: 'http://www.example.com'
+    email: developer@example.com
+
+x-endpoints:
+  contacts:
+    description: "a collection of contacts"
+    uri: ./contacts
+    type: collection
+    schema:
+      $ref: "#/definitions/ContactDto"
+    element:
+      schema:
+        $ref: "#/definitions/ContactDto"
+      children:
+        note:
+          uri: ./note
+          type: element 
+          schema:
+            $ref: "#/definitions/NoteDto"
+      poke:
+        note:
+          uri: ./poke
+          type: action
+
+paths:
+  /:
+    get:
+      tags:
+        - Root
+      operationId: Home
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters: []
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: string
+  /contacts:
+    get:
+      tags:
+        - Contacts
+      summary: Returns all elements.
+      operationId: ReadAll
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            uniqueItems: false
+            type: array
+            items:
+              $ref: '#/definitions/ContactDto'
+    post:
+      tags:
+        - Contacts
+      summary: Creates a new element.
+      operationId: Create
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: element
+          in: body
+          description: The element to create (without an ID).
+          required: false
+          schema:
+            $ref: '#/definitions/ContactDto'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/ContactDto'
+        '400':
+          description: Missing or invalid request body
+  '/contacts/{id}':
+    get:
+      tags:
+        - Contacts
+      summary: Returns a specific element.
+      operationId: Read
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the element to look for.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ContactDto'
+        '404':
+          description: Specified element not found
+    put:
+      tags:
+        - Contacts
+      summary: Updates an existing element.
+      operationId: Set
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces: []
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the element to update (must match the ID in element).
+          required: true
+          type: string
+        - name: element
+          in: body
+          description: The modified element.
+          required: false
+          schema:
+            $ref: '#/definitions/ContactDto'
+      responses:
+        '204':
+          description: Success
+        '400':
+          description: Missing or invalid request body
+        '404':
+          description: Specified element not found
+    delete:
+      tags:
+        - Contacts
+      summary: Deletes an existing element.
+      operationId: Delete
+      consumes: []
+      produces: []
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the element to delete.
+          required: true
+          type: string
+      responses:
+        '204':
+          description: Success
+        '404':
+          description: Specified element not found
+  '/contacts/{id}/note':
+    get:
+      tags:
+        - Contacts
+      summary: Returns the note for a specific contact.
+      operationId: ReadNote
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the contact to get the note for.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/NoteDto'
+        '404':
+          description: Specified contact not found
+    put:
+      tags:
+        - Contacts
+      summary: Sets a note for a specific contact.
+      operationId: SetNote
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces: []
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the contact to set the note for.
+          required: true
+          type: string
+        - name: note
+          in: body
+          description: The note to set
+          required: false
+          schema:
+            $ref: '#/definitions/NoteDto'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Missing or invalid request body
+        '404':
+          description: Specified contact not found
+  '/contacts/{id}/poke':
+    post:
+      tags:
+        - Contacts
+      summary: Pokes a contact.
+      operationId: Poke
+      consumes: []
+      produces: []
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the contact to poke.
+          required: true
+          type: string
+      responses:
+        '204':
+          description: Success
+        '404':
+          description: Specified contact not found
+
+definitions:
+  ContactDto:
+    description: A representation of a contact for serialization.
+    required:
+      - firstName
+      - lastName
+    type: object
+    properties:
+      id:
+        description: The ID of the contact.
+        type: string
+      firstName:
+        description: The first name of the contact.
+        type: string
+      lastName:
+        description: The last name of the contact.
+        type: string
+  NoteDto:
+    description: A representation of a note for serialization.
+    required:
+      - content
+    type: object
+    properties:
+      content:
+        description: The content of the note
+        type: string
