@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(OS)'=='Windows_NT' Or '$(MSBuildRuntimeType)'=='Mono'">
-    <TargetFrameworks>net47;netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>net472;netcoreapp2.0</TargetFrameworks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(OS)'!='Windows_NT' And '$(MSBuildRuntimeType)'=='Core'">
     <TargetFrameworks>netcoreapp2.0</TargetFrameworks>
