@@ -9,30 +9,27 @@ info:
 
 x-endpoints:
   contacts:
-    description: "a collection of contacts"
-    uri: ./contacts
     type: collection
+    description: a collection of contacts
+    uri: ./contacts
     schema:
-      $ref: "#/definitions/ContactDto"
+      $ref: "#/definitions/Contact"
     element:
       schema:
-        $ref: "#/definitions/ContactDto"
+        $ref: "#/definitions/Contact"
       children:
         note:
+          type: element
           uri: ./note
-          type: element 
           schema:
-            $ref: "#/definitions/NoteDto"
-      poke:
-        note:
-          uri: ./poke
+            $ref: "#/definitions/Note"
+        poke:
           type: action
+          uri: ./poke
 
 paths:
   /:
     get:
-      tags:
-        - Root
       operationId: Home
       consumes: []
       produces:
@@ -47,8 +44,6 @@ paths:
             type: string
   /contacts:
     get:
-      tags:
-        - Contacts
       summary: Returns all elements.
       operationId: ReadAll
       consumes: []
@@ -64,10 +59,8 @@ paths:
             uniqueItems: false
             type: array
             items:
-              $ref: '#/definitions/ContactDto'
+              $ref: '#/definitions/Contact'
     post:
-      tags:
-        - Contacts
       summary: Creates a new element.
       operationId: Create
       consumes:
@@ -85,18 +78,16 @@ paths:
           description: The element to create (without an ID).
           required: false
           schema:
-            $ref: '#/definitions/ContactDto'
+            $ref: '#/definitions/Contact'
       responses:
         '201':
           description: Created
           schema:
-            $ref: '#/definitions/ContactDto'
+            $ref: '#/definitions/Contact'
         '400':
           description: Missing or invalid request body
   '/contacts/{id}':
     get:
-      tags:
-        - Contacts
       summary: Returns a specific element.
       operationId: Read
       consumes: []
@@ -114,12 +105,10 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/ContactDto'
+            $ref: '#/definitions/Contact'
         '404':
           description: Specified element not found
     put:
-      tags:
-        - Contacts
       summary: Updates an existing element.
       operationId: Set
       consumes:
@@ -139,7 +128,7 @@ paths:
           description: The modified element.
           required: false
           schema:
-            $ref: '#/definitions/ContactDto'
+            $ref: '#/definitions/Contact'
       responses:
         '204':
           description: Success
@@ -148,8 +137,6 @@ paths:
         '404':
           description: Specified element not found
     delete:
-      tags:
-        - Contacts
       summary: Deletes an existing element.
       operationId: Delete
       consumes: []
@@ -167,8 +154,6 @@ paths:
           description: Specified element not found
   '/contacts/{id}/note':
     get:
-      tags:
-        - Contacts
       summary: Returns the note for a specific contact.
       operationId: ReadNote
       consumes: []
@@ -186,12 +171,10 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/NoteDto'
+            $ref: '#/definitions/Note'
         '404':
           description: Specified contact not found
     put:
-      tags:
-        - Contacts
       summary: Sets a note for a specific contact.
       operationId: SetNote
       consumes:
@@ -211,7 +194,7 @@ paths:
           description: The note to set
           required: false
           schema:
-            $ref: '#/definitions/NoteDto'
+            $ref: '#/definitions/Note'
       responses:
         '200':
           description: OK
@@ -221,8 +204,6 @@ paths:
           description: Specified contact not found
   '/contacts/{id}/poke':
     post:
-      tags:
-        - Contacts
       summary: Pokes a contact.
       operationId: Poke
       consumes: []
@@ -240,7 +221,7 @@ paths:
           description: Specified contact not found
 
 definitions:
-  ContactDto:
+  Contact:
     description: A representation of a contact for serialization.
     required:
       - firstName
@@ -256,7 +237,7 @@ definitions:
       lastName:
         description: The last name of the contact.
         type: string
-  NoteDto:
+  Note:
     description: A representation of a note for serialization.
     required:
       - content

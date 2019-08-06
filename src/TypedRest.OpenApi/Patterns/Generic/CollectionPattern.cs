@@ -1,8 +1,12 @@
 using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.Endpoints;
+using TypedRest.OpenApi.Endpoints.Generic;
 
-namespace TypedRest.OpenApi.Patterns
+namespace TypedRest.OpenApi.Patterns.Generic
 {
+    /// <summary>
+    /// A pattern that generates <see cref="CollectionEndpoint"/>s.
+    /// </summary>
     public class CollectionPattern : IndexerPattern
     {
         protected override OperationType[] RequiredOperations

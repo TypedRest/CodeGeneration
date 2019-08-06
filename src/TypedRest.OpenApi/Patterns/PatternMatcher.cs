@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using TypedRest.OpenApi.Endpoints;
+using TypedRest.OpenApi.Patterns.Generic;
+using TypedRest.OpenApi.Patterns.Raw;
+using TypedRest.OpenApi.Patterns.Rpc;
 
 namespace TypedRest.OpenApi.Patterns
 {
@@ -19,16 +22,17 @@ namespace TypedRest.OpenApi.Patterns
         /// </summary>
         public PatternMatcher()
         {
+            // ordered from generic to specific
             Add(new DefaultPattern());
-            Add(new IndexerPattern());
-            Add(new CollectionPattern());
-            Add(new ElementPattern());
+            Add(new UploadPattern());
+            Add(new BlobPattern());
             Add(new ActionPattern());
             Add(new ProducerPattern());
             Add(new ConsumerPattern());
             Add(new FunctionPattern());
-            Add(new UploadPattern());
-            Add(new BlobPattern());
+            Add(new ElementPattern());
+            Add(new IndexerPattern());
+            Add(new CollectionPattern());
         }
 
         /// <summary>
@@ -46,13 +50,18 @@ namespace TypedRest.OpenApi.Patterns
         IEnumerator IEnumerable.GetEnumerator()
             => GetEnumerator();
 
-        public IDictionary<string, IEndpoint> GetEndpoints(IDictionary<string, PathTree> tree)
-            => tree.ToDictionary(node => node.Key, node =>
+        public EndpointList GetEndpoints(PathTree tree)
+        {
+            var result = new EndpointList();
+            foreach (var pair in tree.Children)
             {
-                var endpoint = _patterns.Select(x => x.TryGetEndpoint(node.Value, this))
+                var endpoint = _patterns.Select(x => x.TryGetEndpoint(pair.Value, this))
                                         .First(x => x != null);
-                endpoint.Uri = "./" + node.Key;
-                return endpoint;
-            });
+                endpoint.Uri = "./" + pair.Key;
+
+                result[pair.Key] = endpoint;
+            }
+            return result;
+        }
     }
 }

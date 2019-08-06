@@ -13,8 +13,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Description>TypedRest OpenAPI Extensions</Description>
-    <Summary>TODO</Summary>
+    <Description>TypedRest-specific extensions to OpenAPI specification. Useful for code generation.</Description>
+    <Summary>TypedRest OpenAPI rxtensions</Summary>
     <PackageTags>Typed REST OpenAPI Swagger C# CodeGen</PackageTags>
     <PackageProjectUrl>https://typedrest.net/</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

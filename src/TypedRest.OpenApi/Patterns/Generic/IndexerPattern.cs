@@ -1,9 +1,13 @@
 using System.Linq;
 using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.Endpoints;
+using TypedRest.OpenApi.Endpoints.Generic;
 
-namespace TypedRest.OpenApi.Patterns
+namespace TypedRest.OpenApi.Patterns.Generic
 {
+    /// <summary>
+    /// A pattern that generates <see cref="IndexerEndpoint"/>s.
+    /// </summary>
     public class IndexerPattern : IPattern
     {
         public IEndpoint TryGetEndpoint(PathTree tree, IPatternMatcher patternMatcher)
@@ -18,7 +22,7 @@ namespace TypedRest.OpenApi.Patterns
 
             var endpoint = BuildEndpoint();
 
-            var childEndpoints = patternMatcher.GetEndpoints(tree.Children);
+            var childEndpoints = patternMatcher.GetEndpoints(tree);
             foreach (var childEndpoint in childEndpoints)
             {
                 if (childEndpoint.Key == elementKey)

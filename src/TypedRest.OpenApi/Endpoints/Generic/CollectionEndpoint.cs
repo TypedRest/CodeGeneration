@@ -1,13 +1,20 @@
 using Microsoft.OpenApi;
 using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Writers;
 
-namespace TypedRest.OpenApi.Endpoints
+namespace TypedRest.OpenApi.Endpoints.Generic
 {
+    /// <summary>
+    /// Endpoint for a collection of entities addressable as <see cref="ElementEndpoint"/>s.
+    /// </summary>
     public class CollectionEndpoint : IndexerEndpoint
     {
         public override string Type => "collection";
 
+        /// <summary>
+        /// A reference to the <see cref="OpenApiSchema"/> describing the representation of individual elements in the collection.
+        /// </summary>
         public string Schema { get; set; }
 
         protected override string ElementDefaultType => "element";

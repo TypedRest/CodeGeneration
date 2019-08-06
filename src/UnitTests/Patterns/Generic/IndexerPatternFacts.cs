@@ -1,10 +1,10 @@
-using System.Collections.Generic;
 using FluentAssertions;
 using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.Endpoints;
+using TypedRest.OpenApi.Endpoints.Generic;
 using Xunit;
 
-namespace TypedRest.OpenApi.Patterns
+namespace TypedRest.OpenApi.Patterns.Generic
 {
     public class IndexerPatternFacts : PatternFactsBase<IndexerPattern>
     {
@@ -18,7 +18,7 @@ namespace TypedRest.OpenApi.Patterns
                     ["{id}"] = new PathTree {Item = new OpenApiPathItem()}
                 }
             };
-            var childMatches = new Dictionary<string, IEndpoint>
+            var childMatches = new EndpointList
             {
                 ["{id}"] = new ElementEndpoint(),
                 ["other"] = new Endpoint {Description = "other"}

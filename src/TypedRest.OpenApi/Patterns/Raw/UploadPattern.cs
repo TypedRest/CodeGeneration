@@ -1,8 +1,12 @@
 using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.Endpoints;
+using TypedRest.OpenApi.Endpoints.Raw;
 
-namespace TypedRest.OpenApi.Patterns
+namespace TypedRest.OpenApi.Patterns.Raw
 {
+    /// <summary>
+    /// A pattern that generates <see cref="UploadEndpoint"/>s.
+    /// </summary>
     public class UploadPattern : PatternBase
     {
         protected override OperationType[] RequiredOperations

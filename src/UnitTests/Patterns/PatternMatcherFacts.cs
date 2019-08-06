@@ -1,7 +1,8 @@
-using System.Collections.Generic;
 using FluentAssertions;
 using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.Endpoints;
+using TypedRest.OpenApi.Endpoints.Generic;
+using TypedRest.OpenApi.Endpoints.Rpc;
 using Xunit;
 
 namespace TypedRest.OpenApi.Patterns
@@ -9,34 +10,85 @@ namespace TypedRest.OpenApi.Patterns
     public class PatternMatcherFacts
     {
         [Fact]
-        public void Bla()
+        public void MatchesPatterns()
         {
-            var tree = new Dictionary<string, PathTree>
+            var tree = new PathTree
             {
-                ["health"] = new PathTree {Item = new OpenApiPathItem {Summary = "Health"}},
-                ["users"] = new PathTree
+                Children =
                 {
-                    Children =
+                    ["contacts"] = new PathTree
                     {
-                        ["a"] = new PathTree {Item = new OpenApiPathItem {Summary = "Users A"}},
-                        ["b"] = new PathTree {Item = new OpenApiPathItem {Summary = "Users B"}}
+                        Item = new OpenApiPathItem
+                        {
+                            Operations =
+                            {
+                                [OperationType.Get] = new OpenApiOperation(),
+                                [OperationType.Post] = new OpenApiOperation()
+                            }
+                        },
+                        Children =
+                        {
+                            ["{id}"] = new PathTree
+                            {
+                                Item = new OpenApiPathItem
+                                {
+                                    Operations =
+                                    {
+                                        [OperationType.Get] = new OpenApiOperation(),
+                                        [OperationType.Put] = new OpenApiOperation(),
+                                        [OperationType.Delete] = new OpenApiOperation()
+                                    }
+                                },
+                                Children =
+                                {
+                                    ["note"] = new PathTree
+                                    {
+                                        Item = new OpenApiPathItem
+                                        {
+                                            Operations =
+                                            {
+                                                [OperationType.Get] = new OpenApiOperation(),
+                                                [OperationType.Put] = new OpenApiOperation()
+                                            }
+                                        },
+                                    },
+                                    ["poke"] = new PathTree
+                                    {
+                                        Item = new OpenApiPathItem
+                                        {
+                                            Operations =
+                                            {
+                                                [OperationType.Post] = new OpenApiOperation()
+                                            }
+                                        },
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             };
 
-            var matcher = new PatternMatcher();
-            var endpoints = matcher.GetEndpoints(tree);
+            var endpoints = new PatternMatcher().GetEndpoints(tree);
 
-            endpoints.Should().BeEquivalentTo(new Dictionary<string, IEndpoint>
+            endpoints.Should().BeEquivalentTo(new EndpointList
             {
-                ["health"] = new Endpoint {Uri = "./health"},
-                ["users"] = new Endpoint
+                ["contacts"] = new CollectionEndpoint
                 {
-                    Uri = "./users",
-                    Children =
+                    Uri = "./contacts",
+                    Element = new ElementEndpoint
                     {
-                        ["a"] = new Endpoint {Uri = "./a"},
-                        ["b"] = new Endpoint {Uri = "./b"}
+                        Children =
+                        {
+                            ["note"] = new ElementEndpoint
+                            {
+                                Uri = "./note"
+                            },
+                            ["poke"] = new ActionEndpoint
+                            {
+                                Uri = "./poke"
+                            }
+                        }
                     }
                 }
             });

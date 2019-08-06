@@ -3,12 +3,18 @@ using Microsoft.OpenApi;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Writers;
 
-namespace TypedRest.OpenApi.Endpoints
+namespace TypedRest.OpenApi.Endpoints.Raw
 {
-    public class BlobEndpoint : Endpoint
+    /// <summary>
+    /// Endpoint that accepts binary uploads.
+    /// </summary>
+    public class UploadEndpoint : Endpoint
     {
-        public override string Type => "blob";
+        public override string Type => "upload";
 
+        /// <summary>
+        /// The name of the form field to place the uploaded data into. Leave empty for upload of raw bodies.
+        /// </summary>
         [CanBeNull]
         public string FormField { get; set; }
 

@@ -5,6 +5,10 @@ using Microsoft.OpenApi;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
+using TypedRest.OpenApi.Endpoints.Generic;
+using TypedRest.OpenApi.Endpoints.Raw;
+using TypedRest.OpenApi.Endpoints.Reactive;
+using TypedRest.OpenApi.Endpoints.Rpc;
 
 namespace TypedRest.OpenApi.Endpoints
 {

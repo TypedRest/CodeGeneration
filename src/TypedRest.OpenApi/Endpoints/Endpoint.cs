@@ -26,6 +26,11 @@ namespace TypedRest.OpenApi.Endpoints
                 Children.Parse(objData, parser);
         }
 
+        /// <summary>
+        /// Writes this endpoint description to an OpenAPI document.
+        /// </summary>
+        /// <param name="writer">The write to write to.</param>
+        /// <param name="specVersion">The OpenAPI Spec version to use.</param>
         protected virtual void WriteBody(IOpenApiWriter writer, OpenApiSpecVersion specVersion)
         {
             if (!string.IsNullOrEmpty(Type)) writer.WriteProperty("type", Type);

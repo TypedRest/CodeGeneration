@@ -4,6 +4,8 @@ using Microsoft.OpenApi.Extensions;
 using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Readers;
 using TypedRest.OpenApi.Endpoints;
+using TypedRest.OpenApi.Endpoints.Generic;
+using TypedRest.OpenApi.Endpoints.Rpc;
 using Xunit;
 
 namespace TypedRest.OpenApi
@@ -14,19 +16,19 @@ namespace TypedRest.OpenApi
 info: { }
 paths: { }
 x-endpoints:
-  users:
+  contacts:
     type: collection
-    description: a collection of users
-    uri: ./users
+    description: a collection of contacts
+    uri: ./contacts
     element:
       type: element
       children:
-        claims:
-          type: collection
-          uri: ./claims
-          schema: claimdto
-      schema: userdto
-    schema: userdto";
+        note:
+          type: element
+          uri: ./note
+        poke:
+          type: action
+          uri: ./poke";
 
         private readonly OpenApiDocument _doc = new OpenApiDocument
         {
@@ -34,20 +36,24 @@ x-endpoints:
             Paths = new OpenApiPaths()
         }.SetTypedRestEndpoints(new EndpointList
         {
-            ["users"] = new CollectionEndpoint
+            ["contacts"] = new CollectionEndpoint
             {
-                Description = "a collection of users",
-                Uri = "./users",
-                Schema = "user",
+                Description = "a collection of contacts",
+                Uri = "./contacts",
+                //Schema = "user",
                 Element = new ElementEndpoint
                 {
-                    Schema = "user",
+                    //Schema = "user",
                     Children =
                     {
-                        ["claims"] = new CollectionEndpoint
+                        ["note"] = new ElementEndpoint
                         {
-                            Uri = "./claims",
-                            Schema = "claim"
+                            Uri = "./note",
+                            //Schema = "note"
+                        },
+                        ["poke"] = new ActionEndpoint
+                        {
+                            Uri = "./poke"
                         }
                     }
                 }

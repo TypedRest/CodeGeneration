@@ -6,15 +6,29 @@ using Microsoft.OpenApi.Models;
 
 namespace TypedRest.OpenApi.Patterns
 {
+    /// <summary>
+    /// A tree-like structure organizing <see cref="OpenApiPathItem"/>s based on path prefixes.
+    /// </summary>
     [PublicAPI]
     public class PathTree
     {
+        /// <summary>
+        /// The <see cref="OpenApiPathItem"/> at this level of tree, if any.
+        /// </summary>
         [CanBeNull]
         public OpenApiPathItem Item { get; set; }
 
+        /// <summary>
+        /// A map of sub-paths to sub-trees.
+        /// </summary>
         [NotNull]
         public IDictionary<string, PathTree> Children { get; } = new Dictionary<string, PathTree>();
 
+        /// <summary>
+        /// Adds a <see cref="OpenApiPathItem"/> to the tree.
+        /// </summary>
+        /// <param name="path">The path of the item.</param>
+        /// <param name="item">The item.</param>
         public void Add([NotNull, ItemNotNull] string[] path, [NotNull] OpenApiPathItem item)
         {
             if (path.Length == 0)
@@ -34,6 +48,9 @@ namespace TypedRest.OpenApi.Patterns
             return child;
         }
 
+        /// <summary>
+        /// Builds a <see cref="PathTree"/> from an <see cref="OpenApiPaths"/> collection.
+        /// </summary>
         [NotNull]
         public static PathTree From([NotNull] OpenApiPaths paths)
         {

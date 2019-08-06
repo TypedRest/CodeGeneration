@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using JetBrains.Annotations;
 using TypedRest.OpenApi.Endpoints;
 
@@ -11,9 +10,9 @@ namespace TypedRest.OpenApi.Patterns
     public interface IPatternMatcher
     {
         /// <summary>
-        /// Generates named endpoints for the specified <paramref name="tree"/> using the registered <see cref="IPattern"/>s.
+        /// Generates endpoints for the specified <paramref name="tree"/>.
         /// </summary>
         [NotNull]
-        IDictionary<string, IEndpoint> GetEndpoints([NotNull] IDictionary<string, PathTree> tree);
+        EndpointList GetEndpoints([NotNull] PathTree tree);
     }
 }

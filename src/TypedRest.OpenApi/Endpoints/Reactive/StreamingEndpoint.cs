@@ -2,11 +2,14 @@ using Microsoft.OpenApi;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Writers;
 
-namespace TypedRest.OpenApi.Endpoints
+namespace TypedRest.OpenApi.Endpoints.Reactive
 {
-    public class UploadEndpoint : Endpoint
+    /// <summary>
+    /// Endpoint for a stream of entities using a persistent HTTP connection.
+    /// </summary>
+    public class StreamingEndpoint : Endpoint
     {
-        public override string Type => "upload";
+        public override string Type => "streaming";
 
         /// <summary>
         /// The character sequence used to detect that a new element starts in an HTTP stream.

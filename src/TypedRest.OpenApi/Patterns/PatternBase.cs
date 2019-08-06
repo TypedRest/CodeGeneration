@@ -18,7 +18,7 @@ namespace TypedRest.OpenApi.Patterns
                 return null;
 
             var endpoint = BuildEndpoint(tree.Item);
-            endpoint.Children.AddRange(patternMatcher.GetEndpoints(tree.Children));
+            endpoint.Children.AddRange(patternMatcher.GetEndpoints(tree));
             return endpoint;
         }
 
