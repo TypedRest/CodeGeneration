@@ -16,13 +16,17 @@ namespace TypedRest.OpenApi.Patterns.Generic
                 {
                     Operations =
                     {
-                        [OperationType.Get] = new OpenApiOperation(),
-                        [OperationType.Put] = new OpenApiOperation(),
-                        [OperationType.Delete] = new OpenApiOperation()
+                        [OperationType.Get] = Sample.Operation(response: Sample.ContactSchema, summary: "A specific contact."),
+                        [OperationType.Put] = Sample.Operation(statusCode: 204, request: Sample.ContactSchema),
+                        [OperationType.Delete] = Sample.Operation(statusCode: 204)
                     }
                 }
             };
-            var endpoint = new ElementEndpoint();
+            var endpoint = new ElementEndpoint
+            {
+                Description = "A specific contact.",
+                Schema = Sample.ContactSchema
+            };
 
             TryGetEndpoint(tree).Should().BeEquivalentTo(endpoint);
         }
