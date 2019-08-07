@@ -14,31 +14,31 @@ namespace TypedRest.OpenApi.Endpoints.Rpc
         public override string Type => "rpc";
 
         /// <summary>
-        /// A reference to the <see cref="OpenApiSchema"/> describing the entity taken as input.
+        /// Schema describing the entity taken as input.
         /// </summary>
         [CanBeNull]
-        public string RequestSchema { get; set; }
+        public OpenApiSchema RequestSchema { get; set; }
 
         /// <summary>
-        /// A reference to the <see cref="OpenApiSchema"/> describing the entity provided as output.
+        /// Schema describing the entity provided as output.
         /// </summary>
         [CanBeNull]
-        public string ResponseSchema { get; set; }
+        public OpenApiSchema ResponseSchema { get; set; }
 
         public override void Parse(OpenApiObject data, IEndpointsParser parser)
         {
             base.Parse(data, parser);
 
-            RequestSchema = data.GetString("request-schema");
-            ResponseSchema = data.GetString("response-schema");
+            RequestSchema = data.GetSchema("request-schema");
+            ResponseSchema = data.GetSchema("response-schema");
         }
 
         protected override void WriteBody(IOpenApiWriter writer, OpenApiSpecVersion specVersion)
         {
             base.WriteBody(writer, specVersion);
 
-            writer.WriteProperty("request-schema", RequestSchema);
-            writer.WriteProperty("response-schema", ResponseSchema);
+            writer.WriteOptionalObject("request-schema", RequestSchema, specVersion);
+            writer.WriteOptionalObject("response-schema", ResponseSchema, specVersion);
         }
     }
 }

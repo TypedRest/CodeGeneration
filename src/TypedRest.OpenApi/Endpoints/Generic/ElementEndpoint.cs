@@ -13,22 +13,22 @@ namespace TypedRest.OpenApi.Endpoints.Generic
         public override string Type => "element";
 
         /// <summary>
-        /// A reference to the <see cref="OpenApiSchema"/> describing the representation of this resource.
+        /// Schema describing the representation of this resource.
         /// </summary>
-        public string Schema { get; set; }
+        public OpenApiSchema Schema { get; set; }
 
         public override void Parse(OpenApiObject data, IEndpointsParser parser)
         {
             base.Parse(data, parser);
 
-            Schema = data.GetString("schema");
+            Schema = data.GetSchema("schema");
         }
 
         protected override void WriteBody(IOpenApiWriter writer, OpenApiSpecVersion specVersion)
         {
             base.WriteBody(writer, specVersion);
 
-            writer.WriteProperty("schema", Schema);
+            writer.WriteOptionalObject("schema", Schema, specVersion);
         }
     }
 }

@@ -12,6 +12,8 @@ namespace TypedRest.OpenApi.Patterns.Generic
         protected override OperationType[] RequiredOperations
             => new[] {OperationType.Get};
 
+        // TODO: doc.Paths.First().Value.Operations[OperationType.Post].Responses.First().Value.Content.First().Value.Schema.Reference.Id;
+
         protected override IEndpoint BuildEndpoint(OpenApiPathItem item)
             => new ElementEndpoint();
     }

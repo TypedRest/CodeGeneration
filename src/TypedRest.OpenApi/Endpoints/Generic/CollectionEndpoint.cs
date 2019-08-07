@@ -13,9 +13,9 @@ namespace TypedRest.OpenApi.Endpoints.Generic
         public override string Type => "collection";
 
         /// <summary>
-        /// A reference to the <see cref="OpenApiSchema"/> describing the representation of individual elements in the collection.
+        /// Schema describing the representation of individual elements in the collection.
         /// </summary>
-        public string Schema { get; set; }
+        public OpenApiSchema Schema { get; set; }
 
         protected override string ElementDefaultType => "element";
 
@@ -23,7 +23,7 @@ namespace TypedRest.OpenApi.Endpoints.Generic
         {
             base.Parse(data, parser);
 
-            Schema = data.GetString("schema");
+            Schema = data.GetSchema("schema");
 
             if (Element is ElementEndpoint element && element.Schema == null)
                 element.Schema = Schema;
@@ -33,7 +33,7 @@ namespace TypedRest.OpenApi.Endpoints.Generic
         {
             base.WriteBody(writer, specVersion);
 
-            writer.WriteProperty("schema", Schema);
+            writer.WriteOptionalObject("schema", Schema, specVersion);
         }
     }
 }

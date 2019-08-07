@@ -1,4 +1,5 @@
 using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Models;
 
 namespace TypedRest.OpenApi
 {
@@ -20,6 +21,34 @@ namespace TypedRest.OpenApi
         /// <returns>The value of the property or <c>null</c> if it was not found or had the wrong type.</returns>
         public static int? GetInt(this OpenApiObject obj, string name)
             => obj.TryGetValue(name, out var anyData) && anyData is OpenApiInteger intData ? intData.Value : (int?)null;
+
+        /// <summary>
+        /// Gets a schema property with specified <paramref name="name"/> from the <paramref name="obj"/>.
+        /// </summary>
+        /// <returns>The value of the property or <c>null</c> if it was not found or had the wrong type.</returns>
+        public static OpenApiSchema GetSchema(this OpenApiObject obj, string name)
+        {
+            if (!obj.TryGetObject("name", out var schemaObj)) return null;
+            string schemaRef = schemaObj.GetString("$ref");
+            if (schemaRef == null) return null;
+
+            OpenApiSchema FromRefPrefix(string prefix)
+            {
+                if (!schemaRef.StartsWith(prefix)) return null;
+
+                return new OpenApiSchema
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Id = schemaRef.Substring(prefix.Length),
+                        Type = ReferenceType.Schema
+                    }
+                };
+            }
+
+            return FromRefPrefix("#/components/schemas/")
+                ?? FromRefPrefix("#/definitions/");
+        }
 
         /// <summary>
         /// Tries to get an object property with specified <paramref name="name"/> from the <paramref name="obj"/>.
