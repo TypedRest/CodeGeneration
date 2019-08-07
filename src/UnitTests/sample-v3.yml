@@ -1,189 +1,143 @@
 openapi: 3.0.1
-
 info:
   title: My Service
-
-paths: { }
-#paths:
-#  /:
-#    get:
-#      responses:
-#        '200':
-#          description: Success
-#          content:
-#            application/json:
-#              schema:
-#                type: string
-#  /contacts:
-#    get:
-#      summary: Returns all elements.
-#      responses:
-#        '200':
-#          description: OK
-#          content:
-#            application/json:
-#              schema:
-#                uniqueItems: false
-#                type: array
-#                items:
-#                  $ref: '#/components/schemas/Contact'
-#    post:
-#      summary: Creates a new element.
-#      requestBody:
-#        content:
-#          application/json:
-#            schema:
-#              $ref: '#/components/schemas/Contact'
-#        description: The element to create (without an ID).
-#      responses:
-#        '201':
-#          description: Created
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Contact'
-#        '400':
-#          description: Missing or invalid request body
-#  '/contacts/{id}':
-#    get:
-#      summary: Returns a specific element.
-#      parameters:
-#        - name: id
-#          in: path
-#          description: The ID of the element to look for.
-#          required: true
-#          schema:
-#            type: string
-#      responses:
-#        '200':
-#          description: OK
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Contact'
-#        '404':
-#          description: Specified element not found
-#    put:
-#      summary: Updates an existing element.
-#      parameters:
-#        - name: id
-#          in: path
-#          description: The ID of the element to update (must match the ID in element).
-#          required: true
-#          schema:
-#            type: string
-#      requestBody:
-#        content:
-#          application/json:
-#            schema:
-#              $ref: '#/components/schemas/Contact'
-#        description: The modified element.
-#      responses:
-#        '204':
-#          description: Success
-#        '400':
-#          description: Missing or invalid request body
-#        '404':
-#          description: Specified element not found
-#    delete:
-#      summary: Deletes an existing element.
-#      parameters:
-#        - name: id
-#          in: path
-#          description: The ID of the element to delete.
-#          required: true
-#          schema:
-#            type: string
-#      responses:
-#        '204':
-#          description: Success
-#        '404':
-#          description: Specified element not found
-#  '/contacts/{id}/note':
-#    get:
-#      summary: Returns the note for a specific contact.
-#      parameters:
-#        - name: id
-#          in: path
-#          description: The ID of the contact to get the note for.
-#          required: true
-#          schema:
-#            type: string
-#      responses:
-#        '200':
-#          description: OK
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Note'
-#        '404':
-#          description: Specified contact not found
-#    put:
-#      summary: Sets a note for a specific contact.
-#      parameters:
-#        - name: id
-#          in: path
-#          description: The ID of the contact to set the note for.
-#          required: true
-#          schema:
-#            type: string
-#      requestBody:
-#        content:
-#          application/json:
-#            schema:
-#              $ref: '#/components/schemas/Note'
-#        description: The note to set
-#      responses:
-#        '200':
-#          description: OK
-#        '400':
-#          description: Missing or invalid request body
-#        '404':
-#          description: Specified contact not found
-#  '/contacts/{id}/poke':
-#    post:
-#      summary: Pokes a contact.
-#      parameters:
-#        - name: id
-#          in: path
-#          description: The ID of the contact to poke.
-#          required: true
-#          schema:
-#            type: string
-#      responses:
-#        '204':
-#          description: Success
-#        '404':
-#          description: Specified contact not found
-
-#components:
-#  schemas:
-#    Contact:
-#      description: A contact in an address book.
-#      required:
-#        - firstName
-#        - lastName
-#      type: object
-#      properties:
-#        id:
-#          description: The ID of the contact.
-#          type: string
-#        firstName:
-#          description: The first name of the contact.
-#          type: string
-#        lastName:
-#          description: The last name of the contact.
-#          type: string
-#    Note:
-#      description: A note about a specific contact.
-#      required:
-#        - content
-#      type: object
-#      properties:
-#        content:
-#          description: The content of the note.
-#          type: string
-
+paths:
+  /:
+    get:
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: string
+  /contacts:
+    get:
+      summary: All contacts.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Contact'
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contact'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+  '/contacts/{id}':
+    get:
+      summary: A specific contact.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+    put:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contact'
+      responses:
+        '204': { }
+    delete:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204': { }
+  '/contacts/{id}/note':
+    get:
+      summary: The note for a specific contact.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+    put:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Note'
+      responses:
+        '204': { }
+  '/contacts/{id}/poke':
+    post:
+      summary: Pokes a contact.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204': { }
+components:
+  schemas:
+    Contact:
+      required:
+        - firstName
+        - lastName
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the contact.
+        firstName:
+          type: string
+          description: The first name of the contact.
+        lastName:
+          type: string
+          description: The last name of the contact.
+      description: A contact in an address book.
+    Note:
+      required:
+        - content
+      type: object
+      properties:
+        content:
+          type: string
+          description: The content of the note.
+      description: A note about a specific contact.
 x-endpoints:
   contacts:
     type: collection

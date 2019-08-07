@@ -12,62 +12,7 @@ namespace TypedRest.OpenApi.Patterns
         [Fact]
         public void MatchesPatterns()
         {
-            var tree = new PathTree
-            {
-                Children =
-                {
-                    ["contacts"] = new PathTree
-                    {
-                        Item = new OpenApiPathItem
-                        {
-                            Operations =
-                            {
-                                [OperationType.Get] = new OpenApiOperation(),
-                                [OperationType.Post] = new OpenApiOperation()
-                            }
-                        },
-                        Children =
-                        {
-                            ["{id}"] = new PathTree
-                            {
-                                Item = new OpenApiPathItem
-                                {
-                                    Operations =
-                                    {
-                                        [OperationType.Get] = new OpenApiOperation(),
-                                        [OperationType.Put] = new OpenApiOperation(),
-                                        [OperationType.Delete] = new OpenApiOperation()
-                                    }
-                                },
-                                Children =
-                                {
-                                    ["note"] = new PathTree
-                                    {
-                                        Item = new OpenApiPathItem
-                                        {
-                                            Operations =
-                                            {
-                                                [OperationType.Get] = new OpenApiOperation(),
-                                                [OperationType.Put] = new OpenApiOperation()
-                                            }
-                                        },
-                                    },
-                                    ["poke"] = new PathTree
-                                    {
-                                        Item = new OpenApiPathItem
-                                        {
-                                            Operations =
-                                            {
-                                                [OperationType.Post] = new OpenApiOperation()
-                                            }
-                                        },
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            };
+            var tree = PathTree.From(Sample.Paths);
 
             var endpoints = new PatternMatcher().GetEndpoints(tree);
 

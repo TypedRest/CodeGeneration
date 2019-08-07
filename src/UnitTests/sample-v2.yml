@@ -1,189 +1,140 @@
 swagger: '2.0'
-
 info:
   title: My Service
-
-paths: { }
-#paths:
-#  /:
-#    get:
-#      produces:
-#        - application/json
-#      responses:
-#        '200':
-#          description: Success
-#          schema:
-#            type: string
-#  /contacts:
-#    get:
-#      summary: Returns all elements.
-#      produces:
-#        - application/json
-#      responses:
-#        '200':
-#          description: OK
-#          schema:
-#            uniqueItems: false
-#            type: array
-#            items:
-#              $ref: '#/definitions/Contact'
-#    post:
-#      summary: Creates a new element.
-#      consumes:
-#        - application/json
-#      produces:
-#        - application/json
-#      parameters:
-#        - name: element
-#          in: body
-#          description: The element to create (without an ID).
-#          required: false
-#          schema:
-#            $ref: '#/definitions/Contact'
-#      responses:
-#        '201':
-#          description: Created
-#          schema:
-#            $ref: '#/definitions/Contact'
-#        '400':
-#          description: Missing or invalid request body
-#  '/contacts/{id}':
-#    get:
-#      summary: Returns a specific element.
-#      produces:
-#        - application/json
-#      parameters:
-#        - name: id
-#          in: path
-#          description: The ID of the element to look for.
-#          required: true
-#          type: string
-#      responses:
-#        '200':
-#          description: OK
-#          schema:
-#            $ref: '#/definitions/Contact'
-#        '404':
-#          description: Specified element not found
-#    put:
-#      summary: Updates an existing element.
-#      consumes:
-#        - application/json
-#      parameters:
-#        - name: id
-#          in: path
-#          description: The ID of the element to update (must match the ID in element).
-#          required: true
-#          type: string
-#        - name: element
-#          in: body
-#          description: The modified element.
-#          required: false
-#          schema:
-#            $ref: '#/definitions/Contact'
-#      responses:
-#        '204':
-#          description: Success
-#        '400':
-#          description: Missing or invalid request body
-#        '404':
-#          description: Specified element not found
-#    delete:
-#      summary: Deletes an existing element.
-#      parameters:
-#        - name: id
-#          in: path
-#          description: The ID of the element to delete.
-#          required: true
-#          type: string
-#      responses:
-#        '204':
-#          description: Success
-#        '404':
-#          description: Specified element not found
-#  '/contacts/{id}/note':
-#    get:
-#      summary: Returns the note for a specific contact.
-#      produces:
-#        - application/json
-#      parameters:
-#        - name: id
-#          in: path
-#          description: The ID of the contact to get the note for.
-#          required: true
-#          type: string
-#      responses:
-#        '200':
-#          description: OK
-#          schema:
-#            $ref: '#/definitions/Note'
-#        '404':
-#          description: Specified contact not found
-#    put:
-#      summary: Sets a note for a specific contact.
-#      consumes:
-#        - application/json
-#      parameters:
-#        - name: id
-#          in: path
-#          description: The ID of the contact to set the note for.
-#          required: true
-#          type: string
-#        - name: note
-#          in: body
-#          description: The note to set
-#          required: false
-#          schema:
-#            $ref: '#/definitions/Note'
-#      responses:
-#        '200':
-#          description: OK
-#        '400':
-#          description: Missing or invalid request body
-#        '404':
-#          description: Specified contact not found
-#  '/contacts/{id}/poke':
-#    post:
-#      summary: Pokes a contact.
-#      parameters:
-#        - name: id
-#          in: path
-#          description: The ID of the contact to poke.
-#          required: true
-#          type: string
-#      responses:
-#        '204':
-#          description: Success
-#        '404':
-#          description: Specified contact not found
-
-#definitions:
-#  Contact:
-#    description: A contact in an address book.
-#    required:
-#      - firstName
-#      - lastName
-#    type: object
-#    properties:
-#      id:
-#        description: The ID of the contact.
-#        type: string
-#      firstName:
-#        description: The first name of the contact.
-#        type: string
-#      lastName:
-#        description: The last name of the contact.
-#        type: string
-#  Note:
-#    description: A note about a specific contact.
-#    required:
-#      - content
-#    type: object
-#    properties:
-#      content:
-#        description: The content of the note.
-#        type: string
-
+paths:
+  /:
+    get:
+      produces:
+        - application/json
+      responses:
+        '200':
+          schema:
+            type: string
+  /contacts:
+    get:
+      summary: All contacts.
+      produces:
+        - application/json
+      responses:
+        '200':
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Contact'
+    post:
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/Contact'
+      responses:
+        '201':
+          schema:
+            $ref: '#/definitions/Contact'
+  '/contacts/{id}':
+    get:
+      summary: A specific contact.
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/Contact'
+    put:
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/Contact'
+      responses:
+        '204': { }
+    delete:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+      responses:
+        '204': { }
+  '/contacts/{id}/note':
+    get:
+      summary: The note for a specific contact.
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/Note'
+    put:
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/Note'
+      responses:
+        '204': { }
+  '/contacts/{id}/poke':
+    post:
+      summary: Pokes a contact.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+      responses:
+        '204': { }
+definitions:
+  Contact:
+    description: A contact in an address book.
+    required:
+      - firstName
+      - lastName
+    type: object
+    properties:
+      id:
+        description: The ID of the contact.
+        type: string
+      firstName:
+        description: The first name of the contact.
+        type: string
+      lastName:
+        description: The last name of the contact.
+        type: string
+  Note:
+    description: A note about a specific contact.
+    required:
+      - content
+    type: object
+    properties:
+      content:
+        description: The content of the note.
+        type: string
 x-endpoints:
   contacts:
     type: collection
