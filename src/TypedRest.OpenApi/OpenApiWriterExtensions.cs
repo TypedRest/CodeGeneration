@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Microsoft.OpenApi;
+using Microsoft.OpenApi.Extensions;
 using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Writers;
 
@@ -20,8 +21,8 @@ namespace TypedRest.OpenApi
         /// <param name="value">The property value.</param>
         /// <param name="specVersion">The OpenAPI Spec version.</param>
         public static void WriteOptionalObject<T>([NotNull] this IOpenApiWriter writer, [NotNull] string name, [CanBeNull] T value, OpenApiSpecVersion specVersion)
-            where T : IOpenApiSerializable, IOpenApiExtension
-            => writer.WriteOptionalObject(name, value, (w, v) => v.Write(w, specVersion));
+            where T : IOpenApiSerializable
+            => writer.WriteOptionalObject(name, value, (w, v) => v.Serialize(w, specVersion));
 
         /// <summary>
         /// Writes an optional Open API element map.
@@ -32,7 +33,7 @@ namespace TypedRest.OpenApi
         /// <param name="elements">The map values.</param>
         /// <param name="specVersion">The OpenAPI Spec version.</param>
         public static void WriteOptionalMap<T>([NotNull] this IOpenApiWriter writer, [NotNull] string name, [NotNull] IDictionary<string, T> elements, OpenApiSpecVersion specVersion)
-            where T : IOpenApiSerializable, IOpenApiExtension
-            => writer.WriteOptionalMap(name, elements, (w, v) => v.Write(w, specVersion));
+            where T : IOpenApiSerializable
+            => writer.WriteOptionalMap(name, elements, (w, v) => v.Serialize(w, specVersion));
     }
 }
