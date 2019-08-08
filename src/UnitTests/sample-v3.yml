@@ -111,6 +111,33 @@ paths:
             type: string
       responses:
         '204': { }
+  '/contacts/{id}/picture':
+    get:
+      summary: A picture of a specific contact.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            image/jpeg:
+              schema: { }
+    put:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          image/jpeg:
+            schema: { }
+      responses:
+        '204': { }
 components:
   schemas:
     Contact:
@@ -157,5 +184,9 @@ x-endpoints:
           type: action
           description: Pokes a contact.
           uri: ./poke
+        picture:
+          type: blob
+          description: A picture of a specific contact.
+          uri: ./picture
     schema:
       $ref: '#/components/schemas/Contact'

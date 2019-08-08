@@ -4,6 +4,7 @@ using System.Reflection;
 using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.Endpoints;
 using TypedRest.OpenApi.Endpoints.Generic;
+using TypedRest.OpenApi.Endpoints.Raw;
 using TypedRest.OpenApi.Endpoints.Rpc;
 
 namespace TypedRest.OpenApi
@@ -69,6 +70,14 @@ namespace TypedRest.OpenApi
                     [OperationType.Post] = Operation(parameter: "id", statusCode: HttpStatusCode.NoContent, summary: "Pokes a contact.")
                 }
             },
+            ["/contacts/{id}/picture"] = new OpenApiPathItem
+            {
+                Operations =
+                {
+                    [OperationType.Get] = Operation(parameter: "id", mimeType: "image/jpeg", response: new OpenApiSchema(), summary: "A picture of a specific contact."),
+                    [OperationType.Put] = Operation(parameter: "id", statusCode: HttpStatusCode.NoContent, mimeType: "image/jpeg", request: new OpenApiSchema()),
+                }
+            }
         };
 
         public static EndpointList Endpoints => new EndpointList
@@ -93,6 +102,11 @@ namespace TypedRest.OpenApi
                         {
                             Description = "Pokes a contact.",
                             Uri = "./poke"
+                        },
+                        ["picture"] = new BlobEndpoint
+                        {
+                            Description = "A picture of a specific contact.",
+                            Uri = "./picture"
                         }
                     }
                 }
