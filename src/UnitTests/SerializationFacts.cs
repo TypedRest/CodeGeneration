@@ -1,6 +1,7 @@
 using FluentAssertions;
 using Microsoft.OpenApi;
 using Microsoft.OpenApi.Extensions;
+using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Readers;
 using Xunit;
 
@@ -11,32 +12,35 @@ namespace TypedRest.OpenApi
         [Fact]
         public void CanSerializeV2()
         {
-            Sample.Doc.Serialize(OpenApiSpecVersion.OpenApi2_0, OpenApiFormat.Yaml)
+            Serialize(Sample.Doc, OpenApiSpecVersion.OpenApi2_0)
                 .Should().Be(Sample.YamlV2);
-        }
-
-        [Fact]
-        public void CanDeserializeV2()
-        {
-            Reader.Read(Sample.YamlV2, out _)
-                  .Should().BeEquivalentTo(Sample.Doc, options => options.IncludingAllRuntimeProperties());
         }
 
         [Fact]
         public void CanSerializeV3()
         {
-            Sample.Doc.Serialize(OpenApiSpecVersion.OpenApi3_0, OpenApiFormat.Yaml)
-                .Should().Be(Sample.YamlV3);
+            Serialize(Sample.Doc, OpenApiSpecVersion.OpenApi3_0)
+               .Should().Be(Sample.YamlV3);
+        }
+
+        private static string Serialize(OpenApiDocument doc, OpenApiSpecVersion specVersion)
+            => doc.Serialize(specVersion, OpenApiFormat.Yaml);
+
+        [Fact]
+        public void CanDeserializeV2()
+        {
+            Deserialize(Sample.YamlV2)
+               .Should().BeEquivalentTo(Sample.Doc, options => options.IncludingAllRuntimeProperties());
         }
 
         [Fact]
         public void CanDeserializeV3()
         {
-            Reader.Read(Sample.YamlV3, out _)
-                  .Should().BeEquivalentTo(Sample.Doc, options => options.IncludingAllRuntimeProperties());
+            Deserialize(Sample.YamlV3)
+               .Should().BeEquivalentTo(Sample.Doc, options => options.IncludingAllRuntimeProperties());
         }
 
-        private static OpenApiStringReader Reader
-            => new OpenApiStringReader(new OpenApiReaderSettings().AddTypedRest());
+        private static OpenApiDocument Deserialize(string yaml)
+            => new OpenApiStringReader(new OpenApiReaderSettings().AddTypedRest()).Read(yaml, out _);
     }
 }
