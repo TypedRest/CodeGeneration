@@ -16,7 +16,7 @@ namespace TypedRest.OpenApi.Patterns.Generic
         {
             var operation = item.Operations[OperationType.Get];
 
-            var schema = operation.GetResponseSchema();
+            var schema = operation.Get200Response()?.GetJsonSchema();
             if (schema == null) return null;
 
             return new ElementEndpoint

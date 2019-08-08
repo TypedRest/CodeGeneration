@@ -11,7 +11,7 @@ namespace TypedRest.OpenApi.Patterns.Rpc
     {
         protected override IEndpoint BuildEndpoint(OpenApiOperation operation)
         {
-            var schema = operation.GetRequestSchema();
+            var schema = operation.GetRequest()?.GetJsonSchema();
             if (schema == null) return null;
 
             return new ConsumerEndpoint {Schema = schema};

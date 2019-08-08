@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.Endpoints;
 using TypedRest.OpenApi.Endpoints.Rpc;
@@ -11,7 +12,7 @@ namespace TypedRest.OpenApi.Patterns.Rpc
     {
         protected override IEndpoint BuildEndpoint(OpenApiOperation operation)
         {
-            var schema = operation.GetResponseSchema();
+            var schema = operation.Get20XResponse()?.GetJsonSchema();
             if (schema == null || operation.RequestBody != null) return null;
 
             return new ProducerEndpoint {Schema = schema};
