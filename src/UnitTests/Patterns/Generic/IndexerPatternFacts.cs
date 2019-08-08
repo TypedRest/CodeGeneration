@@ -1,5 +1,4 @@
 using FluentAssertions;
-using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.Endpoints;
 using TypedRest.OpenApi.Endpoints.Generic;
 using Xunit;
@@ -11,36 +10,26 @@ namespace TypedRest.OpenApi.Patterns.Generic
         [Fact]
         public void GetsEndpoint()
         {
-            var tree = new PathTree
+            var mockChildMatches = new EndpointList
             {
-                Children =
-                {
-                    ["{id}"] = new PathTree {Item = new OpenApiPathItem()}
-                }
-            };
-            var childMatches = new EndpointList
-            {
-                ["{id}"] = new ElementEndpoint(),
+                ["{id}"] = new Endpoint {Description = "element"},
                 ["other"] = new Endpoint {Description = "other"}
             };
-            var endpoint = new IndexerEndpoint
+
+            TryGetEndpoint(new PathTree(), mockChildMatches).Should().BeEquivalentTo(new IndexerEndpoint
             {
-                Element = new ElementEndpoint(),
+                Element = new Endpoint {Description = "element"},
                 Children =
                 {
                     ["other"] = new Endpoint {Description = "other"}
                 }
-            };
-
-            TryGetEndpoint(tree, childMatches).Should().BeEquivalentTo(endpoint);
+            }, options => options.IncludingAllRuntimeProperties());
         }
 
         [Fact]
         public void RejectsEndpointWithoutChild()
         {
-            var tree = new PathTree();
-
-            TryGetEndpoint(tree).Should().BeNull();
+            TryGetEndpoint(new PathTree()).Should().BeNull();
         }
     }
 }

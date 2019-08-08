@@ -6,11 +6,11 @@ namespace TypedRest.OpenApi.Patterns
     public class PatternFactsBase<TPattern>
         where TPattern : IPattern, new()
     {
-        protected IEndpoint TryGetEndpoint(PathTree tree, EndpointList childMatches = null)
+        protected IEndpoint TryGetEndpoint(PathTree tree, EndpointList mockChildMatches = null)
         {
             var patternMatcherMock = new Mock<IPatternMatcher>();
             patternMatcherMock.Setup(x => x.GetEndpoints(tree))
-                              .Returns(childMatches ?? new EndpointList());
+                              .Returns(mockChildMatches ?? new EndpointList());
 
             return new TPattern().TryGetEndpoint(tree, patternMatcherMock.Object);
         }

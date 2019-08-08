@@ -24,9 +24,6 @@ namespace TypedRest.OpenApi.Endpoints.Generic
             base.Parse(data, parser);
 
             Schema = data.GetSchema("schema");
-
-            if (Element is ElementEndpoint element && element.Schema == null)
-                element.Schema = Schema;
         }
 
         protected override void WriteBody(IOpenApiWriter writer, OpenApiSpecVersion specVersion)

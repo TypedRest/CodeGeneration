@@ -12,27 +12,23 @@ namespace TypedRest.OpenApi.Patterns.Generic
         protected override OperationType[] RequiredOperations
             => new[] {OperationType.Get /*, OperationType.Post*/};
 
-        protected override IndexerEndpoint BuildEndpoint(OpenApiPathItem item)
+        protected override IndexerEndpoint BuildEndpoint(OpenApiPathItem item, IEndpoint elementEndpoint)
         {
+            if (!(elementEndpoint is ElementEndpoint element)) return null;
             var operation = item.Operations[OperationType.Get];
 
-            // TODO
-            //var schema = operation.GetResponseSchema();
-            //if (schema == null) return null;
+            var schema = operation.GetResponseSchema();
+            if (schema?.Type != "array" || schema.Items?.Reference?.Id != element?.Schema?.Reference?.Id) return null;
+
+            element.Schema = null;
+            if (element.Children.Count == 0) element = null;
 
             return new CollectionEndpoint
             {
-                //Schema = schema,
+                Schema = schema.Items,
+                Element = element,
                 Description = operation.Description ?? operation.Summary
             };
-        }
-
-        protected override IEndpoint GetElementEndpoint(IEndpoint endpoint)
-        {
-            if (endpoint is ElementEndpoint && endpoint.Children.Count == 0)
-                return null;
-            else
-                return base.GetElementEndpoint(endpoint);
         }
     }
 }

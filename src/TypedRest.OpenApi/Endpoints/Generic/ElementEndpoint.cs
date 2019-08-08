@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using Microsoft.OpenApi;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
@@ -13,8 +14,9 @@ namespace TypedRest.OpenApi.Endpoints.Generic
         public override string Type => "element";
 
         /// <summary>
-        /// Schema describing the representation of this resource.
+        /// Schema describing the representation of this resource. Inherited from the containing <see cref="CollectionEndpoint"/> when unset.
         /// </summary>
+        [CanBeNull]
         public OpenApiSchema Schema { get; set; }
 
         public override void Parse(OpenApiObject data, IEndpointsParser parser)

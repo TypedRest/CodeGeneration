@@ -22,13 +22,12 @@ namespace TypedRest.OpenApi.Patterns.Generic
                     }
                 }
             };
-            var endpoint = new ElementEndpoint
+
+            TryGetEndpoint(tree).Should().BeEquivalentTo(new ElementEndpoint
             {
                 Description = "A specific contact.",
                 Schema = Sample.ContactSchema
-            };
-
-            TryGetEndpoint(tree).Should().BeEquivalentTo(endpoint);
+            }, options => options.IncludingAllRuntimeProperties());
         }
     }
 }

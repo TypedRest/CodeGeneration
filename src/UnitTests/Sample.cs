@@ -79,7 +79,6 @@ namespace TypedRest.OpenApi
                 Schema = ReferenceTo(ContactSchema),
                 Element = new ElementEndpoint
                 {
-                    Schema = ReferenceTo(ContactSchema),
                     Children =
                     {
                         ["note"] = new ElementEndpoint

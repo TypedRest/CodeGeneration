@@ -10,7 +10,7 @@ namespace TypedRest.OpenApi.Patterns.Generic
     public class ElementPattern : PatternBase
     {
         protected override OperationType[] RequiredOperations
-            => new[] {OperationType.Get};
+            => new[] {OperationType.Get /*, OperationType.Put*/};
 
         protected override IEndpoint BuildEndpoint(OpenApiPathItem item)
         {

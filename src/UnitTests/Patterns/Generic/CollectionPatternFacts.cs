@@ -11,102 +11,68 @@ namespace TypedRest.OpenApi.Patterns.Generic
         [Fact]
         public void GetsEndpoint()
         {
-            var tree = new PathTree
+            var mockChildMatches = new EndpointList
             {
-                Item = new OpenApiPathItem
+                ["{id}"] = new ElementEndpoint
                 {
-                    Operations =
-                    {
-                        [OperationType.Get] = new OpenApiOperation(),
-                        [OperationType.Post] = new OpenApiOperation()
-                    }
+                    Schema = Sample.ContactSchema,
+                    Children = {["sub"] = new Endpoint {Description = "sub"}}
                 },
-                Children =
-                {
-                    ["{id}"] = new PathTree {Item = new OpenApiPathItem()}
-                }
-            };
-            var childMatches = new EndpointList
-            {
-                ["{id}"] = new Endpoint(),
                 ["other"] = new Endpoint {Description = "other"}
             };
-            var endpoint = new CollectionEndpoint
+
+            TryGetEndpoint(CollectionTree, mockChildMatches).Should().BeEquivalentTo(new CollectionEndpoint
             {
-                Element = new Endpoint(),
+                Schema = Sample.ContactSchema,
+                Element = new ElementEndpoint
+                {
+                    Children = {["sub"] = new Endpoint {Description = "sub"}}
+                },
                 Children =
                 {
                     ["other"] = new Endpoint {Description = "other"}
-                }
-            };
-
-            TryGetEndpoint(tree, childMatches).Should().BeEquivalentTo(endpoint);
+                },
+                Description = "All contacts."
+            }, options => options.IncludingAllRuntimeProperties());
         }
 
         [Fact]
-        public void CompactsSimpleChildElement()
+        public void TrimsTrivialElementEndpoint()
         {
-            var tree = new PathTree
+            var mockChildMatches = new EndpointList
             {
-                Item = new OpenApiPathItem
-                {
-                    Operations =
-                    {
-                        [OperationType.Get] = new OpenApiOperation(),
-                        [OperationType.Post] = new OpenApiOperation()
-                    }
-                },
+                ["{id}"] = new ElementEndpoint {Schema = Sample.ContactSchema},
+                ["other"] = new Endpoint {Description = "other"}
+            };
+
+            TryGetEndpoint(CollectionTree, mockChildMatches).Should().BeEquivalentTo(new CollectionEndpoint
+            {
+                Schema = Sample.ContactSchema,
                 Children =
                 {
-                    ["{id}"] = new PathTree {Item = new OpenApiPathItem()}
-                }
-            };
-            var childMatches = new EndpointList
-            {
-                ["{id}"] = new ElementEndpoint()
-            };
-            var endpoint = new CollectionEndpoint();
-
-            TryGetEndpoint(tree, childMatches).Should().BeEquivalentTo(endpoint);
+                    ["other"] = new Endpoint {Description = "other"}
+                },
+                Description = "All contacts."
+            }, options => options.IncludingAllRuntimeProperties());
         }
 
         [Fact]
         public void RejectsEndpointWithoutChild()
         {
-            var tree = new PathTree
+            TryGetEndpoint(CollectionTree).Should().BeNull();
+        }
+
+        private static PathTree CollectionTree
+            => new PathTree
             {
                 Item = new OpenApiPathItem
                 {
                     Operations =
                     {
-                        [OperationType.Get] = new OpenApiOperation(),
-                        [OperationType.Post] = new OpenApiOperation()
+                        [OperationType.Get] = Sample.Operation(response: new OpenApiSchema {Type = "array", Items = Sample.ContactSchema}, summary: "All contacts."),
+                        [OperationType.Post] = Sample.Operation(request: Sample.ContactSchema)
                     }
                 }
             };
-
-            TryGetEndpoint(tree).Should().BeNull();
-        }
-
-        [Fact]
-        public void RejectsEndpointWithoutPost()
-        {
-            var tree = new PathTree
-            {
-                Item = new OpenApiPathItem
-                {
-                    Operations =
-                    {
-                        [OperationType.Get] = new OpenApiOperation()
-                    }
-                },
-                Children =
-                {
-                    ["{id}"] = new PathTree {Item = new OpenApiPathItem()}
-                }
-            };
-
-            TryGetEndpoint(tree).Should().BeNull();
-        }
     }
 }
