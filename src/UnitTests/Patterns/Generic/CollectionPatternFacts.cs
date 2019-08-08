@@ -32,7 +32,7 @@ namespace TypedRest.OpenApi.Patterns.Generic
                 {
                     ["other"] = new Endpoint {Description = "other"}
                 },
-                Description = "All contacts."
+                Description = "Collection of contacts."
             }, options => options.IncludingAllRuntimeProperties());
         }
 
@@ -52,7 +52,7 @@ namespace TypedRest.OpenApi.Patterns.Generic
                 {
                     ["other"] = new Endpoint {Description = "other"}
                 },
-                Description = "All contacts."
+                Description = "Collection of contacts."
             }, options => options.IncludingAllRuntimeProperties());
         }
 
@@ -69,7 +69,7 @@ namespace TypedRest.OpenApi.Patterns.Generic
                 {
                     Operations =
                     {
-                        [OperationType.Get] = Sample.Operation(response: new OpenApiSchema {Type = "array", Items = Sample.ContactSchema}, summary: "All contacts."),
+                        [OperationType.Get] = Sample.Operation(response: new OpenApiSchema {Type = "array", Items = Sample.ContactSchema}, summary: "Collection of contacts."),
                         [OperationType.Post] = Sample.Operation(request: Sample.ContactSchema)
                     }
                 }

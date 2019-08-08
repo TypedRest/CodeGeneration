@@ -12,7 +12,7 @@ paths:
             type: string
   /contacts:
     get:
-      summary: All contacts.
+      summary: Collection of contacts.
       produces:
         - application/json
       responses:
@@ -138,18 +138,21 @@ definitions:
 x-endpoints:
   contacts:
     type: collection
-    description: a collection of contacts
+    description: Collection of contacts.
     uri: ./contacts
     element:
       type: element
+      description: A specific contact.
       children:
         note:
           type: element
+          description: The note for a specific contact.
           uri: ./note
           schema:
             $ref: '#/definitions/Note'
         poke:
           type: action
+          description: Pokes a contact.
           uri: ./poke
     schema:
       $ref: '#/definitions/Contact'

@@ -41,7 +41,7 @@ namespace TypedRest.OpenApi
             {
                 Operations =
                 {
-                    [OperationType.Get] = Operation(response: new OpenApiSchema {Type = "array", Items = ContactSchema}, summary: "All contacts."),
+                    [OperationType.Get] = Operation(response: new OpenApiSchema {Type = "array", Items = ContactSchema}, summary: "Collection of contacts."),
                     [OperationType.Post] = Operation(statusCode: HttpStatusCode.Created, request: ContactSchema, response: ContactSchema)
                 }
             },
@@ -75,20 +75,23 @@ namespace TypedRest.OpenApi
         {
             ["contacts"] = new CollectionEndpoint
             {
-                Description = "a collection of contacts",
+                Description = "Collection of contacts.",
                 Uri = "./contacts",
                 Schema = ReferenceTo(ContactSchema),
                 Element = new ElementEndpoint
                 {
+                    Description = "A specific contact.",
                     Children =
                     {
                         ["note"] = new ElementEndpoint
                         {
+                            Description = "The note for a specific contact.",
                             Uri = "./note",
                             Schema = ReferenceTo(NoteSchema)
                         },
                         ["poke"] = new ActionEndpoint
                         {
+                            Description = "Pokes a contact.",
                             Uri = "./poke"
                         }
                     }

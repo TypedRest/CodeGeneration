@@ -18,8 +18,7 @@ namespace TypedRest.OpenApi
         [Fact]
         public void CanDeserializeV2()
         {
-            var reader = new OpenApiStringReader(new OpenApiReaderSettings().AddTypedRest());
-            reader.Read(Sample.YamlV2, out _)
+            Reader.Read(Sample.YamlV2, out _)
                   .Should().BeEquivalentTo(Sample.Doc, options => options.IncludingAllRuntimeProperties());
         }
 
@@ -33,9 +32,11 @@ namespace TypedRest.OpenApi
         [Fact]
         public void CanDeserializeV3()
         {
-            var reader = new OpenApiStringReader(new OpenApiReaderSettings().AddTypedRest());
-            reader.Read(Sample.YamlV3, out _)
+            Reader.Read(Sample.YamlV3, out _)
                   .Should().BeEquivalentTo(Sample.Doc, options => options.IncludingAllRuntimeProperties());
         }
+
+        private static OpenApiStringReader Reader
+            => new OpenApiStringReader(new OpenApiReaderSettings().AddTypedRest());
     }
 }
