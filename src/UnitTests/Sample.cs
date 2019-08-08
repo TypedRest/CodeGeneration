@@ -1,4 +1,5 @@
 using System.IO;
+using System.Net;
 using System.Reflection;
 using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.Endpoints;
@@ -41,7 +42,7 @@ namespace TypedRest.OpenApi
                 Operations =
                 {
                     [OperationType.Get] = Operation(response: new OpenApiSchema {Type = "array", Items = ContactSchema}, summary: "All contacts."),
-                    [OperationType.Post] = Operation(statusCode: 201, request: ContactSchema, response: ContactSchema)
+                    [OperationType.Post] = Operation(statusCode: HttpStatusCode.Created, request: ContactSchema, response: ContactSchema)
                 }
             },
             ["/contacts/{id}"] = new OpenApiPathItem
@@ -49,8 +50,8 @@ namespace TypedRest.OpenApi
                 Operations =
                 {
                     [OperationType.Get] = Operation(parameter: "id", response: ContactSchema, summary: "A specific contact."),
-                    [OperationType.Put] = Operation(parameter: "id", statusCode: 204, request: ContactSchema),
-                    [OperationType.Delete] = Operation(parameter: "id", statusCode: 204)
+                    [OperationType.Put] = Operation(parameter: "id", statusCode: HttpStatusCode.NoContent, request: ContactSchema),
+                    [OperationType.Delete] = Operation(parameter: "id", statusCode: HttpStatusCode.NoContent)
                 }
             },
             ["/contacts/{id}/note"] = new OpenApiPathItem
@@ -58,14 +59,14 @@ namespace TypedRest.OpenApi
                 Operations =
                 {
                     [OperationType.Get] = Operation(parameter: "id", response: NoteSchema, summary: "The note for a specific contact."),
-                    [OperationType.Put] = Operation(parameter: "id", statusCode: 204, request: NoteSchema)
+                    [OperationType.Put] = Operation(parameter: "id", statusCode: HttpStatusCode.NoContent, request: NoteSchema)
                 }
             },
             ["/contacts/{id}/poke"] = new OpenApiPathItem
             {
                 Operations =
                 {
-                    [OperationType.Post] = Operation(parameter: "id", statusCode: 204, summary: "Pokes a contact.")
+                    [OperationType.Post] = Operation(parameter: "id", statusCode: HttpStatusCode.NoContent, summary: "Pokes a contact.")
                 }
             },
         };
@@ -121,18 +122,18 @@ namespace TypedRest.OpenApi
             Description = "A note about a specific contact."
         };
 
-        public static OpenApiOperation Operation(int statusCode = 200, string parameter = null, OpenApiSchema request = null, OpenApiSchema response = null, string summary = null)
+        public static OpenApiOperation Operation(HttpStatusCode statusCode = HttpStatusCode.OK, string parameter = null, string mimeType = "application/json", OpenApiSchema request = null, OpenApiSchema response = null, string summary = null)
         {
             var responseObj = new OpenApiResponse();
             if (response != null)
-                responseObj.Content["application/json"] = new OpenApiMediaType {Schema = response};
+                responseObj.Content[mimeType] = new OpenApiMediaType {Schema = response};
 
             var operation = new OpenApiOperation
             {
                 Summary = summary,
                 Responses = new OpenApiResponses
                 {
-                    [statusCode.ToString()] = responseObj
+                    [((int)statusCode).ToString()] = responseObj
                 }
             };
 
@@ -153,7 +154,7 @@ namespace TypedRest.OpenApi
                 {
                     Content =
                     {
-                        ["application/json"] = new OpenApiMediaType {Schema = request}
+                        [mimeType] = new OpenApiMediaType {Schema = request}
                     }
                 };
             }

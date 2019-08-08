@@ -14,9 +14,14 @@ namespace TypedRest.OpenApi.Patterns.Raw
 
         protected override IEndpoint BuildEndpoint(OpenApiPathItem item)
         {
-            // TODO: Check operation.RequestBody
+            var operation = item.Operations[OperationType.Get];
 
-            return new BlobEndpoint();
+            if (operation.Get200Response() == null) return null;
+
+            return new BlobEndpoint
+            {
+                Description = operation.Description ?? operation.Summary
+            };
         }
     }
 }

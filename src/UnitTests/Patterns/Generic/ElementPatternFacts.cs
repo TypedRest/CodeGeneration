@@ -1,3 +1,4 @@
+using System.Net;
 using FluentAssertions;
 using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.Endpoints.Generic;
@@ -17,8 +18,8 @@ namespace TypedRest.OpenApi.Patterns.Generic
                     Operations =
                     {
                         [OperationType.Get] = Sample.Operation(response: Sample.ContactSchema, summary: "A specific contact."),
-                        [OperationType.Put] = Sample.Operation(statusCode: 204, request: Sample.ContactSchema),
-                        [OperationType.Delete] = Sample.Operation(statusCode: 204)
+                        [OperationType.Put] = Sample.Operation(statusCode: HttpStatusCode.NoContent, request: Sample.ContactSchema),
+                        [OperationType.Delete] = Sample.Operation(statusCode: HttpStatusCode.NoContent)
                     }
                 }
             };
