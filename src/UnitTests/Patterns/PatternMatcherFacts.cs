@@ -24,7 +24,6 @@ namespace TypedRest.OpenApi.Patterns
                     Schema = Sample.ContactSchema,
                     Element = new ElementEndpoint
                     {
-                        Schema = Sample.ContactSchema,
                         Description = "A specific contact.",
                         Children =
                         {

@@ -20,7 +20,7 @@ namespace TypedRest.OpenApi
         {
             var reader = new OpenApiStringReader(new OpenApiReaderSettings().AddTypedRest());
             reader.Read(Sample.YamlV2, out _)
-                  .Should().BeEquivalentTo(Sample.Doc);
+                  .Should().BeEquivalentTo(Sample.Doc, options => options.IncludingAllRuntimeProperties());
         }
 
         [Fact]
@@ -35,7 +35,7 @@ namespace TypedRest.OpenApi
         {
             var reader = new OpenApiStringReader(new OpenApiReaderSettings().AddTypedRest());
             reader.Read(Sample.YamlV3, out _)
-                  .Should().BeEquivalentTo(Sample.Doc);
+                  .Should().BeEquivalentTo(Sample.Doc, options => options.IncludingAllRuntimeProperties());
         }
     }
 }

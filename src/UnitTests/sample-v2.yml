@@ -151,7 +151,5 @@ x-endpoints:
         poke:
           type: action
           uri: ./poke
-      schema:
-        $ref: '#/definitions/Contact'
     schema:
       $ref: '#/definitions/Contact'

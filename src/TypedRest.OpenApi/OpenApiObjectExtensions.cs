@@ -28,7 +28,7 @@ namespace TypedRest.OpenApi
         /// <returns>The value of the property or <c>null</c> if it was not found or had the wrong type.</returns>
         public static OpenApiSchema GetSchema(this OpenApiObject obj, string name)
         {
-            if (!obj.TryGetObject("name", out var schemaObj)) return null;
+            if (!obj.TryGetObject(name, out var schemaObj)) return null;
             string schemaRef = schemaObj.GetString("$ref");
             if (schemaRef == null) return null;
 
