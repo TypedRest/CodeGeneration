@@ -10,9 +10,13 @@ namespace TypedRest.OpenApi.Patterns.Raw
     public class BlobPattern : PatternBase
     {
         protected override OperationType[] RequiredOperations
-            => new[] {OperationType.Get, OperationType.Put};
+            => new[] {OperationType.Get /*, OperationType.Put*/};
 
         protected override IEndpoint BuildEndpoint(OpenApiPathItem item)
-            => new BlobEndpoint();
+        {
+            // TODO: Check operation.RequestBody
+
+            return new BlobEndpoint();
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace TypedRest.OpenApi.Patterns.Rpc
         protected override IEndpoint BuildEndpoint(OpenApiOperation operation)
         {
             var schema = operation.GetResponseSchema();
-            if (schema == null) return null;
+            if (schema == null || operation.RequestBody != null) return null;
 
             return new ProducerEndpoint {Schema = schema};
         }

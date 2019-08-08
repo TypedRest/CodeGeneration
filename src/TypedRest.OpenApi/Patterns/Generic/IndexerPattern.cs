@@ -20,7 +20,7 @@ namespace TypedRest.OpenApi.Patterns.Generic
             if (elementKey == null)
                 return null;
 
-            var endpoint = BuildEndpoint();
+            var endpoint = BuildEndpoint(tree.Item);
 
             var childEndpoints = patternMatcher.GetEndpoints(tree);
             foreach (var childEndpoint in childEndpoints)
@@ -37,7 +37,7 @@ namespace TypedRest.OpenApi.Patterns.Generic
         protected virtual OperationType[] RequiredOperations
             => new OperationType[0];
 
-        protected virtual IndexerEndpoint BuildEndpoint()
+        protected virtual IndexerEndpoint BuildEndpoint(OpenApiPathItem item)
             => new IndexerEndpoint();
 
         protected virtual IEndpoint GetElementEndpoint(IEndpoint endpoint)

@@ -13,6 +13,10 @@ namespace TypedRest.OpenApi.Patterns.Raw
             => new[] {OperationType.Post};
 
         protected override IEndpoint BuildEndpoint(OpenApiPathItem item)
-            => new BlobEndpoint();
+        {
+            // TODO: Check operation.RequestBody
+
+            return new BlobEndpoint();
+        }
     }
 }

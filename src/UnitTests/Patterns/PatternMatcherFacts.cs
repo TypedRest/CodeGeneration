@@ -20,6 +20,8 @@ namespace TypedRest.OpenApi.Patterns
                 ["contacts"] = new CollectionEndpoint
                 {
                     Uri = "./contacts",
+                    Description = "All contacts.",
+                    Schema = Sample.ContactSchema,
                     Element = new ElementEndpoint
                     {
                         Schema = Sample.ContactSchema,

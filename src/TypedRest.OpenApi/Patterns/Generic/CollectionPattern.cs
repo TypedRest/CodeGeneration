@@ -10,10 +10,22 @@ namespace TypedRest.OpenApi.Patterns.Generic
     public class CollectionPattern : IndexerPattern
     {
         protected override OperationType[] RequiredOperations
-            => new[] {OperationType.Get, OperationType.Post};
+            => new[] {OperationType.Get /*, OperationType.Post*/};
 
-        protected override IndexerEndpoint BuildEndpoint()
-            => new CollectionEndpoint();
+        protected override IndexerEndpoint BuildEndpoint(OpenApiPathItem item)
+        {
+            var operation = item.Operations[OperationType.Get];
+
+            // TODO
+            //var schema = operation.GetResponseSchema();
+            //if (schema == null) return null;
+
+            return new CollectionEndpoint
+            {
+                //Schema = schema,
+                Description = operation.Description ?? operation.Summary
+            };
+        }
 
         protected override IEndpoint GetElementEndpoint(IEndpoint endpoint)
         {
