@@ -29,5 +29,15 @@ namespace TypedRest.OpenApi
             document.Extensions[EndpointList.ExtensionKey] = list;
             return document;
         }
+
+        /// <summary>
+        /// Resolves <see cref="OpenApiReference"/>s in TypedRest endpoints.
+        /// </summary>
+        [PublicAPI]
+        public static OpenApiDocument ResolveTypedRestReferences(this OpenApiDocument doc)
+        {
+            doc.GetTypedRestEndpoints().ResolveReferences(doc.Components);
+            return doc;
+        }
     }
 }

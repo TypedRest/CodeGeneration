@@ -1,4 +1,5 @@
 using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.Endpoints;
 
 namespace TypedRest.OpenApi
@@ -14,5 +15,11 @@ namespace TypedRest.OpenApi
         /// <param name="data">The OpenAPI Object to parse.</param>
         /// <param name="parser">The endpoint parser to use for parsing child objects.</param>
         void Parse(OpenApiObject data, IEndpointsParser parser);
+
+        /// <summary>
+        /// Resolves <see cref="OpenApiReference"/>s.
+        /// </summary>
+        /// <param name="components">The components that references can point to.</param>
+        void ResolveReferences(OpenApiComponents components);
     }
 }

@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using Microsoft.OpenApi;
 using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Writers;
 
 namespace TypedRest.OpenApi.Endpoints.Generic
@@ -30,6 +31,13 @@ namespace TypedRest.OpenApi.Endpoints.Generic
 
             if (data.TryGetObject("element", out var element))
                 Element = parser.Parse(element, ElementDefaultType);
+        }
+
+        public override void ResolveReferences(OpenApiComponents components)
+        {
+            base.ResolveReferences(components);
+
+            Element?.ResolveReferences(components);
         }
 
         protected override void WriteBody(IOpenApiWriter writer, OpenApiSpecVersion specVersion)

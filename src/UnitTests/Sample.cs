@@ -77,7 +77,7 @@ namespace TypedRest.OpenApi
             {
                 Description = "Collection of contacts.",
                 Uri = "./contacts",
-                Schema = ReferenceTo(ContactSchema),
+                Schema = ContactSchema,
                 Element = new ElementEndpoint
                 {
                     Description = "A specific contact.",
@@ -87,7 +87,7 @@ namespace TypedRest.OpenApi
                         {
                             Description = "The note for a specific contact.",
                             Uri = "./note",
-                            Schema = ReferenceTo(NoteSchema)
+                            Schema = NoteSchema
                         },
                         ["poke"] = new ActionEndpoint
                         {
@@ -174,9 +174,6 @@ namespace TypedRest.OpenApi
 
         private static OpenApiSchema StringProperty(string description = null)
             => new OpenApiSchema {Type = "string", Description = description};
-
-        private static OpenApiSchema ReferenceTo(OpenApiSchema schema)
-            => new OpenApiSchema {Reference = SchemaReference(schema.Reference.Id)};
 
         private static OpenApiReference SchemaReference(string id)
             => new OpenApiReference {Id = id, Type = ReferenceType.Schema};

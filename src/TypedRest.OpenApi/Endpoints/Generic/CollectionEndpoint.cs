@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using Microsoft.OpenApi;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
@@ -15,6 +16,7 @@ namespace TypedRest.OpenApi.Endpoints.Generic
         /// <summary>
         /// Schema describing the representation of individual elements in the collection.
         /// </summary>
+        [CanBeNull]
         public OpenApiSchema Schema { get; set; }
 
         protected override string ElementDefaultType => "element";
@@ -24,6 +26,13 @@ namespace TypedRest.OpenApi.Endpoints.Generic
             base.Parse(data, parser);
 
             Schema = data.GetSchema("schema");
+        }
+
+        public override void ResolveReferences(OpenApiComponents components)
+        {
+            base.ResolveReferences(components);
+
+            Schema = Schema?.Resolve(components);
         }
 
         protected override void WriteBody(IOpenApiWriter writer, OpenApiSpecVersion specVersion)

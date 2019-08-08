@@ -33,6 +33,14 @@ namespace TypedRest.OpenApi.Endpoints.Rpc
             ResponseSchema = data.GetSchema("response-schema");
         }
 
+        public override void ResolveReferences(OpenApiComponents components)
+        {
+            base.ResolveReferences(components);
+
+            RequestSchema = RequestSchema?.Resolve(components);
+            ResponseSchema = ResponseSchema?.Resolve(components);
+        }
+
         protected override void WriteBody(IOpenApiWriter writer, OpenApiSpecVersion specVersion)
         {
             base.WriteBody(writer, specVersion);

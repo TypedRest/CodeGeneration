@@ -26,6 +26,13 @@ namespace TypedRest.OpenApi.Endpoints.Generic
             Schema = data.GetSchema("schema");
         }
 
+        public override void ResolveReferences(OpenApiComponents components)
+        {
+            base.ResolveReferences(components);
+
+            Schema = Schema?.Resolve(components);
+        }
+
         protected override void WriteBody(IOpenApiWriter writer, OpenApiSpecVersion specVersion)
         {
             base.WriteBody(writer, specVersion);

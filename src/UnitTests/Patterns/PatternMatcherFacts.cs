@@ -1,7 +1,4 @@
 using FluentAssertions;
-using TypedRest.OpenApi.Endpoints;
-using TypedRest.OpenApi.Endpoints.Generic;
-using TypedRest.OpenApi.Endpoints.Rpc;
 using Xunit;
 
 namespace TypedRest.OpenApi.Patterns
@@ -15,33 +12,7 @@ namespace TypedRest.OpenApi.Patterns
 
             var endpoints = new PatternMatcher().GetEndpoints(tree);
 
-            endpoints.Should().BeEquivalentTo(new EndpointList
-            {
-                ["contacts"] = new CollectionEndpoint
-                {
-                    Uri = "./contacts",
-                    Description = "Collection of contacts.",
-                    Schema = Sample.ContactSchema,
-                    Element = new ElementEndpoint
-                    {
-                        Description = "A specific contact.",
-                        Children =
-                        {
-                            ["note"] = new ElementEndpoint
-                            {
-                                Uri = "./note",
-                                Schema = Sample.NoteSchema,
-                                Description = "The note for a specific contact."
-                            },
-                            ["poke"] = new ActionEndpoint
-                            {
-                                Uri = "./poke",
-                                Description = "Pokes a contact."
-                            }
-                        }
-                    }
-                }
-            }, options => options.IncludingAllRuntimeProperties());
+            endpoints.Should().BeEquivalentTo(Sample.Doc.GetTypedRestEndpoints(), options => options.IncludingAllRuntimeProperties());
         }
     }
 }

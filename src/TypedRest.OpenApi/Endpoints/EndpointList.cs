@@ -28,6 +28,12 @@ namespace TypedRest.OpenApi.Endpoints
             }
         }
 
+        public void ResolveReferences(OpenApiComponents components)
+        {
+            foreach (var child in Values)
+                child.ResolveReferences(components);
+        }
+
         public void Write(IOpenApiWriter writer, OpenApiSpecVersion specVersion)
         {
             writer.WriteStartObject();

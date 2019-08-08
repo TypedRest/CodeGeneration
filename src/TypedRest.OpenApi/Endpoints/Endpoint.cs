@@ -1,5 +1,6 @@
 using Microsoft.OpenApi;
 using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Writers;
 
 namespace TypedRest.OpenApi.Endpoints
@@ -24,6 +25,12 @@ namespace TypedRest.OpenApi.Endpoints
 
             if (data.TryGetValue("children", out var anyData) && anyData is OpenApiObject objData)
                 Children.Parse(objData, parser);
+        }
+
+        public virtual void ResolveReferences(OpenApiComponents components)
+        {
+            foreach (var child in Children.Values)
+                child.ResolveReferences(components);
         }
 
         /// <summary>
