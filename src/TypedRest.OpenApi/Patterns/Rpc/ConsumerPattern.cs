@@ -9,7 +9,12 @@ namespace TypedRest.OpenApi.Patterns.Rpc
     /// </summary>
     public class ConsumerPattern : RpcPatternBase
     {
-        protected override IEndpoint BuildEndpoint(OpenApiPathItem item)
-            => new ConsumerEndpoint();
+        protected override IEndpoint BuildEndpoint(OpenApiOperation operation)
+        {
+            var schema = operation.GetRequestSchema();
+            if (schema == null) return null;
+
+            return new ConsumerEndpoint {Schema = schema};
+        }
     }
 }

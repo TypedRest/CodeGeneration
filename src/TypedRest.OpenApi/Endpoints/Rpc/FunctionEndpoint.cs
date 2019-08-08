@@ -11,7 +11,7 @@ namespace TypedRest.OpenApi.Endpoints.Rpc
     /// </summary>
     public class FunctionEndpoint : Endpoint
     {
-        public override string Type => "rpc";
+        public override string Type => "function";
 
         /// <summary>
         /// Schema describing the entity taken as input.

@@ -18,7 +18,7 @@ namespace TypedRest.OpenApi.Patterns
                 return null;
 
             var endpoint = BuildEndpoint(tree.Item);
-            endpoint.Children.AddRange(patternMatcher.GetEndpoints(tree));
+            endpoint?.Children.AddRange(patternMatcher.GetEndpoints(tree));
             return endpoint;
         }
 
@@ -28,8 +28,9 @@ namespace TypedRest.OpenApi.Patterns
         protected abstract OperationType[] RequiredOperations { get; }
 
         /// <summary>
-        /// Builds the endpoint using information from the <paramref name="item"/>.
+        /// Builds the endpoint using information from the <paramref name="item"/>. <c>null</c> if the pattern does not match.
         /// </summary>
+        [CanBeNull]
         protected abstract IEndpoint BuildEndpoint(OpenApiPathItem item);
     }
 }

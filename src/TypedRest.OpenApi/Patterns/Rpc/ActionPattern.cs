@@ -9,7 +9,7 @@ namespace TypedRest.OpenApi.Patterns.Rpc
     /// </summary>
     public class ActionPattern : RpcPatternBase
     {
-        protected override IEndpoint BuildEndpoint(OpenApiPathItem item)
+        protected override IEndpoint BuildEndpoint(OpenApiOperation operation)
             => new ActionEndpoint();
     }
 }

@@ -1,5 +1,4 @@
 using FluentAssertions;
-using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.Endpoints;
 using TypedRest.OpenApi.Endpoints.Generic;
 using TypedRest.OpenApi.Endpoints.Rpc;
@@ -23,20 +22,25 @@ namespace TypedRest.OpenApi.Patterns
                     Uri = "./contacts",
                     Element = new ElementEndpoint
                     {
+                        Schema = Sample.ContactSchema,
+                        Description = "A specific contact.",
                         Children =
                         {
                             ["note"] = new ElementEndpoint
                             {
-                                Uri = "./note"
+                                Uri = "./note",
+                                Schema = Sample.NoteSchema,
+                                Description = "The note for a specific contact."
                             },
                             ["poke"] = new ActionEndpoint
                             {
-                                Uri = "./poke"
+                                Uri = "./poke",
+                                Description = "Pokes a contact."
                             }
                         }
                     }
                 }
-            });
+            }, options => options.IncludingAllRuntimeProperties());
         }
     }
 }

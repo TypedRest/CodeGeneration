@@ -9,7 +9,12 @@ namespace TypedRest.OpenApi.Patterns.Rpc
     /// </summary>
     public class ProducerPattern : RpcPatternBase
     {
-        protected override IEndpoint BuildEndpoint(OpenApiPathItem item)
-            => new ProducerEndpoint();
+        protected override IEndpoint BuildEndpoint(OpenApiOperation operation)
+        {
+            var schema = operation.GetResponseSchema();
+            if (schema == null) return null;
+
+            return new ProducerEndpoint {Schema = schema};
+        }
     }
 }
