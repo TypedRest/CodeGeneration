@@ -1,5 +1,9 @@
 # TypedRest OpenAPI Extensions
 
+## Work in Progress
+
+**This is not ready for general use!**
+
 [![API documentation](https://img.shields.io/badge/api-docs-orange.svg)](https://openapi.typedrest.net/)
 [![Build status](https://img.shields.io/appveyor/ci/TypedRest/typedrest-openapi.svg)](https://ci.appveyor.com/project/TypedRest/typedrest-openapi)  
 Tools for generating TypedRest clients from OpenAPI/Swagger specifications.
