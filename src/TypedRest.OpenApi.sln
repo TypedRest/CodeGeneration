@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypedRest.OpenApi.CSharp", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{80686155-EAB9-4D82-9472-ECEAE98CBF1F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypedRest.OpenApi.Cli", "TypedRest.OpenApi.Cli\TypedRest.OpenApi.Cli.csproj", "{C5165001-CC46-4327-A279-BFF54848F74F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,8 +29,15 @@ Global
 		{80686155-EAB9-4D82-9472-ECEAE98CBF1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80686155-EAB9-4D82-9472-ECEAE98CBF1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80686155-EAB9-4D82-9472-ECEAE98CBF1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5165001-CC46-4327-A279-BFF54848F74F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5165001-CC46-4327-A279-BFF54848F74F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5165001-CC46-4327-A279-BFF54848F74F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5165001-CC46-4327-A279-BFF54848F74F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4102CC32-FF6C-4FDB-8639-DF4C4D6CC7B4}
 	EndGlobalSection
 EndGlobal
