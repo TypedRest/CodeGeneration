@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TypedRest.OpenApi.CodeGen.CSharp\TypedRest.OpenApi.CodeGen.CSharp.csproj" />
+    <ProjectReference Include="..\TypedRest.OpenApi.CSharp\TypedRest.OpenApi.CSharp.csproj" />
   </ItemGroup>
 
   <ItemGroup>

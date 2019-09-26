@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27428.2005
 MinimumVisualStudioVersion = 14.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypedRest.OpenApi", "TypedRest.OpenApi\TypedRest.OpenApi.csproj", "{CD0A6379-2F8A-44D7-9731-1625AF1B3558}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypedRest.OpenApi.CodeGen.CSharp", "TypedRest.OpenApi.CodeGen.CSharp\TypedRest.OpenApi.CodeGen.CSharp.csproj", "{9BB1CA1B-00C3-448F-A0B8-95621297D83E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypedRest.OpenApi.CSharp", "TypedRest.OpenApi.CSharp\TypedRest.OpenApi.CSharp.csproj", "{9BB1CA1B-00C3-448F-A0B8-95621297D83E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{80686155-EAB9-4D82-9472-ECEAE98CBF1F}"
 EndProject
