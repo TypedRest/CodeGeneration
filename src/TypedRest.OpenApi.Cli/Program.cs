@@ -1,12 +1,16 @@
-﻿using System;
+﻿using CommandLine;
+using TypedRest.OpenApi.Cli.Commands;
 
 namespace TypedRest.OpenApi.Cli
 {
-    class Program
+    public static class Program
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
+        public static int Main(string[] args)
+            => Parser.Default
+                     .ParseArguments<Pattern, Generate>(args)
+                     .MapResult(
+                          (Pattern command) => command.Run(),
+                          (Generate command) => command.Run(),
+                          _ => 1);
     }
 }
