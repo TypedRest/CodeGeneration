@@ -16,10 +16,11 @@
     <Description>Parses OpenAPI/Swagger documents and infers TypedRest Endpoints from patterns.</Description>
     <Summary>Infers TypedRest Endpoints from patterns in OpenAPI/Swagger</Summary>
     <PackageTags>Typed REST OpenAPI Swagger C# CodeGen</PackageTags>
-    <PackageProjectUrl>https://typedrest.net/</PackageProjectUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://typedrest.net/openapi/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/TypedRest/TypedRest-OpenApi</RepositoryUrl>
     <Authors>Bastian Eicher</Authors>
+    <Copyright>Copyright Bastian Eicher</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(MSBuildRuntimeType)'=='Full'">

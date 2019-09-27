@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <LangVersion>7.3</LangVersion>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-    <OutputType>Exe</OutputType>
+    <PackageId>typedrest-openapi</PackageId>
     <ToolCommandName>typedrest-openapi</ToolCommandName>
+    <LangVersion>7.3</LangVersion>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <OutputType>Exe</OutputType>
     <PackAsTool>True</PackAsTool>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -12,15 +13,21 @@
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <RunCodeAnalysis>False</RunCodeAnalysis>
     <OutputPath>..\..\artifacts\$(Configuration)\</OutputPath>
-    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>Tool that automatically infers TypedRest Endpoints from patterns in OpenAPI/Swagger documents and generates source code for TypedRest clients.</Description>
+    <Summary>C# code generator for TypedRest clients from OpenAPI/Swagger</Summary>
+    <PackageTags>Typed REST OpenAPI Swagger CodeGen Commandline CLI</PackageTags>
+    <PackageProjectUrl>https://typedrest.net/openapi/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/TypedRest/TypedRest-OpenApi</RepositoryUrl>
+    <Authors>Bastian Eicher</Authors>
+    <Copyright>Copyright Bastian Eicher</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TypedRest.OpenApi.CSharp\TypedRest.OpenApi.CSharp.csproj" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(MSBuildRuntimeType)'=='Full'">
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19367-01" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>

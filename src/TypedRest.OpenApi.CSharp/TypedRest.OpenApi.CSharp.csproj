@@ -15,11 +15,12 @@
   <PropertyGroup>
     <Description>Generates C# source code for TypedRest .NET clients from OpenAPI/Swagger documents.</Description>
     <Summary>C# code generator for TypedRest clients from OpenAPI/Swagger</Summary>
-    <PackageTags>Typed REST OpenAPI Swagger CodeGen Commandline CLI</PackageTags>
-    <PackageProjectUrl>https://typedrest.net/</PackageProjectUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>Typed REST OpenAPI Swagger CodeGen C#</PackageTags>
+    <PackageProjectUrl>https://typedrest.net/openapi/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/TypedRest/TypedRest-OpenApi</RepositoryUrl>
     <Authors>Bastian Eicher</Authors>
+    <Copyright>Copyright Bastian Eicher</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(MSBuildRuntimeType)'=='Full'">
