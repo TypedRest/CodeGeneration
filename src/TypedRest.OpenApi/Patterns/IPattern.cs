@@ -4,7 +4,7 @@ using TypedRest.OpenApi.Endpoints;
 namespace TypedRest.OpenApi.Patterns
 {
     /// <summary>
-    /// A pattern that can be used to automatically generate an <see cref="IEndpoint"/> from a <see cref="PathTree"/>.
+    /// Generates <see cref="IEndpoint"/>s from <see cref="PathTree"/>s if they match a specific pattern.
     /// </summary>
     [PublicAPI]
     public interface IPattern
