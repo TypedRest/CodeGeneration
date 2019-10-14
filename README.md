@@ -26,3 +26,8 @@ Parses OpenAPI/Swagger documents and infers TypedRest Endpoints from patterns.
 Generates C# source code for [TypedRest .NET](https://github.com/TypedRest/TypedRest-DotNet) clients from OpenAPI/Swagger documents.
 
 For further information take a look a the **[API Documentation](https://openapi.typedrest.net/)**.
+
+References:
+- http://jack.ukleja.com/code-generation-with-roslyn/
+- http://roslynquoter.azurewebsites.net/
+- https://stackoverflow.com/questions/32670078/how-to-generate-files-during-build-using-msbuild
