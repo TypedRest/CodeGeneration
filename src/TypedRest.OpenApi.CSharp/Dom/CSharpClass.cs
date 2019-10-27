@@ -1,40 +1,27 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using JetBrains.Annotations;
-using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace TypedRest.OpenApi.CSharp.Dom
 {
-    public class CSharpClass
+    public class CSharpClass : CSharpType
     {
-        [NotNull]
-        public CSharpIdentifier Name { get; }
+        public override CSharpIdentifier Identifier { get; }
 
-        public CSharpClass([NotNull] CSharpIdentifier name)
+        public CSharpClass([NotNull] CSharpIdentifier identifier)
         {
-            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Identifier = identifier ?? throw new ArgumentNullException(nameof(identifier));
         }
 
         [CanBeNull]
         public CSharpClassConstruction BaseClass { get; set; }
 
-        [NotNull, ItemNotNull]
-        public List<CSharpIdentifier> Interfaces { get; } = new List<CSharpIdentifier>();
-
-        [CanBeNull]
-        public string Description { get; set; }
-
-        [NotNull, ItemNotNull]
-        public List<CSharpProperty> Properties { get; } = new List<CSharpProperty>();
-
-        [NotNull, ItemNotNull]
-        private IEnumerable<string> GetNamespaces()
+        protected override ISet<string> GetNamespaces()
         {
-            var namespaces = new SortedSet<string>();
+            var namespaces = base.GetNamespaces();
 
             if (BaseClass != null)
             {
@@ -42,36 +29,16 @@ namespace TypedRest.OpenApi.CSharp.Dom
                     namespaces.Add(ns);
             }
 
-            foreach (string ns in Interfaces.SelectMany(x => x.GetNamespaces()))
-                namespaces.Add(ns);
-
-            foreach (string ns in Properties.SelectMany(x => x.GetNamespaces()))
-                namespaces.Add(ns);
-
-            namespaces.Remove(Name.Namespace);
-
             return namespaces;
         }
 
-        [NotNull]
-        public CompilationUnitSyntax ToSyntax()
-        {
-            var namespaceDeclaration =
-                NamespaceDeclaration(IdentifierName(Name.Namespace))
-                   .WithMembers(SingletonList<MemberDeclarationSyntax>(GetClassDeclaration()));
-
-            return CompilationUnit()
-                  .WithUsings(List(GetNamespaces().Select(x => UsingDirective(IdentifierName(x)))))
-                  .WithMembers(SingletonList<MemberDeclarationSyntax>(namespaceDeclaration))
-                  .NormalizeWhitespace();
-        }
-
-        private ClassDeclarationSyntax GetClassDeclaration()
-            => ClassDeclaration(Name.Name)
-              .WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
+        protected override MemberDeclarationSyntax GetTypeDeclaration()
+            => ClassDeclaration(Identifier.Name)
+              .AddModifiers(Token(SyntaxKind.PublicKeyword))
               .WithBaseList(BaseList(SeparatedList(GetBaseTypes())))
               .WithMembers(List(GetMemberDeclarations()));
 
+        [NotNull, ItemNotNull]
         private IEnumerable<BaseTypeSyntax> GetBaseTypes()
         {
             if (BaseClass != null)
@@ -85,7 +52,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
         private IEnumerable<MemberDeclarationSyntax> GetMemberDeclarations()
         {
             if (BaseClass != null && BaseClass.Parameters.Count != 0)
-                yield return BaseClass.ToConstructorSyntax(Name.Name);
+                yield return BaseClass.ToConstructorSyntax(Identifier.Name);
 
             foreach (var property in Properties)
                 yield return property.ToSyntax();

@@ -1,9 +1,8 @@
-using FluentAssertions;
 using Xunit;
 
 namespace TypedRest.OpenApi.CSharp.Dom
 {
-    public class CSharpClassFacts
+    public class CSharpClassFacts : CSharpTypeFactsBase
     {
         [Fact]
         public void GeneratesCorrectCode()
@@ -53,12 +52,6 @@ namespace Namespace1
         public OtherClass MyProperty => new OtherClass(arg1: ""value"");
     }
 }");
-        }
-
-        private static void Assert(CSharpClass cSharpClass, string expected)
-        {
-            string generated = cSharpClass.ToSyntax().ToFullString().Replace("\r\n", "\n");
-            generated.Should().Be(expected);
         }
     }
 }
