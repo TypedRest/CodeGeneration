@@ -15,6 +15,9 @@ namespace TypedRest.OpenApi.CSharp.Dom
         [NotNull]
         public string Name { get; }
 
+        [CanBeNull]
+        public string Description { get; set; }
+
         public CSharpProperty([NotNull] CSharpIdentifier type, [NotNull] string name)
         {
             Type = type ?? throw new ArgumentNullException(nameof(type));
@@ -24,10 +27,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
         [CanBeNull]
         public CSharpClassConstruction GetterExpression { get; set; }
 
-        private static readonly AccessorListSyntax _autoGetterAndSetter = AccessorList(
-            List(new[]{
-                    AccessorDeclaration(SyntaxKind.GetAccessorDeclaration).WithSemicolonToken(Token(SyntaxKind.SemicolonToken)),
-                    AccessorDeclaration(SyntaxKind.SetAccessorDeclaration).WithSemicolonToken(Token(SyntaxKind.SemicolonToken))}));
+        public bool HasSetter { get; set; }
 
         [NotNull, ItemNotNull]
         public IEnumerable<string> GetNamespaces()
@@ -49,7 +49,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
                .WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)));
 
             return (GetterExpression == null)
-                ? propertyDeclaration.WithAccessorList(_autoGetterAndSetter)
+                ? propertyDeclaration.WithAccessorList(AccessorList(List(GetAccessors())))
                 : propertyDeclaration.WithExpressionBody(ArrowExpressionClause(GetterExpression.ToNewSyntax()))
                                      .WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
         }
@@ -64,6 +64,15 @@ namespace TypedRest.OpenApi.CSharp.Dom
                 default:
                     return IdentifierName(Type.Name);
             }
+        }
+
+        [NotNull, ItemNotNull]
+        private IEnumerable<AccessorDeclarationSyntax> GetAccessors()
+        {
+            AccessorDeclarationSyntax Declaration(SyntaxKind kind) => AccessorDeclaration(kind).WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
+
+            yield return Declaration(SyntaxKind.GetAccessorDeclaration);
+            if (HasSetter) yield return Declaration(SyntaxKind.SetAccessorDeclaration);
         }
     }
 }
