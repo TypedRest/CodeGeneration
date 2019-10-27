@@ -33,7 +33,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
 
         [NotNull]
         public ObjectCreationExpressionSyntax ToNewSyntax()
-            => ObjectCreationExpression(IdentifierName(Type.Name))
+            => ObjectCreationExpression(Type.ToSyntax())
                .WithArgumentList(GetArgumentList());
 
         [NotNull] public ConstructorDeclarationSyntax ToConstructorSyntax(string typeName)

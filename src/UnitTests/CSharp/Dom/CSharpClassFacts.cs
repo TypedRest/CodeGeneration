@@ -8,9 +8,10 @@ namespace TypedRest.OpenApi.CSharp.Dom
         public void GeneratesCorrectCode()
         {
             var myClass = new CSharpIdentifier(ns: "Namespace1", name: "MyClass");
-            var myInterface = new CSharpIdentifier(ns: "Namespace1", name: "MyInterface");
-            var otherClass = new CSharpIdentifier(ns: "Namespace1", name: "OtherClass");
-            var baseClass = new CSharpIdentifier(ns: "Namespace2", name: "BaseClass") {TypeArguments = {new CSharpIdentifier(ns: "Models", name: "MyModel")}};
+            var myModel = new CSharpIdentifier(ns: "Models", name: "MyModel");
+            var myInterface = new CSharpIdentifier(ns: "Namespace1", name: "MyInterface") {TypeArguments = {myModel}};
+            var otherClass = new CSharpIdentifier(ns: "Namespace1", name: "OtherClass") {TypeArguments = {myModel}};
+            var baseClass = new CSharpIdentifier(ns: "Namespace2", name: "BaseClass");
             var endpointInterface = new CSharpIdentifier("TypedRest.Endpoints", "IEndpoint");
 
             Assert(new CSharpClass(myClass)
@@ -27,7 +28,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
                 Interfaces = {myInterface},
                 Properties =
                 {
-                    new CSharpProperty(otherClass, "MyProperty")
+                    new CSharpProperty(myInterface, "MyProperty")
                     {
                         Description = "My property",
                         GetterExpression = new CSharpClassConstruction(otherClass)
@@ -48,7 +49,7 @@ namespace Namespace1
     /// <summary>
     /// My class
     /// </summary>
-    public class MyClass : BaseClass<MyModel>, MyInterface
+    public class MyClass : BaseClass, MyInterface<MyModel>
     {
         public MyClass(IEndpoint referrer): base(referrer, relativeUri: ""./sample"")
         {
@@ -57,7 +58,7 @@ namespace Namespace1
         /// <summary>
         /// My property
         /// </summary>
-        public OtherClass MyProperty => new OtherClass(arg1: ""value"");
+        public MyInterface<MyModel> MyProperty => new OtherClass<MyModel>(arg1: ""value"");
     }
 }");
         }

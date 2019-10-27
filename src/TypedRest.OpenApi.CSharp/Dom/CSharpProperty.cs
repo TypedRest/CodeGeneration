@@ -45,7 +45,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
         [NotNull]
         public PropertyDeclarationSyntax ToSyntax()
         {
-            var propertyDeclaration = PropertyDeclaration(GetTypeIdentifier(), Identifier(Name))
+            var propertyDeclaration = PropertyDeclaration(Type.ToSyntax(), Identifier(Name))
                                      .WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
                                      .WithDocumentation(Description);
 
@@ -53,18 +53,6 @@ namespace TypedRest.OpenApi.CSharp.Dom
                 ? propertyDeclaration.WithAccessorList(AccessorList(List(GetAccessors())))
                 : propertyDeclaration.WithExpressionBody(ArrowExpressionClause(GetterExpression.ToNewSyntax()))
                                      .WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
-        }
-
-        [NotNull]
-        private TypeSyntax GetTypeIdentifier()
-        {
-            switch (Type.Name)
-            {
-                case "string":
-                    return PredefinedType(Token(SyntaxKind.StringKeyword));
-                default:
-                    return IdentifierName(Type.Name);
-            }
         }
 
         [NotNull, ItemNotNull]

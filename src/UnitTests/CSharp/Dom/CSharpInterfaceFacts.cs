@@ -9,7 +9,10 @@ namespace TypedRest.OpenApi.CSharp.Dom
         {
             var myInterface = new CSharpIdentifier(ns: "Namespace1", name: "MyInterface");
             var baseInterface = new CSharpIdentifier(ns: "Namespace2", name: "BaseInterface");
-            var endpointInterface = new CSharpIdentifier("TypedRest.Endpoints", "IEndpoint");
+            var endpointInterface = new CSharpIdentifier("TypedRest.Endpoints.Generic", "ICollectionEndpoint")
+            {
+                TypeArguments = {new CSharpIdentifier(ns: "Models", name: "MyModel")}
+            };
 
             Assert(new CSharpInterface(myInterface)
             {
@@ -22,8 +25,9 @@ namespace TypedRest.OpenApi.CSharp.Dom
                         Description = "My property"
                     }
                 }
-            }, @"using Namespace2;
-using TypedRest.Endpoints;
+            }, @"using Models;
+using Namespace2;
+using TypedRest.Endpoints.Generic;
 
 namespace Namespace1
 {
@@ -35,7 +39,7 @@ namespace Namespace1
         /// <summary>
         /// My property
         /// </summary>
-        public IEndpoint MyProperty
+        public ICollectionEndpoint<MyModel> MyProperty
         {
             get;
         }

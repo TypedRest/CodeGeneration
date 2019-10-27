@@ -25,22 +25,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
         }
 
         public ParameterSyntax ToParameterSyntax()
-            => Parameter(Identifier(Name)).WithType(GetTypeIdentifier());
-
-        private TypeSyntax GetTypeIdentifier()
-        {
-            switch (Type.Name)
-            {
-                case "string":
-                    return PredefinedType(Token(SyntaxKind.StringKeyword));
-
-                case "int":
-                    return PredefinedType(Token(SyntaxKind.IntKeyword));
-
-                default:
-                    return IdentifierName(Type.Name);
-            }
-        }
+            => Parameter(Identifier(Name)).WithType(Type.ToSyntax());
 
         public ArgumentSyntax ToArgumentSyntax()
         {

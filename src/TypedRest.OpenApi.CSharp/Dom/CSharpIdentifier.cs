@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
@@ -46,8 +47,18 @@ namespace TypedRest.OpenApi.CSharp.Dom
         }
 
         public TypeSyntax ToSyntax()
-            => TypeArguments.Count == 0
-                ? (TypeSyntax)IdentifierName(Name)
-                : GenericName(Identifier(Name)).WithTypeArgumentList(TypeArgumentList(SeparatedList(TypeArguments.Select(x => x.ToSyntax()))));
+        {
+            switch (Name)
+            {
+                case "string":
+                    return PredefinedType(Token(SyntaxKind.StringKeyword));
+                case "int":
+                    return PredefinedType(Token(SyntaxKind.IntKeyword));
+                default:
+                    return TypeArguments.Count == 0
+                        ? (TypeSyntax)IdentifierName(Name)
+                        : GenericName(Identifier(Name)).WithTypeArgumentList(TypeArgumentList(SeparatedList(TypeArguments.Select(x => x.ToSyntax()))));
+            }
+        }
     }
 }
