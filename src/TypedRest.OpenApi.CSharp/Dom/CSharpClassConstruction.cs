@@ -24,14 +24,11 @@ namespace TypedRest.OpenApi.CSharp.Dom
         [NotNull, ItemNotNull]
         public IEnumerable<string> GetNamespaces()
         {
-            if (!string.IsNullOrEmpty(Type.Namespace))
-                yield return Type.Namespace;
+            foreach (string ns in Type.GetNamespaces())
+                yield return ns;
 
-            foreach (var argument in Parameters)
-            {
-                if (!string.IsNullOrEmpty(argument.Type.Namespace))
-                    yield return argument.Type.Namespace;
-            }
+            foreach (string ns in Parameters.SelectMany(x => x.Type.GetNamespaces()))
+                yield return ns;
         }
 
         [NotNull]

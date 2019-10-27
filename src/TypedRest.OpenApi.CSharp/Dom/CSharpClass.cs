@@ -42,17 +42,11 @@ namespace TypedRest.OpenApi.CSharp.Dom
                     namespaces.Add(ns);
             }
 
-            foreach (var type in Interfaces)
-            {
-                if (!string.IsNullOrEmpty(type.Namespace))
-                    namespaces.Add(type.Namespace);
-            }
+            foreach (string ns in Interfaces.SelectMany(x => x.GetNamespaces()))
+                namespaces.Add(ns);
 
-            foreach (var property in Properties)
-            {
-                foreach (string ns in property.GetNamespaces())
-                    namespaces.Add(ns);
-            }
+            foreach (string ns in Properties.SelectMany(x => x.GetNamespaces()))
+                namespaces.Add(ns);
 
             namespaces.Remove(Name.Namespace);
 
@@ -73,20 +67,18 @@ namespace TypedRest.OpenApi.CSharp.Dom
         }
 
         private ClassDeclarationSyntax GetClassDeclaration()
+            => ClassDeclaration(Name.Name)
+              .WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
+              .WithBaseList(BaseList(SeparatedList(GetBaseTypes())))
+              .WithMembers(List(GetMemberDeclarations()));
+
+        private IEnumerable<BaseTypeSyntax> GetBaseTypes()
         {
-            var classDeclaration =
-                ClassDeclaration(Name.Name)
-                   .WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
-                   .WithMembers(List(GetMemberDeclarations()));
+            if (BaseClass != null)
+                yield return SimpleBaseType(BaseClass.Type.ToSyntax());
 
-            var baseTypes = new List<string>();
-            if (BaseClass != null) baseTypes.Add(BaseClass.Type.Name);
-            baseTypes.AddRange(Interfaces.Select(x => x.Name));
-
-            return baseTypes.Count == 0
-                ? classDeclaration
-                : classDeclaration.WithBaseList(BaseList(SeparatedList<BaseTypeSyntax>(
-                    baseTypes.Select(x => SimpleBaseType(IdentifierName(x))))));
+            foreach (var @interface in Interfaces)
+                yield return SimpleBaseType(@interface.ToSyntax());
         }
 
         [NotNull, ItemNotNull]

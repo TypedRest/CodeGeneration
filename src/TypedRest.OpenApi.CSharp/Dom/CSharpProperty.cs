@@ -32,8 +32,8 @@ namespace TypedRest.OpenApi.CSharp.Dom
         [NotNull, ItemNotNull]
         public IEnumerable<string> GetNamespaces()
         {
-            if (!string.IsNullOrEmpty(Type.Namespace))
-                yield return Type.Namespace;
+            foreach (string ns in Type.GetNamespaces())
+                yield return ns;
 
             if (GetterExpression != null)
             {

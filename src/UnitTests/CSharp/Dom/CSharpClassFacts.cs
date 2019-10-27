@@ -11,7 +11,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
             var myClass = new CSharpIdentifier(ns: "Namespace1", name: "MyClass");
             var myInterface = new CSharpIdentifier(ns: "Namespace1", name: "MyInterface");
             var otherClass = new CSharpIdentifier(ns: "Namespace1", name: "OtherClass");
-            var baseClass = new CSharpIdentifier(ns: "Namespace2", name: "BaseClass");
+            var baseClass = new CSharpIdentifier(ns: "Namespace2", name: "BaseClass") {TypeArguments = {new CSharpIdentifier(ns: "Models", name: "MyModel")}};
             var endpointInterface = new CSharpIdentifier("TypedRest.Endpoints", "IEndpoint");
 
             Assert(new CSharpClass(myClass)
@@ -38,12 +38,13 @@ namespace TypedRest.OpenApi.CSharp.Dom
                         }
                     }
                 }
-            }, @"using Namespace2;
+            }, @"using Models;
+using Namespace2;
 using TypedRest.Endpoints;
 
 namespace Namespace1
 {
-    public class MyClass : BaseClass, MyInterface
+    public class MyClass : BaseClass<MyModel>, MyInterface
     {
         public MyClass(IEndpoint referrer): base(referrer, relativeUri: ""./sample"")
         {
