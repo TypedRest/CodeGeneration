@@ -6,6 +6,12 @@ namespace TypedRest.OpenApi.CSharp.Dom
 {
     public class CSharpIdentifier
     {
+        public static CSharpIdentifier String
+            => new CSharpIdentifier("string");
+
+        public static CSharpIdentifier Int
+            => new CSharpIdentifier("int");
+
         [CanBeNull]
         public string Namespace { get; }
 

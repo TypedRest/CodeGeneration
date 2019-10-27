@@ -13,7 +13,6 @@ namespace TypedRest.OpenApi.CSharp.Dom
             var otherClass = new CSharpIdentifier(ns: "Namespace1", name: "OtherClass");
             var baseClass = new CSharpIdentifier(ns: "Namespace2", name: "BaseClass");
             var endpointInterface = new CSharpIdentifier("TypedRest.Endpoints", "IEndpoint");
-            var stringType = new CSharpIdentifier("string");
 
             Assert(new CSharpClass(myClass)
             {
@@ -22,7 +21,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
                     Parameters =
                     {
                         new CSharpParameter(endpointInterface, "referrer"),
-                        new CSharpParameter(stringType, "relativeUri", "./sample")
+                        new CSharpParameter(CSharpIdentifier.String, "relativeUri", "./sample")
                     }
                 },
                 Interfaces = {myInterface},
@@ -34,7 +33,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
                         {
                             Parameters =
                             {
-                                new CSharpParameter(stringType, "arg1", "value")
+                                new CSharpParameter(CSharpIdentifier.String, "arg1", "value")
                             }
                         }
                     }
