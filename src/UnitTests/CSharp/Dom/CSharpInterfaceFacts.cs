@@ -13,18 +13,28 @@ namespace TypedRest.OpenApi.CSharp.Dom
 
             Assert(new CSharpInterface(myInterface)
             {
+                Description = "My interface",
                 Interfaces = {baseInterface},
                 Properties =
                 {
                     new CSharpProperty(endpointInterface, "MyProperty")
+                    {
+                        Description = "My property"
+                    }
                 }
             }, @"using Namespace2;
 using TypedRest.Endpoints;
 
 namespace Namespace1
 {
+    /// <summary>
+    /// My interface
+    /// </summary>
     public interface MyInterface : BaseInterface
     {
+        /// <summary>
+        /// My property
+        /// </summary>
         public IEndpoint MyProperty
         {
             get;

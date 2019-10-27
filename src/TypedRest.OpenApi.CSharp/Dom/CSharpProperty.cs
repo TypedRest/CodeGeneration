@@ -46,7 +46,8 @@ namespace TypedRest.OpenApi.CSharp.Dom
         public PropertyDeclarationSyntax ToSyntax()
         {
             var propertyDeclaration = PropertyDeclaration(GetTypeIdentifier(), Identifier(Name))
-               .WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)));
+                                     .WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
+                                     .WithDocumentation(Description);
 
             return (GetterExpression == null)
                 ? propertyDeclaration.WithAccessorList(AccessorList(List(GetAccessors())))

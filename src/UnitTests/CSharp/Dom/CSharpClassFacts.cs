@@ -15,6 +15,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
 
             Assert(new CSharpClass(myClass)
             {
+                Description = "My class",
                 BaseClass = new CSharpClassConstruction(baseClass)
                 {
                     Parameters =
@@ -28,6 +29,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
                 {
                     new CSharpProperty(otherClass, "MyProperty")
                     {
+                        Description = "My property",
                         GetterExpression = new CSharpClassConstruction(otherClass)
                         {
                             Parameters =
@@ -43,12 +45,18 @@ using TypedRest.Endpoints;
 
 namespace Namespace1
 {
+    /// <summary>
+    /// My class
+    /// </summary>
     public class MyClass : BaseClass<MyModel>, MyInterface
     {
         public MyClass(IEndpoint referrer): base(referrer, relativeUri: ""./sample"")
         {
         }
 
+        /// <summary>
+        /// My property
+        /// </summary>
         public OtherClass MyProperty => new OtherClass(arg1: ""value"");
     }
 }");

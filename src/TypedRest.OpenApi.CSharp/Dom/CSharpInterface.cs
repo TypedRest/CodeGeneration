@@ -20,6 +20,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
         protected override MemberDeclarationSyntax GetTypeDeclaration()
             => InterfaceDeclaration(Identifier.Name)
               .AddModifiers(Token(SyntaxKind.PublicKeyword))
+              .WithDocumentation(Description)
               .WithBaseList(BaseList(SeparatedList(GetBaseTypes())))
               .WithMembers(List(GetMemberDeclarations()));
 
