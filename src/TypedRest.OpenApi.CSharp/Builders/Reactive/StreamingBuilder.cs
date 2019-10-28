@@ -22,9 +22,6 @@ namespace TypedRest.OpenApi.CSharp.Builders.Reactive
 
             if (!string.IsNullOrEmpty(endpoint.Separator))
                 yield return new CSharpParameter(CSharpIdentifier.String, "separator", endpoint.Separator);
-
-            if (endpoint.BufferSize.HasValue)
-                yield return new CSharpParameter(CSharpIdentifier.Int, "bufferSize", endpoint.BufferSize.Value);
         }
     }
 }

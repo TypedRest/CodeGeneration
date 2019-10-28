@@ -22,18 +22,12 @@ namespace TypedRest.OpenApi.Endpoints.Reactive
         /// </summary>
         public string Separator { get; set; }
 
-        /// <summary>
-        /// The size of the buffer used to collect data for deserialization in bytes.
-        /// </summary>
-        public int? BufferSize { get; set; }
-
         public override void Parse(OpenApiObject data, IEndpointsParser parser)
         {
             base.Parse(data, parser);
 
             Schema = data.GetSchema("schema");
             Separator = data.GetString("separator");
-            BufferSize = data.GetInt("buffer-size");
         }
 
         public override void ResolveReferences(OpenApiComponents components)
@@ -49,7 +43,6 @@ namespace TypedRest.OpenApi.Endpoints.Reactive
 
             writer.WriteOptionalObject("schema", Schema, specVersion);
             writer.WriteProperty("separator", Separator);
-            writer.WriteProperty("buffer-size", BufferSize);
         }
     }
 }
