@@ -8,7 +8,7 @@ namespace TypedRest.OpenApi.CSharp.Builders
     /// </summary>
     public class DefaultBuilder : BuilderBase<Endpoint>
     {
-        protected override CSharpIdentifier GetImplementation(Endpoint endpoint, ITypeLookup typeLookup)
+        protected override CSharpIdentifier GetImplementation(Endpoint endpoint, ITypeList typeList)
             => new CSharpIdentifier("TypedRest.Endpoints", "EndpointBase");
     }
 }

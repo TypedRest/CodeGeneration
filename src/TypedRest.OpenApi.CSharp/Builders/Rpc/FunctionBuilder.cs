@@ -8,13 +8,13 @@ namespace TypedRest.OpenApi.CSharp.Builders.Rpc
     /// </summary>
     public class FunctionBuilder : BuilderBase<FunctionEndpoint>
     {
-        protected override CSharpIdentifier GetImplementation(FunctionEndpoint endpoint, ITypeLookup typeLookup)
+        protected override CSharpIdentifier GetImplementation(FunctionEndpoint endpoint, ITypeList typeList)
             => new CSharpIdentifier(Namespace.Name, "FunctionEndpoint")
             {
                 TypeArguments =
                 {
-                    typeLookup[endpoint.RequestSchema],
-                    typeLookup[endpoint.ResponseSchema]
+                    typeList[endpoint.RequestSchema],
+                    typeList[endpoint.ResponseSchema]
                 }
             };
     }

@@ -8,15 +8,15 @@ namespace TypedRest.OpenApi.CSharp.Builders.Reactive
     /// </summary>
     public class StreamingCollectionBuilder : BuilderBase<StreamingCollectionEndpoint>
     {
-        protected override CSharpIdentifier GetImplementation(StreamingCollectionEndpoint endpoint, ITypeLookup typeLookup)
+        protected override CSharpIdentifier GetImplementation(StreamingCollectionEndpoint endpoint, ITypeList typeList)
         {
             var identifier = new CSharpIdentifier(Namespace.Name, "StreamingCollectionEndpoint")
             {
-                TypeArguments = {typeLookup[endpoint.Schema]}
+                TypeArguments = {typeList[endpoint.Schema]}
             };
 
             if (endpoint.Element != null)
-                identifier.TypeArguments.Add(typeLookup[endpoint.Element]);
+                identifier.TypeArguments.Add(typeList[endpoint.Element]);
 
             return identifier;
         }

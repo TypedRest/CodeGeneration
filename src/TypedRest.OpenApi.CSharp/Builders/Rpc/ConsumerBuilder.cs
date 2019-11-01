@@ -8,10 +8,10 @@ namespace TypedRest.OpenApi.CSharp.Builders.Rpc
     /// </summary>
     public class ConsumerBuilder : BuilderBase<ConsumerEndpoint>
     {
-        protected override CSharpIdentifier GetImplementation(ConsumerEndpoint endpoint, ITypeLookup typeLookup)
+        protected override CSharpIdentifier GetImplementation(ConsumerEndpoint endpoint, ITypeList typeList)
             => new CSharpIdentifier(Namespace.Name, "ConsumerEndpoint")
             {
-                TypeArguments = {typeLookup[endpoint.Schema]}
+                TypeArguments = {typeList[endpoint.Schema]}
             };
     }
 }

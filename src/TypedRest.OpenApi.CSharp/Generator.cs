@@ -34,8 +34,8 @@ namespace TypedRest.OpenApi.CSharp
             where TEndpoint : IEndpoint
             => _builders.Add(typeof(TEndpoint), builder);
 
-        [ItemNotNull]
-        public IEnumerable<CSharpType> Generate([NotNull] EndpointList endpoints)
+        [NotNull, ItemNotNull]
+        public ITypeList Generate([NotNull] EndpointList endpoints)
         {
             var typeList = new TypeList();
 
@@ -50,7 +50,7 @@ namespace TypedRest.OpenApi.CSharp
             entryEndpoint.Properties.AddRange(Generate(endpoints, typeList));
             typeList.Add(entryEndpoint);
 
-            return typeList.Types;
+            return typeList;
         }
 
         private IEnumerable<CSharpProperty> Generate(EndpointList endpoints, TypeList typeList)

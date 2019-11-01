@@ -8,15 +8,15 @@ namespace TypedRest.OpenApi.CSharp.Builders.Generic
     /// </summary>
     public class CollectionBuilder : BuilderBase<CollectionEndpoint>
     {
-        protected override CSharpIdentifier GetImplementation(CollectionEndpoint endpoint, ITypeLookup typeLookup)
+        protected override CSharpIdentifier GetImplementation(CollectionEndpoint endpoint, ITypeList typeList)
         {
             var identifier = new CSharpIdentifier(Namespace.Name, "CollectionEndpoint")
             {
-                TypeArguments = {typeLookup[endpoint.Schema]}
+                TypeArguments = {typeList[endpoint.Schema]}
             };
 
             if (endpoint.Element != null)
-                identifier.TypeArguments.Add(typeLookup[endpoint.Element]);
+                identifier.TypeArguments.Add(typeList[endpoint.Element]);
 
             return identifier;
         }

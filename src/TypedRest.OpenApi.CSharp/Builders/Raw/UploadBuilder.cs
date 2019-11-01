@@ -9,7 +9,7 @@ namespace TypedRest.OpenApi.CSharp.Builders.Raw
     /// </summary>
     public class UploadBuilder : BuilderBase<UploadEndpoint>
     {
-        protected override CSharpIdentifier GetImplementation(UploadEndpoint endpoint, ITypeLookup typeLookup)
+        protected override CSharpIdentifier GetImplementation(UploadEndpoint endpoint, ITypeList typeList)
             => new CSharpIdentifier(Namespace.Name, "UploadEndpoint");
 
         protected override IEnumerable<CSharpParameter> GetParameters(UploadEndpoint endpoint)

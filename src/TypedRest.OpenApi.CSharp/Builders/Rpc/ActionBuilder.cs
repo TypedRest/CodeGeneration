@@ -8,7 +8,7 @@ namespace TypedRest.OpenApi.CSharp.Builders.Rpc
     /// </summary>
     public class ActionBuilder : BuilderBase<ActionEndpoint>
     {
-        protected override CSharpIdentifier GetImplementation(ActionEndpoint endpoint, ITypeLookup typeLookup)
+        protected override CSharpIdentifier GetImplementation(ActionEndpoint endpoint, ITypeList typeList)
             => new CSharpIdentifier(Namespace.Name, "ActionEndpoint");
     }
 }

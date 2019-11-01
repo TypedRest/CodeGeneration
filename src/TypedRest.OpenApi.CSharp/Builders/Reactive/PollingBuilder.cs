@@ -8,10 +8,10 @@ namespace TypedRest.OpenApi.CSharp.Builders.Reactive
     /// </summary>
     public class PollingBuilder : BuilderBase<PollingEndpoint>
     {
-        protected override CSharpIdentifier GetImplementation(PollingEndpoint endpoint, ITypeLookup typeLookup)
+        protected override CSharpIdentifier GetImplementation(PollingEndpoint endpoint, ITypeList typeList)
             => new CSharpIdentifier(Namespace.Name, "PollingEndpoint")
             {
-                TypeArguments = {typeLookup[endpoint.Schema]}
+                TypeArguments = {typeList[endpoint.Schema]}
             };
     }
 }

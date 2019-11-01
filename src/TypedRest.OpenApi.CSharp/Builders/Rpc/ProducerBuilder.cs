@@ -8,10 +8,10 @@ namespace TypedRest.OpenApi.CSharp.Builders.Rpc
     /// </summary>
     public class ProducerBuilder : BuilderBase<ProducerEndpoint>
     {
-        protected override CSharpIdentifier GetImplementation(ProducerEndpoint endpoint, ITypeLookup typeLookup)
+        protected override CSharpIdentifier GetImplementation(ProducerEndpoint endpoint, ITypeList typeList)
             => new CSharpIdentifier(Namespace.Name, "ProducerEndpoint")
             {
-                TypeArguments = {typeLookup[endpoint.Schema]}
+                TypeArguments = {typeList[endpoint.Schema]}
             };
     }
 }

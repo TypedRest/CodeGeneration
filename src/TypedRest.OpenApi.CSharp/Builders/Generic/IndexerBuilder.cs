@@ -8,10 +8,10 @@ namespace TypedRest.OpenApi.CSharp.Builders.Generic
     /// </summary>
     public class IndexerBuilder : BuilderBase<IndexerEndpoint>
     {
-        protected override CSharpIdentifier GetImplementation(IndexerEndpoint endpoint, ITypeLookup typeLookup)
+        protected override CSharpIdentifier GetImplementation(IndexerEndpoint endpoint, ITypeList typeList)
             => new CSharpIdentifier(Namespace.Name, "IndexerEndpoint")
             {
-                TypeArguments = {typeLookup[endpoint.Element]}
+                TypeArguments = {typeList[endpoint.Element]}
             };
     }
 }

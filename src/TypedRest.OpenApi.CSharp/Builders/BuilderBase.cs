@@ -11,17 +11,17 @@ namespace TypedRest.OpenApi.CSharp.Builders
     public abstract class BuilderBase<TEndpoint> : IBuilder<TEndpoint>
         where TEndpoint : IEndpoint
     {
-        CSharpClassConstruction IBuilder.GetConstruction(IEndpoint endpoint, ITypeLookup typeLookup)
-            => GetConstruction((TEndpoint)endpoint, typeLookup);
+        CSharpClassConstruction IBuilder.GetConstruction(IEndpoint endpoint, ITypeList typeList)
+            => GetConstruction((TEndpoint)endpoint, typeList);
 
-        public CSharpClassConstruction GetConstruction(TEndpoint endpoint, ITypeLookup typeLookup)
+        public CSharpClassConstruction GetConstruction(TEndpoint endpoint, ITypeList typeList)
         {
-            var construction = new CSharpClassConstruction(GetImplementation(endpoint, typeLookup));
+            var construction = new CSharpClassConstruction(GetImplementation(endpoint, typeList));
             construction.Parameters.AddRange(GetParameters(endpoint));
             return construction;
         }
 
-        protected abstract CSharpIdentifier GetImplementation(TEndpoint endpoint, ITypeLookup typeLookup);
+        protected abstract CSharpIdentifier GetImplementation(TEndpoint endpoint, ITypeList typeList);
 
         protected virtual IEnumerable<CSharpParameter> GetParameters(TEndpoint endpoint)
         {

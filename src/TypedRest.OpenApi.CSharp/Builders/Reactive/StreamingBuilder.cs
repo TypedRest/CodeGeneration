@@ -9,10 +9,10 @@ namespace TypedRest.OpenApi.CSharp.Builders.Reactive
     /// </summary>
     public class StreamingBuilder : BuilderBase<StreamingEndpoint>
     {
-        protected override CSharpIdentifier GetImplementation(StreamingEndpoint endpoint, ITypeLookup typeLookup)
+        protected override CSharpIdentifier GetImplementation(StreamingEndpoint endpoint, ITypeList typeList)
             => new CSharpIdentifier(Namespace.Name, "StreamingEndpoint")
             {
-                TypeArguments = {typeLookup[endpoint.Schema]}
+                TypeArguments = {typeList[endpoint.Schema]}
             };
 
         protected override IEnumerable<CSharpParameter> GetParameters(StreamingEndpoint endpoint)
