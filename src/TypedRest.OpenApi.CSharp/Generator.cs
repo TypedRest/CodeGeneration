@@ -14,10 +14,13 @@ namespace TypedRest.OpenApi.CSharp
 {
     public class Generator
     {
+        private readonly INamingConvention _naming;
         private readonly IDictionary<Type, IBuilder> _builders = new Dictionary<Type, IBuilder>();
 
-        public Generator()
+        public Generator([NotNull] INamingConvention naming)
         {
+            _naming = naming;
+
             Add(new DefaultBuilder());
             Add(new UploadBuilder());
             Add(new BlobBuilder());
@@ -39,58 +42,64 @@ namespace TypedRest.OpenApi.CSharp
         {
             var typeList = new TypeList();
 
-            // TODO: Make name configurable
-            var entryEndpoint = new CSharpClass(new CSharpIdentifier("MyNamespace", "MyClient"))
+            var entryEndpoint = GenerateEntryEndpoint();
+            entryEndpoint.Properties.AddRange(GenerateEndpoints(endpoints, typeList));
+            typeList.Add(entryEndpoint);
+
+            return typeList;
+        }
+
+        // TODO: Make entry endpoint configurable
+        private CSharpClass GenerateEntryEndpoint()
+            => new CSharpClass(_naming.EndpointType("myEntry", new Endpoint()))
             {
                 BaseClass = new CSharpClassConstruction(new CSharpIdentifier("TypedRest.Endpoints", "EntryEndpoint"))
                 {
                     Parameters = {new CSharpParameter(new CSharpIdentifier("System", "Uri"), "uri")}
                 }
             };
-            entryEndpoint.Properties.AddRange(Generate(endpoints, typeList));
-            typeList.Add(entryEndpoint);
 
-            return typeList;
-        }
+        private IEnumerable<CSharpProperty> GenerateEndpoints(EndpointList endpoints, TypeList typeList)
+            => endpoints.Select(x => GenerateEndpoints(x.Key, x.Value, typeList));
 
-        private IEnumerable<CSharpProperty> Generate(EndpointList endpoints, TypeList typeList)
-            => endpoints.Select(x => Generate(x.Key, x.Value, typeList));
-
-        private CSharpProperty Generate(string name, IEndpoint endpoint, TypeList typeList)
+        private CSharpProperty GenerateEndpoints(string key, IEndpoint endpoint, TypeList typeList)
         {
-            // TODO: Convert name to camelcase
-
-            if (endpoint is CollectionEndpoint collectionEndpoint && collectionEndpoint.Element is ElementEndpoint elementEndpoint && elementEndpoint.Schema == null)
-                elementEndpoint.Schema = collectionEndpoint.Schema;
-
-            if (endpoint is IndexerEndpoint indexerEndpoint && indexerEndpoint.Element != null)
-                Generate(name.TrimEnd('s') + "Element", indexerEndpoint.Element, typeList);
-
-            var properties = Generate(endpoint.Children, typeList).ToList();
+            GenerateElementEndpoint(key, endpoint, typeList);
+            var children = GenerateEndpoints(endpoint.Children, typeList).ToList();
 
             var builder = _builders[endpoint.GetType()];
             var construction = builder.GetConstruction(endpoint, typeList);
-            if (properties.Count == 0)
+            if (children.Count == 0)
             {
-                return new CSharpProperty(construction.Type.ToInterface(), name)
+                return new CSharpProperty(construction.Type.ToInterface(), _naming.Property(key))
                 {
                     GetterExpression = construction
                 };
             }
             else
             {
-                // TODO: Make namespace configurable
-                var type = new CSharpClass(new CSharpIdentifier("MyNamespace", name + "Endpoint"))
+                var type = new CSharpClass(_naming.EndpointType(key, endpoint))
                 {
                     BaseClass = construction
                 };
-                type.Properties.AddRange(properties);
+                type.Properties.AddRange(children);
                 typeList.Add(endpoint, type);
 
-                return new CSharpProperty(type.Identifier, name)
+                return new CSharpProperty(type.Identifier, key)
                 {
                     GetterExpression = new CSharpClassConstruction(type.Identifier)
                 };
+            }
+        }
+
+        private void GenerateElementEndpoint(string key, IEndpoint endpoint, TypeList typeList)
+        {
+            if (endpoint is IndexerEndpoint indexerEndpoint && indexerEndpoint.Element != null)
+            {
+                if (indexerEndpoint is CollectionEndpoint collectionEndpoint && collectionEndpoint.Element is ElementEndpoint elementEndpoint && elementEndpoint.Schema == null)
+                    elementEndpoint.Schema = collectionEndpoint.Schema;
+
+                GenerateEndpoints(key.TrimEnd('s'), indexerEndpoint.Element, typeList);
             }
         }
     }

@@ -11,6 +11,7 @@ namespace TypedRest.OpenApi.CSharp
         [Fact]
         public void GeneratesCorrectDom()
         {
+            var namingConvention = new NamingConvention("MyNamespace");
             var endpoints = new EndpointList
             {
                 ["contacts"] = new CollectionEndpoint
@@ -20,7 +21,8 @@ namespace TypedRest.OpenApi.CSharp
                     Schema = Sample.ContactSchema
                 }
             };
-            var generated = new Generator().Generate(endpoints);
+
+            var generated = new Generator(namingConvention).Generate(endpoints);
 
             var interfaceType = new CSharpIdentifier("TypedRest.Endpoints.Generic", "ICollectionEndpoint")
             {
@@ -32,7 +34,7 @@ namespace TypedRest.OpenApi.CSharp
             };
 
             generated.Should().BeEquivalentTo(
-                new CSharpClass(new CSharpIdentifier("MyNamespace", "MyClient"))
+                new CSharpClass(new CSharpIdentifier("MyNamespace", "MyEntryEndpoint"))
                 {
                     BaseClass = new CSharpClassConstruction(new CSharpIdentifier("TypedRest.Endpoints", "EntryEndpoint"))
                     {
@@ -40,7 +42,7 @@ namespace TypedRest.OpenApi.CSharp
                     },
                     Properties =
                     {
-                        new CSharpProperty(interfaceType, "contacts")
+                        new CSharpProperty(interfaceType, "Contacts")
                         {
                             GetterExpression = new CSharpClassConstruction(implementationType)
                             {
