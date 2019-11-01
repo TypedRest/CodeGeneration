@@ -60,5 +60,12 @@ namespace TypedRest.OpenApi.CSharp.Dom
                         : GenericName(Identifier(Name)).WithTypeArgumentList(TypeArgumentList(SeparatedList(TypeArguments.Select(x => x.ToSyntax()))));
             }
         }
+
+        public CSharpIdentifier ToInterface()
+        {
+            var result = new CSharpIdentifier(Namespace, "I" + Name);
+            result.TypeArguments.AddRange(TypeArguments);
+            return result;
+        }
     }
 }

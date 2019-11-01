@@ -10,8 +10,5 @@ namespace TypedRest.OpenApi.CSharp.Builders
     {
         protected override CSharpIdentifier GetImplementation(Endpoint endpoint, ITypeLookup typeLookup)
             => new CSharpIdentifier("TypedRest.Endpoints", "EndpointBase");
-
-        public override CSharpIdentifier GetInterface(Endpoint endpoint, ITypeLookup typeLookup)
-            => new CSharpIdentifier("TypedRest.Endpoints", "IEndpoint");
     }
 }

@@ -10,9 +10,6 @@ namespace TypedRest.OpenApi.CSharp.Builders
     public interface IBuilder
     {
         [NotNull]
-        CSharpIdentifier GetInterface([NotNull] IEndpoint endpoint, [NotNull] ITypeLookup typeLookup);
-
-        [NotNull]
         CSharpClassConstruction GetConstruction([NotNull] IEndpoint endpoint, [NotNull] ITypeLookup typeLookup);
     }
 
@@ -23,9 +20,6 @@ namespace TypedRest.OpenApi.CSharp.Builders
     public interface IBuilder<in TEndpoint> : IBuilder
         where TEndpoint : IEndpoint
     {
-        [NotNull]
-        CSharpIdentifier GetInterface([NotNull] TEndpoint endpoint, [NotNull] ITypeLookup typeLookup);
-
         [NotNull]
         CSharpClassConstruction GetConstruction([NotNull] TEndpoint endpoint, [NotNull] ITypeLookup typeLookup);
     }

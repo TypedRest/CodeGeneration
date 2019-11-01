@@ -11,17 +11,6 @@ namespace TypedRest.OpenApi.CSharp.Builders
     public abstract class BuilderBase<TEndpoint> : IBuilder<TEndpoint>
         where TEndpoint : IEndpoint
     {
-        CSharpIdentifier IBuilder.GetInterface(IEndpoint endpoint, ITypeLookup typeLookup)
-            => GetInterface((TEndpoint)endpoint, typeLookup);
-
-        public virtual CSharpIdentifier GetInterface(TEndpoint endpoint, ITypeLookup typeLookup)
-        {
-            var classType = GetConstruction(endpoint, typeLookup).Type;
-            var interfaceType = new CSharpIdentifier(classType.Namespace, "I" + classType.Name);
-            interfaceType.TypeArguments.AddRange(classType.TypeArguments);
-            return interfaceType;
-        }
-
         CSharpClassConstruction IBuilder.GetConstruction(IEndpoint endpoint, ITypeLookup typeLookup)
             => GetConstruction((TEndpoint)endpoint, typeLookup);
 

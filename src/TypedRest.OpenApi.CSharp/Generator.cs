@@ -72,7 +72,7 @@ namespace TypedRest.OpenApi.CSharp
             var construction = builder.GetConstruction(endpoint, typeList);
             if (properties.Count == 0)
             {
-                return new CSharpProperty(builder.GetInterface(endpoint, typeList), name)
+                return new CSharpProperty(construction.Type.ToInterface(), name)
                 {
                     GetterExpression = construction
                 };
