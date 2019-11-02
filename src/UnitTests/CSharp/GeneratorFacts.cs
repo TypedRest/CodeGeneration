@@ -1,7 +1,5 @@
 ﻿using FluentAssertions;
 using TypedRest.OpenApi.CSharp.Dom;
-using TypedRest.OpenApi.Endpoints;
-using TypedRest.OpenApi.Endpoints.Generic;
 using Xunit;
 
 namespace TypedRest.OpenApi.CSharp
@@ -11,50 +9,85 @@ namespace TypedRest.OpenApi.CSharp
         [Fact]
         public void GeneratesCorrectDom()
         {
-            var namingConvention = new NamingConvention("MyNamespace");
-            var endpoints = new EndpointList
+            var generator = new Generator(new NamingConvention("MyNamespace"));
+            var generated = generator.Generate(Sample.Endpoints);
+
+            var noteSchema = new CSharpIdentifier("Schemas", "Note");
+            var noteEndpoint = ElementEndpoint(noteSchema);
+
+            var contactSchema = new CSharpIdentifier("Schemas", "Contact");
+            var contactEndpoint = new CSharpClass(new CSharpIdentifier("MyNamespace", "ContactEndpoint"))
             {
-                ["contacts"] = new CollectionEndpoint
+                BaseClass = new CSharpClassConstruction(ElementEndpoint(contactSchema))
                 {
-                    Description = "Collection of contacts.",
-                    Uri = "./contacts",
-                    Schema = Sample.ContactSchema
+                    Parameters =
+                    {
+                        Referrer,
+                        new CSharpParameter(CSharpIdentifier.String, "relativeUri")
+                    }
+                },
+                Properties =
+                {
+                    Property(noteEndpoint, "Note", "./note"),
+                    Property(ActionEndpoint, "Poke", "./poke"),
+                    Property(BlobEndpoint, "Picture", "./picture")
+                }
+            };
+            var collectionEndpoint = CollectionEndpoint(contactSchema, contactEndpoint.Identifier);
+
+            var entryEndpoint = new CSharpClass(new CSharpIdentifier("MyNamespace", "MyEntryEndpoint"))
+            {
+                BaseClass = new CSharpClassConstruction(new CSharpIdentifier("TypedRest.Endpoints", "EntryEndpoint"))
+                {
+                    Parameters =
+                    {
+                        new CSharpParameter(CSharpIdentifier.Uri, "uri")
+                    }
+                },
+                Properties =
+                {
+                    Property(collectionEndpoint, "Contacts", "./contacts")
                 }
             };
 
-            var generated = new Generator(namingConvention).Generate(endpoints);
-
-            var interfaceType = new CSharpIdentifier("TypedRest.Endpoints.Generic", "ICollectionEndpoint")
-            {
-                TypeArguments = {new CSharpIdentifier("Schemas", "Contact")}
-            };
-            var implementationType = new CSharpIdentifier("TypedRest.Endpoints.Generic", "CollectionEndpoint")
-            {
-                TypeArguments = {new CSharpIdentifier("Schemas", "Contact")}
-            };
-
-            generated.Should().BeEquivalentTo(
-                new CSharpClass(new CSharpIdentifier("MyNamespace", "MyEntryEndpoint"))
-                {
-                    BaseClass = new CSharpClassConstruction(new CSharpIdentifier("TypedRest.Endpoints", "EntryEndpoint"))
-                    {
-                        Parameters = {new CSharpParameter(CSharpIdentifier.Uri, "uri")}
-                    },
-                    Properties =
-                    {
-                        new CSharpProperty(interfaceType, "Contacts")
-                        {
-                            GetterExpression = new CSharpClassConstruction(implementationType)
-                            {
-                                Parameters =
-                                {
-                                    new CSharpParameter(new CSharpIdentifier("TypedRest.Endpoints", "IEndpoint"), "referrer") {ThisReference = true},
-                                    new CSharpParameter(CSharpIdentifier.String, "relativeUri") {Value = "./contacts"}
-                                }
-                            }
-                        }
-                    }
-                });
+            generated.Should().BeEquivalentTo(entryEndpoint, contactEndpoint);
         }
+
+        private static CSharpParameter Referrer
+            => new CSharpParameter(new CSharpIdentifier("TypedRest.Endpoints", "IEndpoint"), "referrer")
+            {
+                ThisReference = true
+            };
+
+        private static CSharpProperty Property(CSharpIdentifier endpoint, string name, string relativeUri)
+            => new CSharpProperty(endpoint.ToInterface(), name)
+            {
+                GetterExpression = new CSharpClassConstruction(endpoint)
+                {
+                    Parameters =
+                    {
+                        Referrer,
+                        new CSharpParameter(CSharpIdentifier.String, "relativeUri") {Value = relativeUri}
+                    }
+                }
+            };
+
+        private static CSharpIdentifier ActionEndpoint
+            => new CSharpIdentifier("TypedRest.Endpoints.Rpc", "ActionEndpoint");
+
+        private static CSharpIdentifier BlobEndpoint
+            => new CSharpIdentifier("TypedRest.Endpoints.Raw", "BlobEndpoint");
+
+        private static CSharpIdentifier ElementEndpoint(CSharpIdentifier schema)
+            => new CSharpIdentifier("TypedRest.Endpoints.Generic", "ElementEndpoint")
+            {
+                TypeArguments = {schema}
+            };
+
+        private static CSharpIdentifier CollectionEndpoint(CSharpIdentifier schema, CSharpIdentifier elementEndpoint)
+            => new CSharpIdentifier("TypedRest.Endpoints.Generic", "CollectionEndpoint")
+            {
+                TypeArguments = {schema, elementEndpoint}
+            };
     }
 }
