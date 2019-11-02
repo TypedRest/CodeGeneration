@@ -17,6 +17,8 @@ namespace TypedRest.OpenApi.CSharp.Dom
         [CanBeNull]
         public object Value { get; set; }
 
+        public bool ThisReference { get; set; }
+
         public CSharpParameter([NotNull] CSharpIdentifier type, [NotNull] string name)
         {
             Type = type ?? throw new ArgumentNullException(nameof(type));
@@ -28,6 +30,9 @@ namespace TypedRest.OpenApi.CSharp.Dom
 
         public ArgumentSyntax ToArgumentSyntax()
         {
+            if (ThisReference)
+                return Argument(ThisExpression());
+
             var identifierName = IdentifierName(Name);
             var literal = GetLiteralExpression();
             return literal == null

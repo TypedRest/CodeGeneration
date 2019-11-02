@@ -48,6 +48,7 @@ namespace TypedRest.OpenApi.CSharp
                             {
                                 Parameters =
                                 {
+                                    new CSharpParameter(new CSharpIdentifier("TypedRest.Endpoints", "IEndpoint"), "referrer") {ThisReference = true},
                                     new CSharpParameter(CSharpIdentifier.String, "relativeUri") {Value = "./contacts"}
                                 }
                             }
