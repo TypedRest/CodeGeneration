@@ -38,7 +38,7 @@ namespace TypedRest.OpenApi.CSharp
                 {
                     BaseClass = new CSharpClassConstruction(new CSharpIdentifier("TypedRest.Endpoints", "EntryEndpoint"))
                     {
-                        Parameters = {new CSharpParameter(new CSharpIdentifier("System", "Uri"), "uri")}
+                        Parameters = {new CSharpParameter(CSharpIdentifier.Uri, "uri")}
                     },
                     Properties =
                     {

@@ -16,6 +16,9 @@ namespace TypedRest.OpenApi.CSharp.Dom
         public static CSharpIdentifier Int
             => new CSharpIdentifier("int");
 
+        public static CSharpIdentifier Uri
+            => new CSharpIdentifier("System", "Uri");
+
         [CanBeNull]
         public string Namespace { get; }
 
