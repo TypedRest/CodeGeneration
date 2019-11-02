@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -18,6 +19,15 @@ namespace TypedRest.OpenApi.CSharp.Dom
 
         [CanBeNull]
         public CSharpClassConstruction BaseClass { get; set; }
+
+        [NotNull]
+        public CSharpClassConstruction GetConstruction()
+        {
+            var result = new CSharpClassConstruction(Identifier);
+            if (BaseClass != null)
+                result.Parameters.AddRange(BaseClass.Parameters.Where(x => x.LiteralValue == null));
+            return result;
+        }
 
         protected override ISet<string> GetNamespaces()
         {

@@ -87,7 +87,7 @@ namespace TypedRest.OpenApi.CSharp
 
                 return new CSharpProperty(type.Identifier, key)
                 {
-                    GetterExpression = new CSharpClassConstruction(type.Identifier)
+                    GetterExpression = type.GetConstruction()
                 };
             }
         }
