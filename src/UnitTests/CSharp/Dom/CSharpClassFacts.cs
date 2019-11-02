@@ -22,7 +22,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
                     Parameters =
                     {
                         new CSharpParameter(endpointInterface, "referrer"),
-                        new CSharpParameter(CSharpIdentifier.String, "relativeUri", "./sample")
+                        new CSharpParameter(CSharpIdentifier.String, "relativeUri") {Value = "./sample"}
                     }
                 },
                 Interfaces = {myInterface},
@@ -35,7 +35,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
                         {
                             Parameters =
                             {
-                                new CSharpParameter(CSharpIdentifier.String, "arg1", "value")
+                                new CSharpParameter(CSharpIdentifier.String, "arg1") {Value = "value"}
                             }
                         }
                     }

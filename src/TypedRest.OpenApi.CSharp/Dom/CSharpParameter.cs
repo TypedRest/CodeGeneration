@@ -15,13 +15,12 @@ namespace TypedRest.OpenApi.CSharp.Dom
         public string Name { get; }
 
         [CanBeNull]
-        public object LiteralValue { get; }
+        public object Value { get; set; }
 
-        public CSharpParameter([NotNull] CSharpIdentifier type, [NotNull] string name, [CanBeNull] object literalValue = null)
+        public CSharpParameter([NotNull] CSharpIdentifier type, [NotNull] string name)
         {
             Type = type ?? throw new ArgumentNullException(nameof(type));
             Name = name ?? throw new ArgumentNullException(nameof(name));
-            LiteralValue = literalValue;
         }
 
         public ParameterSyntax ToParameterSyntax()
@@ -30,15 +29,15 @@ namespace TypedRest.OpenApi.CSharp.Dom
         public ArgumentSyntax ToArgumentSyntax()
         {
             var identifierName = IdentifierName(Name);
-            var expression = GetLiteralExpression();
-            return expression == null
+            var literal = GetLiteralExpression();
+            return literal == null
                 ? Argument(identifierName)
-                : Argument(expression).WithNameColon(NameColon(identifierName));
+                : Argument(literal).WithNameColon(NameColon(identifierName));
         }
 
         private LiteralExpressionSyntax GetLiteralExpression()
         {
-            switch (LiteralValue)
+            switch (Value)
             {
                 case string value:
                     return LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(value));

@@ -25,7 +25,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
         {
             var result = new CSharpClassConstruction(Identifier);
             if (BaseClass != null)
-                result.Parameters.AddRange(BaseClass.Parameters.Where(x => x.LiteralValue == null));
+                result.Parameters.AddRange(BaseClass.Parameters.Where(x => x.Value == null));
             return result;
         }
 

@@ -25,7 +25,7 @@ namespace TypedRest.OpenApi.CSharp.Builders
 
         protected virtual IEnumerable<CSharpParameter> GetParameters(TEndpoint endpoint)
         {
-            yield return new CSharpParameter(CSharpIdentifier.String, "relativeUri", endpoint.Uri);
+            yield return new CSharpParameter(CSharpIdentifier.String, "relativeUri") {Value = endpoint.Uri};
         }
     }
 }

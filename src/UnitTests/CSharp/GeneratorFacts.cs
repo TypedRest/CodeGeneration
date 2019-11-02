@@ -48,7 +48,7 @@ namespace TypedRest.OpenApi.CSharp
                             {
                                 Parameters =
                                 {
-                                    new CSharpParameter(CSharpIdentifier.String, "relativeUri", "./contacts")
+                                    new CSharpParameter(CSharpIdentifier.String, "relativeUri") {Value = "./contacts"}
                                 }
                             }
                         }

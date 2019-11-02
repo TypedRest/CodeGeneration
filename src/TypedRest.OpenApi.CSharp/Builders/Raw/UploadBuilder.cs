@@ -18,7 +18,7 @@ namespace TypedRest.OpenApi.CSharp.Builders.Raw
                 yield return parameter;
 
             if (!string.IsNullOrEmpty(endpoint.FormField))
-                yield return new CSharpParameter(CSharpIdentifier.String, "formField", endpoint.FormField);
+                yield return new CSharpParameter(CSharpIdentifier.String, "formField") {Value = endpoint.FormField};
         }
     }
 }

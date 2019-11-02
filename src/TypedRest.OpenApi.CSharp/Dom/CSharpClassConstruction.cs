@@ -49,6 +49,6 @@ namespace TypedRest.OpenApi.CSharp.Dom
 
         private ParameterListSyntax GetParameterList()
             => ParameterList(SeparatedList(
-                Parameters.Where(x => x.LiteralValue == null).Select(x => x.ToParameterSyntax())));
+                Parameters.Where(x => x.Value == null).Select(x => x.ToParameterSyntax())));
     }
 }
