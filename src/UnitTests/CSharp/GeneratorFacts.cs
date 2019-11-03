@@ -28,10 +28,11 @@ namespace TypedRest.OpenApi.CSharp
                 },
                 Properties =
                 {
-                    Property(noteEndpoint, "Note", "./note"),
-                    Property(ActionEndpoint, "Poke", "./poke"),
-                    Property(BlobEndpoint, "Picture", "./picture")
-                }
+                    Property("Note", "./note", noteEndpoint, description: "The note for a specific contact."),
+                    Property("Poke", "./poke", ActionEndpoint, description: "Pokes a contact."),
+                    Property("Picture", "./picture", BlobEndpoint, description: "A picture of a specific contact.")
+                },
+                Description = "A specific contact."
             };
             var collectionEndpoint = CollectionEndpoint(contactSchema, contactEndpoint.Identifier);
 
@@ -46,7 +47,7 @@ namespace TypedRest.OpenApi.CSharp
                 },
                 Properties =
                 {
-                    Property(collectionEndpoint, "Contacts", "./contacts")
+                    Property("Contacts", "./contacts", collectionEndpoint, description: "Collection of contacts.")
                 }
             };
 
@@ -59,17 +60,18 @@ namespace TypedRest.OpenApi.CSharp
                 ThisReference = true
             };
 
-        private static CSharpProperty Property(CSharpIdentifier endpoint, string name, string relativeUri)
-            => new CSharpProperty(endpoint.ToInterface(), name)
+        private static CSharpProperty Property(string name, string relativeUri, CSharpIdentifier implementationType, CSharpIdentifier interfaceType = null, string description = null)
+            => new CSharpProperty(interfaceType ?? implementationType.ToInterface(), name)
             {
-                GetterExpression = new CSharpClassConstruction(endpoint)
+                GetterExpression = new CSharpClassConstruction(implementationType)
                 {
                     Parameters =
                     {
                         Referrer,
                         new CSharpParameter(CSharpIdentifier.String, "relativeUri") {Value = relativeUri}
                     }
-                }
+                },
+                Description = description
             };
 
         private static CSharpIdentifier ActionEndpoint

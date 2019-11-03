@@ -77,21 +77,24 @@ namespace TypedRest.OpenApi.CSharp
             {
                 return new CSharpProperty(construction.Type.ToInterface(), _naming.Property(key))
                 {
-                    GetterExpression = construction
+                    GetterExpression = construction,
+                    Description = endpoint.Description
                 };
             }
             else
             {
                 var type = new CSharpClass(_naming.EndpointType(key, endpoint))
                 {
-                    BaseClass = construction
+                    BaseClass = construction,
+                    Description = endpoint.Description
                 };
                 type.Properties.AddRange(children);
                 typeList.Add(endpoint, type);
 
                 return new CSharpProperty(type.Identifier, key)
                 {
-                    GetterExpression = type.GetConstruction()
+                    GetterExpression = type.GetConstruction(),
+                    Description = endpoint.Description
                 };
             }
         }
