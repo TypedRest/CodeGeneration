@@ -21,6 +21,12 @@ namespace TypedRest.OpenApi.CSharp.Builders
             return construction;
         }
 
+        public CSharpIdentifier GetInterface(IEndpoint endpoint, ITypeList typeList)
+            => GetInterface((TEndpoint)endpoint, typeList);
+
+        public virtual CSharpIdentifier GetInterface(TEndpoint endpoint, ITypeList typeList)
+            => GetImplementation(endpoint, typeList).ToInterface();
+
         protected abstract CSharpIdentifier GetImplementation(TEndpoint endpoint, ITypeList typeList);
 
         protected virtual IEnumerable<CSharpParameter> GetParameters(TEndpoint endpoint)

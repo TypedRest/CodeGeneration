@@ -21,6 +21,17 @@ namespace TypedRest.OpenApi.CSharp.Builders
             return identifier;
         }
 
+        public override CSharpIdentifier GetInterface(TEndpoint endpoint, ITypeList typeList)
+        {
+            var identifier = new CSharpIdentifier(TypeNamespace, TypeName).ToInterface();
+            identifier.TypeArguments.Add(typeList.For(endpoint.Schema));
+
+            if (endpoint.Element != null)
+                identifier.TypeArguments.Add(typeList.InterfaceFor(endpoint.Element));
+
+            return identifier;
+        }
+
         protected abstract string TypeNamespace { get; }
 
         protected abstract string TypeName { get; }

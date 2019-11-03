@@ -13,5 +13,11 @@ namespace TypedRest.OpenApi.CSharp.Builders.Generic
             {
                 TypeArguments = {typeList.ImplementationFor(endpoint.Element)}
             };
+
+        public override CSharpIdentifier GetInterface(IndexerEndpoint endpoint, ITypeList typeList)
+            => new CSharpIdentifier(Namespace.Name, "IIndexerEndpoint")
+            {
+                TypeArguments = {typeList.InterfaceFor(endpoint.Element)}
+            };
     }
 }

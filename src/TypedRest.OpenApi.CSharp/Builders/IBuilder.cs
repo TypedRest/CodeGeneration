@@ -11,6 +11,9 @@ namespace TypedRest.OpenApi.CSharp.Builders
     {
         [NotNull]
         CSharpClassConstruction GetConstruction([NotNull] IEndpoint endpoint, [NotNull] ITypeList typeList);
+
+        [NotNull]
+        CSharpIdentifier GetInterface([NotNull] IEndpoint endpoint, [NotNull] ITypeList typeList);
     }
 
     /// <summary>
@@ -22,5 +25,8 @@ namespace TypedRest.OpenApi.CSharp.Builders
     {
         [NotNull]
         CSharpClassConstruction GetConstruction([NotNull] TEndpoint endpoint, [NotNull] ITypeList typeList);
+
+        [NotNull]
+        CSharpIdentifier GetInterface([NotNull] TEndpoint endpoint, [NotNull] ITypeList typeList);
     }
 }

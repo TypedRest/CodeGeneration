@@ -16,6 +16,17 @@ namespace TypedRest.OpenApi.CSharp
             var noteEndpoint = ElementEndpoint(noteSchema);
 
             var contactSchema = new CSharpIdentifier("Schemas", "Contact");
+            var contactEndpointInterface = new CSharpInterface(new CSharpIdentifier("MyNamespace", "IContactEndpoint"))
+            {
+                Interfaces = { ElementEndpoint(contactSchema).ToInterface() },
+                Properties =
+                {
+                    Property("Note", "./note", noteEndpoint, description: "The note for a specific contact."),
+                    Property("Poke", "./poke", ActionEndpoint, description: "Pokes a contact."),
+                    Property("Picture", "./picture", BlobEndpoint, description: "A picture of a specific contact.")
+                },
+                Description = "A specific contact."
+            };
             var contactEndpoint = new CSharpClass(new CSharpIdentifier("MyNamespace", "ContactEndpoint"))
             {
                 BaseClass = new CSharpClassConstruction(ElementEndpoint(contactSchema))
@@ -26,14 +37,11 @@ namespace TypedRest.OpenApi.CSharp
                         new CSharpParameter(CSharpIdentifier.Uri, "relativeUri")
                     }
                 },
-                Properties =
-                {
-                    Property("Note", "./note", noteEndpoint, description: "The note for a specific contact."),
-                    Property("Poke", "./poke", ActionEndpoint, description: "Pokes a contact."),
-                    Property("Picture", "./picture", BlobEndpoint, description: "A picture of a specific contact.")
-                },
-                Description = "A specific contact."
+                Interfaces = {contactEndpointInterface.Identifier},
+                Description = contactEndpointInterface.Description
             };
+            contactEndpoint.Properties.AddRange(contactEndpointInterface.Properties);
+
             var collectionEndpoint = CollectionEndpoint(contactSchema, contactEndpoint.Identifier);
 
             var entryEndpoint = new CSharpClass(new CSharpIdentifier("MyNamespace", "MyEntryEndpoint"))
@@ -47,11 +55,13 @@ namespace TypedRest.OpenApi.CSharp
                 },
                 Properties =
                 {
-                    Property("Contacts", "./contacts", collectionEndpoint, description: "Collection of contacts.")
+                    Property("Contacts", "./contacts", collectionEndpoint,
+                        CollectionEndpoint(contactSchema, contactEndpointInterface.Identifier).ToInterface(),
+                        description: "Collection of contacts.")
                 }
             };
 
-            generated.Should().BeEquivalentTo(entryEndpoint, contactEndpoint);
+            generated.Should().BeEquivalentTo(entryEndpoint, contactEndpointInterface, contactEndpoint);
         }
 
         private static CSharpParameter Referrer

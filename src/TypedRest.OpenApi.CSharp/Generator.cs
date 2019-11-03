@@ -73,9 +73,10 @@ namespace TypedRest.OpenApi.CSharp
 
             var builder = _builders[endpoint.GetType()];
             var construction = builder.GetConstruction(endpoint, typeList);
+            var interfaceType = builder.GetInterface(endpoint, typeList);
             if (children.Count == 0)
             {
-                return new CSharpProperty(construction.Type.ToInterface(), _naming.Property(key))
+                return new CSharpProperty(interfaceType, _naming.Property(key))
                 {
                     GetterExpression = construction,
                     Description = endpoint.Description
@@ -83,17 +84,28 @@ namespace TypedRest.OpenApi.CSharp
             }
             else
             {
-                var type = new CSharpClass(_naming.EndpointType(key, endpoint))
+                var endpointType = _naming.EndpointType(key, endpoint);
+
+                var endpointInterface = new CSharpInterface(endpointType.ToInterface())
                 {
-                    BaseClass = construction,
+                    Interfaces = {interfaceType},
                     Description = endpoint.Description
                 };
-                type.Properties.AddRange(children);
-                typeList.Add(endpoint, type);
+                endpointInterface.Properties.AddRange(children);
+                typeList.Add(endpoint, endpointInterface);
 
-                return new CSharpProperty(type.Identifier, key)
+                var endpointImplementation = new CSharpClass(endpointType)
                 {
-                    GetterExpression = type.GetConstruction(),
+                    BaseClass = construction,
+                    Interfaces = {endpointInterface.Identifier},
+                    Description = endpoint.Description
+                };
+                endpointImplementation.Properties.AddRange(children);
+                typeList.Add(endpoint, endpointImplementation);
+
+                return new CSharpProperty(endpointInterface.Identifier, key)
+                {
+                    GetterExpression = endpointImplementation.GetConstruction(),
                     Description = endpoint.Description
                 };
             }
