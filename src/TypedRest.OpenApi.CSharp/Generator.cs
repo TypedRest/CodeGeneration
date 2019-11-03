@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using TypedRest.OpenApi.CSharp.Builders;
 using TypedRest.OpenApi.CSharp.Builders.Generic;
 using TypedRest.OpenApi.CSharp.Builders.Raw;
+using TypedRest.OpenApi.CSharp.Builders.Reactive;
 using TypedRest.OpenApi.CSharp.Builders.Rpc;
 using TypedRest.OpenApi.CSharp.Dom;
 using TypedRest.OpenApi.Endpoints;
@@ -22,15 +23,18 @@ namespace TypedRest.OpenApi.CSharp
             _naming = naming;
 
             Add(new DefaultBuilder());
-            Add(new UploadBuilder());
-            Add(new BlobBuilder());
+            Add(new ElementBuilder());
+            Add(new IndexerBuilder());
+            Add(new CollectionBuilder());
             Add(new ActionBuilder());
             Add(new ProducerBuilder());
             Add(new ConsumerBuilder());
             Add(new FunctionBuilder());
-            Add(new ElementBuilder());
-            Add(new IndexerBuilder());
-            Add(new CollectionBuilder());
+            Add(new UploadBuilder());
+            Add(new BlobBuilder());
+            Add(new PollingBuilder());
+            Add(new StreamingBuilder());
+            Add(new StreamingCollectionBuilder());
         }
 
         public void Add<TEndpoint>(IBuilder<TEndpoint> builder)
