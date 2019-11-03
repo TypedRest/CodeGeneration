@@ -8,8 +8,13 @@ namespace TypedRest.OpenApi.CSharp
 {
     public interface ITypeList : IEnumerable<CSharpType>
     {
-        CSharpIdentifier this[[NotNull] IEndpoint endpoint] { get; }
+        [NotNull]
+        CSharpIdentifier ImplementationFor(IEndpoint endpoint);
 
-        CSharpIdentifier this[[NotNull] OpenApiSchema schema] { get; }
+        [NotNull]
+        CSharpIdentifier InterfaceFor(IEndpoint endpoint);
+
+        [NotNull]
+        CSharpIdentifier For(OpenApiSchema schema);
     }
 }

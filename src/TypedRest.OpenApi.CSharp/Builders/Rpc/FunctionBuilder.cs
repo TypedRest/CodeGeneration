@@ -13,8 +13,8 @@ namespace TypedRest.OpenApi.CSharp.Builders.Rpc
             {
                 TypeArguments =
                 {
-                    typeList[endpoint.RequestSchema],
-                    typeList[endpoint.ResponseSchema]
+                    typeList.For(endpoint.RequestSchema),
+                    typeList.For(endpoint.ResponseSchema)
                 }
             };
     }

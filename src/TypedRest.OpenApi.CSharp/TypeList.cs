@@ -16,33 +16,40 @@ namespace TypedRest.OpenApi.CSharp
         IEnumerator IEnumerable.GetEnumerator()
             => _types.GetEnumerator();
 
-        public void Add(CSharpClass type)
-            => _types.Add(type);
-
-        private readonly Dictionary<IEndpoint, CSharpIdentifier> _endpointTypes = new Dictionary<IEndpoint, CSharpIdentifier>();
-
-        public CSharpIdentifier this[IEndpoint endpoint]
-            => _endpointTypes[endpoint];
+        private readonly Dictionary<IEndpoint, CSharpIdentifier> _endpointImplementations = new Dictionary<IEndpoint, CSharpIdentifier>();
 
         public void Add(IEndpoint endpoint, CSharpClass type)
         {
-            Add(type);
-
-            _endpointTypes.Add(endpoint, type.Identifier);
+            _types.Add(type);
+            _endpointImplementations.Add(endpoint, type.Identifier);
         }
 
-        private readonly Dictionary<string, CSharpIdentifier> _schemaTypes = new Dictionary<string, CSharpIdentifier>();
+        public CSharpIdentifier ImplementationFor(IEndpoint endpoint)
+            => _endpointImplementations[endpoint];
 
-        public CSharpIdentifier this[OpenApiSchema schema]
-            => new CSharpIdentifier("Schemas", schema.Reference?.Id ?? schema.Type); // TODO: _schemaTypes[schema.Reference.Id];
+        private readonly Dictionary<IEndpoint, CSharpIdentifier> _endpointInterfaces = new Dictionary<IEndpoint, CSharpIdentifier>();
 
-        public void Add(OpenApiSchema schema, CSharpClass type)
+        public void Add(IEndpoint endpoint, CSharpInterface type)
         {
-            Add(type);
+            _types.Add(type);
+            _endpointInterfaces.Add(endpoint, type.Identifier);
+        }
+
+        public CSharpIdentifier InterfaceFor(IEndpoint endpoint)
+            => _endpointInterfaces[endpoint];
+
+        private readonly Dictionary<string, CSharpIdentifier> _schemas = new Dictionary<string, CSharpIdentifier>();
+
+        public void Add(OpenApiSchema schema, CSharpType type)
+        {
+            _types.Add(type);
 
             string key = schema.Reference?.Id ?? schema.Type;
             if (!string.IsNullOrEmpty(key))
-                _schemaTypes.Add(key, type.Identifier);
+                _schemas.Add(key, type.Identifier);
         }
+
+        public CSharpIdentifier For(OpenApiSchema schema)
+            => new CSharpIdentifier("Schemas", schema.Reference?.Id ?? schema.Type); // TODO: _schemas[schema.Reference?.Id ?? schema.Type];
     }
 }

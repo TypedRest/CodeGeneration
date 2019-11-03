@@ -13,10 +13,10 @@ namespace TypedRest.OpenApi.CSharp.Builders
         protected override CSharpIdentifier GetImplementation(TEndpoint endpoint, ITypeList typeList)
         {
             var identifier = new CSharpIdentifier(TypeNamespace, TypeName);
-            identifier.TypeArguments.Add(typeList[endpoint.Schema]);
+            identifier.TypeArguments.Add(typeList.For(endpoint.Schema));
 
             if (endpoint.Element != null)
-                identifier.TypeArguments.Add(typeList[endpoint.Element]);
+                identifier.TypeArguments.Add(typeList.ImplementationFor(endpoint.Element));
 
             return identifier;
         }

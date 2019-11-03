@@ -48,7 +48,7 @@ namespace TypedRest.OpenApi.CSharp
 
             var entryEndpoint = GenerateEntryEndpoint();
             entryEndpoint.Properties.AddRange(GenerateEndpoints(endpoints, typeList));
-            typeList.Add(entryEndpoint);
+            typeList.Add(new Endpoint(), entryEndpoint);
 
             return typeList;
         }

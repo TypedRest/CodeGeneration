@@ -11,7 +11,7 @@ namespace TypedRest.OpenApi.CSharp.Builders.Rpc
         protected override CSharpIdentifier GetImplementation(ProducerEndpoint endpoint, ITypeList typeList)
             => new CSharpIdentifier(Namespace.Name, "ProducerEndpoint")
             {
-                TypeArguments = {typeList[endpoint.Schema]}
+                TypeArguments = {typeList.For(endpoint.Schema)}
             };
     }
 }

@@ -11,7 +11,7 @@ namespace TypedRest.OpenApi.CSharp.Builders.Reactive
         protected override CSharpIdentifier GetImplementation(PollingEndpoint endpoint, ITypeList typeList)
             => new CSharpIdentifier(Namespace.Name, "PollingEndpoint")
             {
-                TypeArguments = {typeList[endpoint.Schema]}
+                TypeArguments = {typeList.For(endpoint.Schema)}
             };
     }
 }

@@ -12,7 +12,7 @@ namespace TypedRest.OpenApi.CSharp.Builders.Reactive
         protected override CSharpIdentifier GetImplementation(StreamingEndpoint endpoint, ITypeList typeList)
             => new CSharpIdentifier(Namespace.Name, "StreamingEndpoint")
             {
-                TypeArguments = {typeList[endpoint.Schema]}
+                TypeArguments = {typeList.For(endpoint.Schema)}
             };
 
         protected override IEnumerable<CSharpParameter> GetParameters(StreamingEndpoint endpoint)
