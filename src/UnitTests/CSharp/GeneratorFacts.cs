@@ -10,15 +10,15 @@ namespace TypedRest.OpenApi.CSharp
         public void GeneratesCorrectDom()
         {
             var generator = new Generator(new NamingConvention("MyNamespace"));
-            var generated = generator.Generate(Sample.Endpoints);
+            var generated = generator.Generate(Sample.Endpoints, Sample.Doc.Components.Schemas);
 
-            var noteSchema = new CSharpIdentifier("Schemas", "Note");
-            var noteEndpoint = ElementEndpoint(noteSchema);
+            var noteDto = Dto("Note");
+            var noteEndpoint = ElementEndpoint(noteDto);
 
-            var contactSchema = new CSharpIdentifier("Schemas", "Contact");
+            var contactDto = Dto("Contact");
             var contactEndpointInterface = new CSharpInterface(new CSharpIdentifier("MyNamespace", "IContactEndpoint"))
             {
-                Interfaces = { ElementEndpoint(contactSchema).ToInterface() },
+                Interfaces = {ElementEndpoint(contactDto).ToInterface()},
                 Properties =
                 {
                     Property("Note", "./note", noteEndpoint, description: "The note for a specific contact."),
@@ -29,7 +29,7 @@ namespace TypedRest.OpenApi.CSharp
             };
             var contactEndpoint = new CSharpClass(new CSharpIdentifier("MyNamespace", "ContactEndpoint"))
             {
-                BaseClass = new CSharpClassConstruction(ElementEndpoint(contactSchema))
+                BaseClass = new CSharpClassConstruction(ElementEndpoint(contactDto))
                 {
                     Parameters =
                     {
@@ -42,7 +42,7 @@ namespace TypedRest.OpenApi.CSharp
             };
             contactEndpoint.Properties.AddRange(contactEndpointInterface.Properties);
 
-            var collectionEndpoint = CollectionEndpoint(contactSchema, contactEndpoint.Identifier);
+            var collectionEndpoint = CollectionEndpoint(contactDto, contactEndpoint.Identifier);
 
             var entryEndpoint = new CSharpClass(new CSharpIdentifier("MyNamespace", "MyEntryEndpoint"))
             {
@@ -56,13 +56,18 @@ namespace TypedRest.OpenApi.CSharp
                 Properties =
                 {
                     Property("Contacts", "./contacts", collectionEndpoint,
-                        CollectionEndpoint(contactSchema, contactEndpointInterface.Identifier).ToInterface(),
+                        CollectionEndpoint(contactDto, contactEndpointInterface.Identifier).ToInterface(),
                         description: "Collection of contacts.")
                 }
             };
 
-            generated.Should().BeEquivalentTo(entryEndpoint, contactEndpointInterface, contactEndpoint);
+            generated.Should().BeEquivalentTo(
+                contactDto, noteDto,
+                entryEndpoint, contactEndpointInterface, contactEndpoint);
         }
+
+        private static CSharpClass Dto(string name)
+            => new CSharpClass(new CSharpIdentifier("MyNamespace", name));
 
         private static CSharpParameter Referrer
             => new CSharpParameter(new CSharpIdentifier("TypedRest.Endpoints", "IEndpoint"), "referrer")
@@ -90,16 +95,16 @@ namespace TypedRest.OpenApi.CSharp
         private static CSharpIdentifier BlobEndpoint
             => new CSharpIdentifier("TypedRest.Endpoints.Raw", "BlobEndpoint");
 
-        private static CSharpIdentifier ElementEndpoint(CSharpIdentifier schema)
+        private static CSharpIdentifier ElementEndpoint(CSharpClass dto)
             => new CSharpIdentifier("TypedRest.Endpoints.Generic", "ElementEndpoint")
             {
-                TypeArguments = {schema}
+                TypeArguments = {dto.Identifier}
             };
 
-        private static CSharpIdentifier CollectionEndpoint(CSharpIdentifier schema, CSharpIdentifier elementEndpoint)
+        private static CSharpIdentifier CollectionEndpoint(CSharpClass dto, CSharpIdentifier elementEndpoint)
             => new CSharpIdentifier("TypedRest.Endpoints.Generic", "CollectionEndpoint")
             {
-                TypeArguments = {schema, elementEndpoint}
+                TypeArguments = {dto.Identifier, elementEndpoint}
             };
     }
 }

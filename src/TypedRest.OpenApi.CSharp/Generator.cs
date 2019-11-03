@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.CSharp.Builders;
 using TypedRest.OpenApi.CSharp.Builders.Generic;
 using TypedRest.OpenApi.CSharp.Builders.Raw;
@@ -42,15 +43,32 @@ namespace TypedRest.OpenApi.CSharp
             => _builders.Add(typeof(TEndpoint), builder);
 
         [NotNull, ItemNotNull]
-        public ITypeList Generate([NotNull] EndpointList endpoints)
+        public ITypeList Generate([NotNull] EndpointList endpoints, IDictionary<string, OpenApiSchema> schemas)
         {
             var typeList = new TypeList();
+
+            GenerateSchemas(schemas, typeList);
 
             var entryEndpoint = GenerateEntryEndpoint();
             entryEndpoint.Properties.AddRange(GenerateEndpoints(endpoints, typeList));
             typeList.Add(new Endpoint(), entryEndpoint);
 
             return typeList;
+        }
+
+        private void GenerateSchemas(IDictionary<string, OpenApiSchema> schemas, TypeList typeList)
+        {
+            foreach (var pair in schemas)
+            {
+                var type = GenerateSchema(_naming.SchemaType(pair.Key), typeList);
+                typeList.Add(pair.Value, type);
+            }
+        }
+
+        private static CSharpClass GenerateSchema(CSharpIdentifier identifier, TypeList typeList)
+        {
+            // TODO: Proper implementation
+            return new CSharpClass(identifier);
         }
 
         // TODO: Make entry endpoint configurable

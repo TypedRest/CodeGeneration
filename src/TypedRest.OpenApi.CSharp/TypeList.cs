@@ -50,6 +50,6 @@ namespace TypedRest.OpenApi.CSharp
         }
 
         public CSharpIdentifier For(OpenApiSchema schema)
-            => new CSharpIdentifier("Schemas", schema.Reference?.Id ?? schema.Type); // TODO: _schemas[schema.Reference?.Id ?? schema.Type];
+            => _schemas[schema.Reference?.Id ?? schema.Type];
     }
 }

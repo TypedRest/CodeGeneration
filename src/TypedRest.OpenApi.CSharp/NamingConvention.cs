@@ -26,6 +26,11 @@ namespace TypedRest.OpenApi.CSharp
                     ? ToPascalCase(key.Substring(0, key.Length - 1)) + "CollectionEndpoint"
                     : ToPascalCase(key) + "Endpoint");
 
+        public CSharpIdentifier SchemaType(string key)
+            => new CSharpIdentifier(
+                _namespace,
+                ToPascalCase(key));
+
         [NotNull]
         protected static string ToPascalCase([NotNull] string key)
             => key.Contains('-') || key.Contains('_')

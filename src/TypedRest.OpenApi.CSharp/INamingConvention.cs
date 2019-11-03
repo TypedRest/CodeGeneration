@@ -11,5 +11,8 @@ namespace TypedRest.OpenApi.CSharp
 
         [NotNull]
         CSharpIdentifier EndpointType([NotNull] string key, [NotNull] IEndpoint endpoint);
+
+        [NotNull]
+        CSharpIdentifier SchemaType([NotNull] string key);
     }
 }
