@@ -36,7 +36,9 @@ namespace TypedRest.OpenApi.CSharp
         }
 
         public CSharpIdentifier InterfaceFor(IEndpoint endpoint)
-            => _endpointInterfaces[endpoint];
+            => _endpointInterfaces.TryGetValue(endpoint, out var result)
+                ? result
+                : ImplementationFor(endpoint); // Fallback to implementation if there is no interface
 
         private readonly Dictionary<string, CSharpIdentifier> _schemas = new Dictionary<string, CSharpIdentifier>();
 
