@@ -23,7 +23,7 @@ namespace TypedRest.OpenApi.CSharp
                     Parameters =
                     {
                         Referrer,
-                        new CSharpParameter(CSharpIdentifier.String, "relativeUri")
+                        new CSharpParameter(CSharpIdentifier.Uri, "relativeUri")
                     }
                 },
                 Properties =
