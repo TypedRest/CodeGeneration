@@ -21,12 +21,11 @@ namespace TypedRest.OpenApi.Patterns.Generic
             if (schema?.Type != "array" || schema.Items?.Reference?.Id != element?.Schema?.Reference?.Id) return null;
 
             element.Schema = null;
-            if (element.Children.Count == 0) element = null;
 
             return new CollectionEndpoint
             {
                 Schema = schema.Items,
-                Element = element,
+                Element = (element.Children.Count == 0) ? null : element,
                 Description = operation.Description ?? operation.Summary
             };
         }

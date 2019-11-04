@@ -39,7 +39,8 @@ namespace TypedRest.OpenApi.CSharp.Dom
             foreach (string ns in Properties.SelectMany(x => x.GetNamespaces()))
                 namespaces.Add(ns);
 
-            namespaces.Remove(Identifier.Namespace);
+            if (!string.IsNullOrEmpty(Identifier.Namespace))
+                namespaces.Remove(Identifier.Namespace);
 
             return namespaces;
         }
