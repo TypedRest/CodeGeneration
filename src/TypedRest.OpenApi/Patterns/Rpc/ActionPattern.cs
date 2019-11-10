@@ -9,7 +9,7 @@ namespace TypedRest.OpenApi.Patterns.Rpc
     /// </summary>
     public class ActionPattern : RpcPatternBase
     {
-        protected override IEndpoint BuildEndpoint(OpenApiOperation operation)
+        protected override IEndpoint? BuildEndpoint(OpenApiOperation operation)
         {
             if (operation.RequestBody != null) return null;
 

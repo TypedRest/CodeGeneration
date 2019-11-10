@@ -9,7 +9,7 @@ namespace TypedRest.OpenApi.Patterns.Rpc
     /// </summary>
     public class ConsumerPattern : RpcPatternBase
     {
-        protected override IEndpoint BuildEndpoint(OpenApiOperation operation)
+        protected override IEndpoint? BuildEndpoint(OpenApiOperation operation)
         {
             var schema = operation.GetRequest()?.GetJsonSchema();
             if (schema == null) return null;

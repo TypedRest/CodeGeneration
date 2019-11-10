@@ -1,8 +1,3 @@
-using JetBrains.Annotations;
-using Microsoft.OpenApi;
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Writers;
-
 namespace TypedRest.OpenApi.Endpoints.Raw
 {
     /// <summary>

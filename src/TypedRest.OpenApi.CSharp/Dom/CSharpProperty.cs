@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
@@ -9,27 +8,22 @@ namespace TypedRest.OpenApi.CSharp.Dom
 {
     public class CSharpProperty
     {
-        [NotNull]
         public CSharpIdentifier Type { get; }
 
-        [NotNull]
         public string Name { get; }
 
-        [CanBeNull]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
-        public CSharpProperty([NotNull] CSharpIdentifier type, [NotNull] string name)
+        public CSharpProperty(CSharpIdentifier type, string name)
         {
             Type = type ?? throw new ArgumentNullException(nameof(type));
             Name = name ?? throw new ArgumentNullException(nameof(name));
         }
 
-        [CanBeNull]
-        public CSharpClassConstruction GetterExpression { get; set; }
+        public CSharpClassConstruction? GetterExpression { get; set; }
 
         public bool HasSetter { get; set; }
 
-        [NotNull, ItemNotNull]
         public IEnumerable<string> GetNamespaces()
         {
             foreach (string ns in Type.GetNamespaces())
@@ -42,7 +36,6 @@ namespace TypedRest.OpenApi.CSharp.Dom
             }
         }
 
-        [NotNull]
         public PropertyDeclarationSyntax ToSyntax()
         {
             var propertyDeclaration = PropertyDeclaration(Type.ToSyntax(), Identifier(Name))
@@ -55,7 +48,6 @@ namespace TypedRest.OpenApi.CSharp.Dom
                                      .WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
         }
 
-        [NotNull, ItemNotNull]
         private IEnumerable<AccessorDeclarationSyntax> GetAccessors()
         {
             AccessorDeclarationSyntax Declaration(SyntaxKind kind) => AccessorDeclaration(kind).WithSemicolonToken(Token(SyntaxKind.SemicolonToken));

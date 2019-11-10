@@ -13,7 +13,7 @@ namespace TypedRest.OpenApi.Patterns.Raw
         protected override OperationType[] RequiredOperations
             => new[] {OperationType.Post};
 
-        protected override IEndpoint BuildEndpoint(OpenApiPathItem item)
+        protected override IEndpoint? BuildEndpoint(OpenApiPathItem item)
         {
             var operation = item.Operations[OperationType.Post];
 

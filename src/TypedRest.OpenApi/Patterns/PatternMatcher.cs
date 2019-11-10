@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using TypedRest.OpenApi.Endpoints;
 using TypedRest.OpenApi.Patterns.Generic;
 using TypedRest.OpenApi.Patterns.Raw;
@@ -12,7 +11,6 @@ namespace TypedRest.OpenApi.Patterns
     /// <summary>
     /// Matches a set of <see cref="IPattern"/>s against a path tree.
     /// </summary>
-    [PublicAPI]
     public class PatternMatcher : IPatternMatcher, IEnumerable<IPattern>
     {
         private readonly Stack<IPattern> _patterns = new Stack<IPattern>();
@@ -38,7 +36,7 @@ namespace TypedRest.OpenApi.Patterns
         /// <summary>
         /// Adds the <paramref name="pattern"/> to the list of known patterns.
         /// </summary>
-        public PatternMatcher Add([NotNull] IPattern pattern)
+        public PatternMatcher Add(IPattern pattern)
         {
             _patterns.Push(pattern);
             return this;
@@ -57,7 +55,7 @@ namespace TypedRest.OpenApi.Patterns
             {
                 var endpoint = _patterns.Select(x => x.TryGetEndpoint(pair.Value, this))
                                         .First(x => x != null);
-                endpoint.Uri = "./" + pair.Key;
+                endpoint!.Uri = "./" + pair.Key;
 
                 result[pair.Key] = endpoint;
             }

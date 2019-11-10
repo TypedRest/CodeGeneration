@@ -12,9 +12,9 @@ namespace TypedRest.OpenApi.Endpoints
     {
         public virtual string Type => "";
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
-        public string Uri { get; set; }
+        public string? Uri { get; set; }
 
         public EndpointList Children { get; } = new EndpointList();
 

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
@@ -10,18 +9,15 @@ namespace TypedRest.OpenApi.CSharp.Dom
 {
     public class CSharpClassConstruction
     {
-        [NotNull]
         public CSharpIdentifier Type { get; }
 
-        public CSharpClassConstruction([NotNull] CSharpIdentifier type)
+        public CSharpClassConstruction(CSharpIdentifier type)
         {
             Type = type ?? throw new ArgumentNullException(nameof(type));
         }
 
-        [NotNull, ItemNotNull]
         public List<CSharpParameter> Parameters { get; } = new List<CSharpParameter>();
 
-        [NotNull, ItemNotNull]
         public IEnumerable<string> GetNamespaces()
         {
             foreach (string ns in Type.GetNamespaces())
@@ -31,12 +27,11 @@ namespace TypedRest.OpenApi.CSharp.Dom
                 yield return ns;
         }
 
-        [NotNull]
         public ObjectCreationExpressionSyntax ToNewSyntax()
             => ObjectCreationExpression(Type.ToSyntax())
                .WithArgumentList(GetArgumentList());
 
-        [NotNull] public ConstructorDeclarationSyntax ToConstructorSyntax(string typeName)
+        public ConstructorDeclarationSyntax ToConstructorSyntax(string typeName)
             => ConstructorDeclaration(Identifier(typeName))
               .WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
               .WithParameterList(GetParameterList())

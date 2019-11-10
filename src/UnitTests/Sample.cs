@@ -139,7 +139,7 @@ namespace TypedRest.OpenApi
             Description = "A note about a specific contact."
         };
 
-        public static OpenApiOperation Operation(HttpStatusCode statusCode = HttpStatusCode.OK, string parameter = null, string mimeType = "application/json", OpenApiSchema request = null, OpenApiSchema response = null, string summary = null)
+        public static OpenApiOperation Operation(HttpStatusCode statusCode = HttpStatusCode.OK, string? parameter = null, string? mimeType = "application/json", OpenApiSchema? request = null, OpenApiSchema? response = null, string? summary = null)
         {
             var responseObj = new OpenApiResponse();
             if (response != null)
@@ -182,11 +182,11 @@ namespace TypedRest.OpenApi
         private static string ReadYamlFile(string name)
         {
             var type = typeof(Sample);
-            using var reader = new StreamReader(Assembly.GetAssembly(type).GetManifestResourceStream(type, name));
+            using var reader = new StreamReader(Assembly.GetAssembly(type)!.GetManifestResourceStream(type, name)!);
             return reader.ReadToEnd().TrimEnd();
         }
 
-        private static OpenApiSchema StringProperty(string description = null)
+        private static OpenApiSchema StringProperty(string? description = null)
             => new OpenApiSchema {Type = "string", Description = description};
 
         private static OpenApiReference SchemaReference(string id)

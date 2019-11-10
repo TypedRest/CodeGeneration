@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.Endpoints;
 
@@ -12,7 +11,7 @@ namespace TypedRest.OpenApi.Patterns.Rpc
         protected override OperationType[] RequiredOperations
             => new[] {OperationType.Post};
 
-        protected override IEndpoint BuildEndpoint(OpenApiPathItem item)
+        protected override IEndpoint? BuildEndpoint(OpenApiPathItem item)
         {
             var operation = item.Operations[OperationType.Post];
 
@@ -26,7 +25,6 @@ namespace TypedRest.OpenApi.Patterns.Rpc
         /// <summary>
         /// Builds the endpoint using information from the <paramref name="operation"/>. <c>null</c> if the pattern does not match.
         /// </summary>
-        [CanBeNull]
-        protected abstract IEndpoint BuildEndpoint(OpenApiOperation operation);
+        protected abstract IEndpoint? BuildEndpoint(OpenApiOperation operation);
     }
 }

@@ -10,7 +10,7 @@ namespace TypedRest.OpenApi.Patterns.Rpc
     /// </summary>
     public class FunctionPattern : RpcPatternBase
     {
-        protected override IEndpoint BuildEndpoint(OpenApiOperation operation)
+        protected override IEndpoint? BuildEndpoint(OpenApiOperation operation)
         {
             var requestSchema = operation.GetRequest()?.GetJsonSchema();
             var responseSchema = operation.Get20XResponse()?.GetJsonSchema();

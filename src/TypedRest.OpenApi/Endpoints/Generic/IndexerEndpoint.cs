@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using Microsoft.OpenApi;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
@@ -16,13 +15,11 @@ namespace TypedRest.OpenApi.Endpoints.Generic
         /// <summary>
         /// A template for child endpoints addressable by ID.
         /// </summary>
-        [CanBeNull]
-        public IEndpoint Element { get; set; }
+        public IEndpoint? Element { get; set; }
 
         /// <summary>
         /// The default value for <see cref="Element"/>.<see cref="IEndpoint.Type"/>.
         /// </summary>
-        [NotNull]
         protected virtual string ElementDefaultType => "";
 
         public override void Parse(OpenApiObject data, IEndpointsParser parser)

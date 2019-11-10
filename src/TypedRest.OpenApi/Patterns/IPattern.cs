@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using TypedRest.OpenApi.Endpoints;
 
 namespace TypedRest.OpenApi.Patterns
@@ -6,7 +5,6 @@ namespace TypedRest.OpenApi.Patterns
     /// <summary>
     /// Generates <see cref="IEndpoint"/>s from <see cref="PathTree"/>s if they match a specific pattern.
     /// </summary>
-    [PublicAPI]
     public interface IPattern
     {
         /// <summary>
@@ -15,7 +13,6 @@ namespace TypedRest.OpenApi.Patterns
         /// <param name="tree">The path tree to try to match against the pattern.</param>
         /// <param name="patternMatcher">The pattern matcher to use for matching child trees.</param>
         /// <returns>The endpoint if the pattern matched; <c>null</c> otherwise.</returns>
-        [CanBeNull]
-        IEndpoint TryGetEndpoint([NotNull] PathTree tree, [NotNull] IPatternMatcher patternMatcher);
+        IEndpoint? TryGetEndpoint(PathTree tree, IPatternMatcher patternMatcher);
     }
 }

@@ -10,7 +10,7 @@ namespace TypedRest.OpenApi.Patterns.Rpc
     /// </summary>
     public class ProducerPattern : RpcPatternBase
     {
-        protected override IEndpoint BuildEndpoint(OpenApiOperation operation)
+        protected override IEndpoint? BuildEndpoint(OpenApiOperation operation)
         {
             var schema = operation.Get20XResponse()?.GetJsonSchema();
             if (schema == null || operation.RequestBody != null) return null;

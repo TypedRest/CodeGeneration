@@ -1,5 +1,4 @@
 using System;
-using JetBrains.Annotations;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
@@ -8,18 +7,15 @@ namespace TypedRest.OpenApi.CSharp.Dom
 {
     public class CSharpParameter
     {
-        [NotNull]
         public CSharpIdentifier Type { get; }
 
-        [NotNull]
         public string Name { get; }
 
-        [CanBeNull]
-        public object Value { get; set; }
+        public object? Value { get; set; }
 
         public bool ThisReference { get; set; }
 
-        public CSharpParameter([NotNull] CSharpIdentifier type, [NotNull] string name)
+        public CSharpParameter(CSharpIdentifier type, string name)
         {
             Type = type ?? throw new ArgumentNullException(nameof(type));
             Name = name ?? throw new ArgumentNullException(nameof(name));
@@ -40,7 +36,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
                 : Argument(literal).WithNameColon(NameColon(identifierName));
         }
 
-        private LiteralExpressionSyntax GetLiteralExpression()
+        private LiteralExpressionSyntax? GetLiteralExpression()
         {
             switch (Value)
             {

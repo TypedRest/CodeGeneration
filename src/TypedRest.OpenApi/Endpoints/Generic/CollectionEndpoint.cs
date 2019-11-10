@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using Microsoft.OpenApi;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
@@ -16,8 +15,7 @@ namespace TypedRest.OpenApi.Endpoints.Generic
         /// <summary>
         /// Schema describing the representation of individual elements in the collection.
         /// </summary>
-        [CanBeNull]
-        public OpenApiSchema Schema { get; set; }
+        public OpenApiSchema? Schema { get; set; }
 
         protected override string ElementDefaultType => "element";
 

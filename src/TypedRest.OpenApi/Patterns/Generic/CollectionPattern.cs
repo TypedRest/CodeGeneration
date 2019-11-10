@@ -12,13 +12,13 @@ namespace TypedRest.OpenApi.Patterns.Generic
         protected override OperationType[] RequiredOperations
             => new[] {OperationType.Get /*, OperationType.Post*/};
 
-        protected override IndexerEndpoint BuildEndpoint(OpenApiPathItem item, IEndpoint elementEndpoint)
+        protected override IndexerEndpoint? BuildEndpoint(OpenApiPathItem? item, IEndpoint elementEndpoint)
         {
-            if (!(elementEndpoint is ElementEndpoint element)) return null;
+            if (item == null || !(elementEndpoint is ElementEndpoint element)) return null;
             var operation = item.Operations[OperationType.Get];
 
             var schema = operation.Get200Response()?.GetJsonSchema();
-            if (schema?.Type != "array" || schema.Items?.Reference?.Id != element?.Schema?.Reference?.Id) return null;
+            if (schema?.Type != "array" || schema.Items?.Reference?.Id != element.Schema?.Reference?.Id) return null;
 
             element.Schema = null;
 

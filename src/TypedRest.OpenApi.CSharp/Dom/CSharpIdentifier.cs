@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
@@ -19,27 +18,23 @@ namespace TypedRest.OpenApi.CSharp.Dom
         public static CSharpIdentifier Uri
             => new CSharpIdentifier("System", "Uri");
 
-        [CanBeNull]
-        public string Namespace { get; }
+        public string? Namespace { get; }
 
-        [NotNull]
         public string Name { get; }
 
-        public CSharpIdentifier([NotNull] string name)
+        public CSharpIdentifier(string name)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
         }
 
-        public CSharpIdentifier([CanBeNull] string ns, [NotNull] string name)
+        public CSharpIdentifier(string? ns, string name)
         {
             Namespace = ns;
             Name = name ?? throw new ArgumentNullException(nameof(name));
         }
 
-        [NotNull, ItemNotNull]
         public List<CSharpIdentifier> TypeArguments { get; } = new List<CSharpIdentifier>();
 
-        [NotNull, ItemNotNull]
         public IEnumerable<string> GetNamespaces()
         {
             if (!string.IsNullOrEmpty(Namespace))

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using Microsoft.OpenApi;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Interfaces;
@@ -62,8 +61,7 @@ namespace TypedRest.OpenApi.Endpoints
         /// </summary>
         /// <param name="data">The OpenAPI Object to parse.</param>
         /// <param name="specVersion">The OpenAPI Spec version.</param>
-        [NotNull]
-        public IOpenApiExtension Parse([NotNull] IOpenApiAny data, OpenApiSpecVersion specVersion)
+        public IOpenApiExtension Parse(IOpenApiAny data, OpenApiSpecVersion specVersion)
         {
             if (!(data is OpenApiObject objData)) throw new FormatException($"{EndpointList.ExtensionKey} is not an object.");
 

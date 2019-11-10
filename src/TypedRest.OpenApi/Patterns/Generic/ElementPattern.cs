@@ -12,7 +12,7 @@ namespace TypedRest.OpenApi.Patterns.Generic
         protected override OperationType[] RequiredOperations
             => new[] {OperationType.Get /*, OperationType.Put*/};
 
-        protected override IEndpoint BuildEndpoint(OpenApiPathItem item)
+        protected override IEndpoint? BuildEndpoint(OpenApiPathItem item)
         {
             var operation = item.Operations[OperationType.Get];
 

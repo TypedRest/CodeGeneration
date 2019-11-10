@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using TypedRest.OpenApi.CSharp.Dom;
+﻿using TypedRest.OpenApi.CSharp.Dom;
 using TypedRest.OpenApi.Endpoints;
 
 namespace TypedRest.OpenApi.CSharp.Builders
@@ -9,11 +8,9 @@ namespace TypedRest.OpenApi.CSharp.Builders
     /// </summary>
     public interface IBuilder
     {
-        [NotNull]
-        CSharpClassConstruction GetConstruction([NotNull] IEndpoint endpoint, [NotNull] ITypeList typeList);
+        CSharpClassConstruction GetConstruction(IEndpoint endpoint, ITypeList typeList);
 
-        [NotNull]
-        CSharpIdentifier GetInterface([NotNull] IEndpoint endpoint, [NotNull] ITypeList typeList);
+        CSharpIdentifier GetInterface(IEndpoint endpoint, ITypeList typeList);
     }
 
     /// <summary>
@@ -23,10 +20,8 @@ namespace TypedRest.OpenApi.CSharp.Builders
     public interface IBuilder<in TEndpoint> : IBuilder
         where TEndpoint : IEndpoint
     {
-        [NotNull]
-        CSharpClassConstruction GetConstruction([NotNull] TEndpoint endpoint, [NotNull] ITypeList typeList);
+        CSharpClassConstruction GetConstruction(TEndpoint endpoint, ITypeList typeList);
 
-        [NotNull]
-        CSharpIdentifier GetInterface([NotNull] TEndpoint endpoint, [NotNull] ITypeList typeList);
+        CSharpIdentifier GetInterface(TEndpoint endpoint, ITypeList typeList);
     }
 }

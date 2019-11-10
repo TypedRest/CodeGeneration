@@ -15,12 +15,12 @@ namespace TypedRest.OpenApi.Endpoints.Reactive
         /// <summary>
         /// Schema describing the representation of individual elements in the strean.
         /// </summary>
-        public OpenApiSchema Schema { get; set; }
+        public OpenApiSchema? Schema { get; set; }
 
         /// <summary>
         /// The character sequence used to detect that a new element starts in an HTTP stream.
         /// </summary>
-        public string Separator { get; set; }
+        public string? Separator { get; set; }
 
         public override void Parse(OpenApiObject data, IEndpointsParser parser)
         {

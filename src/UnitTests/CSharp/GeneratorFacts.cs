@@ -75,7 +75,7 @@ namespace TypedRest.OpenApi.CSharp
                 ThisReference = true
             };
 
-        private static CSharpProperty Property(string name, string relativeUri, CSharpIdentifier implementationType, CSharpIdentifier interfaceType = null, string description = null)
+        private static CSharpProperty Property(string name, string relativeUri, CSharpIdentifier implementationType, CSharpIdentifier? interfaceType = null, string? description = null)
             => new CSharpProperty(interfaceType ?? implementationType.ToInterface(), name)
             {
                 GetterExpression = new CSharpClassConstruction(implementationType)

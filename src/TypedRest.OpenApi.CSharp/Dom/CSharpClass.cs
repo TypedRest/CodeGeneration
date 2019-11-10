@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
@@ -12,15 +11,13 @@ namespace TypedRest.OpenApi.CSharp.Dom
     {
         public override CSharpIdentifier Identifier { get; }
 
-        public CSharpClass([NotNull] CSharpIdentifier identifier)
+        public CSharpClass(CSharpIdentifier identifier)
         {
             Identifier = identifier ?? throw new ArgumentNullException(nameof(identifier));
         }
 
-        [CanBeNull]
-        public CSharpClassConstruction BaseClass { get; set; }
+        public CSharpClassConstruction? BaseClass { get; set; }
 
-        [NotNull]
         public CSharpClassConstruction GetConstruction()
         {
             var result = new CSharpClassConstruction(Identifier);
@@ -49,7 +46,6 @@ namespace TypedRest.OpenApi.CSharp.Dom
               .WithBaseList(BaseList(SeparatedList(GetBaseTypes())))
               .WithMembers(List(GetMemberDeclarations()));
 
-        [NotNull, ItemNotNull]
         private IEnumerable<BaseTypeSyntax> GetBaseTypes()
         {
             if (BaseClass != null)
@@ -59,7 +55,6 @@ namespace TypedRest.OpenApi.CSharp.Dom
                 yield return SimpleBaseType(@interface.ToSyntax());
         }
 
-        [NotNull, ItemNotNull]
         private IEnumerable<MemberDeclarationSyntax> GetMemberDeclarations()
         {
             if (BaseClass != null && BaseClass.Parameters.Count != 0)

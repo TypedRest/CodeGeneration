@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.CSharp.Builders;
 using TypedRest.OpenApi.CSharp.Builders.Generic;
@@ -19,7 +18,7 @@ namespace TypedRest.OpenApi.CSharp
         private readonly INamingConvention _naming;
         private readonly IDictionary<Type, IBuilder> _builders = new Dictionary<Type, IBuilder>();
 
-        public Generator([NotNull] INamingConvention naming)
+        public Generator(INamingConvention naming)
         {
             _naming = naming;
 
@@ -44,8 +43,7 @@ namespace TypedRest.OpenApi.CSharp
             where TEndpoint : IEndpoint
             => _builders.Add(typeof(TEndpoint), builder);
 
-        [NotNull, ItemNotNull]
-        public ITypeList Generate([NotNull] EndpointList endpoints, IDictionary<string, OpenApiSchema> schemas)
+        public ITypeList Generate(EndpointList endpoints, IDictionary<string, OpenApiSchema> schemas)
         {
             var typeList = new TypeList();
 

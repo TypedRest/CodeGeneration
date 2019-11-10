@@ -1,5 +1,4 @@
 using System.Linq;
-using JetBrains.Annotations;
 using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.Endpoints;
 using TypedRest.OpenApi.Endpoints.Generic;
@@ -11,7 +10,7 @@ namespace TypedRest.OpenApi.Patterns.Generic
     /// </summary>
     public class IndexerPattern : IPattern
     {
-        public IEndpoint TryGetEndpoint(PathTree tree, IPatternMatcher patternMatcher)
+        public IEndpoint? TryGetEndpoint(PathTree tree, IPatternMatcher patternMatcher)
         {
             var operations = tree.Item?.Operations.Keys ?? new OperationType[0];
             if (!RequiredOperations.All(operations.Contains))
@@ -27,8 +26,7 @@ namespace TypedRest.OpenApi.Patterns.Generic
             return endpoint;
         }
 
-        [CanBeNull]
-        private static IEndpoint ExtractElementEndpoint(EndpointList childEndpoints)
+        private static IEndpoint? ExtractElementEndpoint(EndpointList childEndpoints)
         {
             var match = childEndpoints.FirstOrDefault(x => x.Key.StartsWith("{") && x.Key.EndsWith("}"));
             if (match.Value == null)
@@ -48,8 +46,7 @@ namespace TypedRest.OpenApi.Patterns.Generic
         /// <summary>
         /// Builds the endpoint using information from the <paramref name="item"/> and <paramref name="elementEndpoint"/>. <c>null</c> if the pattern does not match.
         /// </summary>
-        [CanBeNull]
-        protected virtual IndexerEndpoint BuildEndpoint(OpenApiPathItem item, IEndpoint elementEndpoint)
+        protected virtual IndexerEndpoint? BuildEndpoint(OpenApiPathItem? item, IEndpoint elementEndpoint)
             => new IndexerEndpoint {Element = elementEndpoint};
     }
 }

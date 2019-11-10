@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using Microsoft.OpenApi;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
@@ -16,14 +15,12 @@ namespace TypedRest.OpenApi.Endpoints.Rpc
         /// <summary>
         /// Schema describing the entity taken as input.
         /// </summary>
-        [CanBeNull]
-        public OpenApiSchema RequestSchema { get; set; }
+        public OpenApiSchema? RequestSchema { get; set; }
 
         /// <summary>
         /// Schema describing the entity provided as output.
         /// </summary>
-        [CanBeNull]
-        public OpenApiSchema ResponseSchema { get; set; }
+        public OpenApiSchema? ResponseSchema { get; set; }
 
         public override void Parse(OpenApiObject data, IEndpointsParser parser)
         {

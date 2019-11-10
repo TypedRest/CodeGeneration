@@ -11,7 +11,7 @@ namespace TypedRest.OpenApi.Patterns
         protected override OperationType[] RequiredOperations
             => new OperationType[0];
 
-        protected override IEndpoint BuildEndpoint(OpenApiPathItem item)
+        protected override IEndpoint? BuildEndpoint(OpenApiPathItem item)
             => new Endpoint();
     }
 }

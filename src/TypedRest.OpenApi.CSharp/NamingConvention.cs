@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using JetBrains.Annotations;
 using TypedRest.OpenApi.CSharp.Dom;
 using TypedRest.OpenApi.Endpoints;
 using TypedRest.OpenApi.Endpoints.Generic;
@@ -31,8 +30,7 @@ namespace TypedRest.OpenApi.CSharp
                 _namespace,
                 ToPascalCase(key));
 
-        [NotNull]
-        protected static string ToPascalCase([NotNull] string key)
+        protected static string ToPascalCase(string key)
             => key.Contains('-') || key.Contains('_')
                 // kebap-case or snake_case
                 ? string.Concat(key.Split(new[] {'-', '_'}, StringSplitOptions.RemoveEmptyEntries)

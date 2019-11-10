@@ -1,5 +1,4 @@
 using System.Linq;
-using JetBrains.Annotations;
 using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.Endpoints;
 
@@ -8,16 +7,15 @@ namespace TypedRest.OpenApi.Patterns
     /// <summary>
     /// Common base class for <see cref="IPattern"/>s.
     /// </summary>
-    [PublicAPI]
     public abstract class PatternBase : IPattern
     {
-        public IEndpoint TryGetEndpoint(PathTree tree, IPatternMatcher patternMatcher)
+        public IEndpoint? TryGetEndpoint(PathTree tree, IPatternMatcher patternMatcher)
         {
-            var operations = tree.Item?.Operations.Keys ?? new OperationType[0];
-            if (!RequiredOperations.All(operations.Contains))
+            var item = tree.Item;
+            if (item == null || !RequiredOperations.All(item.Operations.Keys.Contains))
                 return null;
 
-            var endpoint = BuildEndpoint(tree.Item);
+            var endpoint = BuildEndpoint(item);
             endpoint?.Children.AddRange(patternMatcher.GetEndpoints(tree));
             return endpoint;
         }
@@ -30,7 +28,6 @@ namespace TypedRest.OpenApi.Patterns
         /// <summary>
         /// Builds the endpoint using information from the <paramref name="item"/>. <c>null</c> if the pattern does not match.
         /// </summary>
-        [CanBeNull]
-        protected abstract IEndpoint BuildEndpoint(OpenApiPathItem item);
+        protected abstract IEndpoint? BuildEndpoint(OpenApiPathItem item);
     }
 }
