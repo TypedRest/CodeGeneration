@@ -182,8 +182,8 @@ namespace TypedRest.OpenApi
         private static string ReadYamlFile(string name)
         {
             var type = typeof(Sample);
-            using (var reader = new StreamReader(Assembly.GetAssembly(type).GetManifestResourceStream(type, name)))
-                return reader.ReadToEnd().TrimEnd();
+            using var reader = new StreamReader(Assembly.GetAssembly(type).GetManifestResourceStream(type, name));
+            return reader.ReadToEnd().TrimEnd();
         }
 
         private static OpenApiSchema StringProperty(string description = null)
