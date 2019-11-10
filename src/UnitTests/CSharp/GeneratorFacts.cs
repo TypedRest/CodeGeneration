@@ -21,9 +21,9 @@ namespace TypedRest.OpenApi.CSharp
                 Interfaces = {ElementEndpoint(contactDto).ToInterface()},
                 Properties =
                 {
-                    Property("Note", "./note", noteEndpoint, description: "The note for a specific contact."),
-                    Property("Poke", "./poke", ActionEndpoint, description: "Pokes a contact."),
-                    Property("Picture", "./picture", BlobEndpoint, description: "A picture of a specific contact.")
+                    Property("Note", "The note for a specific contact.", noteEndpoint.ToInterface()),
+                    Property("Poke", "Pokes a contact.", ActionEndpoint.ToInterface()),
+                    Property("Picture", "A picture of a specific contact.", BlobEndpoint.ToInterface())
                 },
                 Description = "A specific contact."
             };
@@ -37,10 +37,15 @@ namespace TypedRest.OpenApi.CSharp
                         new CSharpParameter(CSharpIdentifier.Uri, "relativeUri")
                     }
                 },
+                Properties =
+                {
+                    Property("Note", "The note for a specific contact.", noteEndpoint.ToInterface(), noteEndpoint, "./note"),
+                    Property("Poke", "Pokes a contact.", ActionEndpoint.ToInterface(), ActionEndpoint, "./poke"),
+                    Property("Picture", "A picture of a specific contact.", BlobEndpoint.ToInterface(), BlobEndpoint, "./picture")
+                },
                 Interfaces = {contactEndpointInterface.Identifier},
                 Description = contactEndpointInterface.Description
             };
-            contactEndpoint.Properties.AddRange(contactEndpointInterface.Properties);
 
             var collectionEndpoint = CollectionEndpoint(contactDto, contactEndpoint.Identifier);
 
@@ -55,9 +60,7 @@ namespace TypedRest.OpenApi.CSharp
                 },
                 Properties =
                 {
-                    Property("Contacts", "./contacts", collectionEndpoint,
-                        CollectionEndpoint(contactDto, contactEndpointInterface.Identifier).ToInterface(),
-                        description: "Collection of contacts.")
+                    Property("Contacts", "Collection of contacts.", CollectionEndpoint(contactDto, contactEndpointInterface.Identifier).ToInterface(), collectionEndpoint, "./contacts")
                 }
             };
 
@@ -75,19 +78,25 @@ namespace TypedRest.OpenApi.CSharp
                 ThisReference = true
             };
 
-        private static CSharpProperty Property(string name, string relativeUri, CSharpIdentifier implementationType, CSharpIdentifier? interfaceType = null, string? description = null)
-            => new CSharpProperty(interfaceType ?? implementationType.ToInterface(), name)
+        private static CSharpProperty Property(string name, string description, CSharpIdentifier interfaceType, CSharpIdentifier? implementationType = null, string? relativeUri = null)
+        {
+            var property = new CSharpProperty(interfaceType, name)
             {
-                GetterExpression = new CSharpClassConstruction(implementationType)
+                Description = description
+            };
+            if (implementationType != null)
+            {
+                property.GetterExpression = new CSharpClassConstruction(implementationType)
                 {
                     Parameters =
                     {
                         Referrer,
                         new CSharpParameter(CSharpIdentifier.String, "relativeUri") {Value = relativeUri}
                     }
-                },
-                Description = description
-            };
+                };
+            }
+            return property;
+        }
 
         private static CSharpIdentifier ActionEndpoint
             => new CSharpIdentifier("TypedRest.Endpoints.Rpc", "ActionEndpoint");

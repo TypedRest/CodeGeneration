@@ -144,7 +144,8 @@ namespace TypedRest.OpenApi.CSharp
                 Interfaces = {builder.GetInterface(endpoint, typeList)},
                 Description = endpoint.Description
             };
-            endpointInterface.Properties.AddRange(endpointImplementation.Properties);
+            foreach (var property in endpointImplementation.Properties)
+                endpointInterface.Properties.Add(new CSharpProperty(property.Type, property.Name) {Description = property.Description});
 
             endpointImplementation.Interfaces.Add(endpointInterface.Identifier);
 
