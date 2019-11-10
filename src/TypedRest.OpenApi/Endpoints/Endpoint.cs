@@ -58,5 +58,8 @@ namespace TypedRest.OpenApi.Endpoints
 
         public void SerializeAsV3(IOpenApiWriter writer)
             => Write(writer, OpenApiSpecVersion.OpenApi3_0);
+
+        public override string ToString()
+            => $"{Type} ({Uri})";
     }
 }
