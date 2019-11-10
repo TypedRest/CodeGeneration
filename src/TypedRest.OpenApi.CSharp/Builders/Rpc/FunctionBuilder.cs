@@ -1,3 +1,4 @@
+using System;
 using TypedRest.OpenApi.CSharp.Dom;
 using TypedRest.OpenApi.Endpoints.Rpc;
 
@@ -13,8 +14,8 @@ namespace TypedRest.OpenApi.CSharp.Builders.Rpc
             {
                 TypeArguments =
                 {
-                    typeList.For(endpoint.RequestSchema),
-                    typeList.For(endpoint.ResponseSchema)
+                    typeList.For(endpoint.RequestSchema ?? throw new InvalidOperationException($"Missing request schema for {endpoint}.")),
+                    typeList.For(endpoint.ResponseSchema ?? throw new InvalidOperationException($"Missing response schema for {endpoint}."))
                 }
             };
     }

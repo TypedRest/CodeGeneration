@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TypedRest.OpenApi.CSharp.Dom;
 using TypedRest.OpenApi.Endpoints.Reactive;
@@ -12,7 +13,7 @@ namespace TypedRest.OpenApi.CSharp.Builders.Reactive
         protected override CSharpIdentifier GetImplementation(StreamingEndpoint endpoint, ITypeList typeList)
             => new CSharpIdentifier(Namespace.Name, "StreamingEndpoint")
             {
-                TypeArguments = {typeList.For(endpoint.Schema)}
+                TypeArguments = {typeList.For(endpoint.Schema ?? throw new InvalidOperationException($"Missing schema for {endpoint}."))}
             };
 
         protected override IEnumerable<CSharpParameter> GetParameters(StreamingEndpoint endpoint)

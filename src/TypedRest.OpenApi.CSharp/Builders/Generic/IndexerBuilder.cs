@@ -1,3 +1,4 @@
+using System;
 using TypedRest.OpenApi.CSharp.Dom;
 using TypedRest.OpenApi.Endpoints.Generic;
 
@@ -11,13 +12,13 @@ namespace TypedRest.OpenApi.CSharp.Builders.Generic
         protected override CSharpIdentifier GetImplementation(IndexerEndpoint endpoint, ITypeList typeList)
             => new CSharpIdentifier(Namespace.Name, "IndexerEndpoint")
             {
-                TypeArguments = {typeList.ImplementationFor(endpoint.Element)}
+                TypeArguments = {typeList.ImplementationFor(endpoint.Element ?? throw new InvalidOperationException($"Missing element endpoint for {endpoint}."))}
             };
 
         public override CSharpIdentifier GetInterface(IndexerEndpoint endpoint, ITypeList typeList)
             => new CSharpIdentifier(Namespace.Name, "IIndexerEndpoint")
             {
-                TypeArguments = {typeList.InterfaceFor(endpoint.Element)}
+                TypeArguments = {typeList.InterfaceFor(endpoint.Element ?? throw new InvalidOperationException($"Missing element endpoint for {endpoint}."))}
             };
     }
 }
