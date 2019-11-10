@@ -17,7 +17,11 @@ namespace TypedRest.OpenApi
 
         public static OpenApiDocument Doc => new OpenApiDocument
         {
-            Info = new OpenApiInfo {Title = "My Service"},
+            Info = new OpenApiInfo
+            {
+                Title = "My Service",
+                Version = "1.0.0"
+            },
             Paths = Paths,
             Components = new OpenApiComponents
             {
