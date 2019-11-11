@@ -41,13 +41,13 @@ namespace TypedRest.OpenApi.Endpoints
         public IEndpointsParserSetup Add<T>()
             where T : IEndpoint, new()
         {
-            _endpointFactories.Add(new T().Type, () => new T());
+            _endpointFactories.Add(new T().Kind, () => new T());
             return this;
         }
 
-        public IEndpoint Parse(OpenApiObject data, string defaultType = "")
+        public IEndpoint Parse(OpenApiObject data, string defaultKind = "")
         {
-            string type = data.GetString("type") ?? defaultType;
+            string type = data.GetString("kind") ?? defaultKind;
             if (!_endpointFactories.TryGetValue(type, out var factory))
                 throw new FormatException($"Unknown endpoint type '{type}'.");
 

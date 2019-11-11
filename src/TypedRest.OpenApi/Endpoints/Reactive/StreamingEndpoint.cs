@@ -10,7 +10,7 @@ namespace TypedRest.OpenApi.Endpoints.Reactive
     /// </summary>
     public class StreamingEndpoint : Endpoint
     {
-        public override string Type => "streaming";
+        public override string Kind => "streaming";
 
         /// <summary>
         /// Schema describing the representation of individual elements in the strean.

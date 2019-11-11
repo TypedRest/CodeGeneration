@@ -5,6 +5,6 @@ namespace TypedRest.OpenApi.Endpoints.Raw
     /// </summary>
     public class BlobEndpoint : Endpoint
     {
-        public override string Type => "blob";
+        public override string Kind => "blob";
     }
 }

@@ -7,6 +7,6 @@ namespace TypedRest.OpenApi.Endpoints.Reactive
     /// </summary>
     public class PollingEndpoint : ElementEndpoint
     {
-        public override string Type => "polling";
+        public override string Kind => "polling";
     }
 }

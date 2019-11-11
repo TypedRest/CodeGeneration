@@ -7,6 +7,6 @@ namespace TypedRest.OpenApi.Endpoints.Reactive
     /// </summary>
     public class StreamingCollectionEndpoint : CollectionEndpoint
     {
-        public override string Type => "streaming-collection";
+        public override string Kind => "streaming-collection";
     }
 }

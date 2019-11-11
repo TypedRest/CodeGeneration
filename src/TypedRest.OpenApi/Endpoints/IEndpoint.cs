@@ -10,7 +10,7 @@ namespace TypedRest.OpenApi.Endpoints
         /// <summary>
         /// The type of endpoint.
         /// </summary>
-        string Type { get; }
+        string Kind { get; }
 
         /// <summary>
         /// A short description of the endpoint.

@@ -9,7 +9,7 @@ namespace TypedRest.OpenApi.Endpoints.Raw
     /// </summary>
     public class UploadEndpoint : Endpoint
     {
-        public override string Type => "upload";
+        public override string Kind => "upload";
 
         /// <summary>
         /// The name of the form field to place the uploaded data into. Leave empty for upload of raw bodies.

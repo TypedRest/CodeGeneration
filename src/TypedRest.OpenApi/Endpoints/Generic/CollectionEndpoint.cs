@@ -10,14 +10,14 @@ namespace TypedRest.OpenApi.Endpoints.Generic
     /// </summary>
     public class CollectionEndpoint : IndexerEndpoint
     {
-        public override string Type => "collection";
+        public override string Kind => "collection";
 
         /// <summary>
         /// Schema describing the representation of individual elements in the collection.
         /// </summary>
         public OpenApiSchema? Schema { get; set; }
 
-        protected override string ElementDefaultType => "element";
+        protected override string ElementDefaultKind => "element";
 
         public override void Parse(OpenApiObject data, IEndpointsParser parser)
         {

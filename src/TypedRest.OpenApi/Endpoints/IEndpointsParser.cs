@@ -12,7 +12,7 @@ namespace TypedRest.OpenApi.Endpoints
         /// Parses an OpenAPI Object as an <see cref="IEndpoint"/>.
         /// </summary>
         /// <param name="data">The OpenAPI Object to parse.</param>
-        /// <param name="defaultType">The default value to assume for <see cref="IEndpoint.Type"/> if it is not specified in <paramref name="data"/>.</param>
-        IEndpoint Parse(OpenApiObject data, string defaultType = "");
+        /// <param name="defaultKind">The default value to assume for <see cref="IEndpoint.Kind"/> if it is not specified in <paramref name="data"/>.</param>
+        IEndpoint Parse(OpenApiObject data, string defaultKind = "");
     }
 }

@@ -10,7 +10,7 @@ namespace TypedRest.OpenApi.Endpoints.Generic
     /// </summary>
     public class ElementEndpoint : Endpoint
     {
-        public override string Type => "element";
+        public override string Kind => "element";
 
         /// <summary>
         /// Schema describing the representation of this resource. Inherited from the containing <see cref="CollectionEndpoint"/> when unset.

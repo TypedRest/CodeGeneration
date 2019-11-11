@@ -5,6 +5,6 @@ namespace TypedRest.OpenApi.Endpoints.Rpc
     /// </summary>
     public class ActionEndpoint : Endpoint
     {
-        public override string Type => "action";
+        public override string Kind => "action";
     }
 }

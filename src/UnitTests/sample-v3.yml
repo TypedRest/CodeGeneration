@@ -168,25 +168,25 @@ components:
       description: A note about a specific contact.
 x-endpoints:
   contacts:
-    type: collection
+    kind: collection
     description: Collection of contacts.
     uri: ./contacts
     element:
-      type: element
+      kind: element
       description: A specific contact.
       children:
         note:
-          type: element
+          kind: element
           description: The note for a specific contact.
           uri: ./note
           schema:
             $ref: '#/components/schemas/Note'
         poke:
-          type: action
+          kind: action
           description: Pokes a contact.
           uri: ./poke
         picture:
-          type: blob
+          kind: blob
           description: A picture of a specific contact.
           uri: ./picture
     schema:

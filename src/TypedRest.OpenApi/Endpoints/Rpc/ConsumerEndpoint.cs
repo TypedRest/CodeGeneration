@@ -10,7 +10,7 @@ namespace TypedRest.OpenApi.Endpoints.Rpc
     /// </summary>
     public class ConsumerEndpoint : Endpoint
     {
-        public override string Type => "consumer";
+        public override string Kind => "consumer";
 
         /// <summary>
         /// Schema describing the entity taken as input.

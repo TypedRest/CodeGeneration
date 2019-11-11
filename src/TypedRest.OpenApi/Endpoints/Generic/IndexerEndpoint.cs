@@ -10,7 +10,7 @@ namespace TypedRest.OpenApi.Endpoints.Generic
     /// </summary>
     public class IndexerEndpoint : Endpoint
     {
-        public override string Type => "indexer";
+        public override string Kind => "indexer";
 
         /// <summary>
         /// A template for child endpoints addressable by ID.
@@ -18,16 +18,16 @@ namespace TypedRest.OpenApi.Endpoints.Generic
         public IEndpoint? Element { get; set; }
 
         /// <summary>
-        /// The default value for <see cref="Element"/>.<see cref="IEndpoint.Type"/>.
+        /// The default value for <see cref="Element"/>.<see cref="IEndpoint.Kind"/>.
         /// </summary>
-        protected virtual string ElementDefaultType => "";
+        protected virtual string ElementDefaultKind => "";
 
         public override void Parse(OpenApiObject data, IEndpointsParser parser)
         {
             base.Parse(data, parser);
 
             if (data.TryGetObject("element", out var element))
-                Element = parser.Parse(element, ElementDefaultType);
+                Element = parser.Parse(element, ElementDefaultKind);
         }
 
         public override void ResolveReferences(OpenApiComponents components)

@@ -10,7 +10,7 @@ namespace TypedRest.OpenApi.Endpoints
     /// </summary>
     public class Endpoint : IEndpoint
     {
-        public virtual string Type => "";
+        public virtual string Kind => "";
 
         public string? Description { get; set; }
 
@@ -40,7 +40,7 @@ namespace TypedRest.OpenApi.Endpoints
         /// <param name="specVersion">The OpenAPI Spec version to use.</param>
         protected virtual void WriteBody(IOpenApiWriter writer, OpenApiSpecVersion specVersion)
         {
-            if (!string.IsNullOrEmpty(Type)) writer.WriteProperty("type", Type);
+            if (!string.IsNullOrEmpty(Kind)) writer.WriteProperty("kind", Kind);
             writer.WriteProperty("description", Description);
             writer.WriteProperty("uri", Uri);
             writer.WriteOptionalMap("children", Children, specVersion);
@@ -60,6 +60,6 @@ namespace TypedRest.OpenApi.Endpoints
             => Write(writer, OpenApiSpecVersion.OpenApi3_0);
 
         public override string ToString()
-            => $"{Type} ({Uri})";
+            => $"{Kind} ({Uri})";
     }
 }

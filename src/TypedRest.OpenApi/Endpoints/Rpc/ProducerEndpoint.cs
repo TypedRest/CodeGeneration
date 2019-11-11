@@ -10,7 +10,7 @@ namespace TypedRest.OpenApi.Endpoints.Rpc
     /// </summary>
     public class ProducerEndpoint : Endpoint
     {
-        public override string Type => "producer";
+        public override string Kind => "producer";
 
         /// <summary>
         /// Schema describing the entity provided as output.
