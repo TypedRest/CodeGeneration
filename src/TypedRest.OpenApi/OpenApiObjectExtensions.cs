@@ -34,11 +34,10 @@ namespace TypedRest.OpenApi
         {
             if (!obj.TryGetObject(name, out var schemaObj)) return null;
             string? schemaRef = schemaObj.GetString("$ref");
-            if (schemaRef == null) return null;
 
             OpenApiSchema? FromRefPrefix(string prefix)
             {
-                if (!schemaRef.StartsWith(prefix)) return null;
+                if (schemaRef == null || !schemaRef.StartsWith(prefix)) return null;
 
                 return new OpenApiSchema
                 {
