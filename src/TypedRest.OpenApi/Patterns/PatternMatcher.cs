@@ -1,52 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using TypedRest.OpenApi.Endpoints;
-using TypedRest.OpenApi.Patterns.Generic;
-using TypedRest.OpenApi.Patterns.Raw;
-using TypedRest.OpenApi.Patterns.Rpc;
 
 namespace TypedRest.OpenApi.Patterns
 {
     /// <summary>
     /// Matches a set of <see cref="IPattern"/>s against a path tree.
     /// </summary>
-    public class PatternMatcher : IPatternMatcher, IEnumerable<IPattern>
+    public class PatternMatcher : IPatternMatcher
     {
-        private readonly Stack<IPattern> _patterns = new Stack<IPattern>();
+        private readonly PatternRegistry _patterns;
 
         /// <summary>
-        /// Creates a pattern matcher with the built-in default patterns.
+        /// Creates a pattern matcher.
         /// </summary>
-        public PatternMatcher()
+        /// <param name="patterns">An ordered list of all known <see cref="IPattern"/>s.</param>
+        public PatternMatcher(PatternRegistry? patterns = null)
         {
-            // ordered from generic to specific
-            Add(new DefaultPattern());
-            Add(new UploadPattern());
-            Add(new BlobPattern());
-            Add(new ActionPattern());
-            Add(new ProducerPattern());
-            Add(new ConsumerPattern());
-            Add(new FunctionPattern());
-            Add(new ElementPattern());
-            Add(new IndexerPattern());
-            Add(new CollectionPattern());
+            _patterns = patterns ?? PatternRegistry.Default;
         }
-
-        /// <summary>
-        /// Adds the <paramref name="pattern"/> to the list of known patterns.
-        /// </summary>
-        public PatternMatcher Add(IPattern pattern)
-        {
-            _patterns.Push(pattern);
-            return this;
-        }
-
-        public IEnumerator<IPattern> GetEnumerator()
-            => _patterns.GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator()
-            => GetEnumerator();
 
         public EndpointList GetEndpoints(PathTree tree)
         {

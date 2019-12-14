@@ -10,7 +10,7 @@ namespace TypedRest.OpenApi.Patterns
         {
             var tree = PathTree.From(Sample.Paths);
 
-            var endpoints = new PatternMatcher().GetEndpoints(tree);
+            var endpoints = new PatternMatcher(PatternRegistry.Default).GetEndpoints(tree);
 
             endpoints.Should().BeEquivalentTo(Sample.Doc.GetTypedRestEndpoints(), options => options.IncludingAllRuntimeProperties());
         }
