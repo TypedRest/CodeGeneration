@@ -9,6 +9,6 @@ namespace TypedRest.OpenApi.CSharp
 
         CSharpIdentifier EndpointType(string key, IEndpoint endpoint);
 
-        CSharpIdentifier SchemaType(string key);
+        CSharpIdentifier DtoType(string key);
     }
 }

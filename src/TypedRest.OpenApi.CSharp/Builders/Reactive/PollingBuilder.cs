@@ -12,7 +12,7 @@ namespace TypedRest.OpenApi.CSharp.Builders.Reactive
         protected override CSharpIdentifier GetImplementation(PollingEndpoint endpoint, ITypeList typeList)
             => new CSharpIdentifier(Namespace.Name, "PollingEndpoint")
             {
-                TypeArguments = {typeList.For(endpoint.Schema ?? throw new InvalidOperationException($"Missing schema for {endpoint}."))}
+                TypeArguments = {typeList.DtoFor(endpoint.Schema ?? throw new InvalidOperationException($"Missing schema for {endpoint}."))}
             };
     }
 }

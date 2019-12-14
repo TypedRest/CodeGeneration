@@ -25,7 +25,7 @@ namespace TypedRest.OpenApi.CSharp
                     ? ToPascalCase(key.Substring(0, key.Length - 1)) + "CollectionEndpoint"
                     : ToPascalCase(key) + "Endpoint");
 
-        public CSharpIdentifier SchemaType(string key)
+        public CSharpIdentifier DtoType(string key)
             => new CSharpIdentifier(
                 _namespace,
                 ToPascalCase(key));

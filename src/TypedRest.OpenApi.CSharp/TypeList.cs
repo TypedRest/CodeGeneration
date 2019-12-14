@@ -40,7 +40,7 @@ namespace TypedRest.OpenApi.CSharp
                 ? result
                 : ImplementationFor(endpoint); // Fallback to implementation if there is no interface
 
-        private readonly Dictionary<string, CSharpIdentifier> _schemas = new Dictionary<string, CSharpIdentifier>();
+        private readonly Dictionary<string, CSharpIdentifier> _dtos = new Dictionary<string, CSharpIdentifier>();
 
         public void Add(OpenApiSchema schema, CSharpType type)
         {
@@ -48,10 +48,10 @@ namespace TypedRest.OpenApi.CSharp
 
             string key = schema.Reference?.Id ?? schema.Type;
             if (!string.IsNullOrEmpty(key))
-                _schemas.Add(key, type.Identifier);
+                _dtos.Add(key, type.Identifier);
         }
 
-        public CSharpIdentifier For(OpenApiSchema schema)
-            => _schemas[schema.Reference?.Id ?? schema.Type];
+        public CSharpIdentifier DtoFor(OpenApiSchema schema)
+            => _dtos[schema.Reference?.Id ?? schema.Type];
     }
 }

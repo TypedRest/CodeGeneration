@@ -47,7 +47,7 @@ namespace TypedRest.OpenApi.CSharp
         {
             var typeList = new TypeList();
 
-            GenerateSchemas(schemas, typeList);
+            GenerateDtos(schemas, typeList);
 
             var entryEndpoint = GenerateEntryEndpoint();
             entryEndpoint.Properties.AddRange(GenerateEndpoints(endpoints, typeList));
@@ -56,16 +56,16 @@ namespace TypedRest.OpenApi.CSharp
             return typeList;
         }
 
-        private void GenerateSchemas(IDictionary<string, OpenApiSchema> schemas, TypeList typeList)
+        private void GenerateDtos(IDictionary<string, OpenApiSchema> schemas, TypeList typeList)
         {
             foreach (var pair in schemas)
             {
-                var type = GenerateSchema(_naming.SchemaType(pair.Key), typeList);
+                var type = GenerateDto(_naming.DtoType(pair.Key), typeList);
                 typeList.Add(pair.Value, type);
             }
         }
 
-        private static CSharpClass GenerateSchema(CSharpIdentifier identifier, TypeList typeList)
+        private static CSharpClass GenerateDto(CSharpIdentifier identifier, TypeList typeList)
         {
             // TODO: Proper implementation
             return new CSharpClass(identifier);

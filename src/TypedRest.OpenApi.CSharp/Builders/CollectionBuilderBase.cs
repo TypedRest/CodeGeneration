@@ -14,7 +14,7 @@ namespace TypedRest.OpenApi.CSharp.Builders
         protected override CSharpIdentifier GetImplementation(TEndpoint endpoint, ITypeList typeList)
         {
             var identifier = new CSharpIdentifier(TypeNamespace, TypeName);
-            identifier.TypeArguments.Add(typeList.For(endpoint.Schema ?? throw new InvalidOperationException($"Missing schema for {endpoint}.")));
+            identifier.TypeArguments.Add(typeList.DtoFor(endpoint.Schema ?? throw new InvalidOperationException($"Missing schema for {endpoint}.")));
 
             if (endpoint.Element != null)
                 identifier.TypeArguments.Add(typeList.ImplementationFor(endpoint.Element));
@@ -25,7 +25,7 @@ namespace TypedRest.OpenApi.CSharp.Builders
         public override CSharpIdentifier GetInterface(TEndpoint endpoint, ITypeList typeList)
         {
             var identifier = new CSharpIdentifier(TypeNamespace, TypeName).ToInterface();
-            identifier.TypeArguments.Add(typeList.For(endpoint.Schema ?? throw new InvalidOperationException($"Missing schema for {endpoint}.")));
+            identifier.TypeArguments.Add(typeList.DtoFor(endpoint.Schema ?? throw new InvalidOperationException($"Missing schema for {endpoint}.")));
 
             if (endpoint.Element != null)
                 identifier.TypeArguments.Add(typeList.InterfaceFor(endpoint.Element));

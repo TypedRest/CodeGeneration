@@ -12,7 +12,7 @@ namespace TypedRest.OpenApi.CSharp.Builders.Generic
         protected override CSharpIdentifier GetImplementation(ElementEndpoint endpoint, ITypeList typeList)
             => new CSharpIdentifier(Namespace.Name, "ElementEndpoint")
             {
-                TypeArguments = {typeList.For(endpoint.Schema ?? throw new InvalidOperationException($"Missing schema for {endpoint}."))}
+                TypeArguments = {typeList.DtoFor(endpoint.Schema ?? throw new InvalidOperationException($"Missing schema for {endpoint}."))}
             };
     }
 }
