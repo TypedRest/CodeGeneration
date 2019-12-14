@@ -71,9 +71,8 @@ namespace TypedRest.OpenApi.CSharp
             return new CSharpClass(identifier);
         }
 
-        // TODO: Make entry endpoint configurable
         private CSharpClass GenerateEntryEndpoint()
-            => new CSharpClass(_naming.EndpointType("myEntry", new Endpoint()))
+            => new CSharpClass(_naming.EntryEndpointType())
             {
                 BaseClass = new CSharpClassConstruction(new CSharpIdentifier("TypedRest.Endpoints", "EntryEndpoint"))
                 {

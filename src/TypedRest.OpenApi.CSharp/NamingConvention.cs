@@ -9,14 +9,20 @@ namespace TypedRest.OpenApi.CSharp
     public class NamingConvention : INamingConvention
     {
         private readonly string _namespace;
+        private readonly string _serviceName;
 
-        public NamingConvention(string ns)
+        public NamingConvention(string ns, string serviceName)
         {
             _namespace = ns;
+            _serviceName = serviceName;
         }
 
         public virtual string Property(string key)
             => ToPascalCase(key);
+
+        public CSharpIdentifier EntryEndpointType() => new CSharpIdentifier(
+            _namespace,
+            _serviceName + "Client");
 
         public virtual CSharpIdentifier EndpointType(string key, IEndpoint endpoint)
             => new CSharpIdentifier(

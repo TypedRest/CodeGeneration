@@ -8,10 +8,12 @@ namespace TypedRest.OpenApi.CSharp
 {
     public class NamingConventionFacts
     {
+        private readonly INamingConvention _namingConvention = new NamingConvention("MyNamespace", "MyService");
+
         [Fact]
         public void PropertyFromSnakeCase()
         {
-            new NamingConvention("MyNamespace")
+            _namingConvention
                .Property("my_property")
                .Should().Be("MyProperty");
         }
@@ -19,7 +21,7 @@ namespace TypedRest.OpenApi.CSharp
         [Fact]
         public void PropertyFromCamelCase()
         {
-            new NamingConvention("MyNamespace")
+            _namingConvention
                .Property("myProperty")
                .Should().Be("MyProperty");
         }
@@ -27,7 +29,7 @@ namespace TypedRest.OpenApi.CSharp
         [Fact]
         public void EndpointFromTypeSnakeCase()
         {
-            new NamingConvention("MyNamespace")
+            _namingConvention
                .EndpointType("my_type", new Endpoint())
                .Should().BeEquivalentTo(new CSharpIdentifier("MyNamespace", "MyTypeEndpoint"));
         }
@@ -35,7 +37,7 @@ namespace TypedRest.OpenApi.CSharp
         [Fact]
         public void EndpointTypeFromCamelCase()
         {
-            new NamingConvention("MyNamespace")
+            _namingConvention
                .EndpointType("myType", new Endpoint())
                .Should().BeEquivalentTo(new CSharpIdentifier("MyNamespace", "MyTypeEndpoint"));
         }
@@ -43,7 +45,7 @@ namespace TypedRest.OpenApi.CSharp
         [Fact]
         public void EndpointTypeFromPlural()
         {
-            new NamingConvention("MyNamespace")
+            _namingConvention
                .EndpointType("myTypes", new IndexerEndpoint())
                .Should().BeEquivalentTo(new CSharpIdentifier("MyNamespace", "MyTypeCollectionEndpoint"));
         }

@@ -9,7 +9,7 @@ namespace TypedRest.OpenApi.CSharp
         [Fact]
         public void GeneratesCorrectDom()
         {
-            var generator = new Generator(new NamingConvention("MyNamespace"));
+            var generator = new Generator(new NamingConvention("MyNamespace", "MyService"));
             var generated = generator.Generate(Sample.Endpoints, Sample.Doc.Components.Schemas);
 
             var noteDto = Dto("Note");
@@ -49,7 +49,7 @@ namespace TypedRest.OpenApi.CSharp
 
             var collectionEndpoint = CollectionEndpoint(contactDto, contactEndpoint.Identifier);
 
-            var entryEndpoint = new CSharpClass(new CSharpIdentifier("MyNamespace", "MyEntryEndpoint"))
+            var entryEndpoint = new CSharpClass(new CSharpIdentifier("MyNamespace", "MyServiceClient"))
             {
                 BaseClass = new CSharpClassConstruction(new CSharpIdentifier("TypedRest.Endpoints", "EntryEndpoint"))
                 {

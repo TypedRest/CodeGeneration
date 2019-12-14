@@ -7,6 +7,8 @@ namespace TypedRest.OpenApi.CSharp
     {
         string Property(string key);
 
+        CSharpIdentifier EntryEndpointType();
+
         CSharpIdentifier EndpointType(string key, IEndpoint endpoint);
 
         CSharpIdentifier DtoType(string key);
