@@ -19,7 +19,7 @@ namespace TypedRest.OpenApi.Endpoints.Generic
 
         protected override string ElementDefaultKind => "element";
 
-        public override void Parse(OpenApiObject data, IEndpointsParser parser)
+        public override void Parse(OpenApiObject data, IEndpointParser parser)
         {
             base.Parse(data, parser);
 

@@ -1,8 +1,7 @@
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
-using TypedRest.OpenApi.Endpoints;
 
-namespace TypedRest.OpenApi
+namespace TypedRest.OpenApi.Endpoints
 {
     /// <summary>
     /// Can be filled with information parsed from an OpenAPI Object.
@@ -13,8 +12,8 @@ namespace TypedRest.OpenApi
         /// Fills the object with information parsed from an OpenAPI Object.
         /// </summary>
         /// <param name="data">The OpenAPI Object to parse.</param>
-        /// <param name="parser">The endpoint parser to use for parsing child objects.</param>
-        void Parse(OpenApiObject data, IEndpointsParser parser);
+        /// <param name="endpointParser">The endpoint parser to use for parsing child objects.</param>
+        void Parse(OpenApiObject data, IEndpointParser endpointParser);
 
         /// <summary>
         /// Resolves <see cref="OpenApiReference"/>s.

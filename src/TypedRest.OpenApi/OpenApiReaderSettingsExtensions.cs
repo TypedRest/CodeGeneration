@@ -1,4 +1,3 @@
-using System;
 using Microsoft.OpenApi.Readers;
 using TypedRest.OpenApi.Endpoints;
 
@@ -13,10 +12,9 @@ namespace TypedRest.OpenApi
         /// Adds support for the TypedRest OpenAPI Spec Extension.
         /// </summary>
         /// <seealso cref="OpenApiDocumentExtensions.GetTypedRestEndpoints"/>
-        public static OpenApiReaderSettings AddTypedRest(this OpenApiReaderSettings settings, Action<IEndpointsParserSetup>? setup = null)
+        public static OpenApiReaderSettings AddTypedRest(this OpenApiReaderSettings settings, EndpointRegistry? endpointRegistry = null)
         {
-            var parser = new EndpointsParser();
-            setup?.Invoke(parser);
+            var parser = new EndpointParser(endpointRegistry);
 
             settings.ExtensionParsers.Add(EndpointList.ExtensionKey, parser.Parse);
             return settings;

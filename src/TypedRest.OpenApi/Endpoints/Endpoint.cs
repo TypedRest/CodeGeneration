@@ -18,7 +18,7 @@ namespace TypedRest.OpenApi.Endpoints
 
         public EndpointList Children { get; } = new EndpointList();
 
-        public virtual void Parse(OpenApiObject data, IEndpointsParser parser)
+        public virtual void Parse(OpenApiObject data, IEndpointParser parser)
         {
             Description = data.GetString("description");
             Uri = data.GetString("uri");

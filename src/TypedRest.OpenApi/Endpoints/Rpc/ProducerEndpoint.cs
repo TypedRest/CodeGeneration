@@ -17,7 +17,7 @@ namespace TypedRest.OpenApi.Endpoints.Rpc
         /// </summary>
         public OpenApiSchema? Schema { get; set; }
 
-        public override void Parse(OpenApiObject data, IEndpointsParser parser)
+        public override void Parse(OpenApiObject data, IEndpointParser parser)
         {
             base.Parse(data, parser);
 

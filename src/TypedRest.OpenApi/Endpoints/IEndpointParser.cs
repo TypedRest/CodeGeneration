@@ -6,7 +6,7 @@ namespace TypedRest.OpenApi.Endpoints
     /// <summary>
     /// Parses <see cref="IEndpoint"/>s in <see cref="OpenApiDocument"/>s.
     /// </summary>
-    public interface IEndpointsParser
+    public interface IEndpointParser
     {
         /// <summary>
         /// Parses an OpenAPI Object as an <see cref="IEndpoint"/>.

@@ -19,7 +19,7 @@ namespace TypedRest.OpenApi.Endpoints
         /// </summary>
         public const string ExtensionKey = "x-endpoints";
 
-        public void Parse(OpenApiObject data, IEndpointsParser parser)
+        public void Parse(OpenApiObject data, IEndpointParser parser)
         {
             foreach (var property in data)
             {

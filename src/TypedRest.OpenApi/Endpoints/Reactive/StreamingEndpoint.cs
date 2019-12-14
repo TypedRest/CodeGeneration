@@ -22,7 +22,7 @@ namespace TypedRest.OpenApi.Endpoints.Reactive
         /// </summary>
         public string? Separator { get; set; }
 
-        public override void Parse(OpenApiObject data, IEndpointsParser parser)
+        public override void Parse(OpenApiObject data, IEndpointParser parser)
         {
             base.Parse(data, parser);
 
