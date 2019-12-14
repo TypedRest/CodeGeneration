@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.CSharp.Dom;
@@ -46,12 +47,31 @@ namespace TypedRest.OpenApi.CSharp
         {
             _types.Add(type);
 
-            string key = schema.Reference?.Id ?? schema.Type;
+            string? key = schema.Reference?.Id;
             if (!string.IsNullOrEmpty(key))
                 _dtos.Add(key, type.Identifier);
         }
 
         public CSharpIdentifier DtoFor(OpenApiSchema schema)
-            => _dtos[schema.Reference?.Id ?? schema.Type];
+            => schema.Type switch
+            {
+                "string" => schema.Format switch
+                {
+                    "uri" => CSharpIdentifier.Uri,
+                    _ => CSharpIdentifier.String
+                },
+                "int" => schema.Format switch
+                {
+                    "int64" => CSharpIdentifier.Long,
+                    _ => CSharpIdentifier.Int
+                },
+                "number" => schema.Format switch
+                {
+                    "float" => CSharpIdentifier.Float,
+                    _ => CSharpIdentifier.Double
+                },
+                "boolean" => CSharpIdentifier.Bool,
+                _ => _dtos[schema.Reference?.Id ?? throw new InvalidOperationException("Unable to determine DTO type for Schema.")]
+            };
     }
 }

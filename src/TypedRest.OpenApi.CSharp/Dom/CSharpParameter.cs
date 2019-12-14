@@ -37,18 +37,15 @@ namespace TypedRest.OpenApi.CSharp.Dom
         }
 
         private LiteralExpressionSyntax? GetLiteralExpression()
-        {
-            switch (Value)
+            => Value switch
             {
-                case string value:
-                    return LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(value));
-
-                case int value:
-                    return LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value));
-
-                default:
-                    return null;
-            }
-        }
+                bool value => LiteralExpression(value ? SyntaxKind.TrueLiteralExpression : SyntaxKind.FalseLiteralExpression),
+                int value => LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)),
+                long value => LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)),
+                float value => LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)),
+                double value => LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)),
+                string value => LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(value)),
+                _ => null
+            };
     }
 }

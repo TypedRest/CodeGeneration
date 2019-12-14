@@ -9,14 +9,13 @@ namespace TypedRest.OpenApi.CSharp.Dom
 {
     public class CSharpIdentifier
     {
-        public static CSharpIdentifier String
-            => new CSharpIdentifier("string");
-
-        public static CSharpIdentifier Int
-            => new CSharpIdentifier("int");
-
-        public static CSharpIdentifier Uri
-            => new CSharpIdentifier("System", "Uri");
+        public static CSharpIdentifier Bool => new CSharpIdentifier("bool");
+        public static CSharpIdentifier Int => new CSharpIdentifier("int");
+        public static CSharpIdentifier Long => new CSharpIdentifier("long");
+        public static CSharpIdentifier Float => new CSharpIdentifier("float");
+        public static CSharpIdentifier Double => new CSharpIdentifier("double");
+        public static CSharpIdentifier String => new CSharpIdentifier("string");
+        public static CSharpIdentifier Uri => new CSharpIdentifier("System", "Uri");
 
         public string? Namespace { get; }
 
@@ -45,19 +44,16 @@ namespace TypedRest.OpenApi.CSharp.Dom
         }
 
         public TypeSyntax ToSyntax()
-        {
-            switch (Name)
+            => Name switch
             {
-                case "string":
-                    return PredefinedType(Token(SyntaxKind.StringKeyword));
-                case "int":
-                    return PredefinedType(Token(SyntaxKind.IntKeyword));
-                default:
-                    return TypeArguments.Count == 0
-                        ? (TypeSyntax)IdentifierName(Name)
-                        : GenericName(Identifier(Name)).WithTypeArgumentList(TypeArgumentList(SeparatedList(TypeArguments.Select(x => x.ToSyntax()))));
-            }
-        }
+                "bool" => PredefinedType(Token(SyntaxKind.BoolKeyword)),
+                "int" => PredefinedType(Token(SyntaxKind.IntKeyword)),
+                "long" => PredefinedType(Token(SyntaxKind.LongKeyword)),
+                "float" => PredefinedType(Token(SyntaxKind.FloatKeyword)),
+                "double" => PredefinedType(Token(SyntaxKind.DoubleKeyword)),
+                "string" => PredefinedType(Token(SyntaxKind.StringKeyword)),
+                _ => (TypeArguments.Count == 0 ? (TypeSyntax)IdentifierName(Name) : GenericName(Identifier(Name)).WithTypeArgumentList(TypeArgumentList(SeparatedList(TypeArguments.Select(x => x.ToSyntax())))))
+            };
 
         public CSharpIdentifier ToInterface()
         {
