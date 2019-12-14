@@ -11,6 +11,9 @@ namespace TypedRest.OpenApi.CSharp
     {
         private readonly List<CSharpType> _types = new List<CSharpType>();
 
+        public void Add(CSharpType type)
+            => _types.Add(type);
+
         public IEnumerator<CSharpType> GetEnumerator()
             => _types.GetEnumerator();
 
@@ -21,7 +24,7 @@ namespace TypedRest.OpenApi.CSharp
 
         public void Add(IEndpoint endpoint, CSharpClass type)
         {
-            _types.Add(type);
+            Add(type);
             _endpointImplementations.Add(endpoint, type.Identifier);
         }
 
@@ -32,7 +35,7 @@ namespace TypedRest.OpenApi.CSharp
 
         public void Add(IEndpoint endpoint, CSharpInterface type)
         {
-            _types.Add(type);
+            Add(type);
             _endpointInterfaces.Add(endpoint, type.Identifier);
         }
 
@@ -45,7 +48,7 @@ namespace TypedRest.OpenApi.CSharp
 
         public void Add(OpenApiSchema schema, CSharpType type)
         {
-            _types.Add(type);
+            Add(type);
 
             string? key = schema.Reference?.Id;
             if (!string.IsNullOrEmpty(key))

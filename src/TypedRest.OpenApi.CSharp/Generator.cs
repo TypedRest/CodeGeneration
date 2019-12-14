@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.CSharp.Builders;
-using TypedRest.OpenApi.CSharp.Builders.Generic;
-using TypedRest.OpenApi.CSharp.Builders.Raw;
-using TypedRest.OpenApi.CSharp.Builders.Reactive;
-using TypedRest.OpenApi.CSharp.Builders.Rpc;
 using TypedRest.OpenApi.CSharp.Dom;
 using TypedRest.OpenApi.Endpoints;
 using TypedRest.OpenApi.Endpoints.Generic;
@@ -16,63 +11,50 @@ namespace TypedRest.OpenApi.CSharp
     public class Generator
     {
         private readonly INamingConvention _naming;
-        private readonly IDictionary<Type, IBuilder> _builders = new Dictionary<Type, IBuilder>();
+        private readonly BuilderRegistry _builders;
 
-        public Generator(INamingConvention naming)
+        public Generator(INamingConvention naming, BuilderRegistry? builders = null)
         {
             _naming = naming;
-
-            Add(new DefaultBuilder());
-            Add(new ElementBuilder());
-            Add(new IndexerBuilder());
-            Add(new CollectionBuilder());
-            Add(new ActionBuilder());
-            Add(new ProducerBuilder());
-            Add(new ConsumerBuilder());
-            Add(new FunctionBuilder());
-            Add(new UploadBuilder());
-            Add(new BlobBuilder());
-            Add(new PollingBuilder());
-            Add(new StreamingBuilder());
-            Add(new StreamingCollectionBuilder());
+            _builders = builders ?? BuilderRegistry.Default;
         }
 
         public bool GenerateInterfaces { get; set; } = true;
 
-        public void Add<TEndpoint>(IBuilder<TEndpoint> builder)
-            where TEndpoint : IEndpoint
-            => _builders.Add(typeof(TEndpoint), builder);
+        private TypeList _typeList = default!;
+        private EndpointList _endpoints = default!;
+        private IDictionary<string, OpenApiSchema> _schemas = default!;
 
         public ITypeList Generate(EndpointList endpoints, IDictionary<string, OpenApiSchema> schemas)
         {
-            var typeList = new TypeList();
+            _typeList = new TypeList();
+            _endpoints = endpoints;
+            _schemas = schemas;
 
-            GenerateDtos(schemas, typeList);
+            GenerateDtos();
+            GenerateEntryEndpoint();
 
-            var entryEndpoint = GenerateEntryEndpoint();
-            entryEndpoint.Properties.AddRange(GenerateEndpoints(endpoints, typeList));
-            typeList.Add(new Endpoint(), entryEndpoint);
-
-            return typeList;
+            return _typeList;
         }
 
-        private void GenerateDtos(IDictionary<string, OpenApiSchema> schemas, TypeList typeList)
+        private void GenerateDtos()
         {
-            foreach (var pair in schemas)
+            foreach (var pair in _schemas)
             {
-                var type = GenerateDto(_naming.DtoType(pair.Key), typeList);
-                typeList.Add(pair.Value, type);
+                var type = GenerateDto(_naming.DtoType(pair.Key));
+                _typeList.Add(pair.Value, type);
             }
         }
 
-        private static CSharpClass GenerateDto(CSharpIdentifier identifier, TypeList typeList)
+        private CSharpClass GenerateDto(CSharpIdentifier identifier)
         {
             // TODO: Proper implementation
             return new CSharpClass(identifier);
         }
 
-        private CSharpClass GenerateEntryEndpoint()
-            => new CSharpClass(_naming.EntryEndpointType())
+        private void GenerateEntryEndpoint()
+        {
+            var endpoint = new CSharpClass(_naming.EntryEndpointType())
             {
                 BaseClass = new CSharpClassConstruction(new CSharpIdentifier("TypedRest.Endpoints", "EntryEndpoint"))
                 {
@@ -80,36 +62,40 @@ namespace TypedRest.OpenApi.CSharp
                 }
             };
 
-        private IEnumerable<CSharpProperty> GenerateEndpoints(EndpointList endpoints, TypeList typeList)
-            => endpoints.Select(x => GenerateEndpoint(x.Key, x.Value, typeList));
-
-        private CSharpProperty GenerateEndpoint(string key, IEndpoint endpoint, TypeList typeList)
-        {
-            GenerateElementEndpoint(key, endpoint, typeList);
-            var children = GenerateEndpoints(endpoint.Children, typeList).ToList();
-
-            return children.Count == 0
-                ? GenerateEndpointWithoutChildren(key, endpoint, typeList)
-                : GenerateEndpointWithChildren(key, endpoint, typeList, children);
+            endpoint.Properties.AddRange(GenerateEndpoints(_endpoints));
+            _typeList.Add(endpoint);
         }
 
-        private CSharpProperty GenerateEndpointWithoutChildren(string key, IEndpoint endpoint, TypeList typeList)
-        {
-            var builder = _builders[endpoint.GetType()];
+        private IEnumerable<CSharpProperty> GenerateEndpoints(EndpointList endpoints)
+            => endpoints.Select(x => GenerateEndpoint(x.Key, x.Value));
 
-            return new CSharpProperty(builder.GetInterface(endpoint, typeList), _naming.Property(key))
+        private CSharpProperty GenerateEndpoint(string key, IEndpoint endpoint)
+        {
+            GenerateElementEndpoint(key, endpoint);
+            var children = GenerateEndpoints(endpoint.Children).ToList();
+
+            return children.Count == 0
+                ? GenerateEndpointWithoutChildren(key, endpoint)
+                : GenerateEndpointWithChildren(key, endpoint, children);
+        }
+
+        private CSharpProperty GenerateEndpointWithoutChildren(string key, IEndpoint endpoint)
+        {
+            var builder = _builders.For(endpoint);
+
+            return new CSharpProperty(builder.GetInterface(endpoint, _typeList), _naming.Property(key))
             {
-                GetterExpression = builder.GetConstruction(endpoint, typeList),
+                GetterExpression = builder.GetConstruction(endpoint, _typeList),
                 Description = endpoint.Description
             };
         }
 
-        private CSharpProperty GenerateEndpointWithChildren(string key, IEndpoint endpoint, TypeList typeList, IList<CSharpProperty> children)
+        private CSharpProperty GenerateEndpointWithChildren(string key, IEndpoint endpoint, IList<CSharpProperty> children)
         {
-            var endpointImplementation = GenerateEndpointImplementation(key, endpoint, typeList, children);
+            var endpointImplementation = GenerateEndpointImplementation(key, endpoint, children);
 
             var identifier = GenerateInterfaces
-                ? GenerateEndpointInterface(endpoint, typeList, endpointImplementation).Identifier
+                ? ExtractInterface(endpoint, endpointImplementation)
                 : endpointImplementation.Identifier;
 
             return new CSharpProperty(identifier, key)
@@ -119,47 +105,47 @@ namespace TypedRest.OpenApi.CSharp
             };
         }
 
-        private CSharpClass GenerateEndpointImplementation(string key, IEndpoint endpoint, TypeList typeList, IList<CSharpProperty> children)
+        private CSharpClass GenerateEndpointImplementation(string key, IEndpoint endpoint, IList<CSharpProperty> children)
         {
-            var builder = _builders[endpoint.GetType()];
+            var builder = _builders.For(endpoint);
 
             var endpointImplementation = new CSharpClass(_naming.EndpointType(key, endpoint))
             {
-                BaseClass = builder.GetConstruction(endpoint, typeList),
+                BaseClass = builder.GetConstruction(endpoint, _typeList),
                 Description = endpoint.Description
             };
             endpointImplementation.Properties.AddRange(children);
 
-            typeList.Add(endpoint, endpointImplementation);
+            _typeList.Add(endpoint, endpointImplementation);
             return endpointImplementation;
         }
 
-        private CSharpInterface GenerateEndpointInterface(IEndpoint endpoint, TypeList typeList, CSharpClass endpointImplementation)
+        private CSharpIdentifier ExtractInterface(IEndpoint endpoint, CSharpClass implementation)
         {
-            var builder = _builders[endpoint.GetType()];
+            var builder = _builders.For(endpoint);
 
-            var endpointInterface = new CSharpInterface(endpointImplementation.Identifier.ToInterface())
+            var endpointInterface = new CSharpInterface(implementation.Identifier.ToInterface())
             {
-                Interfaces = {builder.GetInterface(endpoint, typeList)},
+                Interfaces = {builder.GetInterface(endpoint, _typeList)},
                 Description = endpoint.Description
             };
-            foreach (var property in endpointImplementation.Properties)
+            foreach (var property in implementation.Properties)
                 endpointInterface.Properties.Add(new CSharpProperty(property.Type, property.Name) {Description = property.Description});
 
-            endpointImplementation.Interfaces.Add(endpointInterface.Identifier);
+            implementation.Interfaces.Add(endpointInterface.Identifier);
 
-            typeList.Add(endpoint, endpointInterface);
-            return endpointInterface;
+            _typeList.Add(endpoint, endpointInterface);
+            return endpointInterface.Identifier;
         }
 
-        private void GenerateElementEndpoint(string key, IEndpoint endpoint, TypeList typeList)
+        private void GenerateElementEndpoint(string key, IEndpoint endpoint)
         {
             if (endpoint is IndexerEndpoint indexerEndpoint && indexerEndpoint.Element != null)
             {
                 if (indexerEndpoint is CollectionEndpoint collectionEndpoint && collectionEndpoint.Element is ElementEndpoint elementEndpoint && elementEndpoint.Schema == null)
                     elementEndpoint.Schema = collectionEndpoint.Schema;
 
-                GenerateEndpoint(key.TrimEnd('s'), indexerEndpoint.Element, typeList);
+                GenerateEndpoint(key.TrimEnd('s'), indexerEndpoint.Element);
             }
         }
     }
