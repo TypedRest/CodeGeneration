@@ -8,7 +8,7 @@ namespace TypedRest.OpenApi.Endpoints
     public interface IEndpoint : IOpenApiSerializable, IOpenApiExtension, IParsable
     {
         /// <summary>
-        /// The type of endpoint.
+        /// The kindy/type of endpoint.
         /// </summary>
         string Kind { get; }
 

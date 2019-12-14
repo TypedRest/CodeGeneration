@@ -13,7 +13,7 @@ namespace TypedRest.OpenApi.Endpoints.Reactive
         public override string Kind => "streaming";
 
         /// <summary>
-        /// Schema describing the representation of individual elements in the strean.
+        /// Schema describing the representation of individual elements in the stream.
         /// </summary>
         public OpenApiSchema? Schema { get; set; }
 

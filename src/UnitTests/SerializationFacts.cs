@@ -41,6 +41,9 @@ namespace TypedRest.OpenApi
         }
 
         private static OpenApiDocument Deserialize(string yaml)
-            => new OpenApiStringReader(new OpenApiReaderSettings().AddTypedRest()).Read(yaml, out _).ResolveTypedRestReferences();
+        {
+            var reader = new OpenApiStringReader(new OpenApiReaderSettings().AddTypedRest());
+            return reader.Read(yaml, out _).ResolveTypedRestReferences();
+        }
     }
 }
