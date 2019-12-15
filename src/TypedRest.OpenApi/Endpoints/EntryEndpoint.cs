@@ -12,9 +12,14 @@ namespace TypedRest.OpenApi.Endpoints
         public override string Kind => "entry";
 
         public override void Parse(OpenApiObject data, IEndpointParser parser)
-            => Children.Parse(data, parser);
+            => ParseChildren(data, parser);
 
         public override void Write(IOpenApiWriter writer, OpenApiSpecVersion specVersion)
-            => Children.Write(writer, specVersion);
+        {
+            writer.WriteStartObject();
+            foreach (var item in Children)
+                writer.WriteOptionalObject(item.Key, item.Value, specVersion);
+            writer.WriteEndObject();
+        }
     }
 }

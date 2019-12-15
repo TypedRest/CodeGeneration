@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using FluentAssertions;
 using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.Endpoints;
@@ -11,7 +12,7 @@ namespace TypedRest.OpenApi.Patterns.Generic
         [Fact]
         public void GetsEndpoint()
         {
-            var mockChildMatches = new EndpointList
+            var mockChildMatches = new Dictionary<string, IEndpoint>
             {
                 ["{id}"] = new ElementEndpoint
                 {
@@ -39,7 +40,7 @@ namespace TypedRest.OpenApi.Patterns.Generic
         [Fact]
         public void TrimsTrivialElementEndpoint()
         {
-            var mockChildMatches = new EndpointList
+            var mockChildMatches = new Dictionary<string, IEndpoint>
             {
                 ["{id}"] = new ElementEndpoint {Schema = Sample.ContactSchema},
                 ["other"] = new Endpoint {Description = "other"}

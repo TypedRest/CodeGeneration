@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using FluentAssertions;
 using TypedRest.OpenApi.Endpoints;
 using TypedRest.OpenApi.Endpoints.Generic;
@@ -10,7 +11,7 @@ namespace TypedRest.OpenApi.Patterns.Generic
         [Fact]
         public void GetsEndpoint()
         {
-            var mockChildMatches = new EndpointList
+            var mockChildMatches = new Dictionary<string, IEndpoint>
             {
                 ["{id}"] = new Endpoint {Description = "element"},
                 ["other"] = new Endpoint {Description = "other"}

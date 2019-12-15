@@ -22,7 +22,7 @@ namespace TypedRest.OpenApi.CSharp
         public bool GenerateInterfaces { get; set; } = true;
 
         private TypeList _typeList = default!;
-        private EndpointList _endpoints = default!;
+        private IDictionary<string, IEndpoint> _endpoints = default!;
         private IDictionary<string, OpenApiSchema> _schemas = default!;
 
         public ITypeList Generate(EntryEndpoint endpoint, IDictionary<string, OpenApiSchema> schemas)
@@ -66,7 +66,7 @@ namespace TypedRest.OpenApi.CSharp
             _typeList.Add(endpoint);
         }
 
-        private IEnumerable<CSharpProperty> GenerateEndpoints(EndpointList endpoints)
+        private IEnumerable<CSharpProperty> GenerateEndpoints(IDictionary<string, IEndpoint> endpoints)
             => endpoints.Select(x => GenerateEndpoint(x.Key, x.Value));
 
         private CSharpProperty GenerateEndpoint(string key, IEndpoint endpoint)

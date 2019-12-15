@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.Endpoints;
@@ -26,7 +27,7 @@ namespace TypedRest.OpenApi.Patterns.Generic
             return endpoint;
         }
 
-        private static IEndpoint? ExtractElementEndpoint(EndpointList childEndpoints)
+        private static IEndpoint? ExtractElementEndpoint(IDictionary<string, IEndpoint> childEndpoints)
         {
             var match = childEndpoints.FirstOrDefault(x => x.Key.StartsWith("{") && x.Key.EndsWith("}"));
             if (match.Value == null)

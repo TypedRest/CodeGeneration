@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TypedRest.OpenApi.Endpoints;
 
 namespace TypedRest.OpenApi.Patterns
@@ -10,6 +11,6 @@ namespace TypedRest.OpenApi.Patterns
         /// <summary>
         /// Generates endpoints for the specified <paramref name="tree"/>.
         /// </summary>
-        EndpointList GetEndpoints(PathTree tree);
+        IDictionary<string, IEndpoint> GetEndpoints(PathTree tree);
     }
 }

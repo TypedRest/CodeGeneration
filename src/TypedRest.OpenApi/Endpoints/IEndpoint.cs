@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
@@ -40,6 +41,6 @@ namespace TypedRest.OpenApi.Endpoints
         /// <summary>
         /// The child endpoints of this endpoint.
         /// </summary>
-        EndpointList Children { get; }
+        IDictionary<string, IEndpoint>  Children { get; }
     }
 }

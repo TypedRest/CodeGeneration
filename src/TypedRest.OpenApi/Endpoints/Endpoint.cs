@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.OpenApi;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
@@ -16,7 +17,7 @@ namespace TypedRest.OpenApi.Endpoints
 
         public string? Uri { get; set; }
 
-        public EndpointList Children { get; } = new EndpointList();
+        public IDictionary<string, IEndpoint> Children { get; } = new Dictionary<string, IEndpoint>();
 
         public virtual void Parse(OpenApiObject data, IEndpointParser parser)
         {
@@ -24,7 +25,16 @@ namespace TypedRest.OpenApi.Endpoints
             Uri = data.GetString("uri");
 
             if (data.TryGetValue("children", out var anyData) && anyData is OpenApiObject objData)
-                Children.Parse(objData, parser);
+                ParseChildren(objData, parser);
+        }
+
+        protected void ParseChildren(OpenApiObject data, IEndpointParser parser)
+        {
+            foreach (var property in data)
+            {
+                if (property.Value is OpenApiObject objData)
+                    Children.Add(property.Key, parser.Parse(objData));
+            }
         }
 
         public virtual void ResolveReferences(OpenApiComponents components)
