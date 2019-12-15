@@ -33,6 +33,12 @@ namespace TypedRest.OpenApi.CSharp.Builders
 
         private readonly IDictionary<string, IBuilder> _builders = new Dictionary<string, IBuilder>();
 
+        public BuilderRegistry()
+        {
+            // Must always be registered
+            Add(new EntryBuilder());
+        }
+
         /// <summary>
         /// Adds <paramref name="builder"/> to the list of known builders.
         /// </summary>

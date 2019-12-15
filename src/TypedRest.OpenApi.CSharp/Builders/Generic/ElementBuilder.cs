@@ -9,10 +9,10 @@ namespace TypedRest.OpenApi.CSharp.Builders.Generic
     /// </summary>
     public class ElementBuilder : BuilderBase<ElementEndpoint>
     {
-        protected override CSharpIdentifier GetImplementation(ElementEndpoint endpoint, ITypeList typeList)
+        protected override CSharpIdentifier GetImplementationType(ElementEndpoint endpoint, INamingConvention naming)
             => new CSharpIdentifier(Namespace.Name, "ElementEndpoint")
             {
-                TypeArguments = {typeList.DtoFor(endpoint.Schema ?? throw new InvalidOperationException($"Missing schema for {endpoint}."))}
+                TypeArguments = {naming.DtoFor(endpoint.Schema ?? throw new InvalidOperationException($"Missing schema for {endpoint}."))}
             };
     }
 }

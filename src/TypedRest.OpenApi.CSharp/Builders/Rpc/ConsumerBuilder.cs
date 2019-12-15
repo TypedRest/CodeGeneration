@@ -9,10 +9,10 @@ namespace TypedRest.OpenApi.CSharp.Builders.Rpc
     /// </summary>
     public class ConsumerBuilder : BuilderBase<ConsumerEndpoint>
     {
-        protected override CSharpIdentifier GetImplementation(ConsumerEndpoint endpoint, ITypeList typeList)
+        protected override CSharpIdentifier GetImplementationType(ConsumerEndpoint endpoint, INamingConvention naming)
             => new CSharpIdentifier(Namespace.Name, "ConsumerEndpoint")
             {
-                TypeArguments = {typeList.DtoFor(endpoint.Schema ?? throw new InvalidOperationException($"Missing schema for {endpoint}."))}
+                TypeArguments = {naming.DtoFor(endpoint.Schema ?? throw new InvalidOperationException($"Missing schema for {endpoint}."))}
             };
     }
 }

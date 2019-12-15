@@ -1,4 +1,5 @@
-﻿using TypedRest.OpenApi.CSharp.Dom;
+﻿using System.Collections.Generic;
+using TypedRest.OpenApi.CSharp.Dom;
 using TypedRest.OpenApi.Endpoints;
 
 namespace TypedRest.OpenApi.CSharp.Builders
@@ -8,9 +9,7 @@ namespace TypedRest.OpenApi.CSharp.Builders
     /// </summary>
     public interface IBuilder
     {
-        CSharpClassConstruction GetConstruction(IEndpoint endpoint, ITypeList typeList);
-
-        CSharpIdentifier GetInterface(IEndpoint endpoint, ITypeList typeList);
+        (CSharpProperty property, IEnumerable<CSharpType> types) Build(string key, IEndpoint endpoint, IGenerator generator);
     }
 
     /// <summary>
@@ -20,8 +19,6 @@ namespace TypedRest.OpenApi.CSharp.Builders
     public interface IBuilder<in TEndpoint> : IBuilder
         where TEndpoint : IEndpoint
     {
-        CSharpClassConstruction GetConstruction(TEndpoint endpoint, ITypeList typeList);
-
-        CSharpIdentifier GetInterface(TEndpoint endpoint, ITypeList typeList);
+        (CSharpProperty property, IEnumerable<CSharpType> types) Build(string key, TEndpoint endpoint, IGenerator generator);
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using TypedRest.OpenApi.CSharp.Dom;
 using TypedRest.OpenApi.Endpoints.Generic;
 
@@ -7,18 +6,16 @@ namespace TypedRest.OpenApi.CSharp.Builders.Generic
     /// <summary>
     /// Builds C# code snippets for <see cref="IndexerEndpoint"/>s.
     /// </summary>
-    public class IndexerBuilder : BuilderBase<IndexerEndpoint>
+    public class IndexerBuilder : IndexerBuilderBase<IndexerEndpoint>
     {
-        protected override CSharpIdentifier GetImplementation(IndexerEndpoint endpoint, ITypeList typeList)
-            => new CSharpIdentifier(Namespace.Name, "IndexerEndpoint")
-            {
-                TypeArguments = {typeList.ImplementationFor(endpoint.Element ?? throw new InvalidOperationException($"Missing element endpoint for {endpoint}."))}
-            };
+        protected override CSharpIdentifier GetImplementationType(IndexerEndpoint endpoint, INamingConvention naming)
+            => new CSharpIdentifier(Namespace.Name, "IndexerEndpoint");
 
-        public override CSharpIdentifier GetInterface(IndexerEndpoint endpoint, ITypeList typeList)
-            => new CSharpIdentifier(Namespace.Name, "IIndexerEndpoint")
-            {
-                TypeArguments = {typeList.InterfaceFor(endpoint.Element ?? throw new InvalidOperationException($"Missing element endpoint for {endpoint}."))}
-            };
+        protected override CSharpIdentifier GetInterfaceType(CSharpIdentifier implementationType)
+        {
+            var identifier = implementationType.ToInterface();
+            identifier.TypeArguments[0] = identifier.TypeArguments[0].ToInterface();
+            return identifier;
+        }
     }
 }

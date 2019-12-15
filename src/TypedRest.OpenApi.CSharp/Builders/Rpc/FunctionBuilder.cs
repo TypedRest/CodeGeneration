@@ -9,13 +9,13 @@ namespace TypedRest.OpenApi.CSharp.Builders.Rpc
     /// </summary>
     public class FunctionBuilder : BuilderBase<FunctionEndpoint>
     {
-        protected override CSharpIdentifier GetImplementation(FunctionEndpoint endpoint, ITypeList typeList)
+        protected override CSharpIdentifier GetImplementationType(FunctionEndpoint endpoint, INamingConvention naming)
             => new CSharpIdentifier(Namespace.Name, "FunctionEndpoint")
             {
                 TypeArguments =
                 {
-                    typeList.DtoFor(endpoint.RequestSchema ?? throw new InvalidOperationException($"Missing request schema for {endpoint}.")),
-                    typeList.DtoFor(endpoint.ResponseSchema ?? throw new InvalidOperationException($"Missing response schema for {endpoint}."))
+                    naming.DtoFor(endpoint.RequestSchema ?? throw new InvalidOperationException($"Missing request schema for {endpoint}.")),
+                    naming.DtoFor(endpoint.ResponseSchema ?? throw new InvalidOperationException($"Missing response schema for {endpoint}."))
                 }
             };
     }

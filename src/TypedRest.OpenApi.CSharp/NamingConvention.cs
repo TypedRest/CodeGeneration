@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.CSharp.Dom;
 using TypedRest.OpenApi.Endpoints;
 using TypedRest.OpenApi.Endpoints.Generic;
@@ -20,21 +21,33 @@ namespace TypedRest.OpenApi.CSharp
         public virtual string Property(string key)
             => ToPascalCase(key);
 
-        public CSharpIdentifier EntryEndpointType() => new CSharpIdentifier(
-            _namespace,
-            _serviceName + "Client");
-
         public virtual CSharpIdentifier EndpointType(string key, IEndpoint endpoint)
             => new CSharpIdentifier(
                 _namespace,
-                endpoint is IndexerEndpoint && key.EndsWith("s")
-                    ? ToPascalCase(key.Substring(0, key.Length - 1)) + "CollectionEndpoint"
-                    : ToPascalCase(key) + "Endpoint");
+                endpoint switch
+                {
+                    EntryEndpoint _ => (_serviceName + "Client"),
+                    IndexerEndpoint _ when key.EndsWith("s") => ToPascalCase(key.Substring(0, key.Length - 1)) + "CollectionEndpoint",
+                    _ => ToPascalCase(key) + "Endpoint"
+                });
 
         public CSharpIdentifier DtoType(string key)
             => new CSharpIdentifier(
                 _namespace,
                 ToPascalCase(key));
+
+        public CSharpIdentifier DtoFor(OpenApiSchema schema)
+            => (schema.Type, schema.Format) switch
+            {
+                ("string", "uri") => CSharpIdentifier.Uri,
+                ("string", _) => CSharpIdentifier.String,
+                ("int", "int64") => CSharpIdentifier.Long,
+                ("int", _) => CSharpIdentifier.Int,
+                ("number", "float") => CSharpIdentifier.Float,
+                ("number", _) => CSharpIdentifier.Double,
+                ("boolean", _) => CSharpIdentifier.Bool,
+                _ => DtoType(schema.Reference?.Id ?? throw new InvalidOperationException("Unable to determine DTO type for Schema."))
+            };
 
         protected static string ToPascalCase(string key)
             => key switch

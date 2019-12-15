@@ -10,10 +10,10 @@ namespace TypedRest.OpenApi.CSharp.Builders.Reactive
     /// </summary>
     public class StreamingBuilder : BuilderBase<StreamingEndpoint>
     {
-        protected override CSharpIdentifier GetImplementation(StreamingEndpoint endpoint, ITypeList typeList)
+        protected override CSharpIdentifier GetImplementationType(StreamingEndpoint endpoint, INamingConvention naming)
             => new CSharpIdentifier(Namespace.Name, "StreamingEndpoint")
             {
-                TypeArguments = {typeList.DtoFor(endpoint.Schema ?? throw new InvalidOperationException($"Missing schema for {endpoint}."))}
+                TypeArguments = {naming.DtoFor(endpoint.Schema ?? throw new InvalidOperationException($"Missing schema for {endpoint}."))}
             };
 
         protected override IEnumerable<CSharpParameter> GetParameters(StreamingEndpoint endpoint)

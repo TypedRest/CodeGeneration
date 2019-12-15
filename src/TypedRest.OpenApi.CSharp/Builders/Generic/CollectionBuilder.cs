@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using TypedRest.OpenApi.CSharp.Dom;
 using TypedRest.OpenApi.Endpoints.Generic;
 
 namespace TypedRest.OpenApi.CSharp.Builders.Generic

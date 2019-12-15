@@ -1,4 +1,5 @@
-﻿using TypedRest.OpenApi.CSharp.Dom;
+﻿using Microsoft.OpenApi.Models;
+using TypedRest.OpenApi.CSharp.Dom;
 using TypedRest.OpenApi.Endpoints;
 
 namespace TypedRest.OpenApi.CSharp
@@ -7,10 +8,10 @@ namespace TypedRest.OpenApi.CSharp
     {
         string Property(string key);
 
-        CSharpIdentifier EntryEndpointType();
-
         CSharpIdentifier EndpointType(string key, IEndpoint endpoint);
 
         CSharpIdentifier DtoType(string key);
+
+        CSharpIdentifier DtoFor(OpenApiSchema schema);
     }
 }

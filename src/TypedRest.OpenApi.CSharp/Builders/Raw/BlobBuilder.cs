@@ -8,7 +8,7 @@ namespace TypedRest.OpenApi.CSharp.Builders.Raw
     /// </summary>
     public class BlobBuilder : BuilderBase<BlobEndpoint>
     {
-        protected override CSharpIdentifier GetImplementation(BlobEndpoint endpoint, ITypeList typeList)
+        protected override CSharpIdentifier GetImplementationType(BlobEndpoint endpoint, INamingConvention naming)
             => new CSharpIdentifier(Namespace.Name, "BlobEndpoint");
     }
 }

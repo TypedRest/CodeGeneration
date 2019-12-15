@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using TypedRest.OpenApi.CSharp.Dom;
 using TypedRest.OpenApi.Endpoints;
 
@@ -11,30 +12,94 @@ namespace TypedRest.OpenApi.CSharp.Builders
     public abstract class BuilderBase<TEndpoint> : IBuilder<TEndpoint>
         where TEndpoint : IEndpoint
     {
-        CSharpClassConstruction IBuilder.GetConstruction(IEndpoint endpoint, ITypeList typeList)
-            => GetConstruction((TEndpoint)endpoint, typeList);
+        public (CSharpProperty property, IEnumerable<CSharpType> types) Build(string key, IEndpoint endpoint, IGenerator generator)
+            => Build(key, (TEndpoint)endpoint, generator);
 
-        public CSharpClassConstruction GetConstruction(TEndpoint endpoint, ITypeList typeList)
+        public (CSharpProperty property, IEnumerable<CSharpType> types) Build(string key, TEndpoint endpoint, IGenerator generator)
         {
-            var construction = new CSharpClassConstruction(GetImplementation(endpoint, typeList));
+            var types = new List<CSharpType>();
+            var implementationType = GetImplementationType(endpoint, generator.Naming);
+
+            var additional = GetAdditional(key, endpoint, generator);
+            types.AddRange(additional.types);
+            implementationType.TypeArguments.AddRange(additional.typeArguments);
+
+            var construction = new CSharpClassConstruction(implementationType);
             construction.Parameters.AddRange(GetParameters(endpoint));
-            return construction;
+
+            var interfaceType = GetInterfaceType(implementationType);
+
+            if (endpoint.Children.Count > 0)
+            {
+                var customImplementation = CustomImplementation(key, endpoint, construction, types, generator);
+                types.Add(customImplementation);
+                construction = customImplementation.GetConstruction();
+
+                if (generator.GenerateInterfaces)
+                {
+                    var customInterface = CustomInterface(endpoint, interfaceType, customImplementation);
+                    types.Add(customInterface);
+                    interfaceType = customInterface.Identifier;
+                }
+                else
+                    interfaceType = customImplementation.Identifier;
+            }
+
+            var property = new CSharpProperty(interfaceType, generator.Naming.Property(key))
+            {
+                GetterExpression = construction,
+                Description = endpoint.Description
+            };
+
+            return (property, types);
         }
 
-        public CSharpIdentifier GetInterface(IEndpoint endpoint, ITypeList typeList)
-            => GetInterface((TEndpoint)endpoint, typeList);
+        private static CSharpClass CustomImplementation(string key, TEndpoint endpoint, CSharpClassConstruction baseClass, List<CSharpType> types, IGenerator generator)
+        {
+            var customImplementation = new CSharpClass(generator.Naming.EndpointType(key, endpoint))
+            {
+                BaseClass = baseClass,
+                Description = endpoint.Description
+            };
 
-        public virtual CSharpIdentifier GetInterface(TEndpoint endpoint, ITypeList typeList)
-            => GetImplementation(endpoint, typeList).ToInterface();
+            foreach (var pair in endpoint.Children)
+            {
+                var (property, additionalTypes) = generator.GenerateEndpoint(pair.Key, pair.Value);
+                customImplementation.Properties.Add(property);
+                types.AddRange(additionalTypes);
+            }
 
-        protected abstract CSharpIdentifier GetImplementation(TEndpoint endpoint, ITypeList typeList);
+            return customImplementation;
+        }
+
+        private static CSharpInterface CustomInterface(TEndpoint endpoint, CSharpIdentifier interfaceType, CSharpClass implementation)
+        {
+            var endpointInterface = new CSharpInterface(implementation.Identifier.ToInterface())
+            {
+                Interfaces = {interfaceType},
+                Description = endpoint.Description
+            };
+            foreach (var property in implementation.Properties)
+                endpointInterface.Properties.Add(new CSharpProperty(property.Type, property.Name) {Description = property.Description});
+
+            implementation.Interfaces.Add(endpointInterface.Identifier);
+
+            return endpointInterface;
+        }
+
+        protected virtual (IEnumerable<CSharpType> types, IEnumerable<CSharpIdentifier> typeArguments) GetAdditional(string key, TEndpoint endpoint, IGenerator generator)
+            => (Enumerable.Empty<CSharpType>(), Enumerable.Empty<CSharpIdentifier>());
+
+        protected abstract CSharpIdentifier GetImplementationType(TEndpoint endpoint, INamingConvention naming);
+
+        protected virtual CSharpIdentifier GetInterfaceType(CSharpIdentifier implementationType)
+            => implementationType.ToInterface();
 
         protected virtual IEnumerable<CSharpParameter> GetParameters(TEndpoint endpoint)
-        {
-            yield return new CSharpParameter(new CSharpIdentifier("TypedRest.Endpoints", "IEndpoint"), "referrer") {Value = new ThisReference()};
-            yield return string.IsNullOrEmpty(endpoint.Uri)
-                ? new CSharpParameter(CSharpIdentifier.Uri, "relativeUri")
-                : new CSharpParameter(CSharpIdentifier.String, "relativeUri") {Value = endpoint.Uri};
-        }
+            => new[]
+            {
+                new CSharpParameter(new CSharpIdentifier(Namespace.Name, "IEndpoint"), "referrer") {Value = new ThisReference()},
+                new CSharpParameter(endpoint.Uri == null ? CSharpIdentifier.Uri : CSharpIdentifier.String, "relativeUri") {Value = endpoint.Uri}
+            };
     }
 }
