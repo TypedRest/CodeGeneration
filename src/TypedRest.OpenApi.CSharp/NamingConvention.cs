@@ -37,11 +37,14 @@ namespace TypedRest.OpenApi.CSharp
                 ToPascalCase(key));
 
         protected static string ToPascalCase(string key)
-            => key.Contains('-') || key.Contains('_')
+            => key switch
+            {
+                "" => "",
+                null => "",
                 // kebap-case or snake_case
-                ? string.Concat(key.Split(new[] {'-', '_'}, StringSplitOptions.RemoveEmptyEntries)
-                                   .Select(word => word.Substring(0, 1).ToUpper() + word.Substring(1).ToLower()))
-                // camelCase
-                : key.Substring(0, 1).ToUpper() + key.Substring(1);
+                {} when key.Contains('-') || key.Contains('_') => string.Concat(key.Split(new[] {'-', '_'}, StringSplitOptions.RemoveEmptyEntries).Select(word => word.Substring(0, 1).ToUpper() + word.Substring(1).ToLower())),
+                // CamelCase
+                _ => (key.Substring(0, 1).ToUpper() + key.Substring(1))
+            };
     }
 }

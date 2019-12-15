@@ -11,6 +11,14 @@ namespace TypedRest.OpenApi.CSharp
         private readonly INamingConvention _namingConvention = new NamingConvention("MyNamespace", "MyService");
 
         [Fact]
+        public void PropertyEmptyString()
+        {
+            _namingConvention
+               .Property("")
+               .Should().Be("");
+        }
+
+        [Fact]
         public void PropertyFromSnakeCase()
         {
             _namingConvention
