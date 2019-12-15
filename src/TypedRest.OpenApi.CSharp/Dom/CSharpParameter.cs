@@ -13,8 +13,6 @@ namespace TypedRest.OpenApi.CSharp.Dom
 
         public object? Value { get; set; }
 
-        public bool ThisReference { get; set; }
-
         public CSharpParameter(CSharpIdentifier type, string name)
         {
             Type = type ?? throw new ArgumentNullException(nameof(type));
@@ -26,18 +24,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
 
         public ArgumentSyntax ToArgumentSyntax()
         {
-            if (ThisReference)
-                return Argument(ThisExpression());
-
-            var identifierName = IdentifierName(Name);
-            var literal = GetLiteralExpression();
-            return literal == null
-                ? Argument(identifierName)
-                : Argument(literal).WithNameColon(NameColon(identifierName));
-        }
-
-        private LiteralExpressionSyntax? GetLiteralExpression()
-            => Value switch
+            var literal = Value switch
             {
                 bool value => LiteralExpression(value ? SyntaxKind.TrueLiteralExpression : SyntaxKind.FalseLiteralExpression),
                 int value => LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)),
@@ -47,5 +34,12 @@ namespace TypedRest.OpenApi.CSharp.Dom
                 string value => LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(value)),
                 _ => null
             };
+            return literal switch
+            {
+                null when Value is ThisReference => Argument(ThisExpression()),
+                null => Argument(IdentifierName(Name)),
+                _ => Argument(literal).WithNameColon(NameColon(IdentifierName(Name)))
+            };
+        }
     }
 }

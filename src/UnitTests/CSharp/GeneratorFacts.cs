@@ -75,7 +75,7 @@ namespace TypedRest.OpenApi.CSharp
         private static CSharpParameter Referrer
             => new CSharpParameter(new CSharpIdentifier("TypedRest.Endpoints", "IEndpoint"), "referrer")
             {
-                ThisReference = true
+                Value = new ThisReference()
             };
 
         private static CSharpProperty Property(string name, string description, CSharpIdentifier interfaceType, CSharpIdentifier? implementationType = null, string? relativeUri = null)

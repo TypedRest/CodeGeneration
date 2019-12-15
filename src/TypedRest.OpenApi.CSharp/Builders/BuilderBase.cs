@@ -31,7 +31,7 @@ namespace TypedRest.OpenApi.CSharp.Builders
 
         protected virtual IEnumerable<CSharpParameter> GetParameters(TEndpoint endpoint)
         {
-            yield return new CSharpParameter(new CSharpIdentifier("TypedRest.Endpoints", "IEndpoint"), "referrer") {ThisReference = true};
+            yield return new CSharpParameter(new CSharpIdentifier("TypedRest.Endpoints", "IEndpoint"), "referrer") {Value = new ThisReference()};
             yield return string.IsNullOrEmpty(endpoint.Uri)
                 ? new CSharpParameter(CSharpIdentifier.Uri, "relativeUri")
                 : new CSharpParameter(CSharpIdentifier.String, "relativeUri") {Value = endpoint.Uri};
