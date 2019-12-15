@@ -1,14 +1,29 @@
+using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Interfaces;
+using Microsoft.OpenApi.Models;
 
 namespace TypedRest.OpenApi.Endpoints
 {
     /// <summary>
     /// Represents a TypedRest endpoint.
     /// </summary>
-    public interface IEndpoint : IOpenApiSerializable, IOpenApiExtension, IParsable
+    public interface IEndpoint : IOpenApiSerializable, IOpenApiExtension
     {
         /// <summary>
-        /// The kindy/type of endpoint.
+        /// Fills the endpoint with information parsed from an OpenAPI Object.
+        /// </summary>
+        /// <param name="data">The OpenAPI Object to parse.</param>
+        /// <param name="parser">The endpoint parser to use for parsing child objects.</param>
+        void Parse(OpenApiObject data, IEndpointParser parser);
+
+        /// <summary>
+        /// Resolves <see cref="OpenApiReference"/>s.
+        /// </summary>
+        /// <param name="components">The components that references can point to.</param>
+        void ResolveReferences(OpenApiComponents components);
+
+        /// <summary>
+        /// The kind/type of endpoint.
         /// </summary>
         string Kind { get; }
 
