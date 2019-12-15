@@ -25,10 +25,10 @@ namespace TypedRest.OpenApi.CSharp
         private EndpointList _endpoints = default!;
         private IDictionary<string, OpenApiSchema> _schemas = default!;
 
-        public ITypeList Generate(EndpointList endpoints, IDictionary<string, OpenApiSchema> schemas)
+        public ITypeList Generate(EntryEndpoint endpoint, IDictionary<string, OpenApiSchema> schemas)
         {
             _typeList = new TypeList();
-            _endpoints = endpoints;
+            _endpoints = endpoint.Children;
             _schemas = schemas;
 
             GenerateDtos();

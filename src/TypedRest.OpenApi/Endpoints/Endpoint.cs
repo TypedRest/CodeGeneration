@@ -46,7 +46,7 @@ namespace TypedRest.OpenApi.Endpoints
             writer.WriteOptionalMap("children", Children, specVersion);
         }
 
-        public void Write(IOpenApiWriter writer, OpenApiSpecVersion specVersion)
+        public virtual void Write(IOpenApiWriter writer, OpenApiSpecVersion specVersion)
         {
             writer.WriteStartObject();
             WriteBody(writer, specVersion);

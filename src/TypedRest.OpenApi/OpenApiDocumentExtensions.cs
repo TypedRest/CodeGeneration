@@ -9,21 +9,26 @@ namespace TypedRest.OpenApi
     public static class OpenApiDocumentExtensions
     {
         /// <summary>
+        /// The property name used to add TypedRest as an extension to an <see cref="OpenApiDocument"/>.
+        /// </summary>
+        public const string TypedRestKey = "x-endpoints";
+
+        /// <summary>
         /// Gets the TypedRest extension from the OpenAPI Spec <paramref name="document"/>.
         /// </summary>
         /// <seealso cref="OpenApiReaderSettingsExtensions.AddTypedRest"/>
-        public static EndpointList? GetTypedRestEndpoints(this OpenApiDocument document)
+        public static EntryEndpoint? GetTypedRest(this OpenApiDocument document)
         {
-            document.Extensions.TryGetValue(EndpointList.ExtensionKey, out var list);
-            return list as EndpointList;
+            document.Extensions.TryGetValue(TypedRestKey, out var endpoint);
+            return endpoint as EntryEndpoint;
         }
 
         /// <summary>
-        /// Adds the <paramref name="list"/> as a TypedRest extension to the OpenAPI Spec <paramref name="document"/>.
+        /// Adds the <paramref name="endpoint"/> as a TypedRest extension to the OpenAPI Spec <paramref name="document"/>.
         /// </summary>
-        public static OpenApiDocument SetTypedRestEndpoints(this OpenApiDocument document, EndpointList list)
+        public static OpenApiDocument SetTypedRest(this OpenApiDocument document, EntryEndpoint endpoint)
         {
-            document.Extensions[EndpointList.ExtensionKey] = list;
+            document.Extensions[TypedRestKey] = endpoint;
             return document;
         }
 
@@ -32,7 +37,7 @@ namespace TypedRest.OpenApi
         /// </summary>
         public static OpenApiDocument ResolveTypedRestReferences(this OpenApiDocument doc)
         {
-            doc.GetTypedRestEndpoints()?.ResolveReferences(doc.Components);
+            doc.GetTypedRest()?.ResolveReferences(doc.Components);
             return doc;
         }
     }

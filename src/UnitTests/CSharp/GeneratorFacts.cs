@@ -10,7 +10,7 @@ namespace TypedRest.OpenApi.CSharp
         public void GeneratesCorrectDom()
         {
             var generator = new Generator(new NamingConvention("MyNamespace", "MyService"));
-            var generated = generator.Generate(Sample.Endpoints, Sample.Doc.Components.Schemas);
+            var generated = generator.Generate(Sample.EntryEndpoint, Sample.Doc.Components.Schemas);
 
             var noteDto = Dto("Note");
             var noteEndpoint = ElementEndpoint(noteDto);
@@ -19,13 +19,13 @@ namespace TypedRest.OpenApi.CSharp
             var contactEndpointInterface = new CSharpInterface(new CSharpIdentifier("MyNamespace", "IContactEndpoint"))
             {
                 Interfaces = {ElementEndpoint(contactDto).ToInterface()},
+                Description = "A specific contact.",
                 Properties =
                 {
                     Property("Note", "The note for a specific contact.", noteEndpoint.ToInterface()),
                     Property("Poke", "Pokes a contact.", ActionEndpoint.ToInterface()),
                     Property("Picture", "A picture of a specific contact.", BlobEndpoint.ToInterface())
-                },
-                Description = "A specific contact."
+                }
             };
             var contactEndpoint = new CSharpClass(new CSharpIdentifier("MyNamespace", "ContactEndpoint"))
             {
@@ -37,14 +37,14 @@ namespace TypedRest.OpenApi.CSharp
                         new CSharpParameter(CSharpIdentifier.Uri, "relativeUri")
                     }
                 },
+                Interfaces = {contactEndpointInterface.Identifier},
+                Description = contactEndpointInterface.Description,
                 Properties =
                 {
                     Property("Note", "The note for a specific contact.", noteEndpoint.ToInterface(), noteEndpoint, "./note"),
                     Property("Poke", "Pokes a contact.", ActionEndpoint.ToInterface(), ActionEndpoint, "./poke"),
                     Property("Picture", "A picture of a specific contact.", BlobEndpoint.ToInterface(), BlobEndpoint, "./picture")
-                },
-                Interfaces = {contactEndpointInterface.Identifier},
-                Description = contactEndpointInterface.Description
+                }
             };
 
             var collectionEndpoint = CollectionEndpoint(contactDto, contactEndpoint.Identifier);

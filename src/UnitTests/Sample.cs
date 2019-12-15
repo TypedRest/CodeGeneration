@@ -31,7 +31,7 @@ namespace TypedRest.OpenApi
                     ["Note"] = NoteSchema
                 }
             }
-        }.SetTypedRestEndpoints(Endpoints);
+        }.SetTypedRest(EntryEndpoint);
 
         public static OpenApiPaths Paths => new OpenApiPaths
         {
@@ -84,33 +84,36 @@ namespace TypedRest.OpenApi
             }
         };
 
-        public static EndpointList Endpoints => new EndpointList
+        public static EntryEndpoint EntryEndpoint => new EntryEndpoint
         {
-            ["contacts"] = new CollectionEndpoint
+            Children =
             {
-                Description = "Collection of contacts.",
-                Uri = "./contacts",
-                Schema = ContactSchema,
-                Element = new ElementEndpoint
+                ["contacts"] = new CollectionEndpoint
                 {
-                    Description = "A specific contact.",
-                    Children =
+                    Description = "Collection of contacts.",
+                    Uri = "./contacts",
+                    Schema = ContactSchema,
+                    Element = new ElementEndpoint
                     {
-                        ["note"] = new ElementEndpoint
+                        Description = "A specific contact.",
+                        Children =
                         {
-                            Description = "The note for a specific contact.",
-                            Uri = "./note",
-                            Schema = NoteSchema
-                        },
-                        ["poke"] = new ActionEndpoint
-                        {
-                            Description = "Pokes a contact.",
-                            Uri = "./poke"
-                        },
-                        ["picture"] = new BlobEndpoint
-                        {
-                            Description = "A picture of a specific contact.",
-                            Uri = "./picture"
+                            ["note"] = new ElementEndpoint
+                            {
+                                Description = "The note for a specific contact.",
+                                Uri = "./note",
+                                Schema = NoteSchema
+                            },
+                            ["poke"] = new ActionEndpoint
+                            {
+                                Description = "Pokes a contact.",
+                                Uri = "./poke"
+                            },
+                            ["picture"] = new BlobEndpoint
+                            {
+                                Description = "A picture of a specific contact.",
+                                Uri = "./picture"
+                            }
                         }
                     }
                 }

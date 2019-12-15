@@ -11,12 +11,11 @@ namespace TypedRest.OpenApi
         /// <summary>
         /// Adds support for the TypedRest OpenAPI Spec Extension.
         /// </summary>
-        /// <seealso cref="OpenApiDocumentExtensions.GetTypedRestEndpoints"/>
+        /// <seealso cref="OpenApiDocumentExtensions.GetTypedRest"/>
         public static OpenApiReaderSettings AddTypedRest(this OpenApiReaderSettings settings, EndpointRegistry? endpointRegistry = null)
         {
             var parser = new EndpointParser(endpointRegistry);
-
-            settings.ExtensionParsers.Add(EndpointList.ExtensionKey, parser.Parse);
+            settings.ExtensionParsers.Add(OpenApiDocumentExtensions.TypedRestKey, parser.Parse);
             return settings;
         }
     }

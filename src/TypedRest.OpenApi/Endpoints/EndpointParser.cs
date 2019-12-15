@@ -36,11 +36,11 @@ namespace TypedRest.OpenApi.Endpoints
         /// <param name="specVersion">The OpenAPI Spec version.</param>
         public IOpenApiExtension Parse(IOpenApiAny data, OpenApiSpecVersion specVersion)
         {
-            if (!(data is OpenApiObject objData)) throw new FormatException($"{EndpointList.ExtensionKey} is not an object.");
+            if (!(data is OpenApiObject objData)) throw new FormatException($"{OpenApiDocumentExtensions.TypedRestKey} is not an object.");
 
-            var result = new EndpointList();
-            result.Parse(objData, this);
-            return result;
+            var entryEndpoint = new EntryEndpoint();
+            entryEndpoint.Parse(objData, this);
+            return entryEndpoint;
         }
     }
 }

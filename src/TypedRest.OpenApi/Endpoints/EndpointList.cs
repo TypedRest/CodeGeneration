@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Microsoft.OpenApi;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Interfaces;
-using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Writers;
 
 namespace TypedRest.OpenApi.Endpoints
@@ -10,15 +9,8 @@ namespace TypedRest.OpenApi.Endpoints
     /// <summary>
     /// A list of named <see cref="IEndpoint"/>s.
     /// </summary>
-    /// <seealso cref="OpenApiDocumentExtensions.GetTypedRestEndpoints"/>
-    /// <seealso cref="OpenApiDocumentExtensions.SetTypedRestEndpoints"/>
     public class EndpointList : Dictionary<string, IEndpoint>, IOpenApiSerializable, IOpenApiExtension
     {
-        /// <summary>
-        /// The property name used to add this as an extension to an <see cref="OpenApiDocument"/>.
-        /// </summary>
-        public const string ExtensionKey = "x-endpoints";
-
         /// <summary>
         /// Adds <see cref="IEndpoint"/>s parsed from an OpenAPI Object.
         /// </summary>
@@ -31,16 +23,6 @@ namespace TypedRest.OpenApi.Endpoints
                 if (property.Value is OpenApiObject objData)
                     Add(property.Key, parser.Parse(objData));
             }
-        }
-
-        /// <summary>
-        /// Resolves <see cref="OpenApiReference"/>s in the contained <see cref="IEndpoint"/>s.
-        /// </summary>
-        /// <param name="components">The components that references can point to.</param>
-        public void ResolveReferences(OpenApiComponents components)
-        {
-            foreach (var child in Values)
-                child.ResolveReferences(components);
         }
 
         public void Write(IOpenApiWriter writer, OpenApiSpecVersion specVersion)
