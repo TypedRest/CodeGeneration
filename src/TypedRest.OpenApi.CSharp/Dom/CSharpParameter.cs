@@ -41,5 +41,10 @@ namespace TypedRest.OpenApi.CSharp.Dom
                 _ => Argument(literal).WithNameColon(NameColon(IdentifierName(Name)))
             };
         }
+
+        public override string ToString()
+            => Value == null
+                ? Type + " " + Name
+                : Type + " " + Name + " = " + Value;
     }
 }

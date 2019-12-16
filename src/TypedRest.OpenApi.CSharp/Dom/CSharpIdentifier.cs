@@ -61,5 +61,10 @@ namespace TypedRest.OpenApi.CSharp.Dom
             result.TypeArguments.AddRange(TypeArguments);
             return result;
         }
+
+        public override string ToString()
+            => TypeArguments.Count == 0
+                ? Name
+                : Name + "<" + string.Join(", ", TypeArguments) + ">";
     }
 }

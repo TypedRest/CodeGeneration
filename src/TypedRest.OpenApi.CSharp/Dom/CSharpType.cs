@@ -39,5 +39,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
         }
 
         protected abstract MemberDeclarationSyntax GetTypeDeclaration();
+
+        public override string ToString() => Identifier.ToString();
     }
 }

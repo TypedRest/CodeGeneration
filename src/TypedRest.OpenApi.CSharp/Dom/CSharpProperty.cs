@@ -55,5 +55,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
             yield return Declaration(SyntaxKind.GetAccessorDeclaration);
             if (HasSetter) yield return Declaration(SyntaxKind.SetAccessorDeclaration);
         }
+
+        public override string ToString() => Name;
     }
 }

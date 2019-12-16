@@ -45,5 +45,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
         private ParameterListSyntax GetParameterList()
             => ParameterList(SeparatedList(
                 Parameters.Where(x => x.Value == null).Select(x => x.ToParameterSyntax())));
+
+        public override string ToString() => Type.ToString();
     }
 }
