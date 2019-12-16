@@ -10,13 +10,13 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(OS)'=='Windows_NT' Or '$(MSBuildRuntimeType)'=='Mono'">
-    <TargetFrameworks>net472;netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks>net472;netcoreapp3.1</TargetFrameworks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(OS)'!='Windows_NT' And '$(MSBuildRuntimeType)'=='Core'">
-    <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
   </PropertyGroup>
 
-  <PropertyGroup Condition="$(TargetFramework)=='netcoreapp3.0'">
+  <PropertyGroup Condition="$(TargetFramework)=='netcoreapp3.1'">
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
@@ -24,7 +24,7 @@
     <ProjectReference Include="..\TypedRest.OpenApi.CSharp\TypedRest.OpenApi.CSharp.csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp3.0'">
+  <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp3.1'">
     <ProjectReference Include="..\TypedRest.OpenApi.Cli\TypedRest.OpenApi.Cli.csproj" />
   </ItemGroup>
 

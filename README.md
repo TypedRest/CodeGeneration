@@ -5,7 +5,7 @@ Tool that automatically infers [TypedRest Endpoints](https://typedrest.net/endpo
 
 ## Usage
 
-Make sure you have the [.NET Core SDK](https://dotnet.microsoft.com/download) installed and run:
+Make sure you have the [.NET Core SDK 3.1+](https://dotnet.microsoft.com/download) installed and run:
 
     dotnet tool install -g typedrest-openapi
 
