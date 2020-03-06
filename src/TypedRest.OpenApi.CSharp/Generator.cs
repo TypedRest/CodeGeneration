@@ -23,9 +23,9 @@ namespace TypedRest.OpenApi.CSharp
 
         public bool GenerateDtos { get; set; } = true;
 
-        public List<CSharpType> Generate(EntryEndpoint endpoint, IDictionary<string, OpenApiSchema> schemas)
+        public List<ICSharpType> Generate(EntryEndpoint endpoint, IDictionary<string, OpenApiSchema> schemas)
         {
-            var types = new List<CSharpType>();
+            var types = new List<ICSharpType>();
 
             var entryEndpoint = GenerateEndpoint("entry", endpoint);
             types.AddRange(entryEndpoint.types);
@@ -40,7 +40,7 @@ namespace TypedRest.OpenApi.CSharp
             return types;
         }
 
-        public (CSharpProperty property, IEnumerable<CSharpType> types) GenerateEndpoint(string key, IEndpoint endpoint)
+        public (CSharpProperty property, IEnumerable<ICSharpType> types) GenerateEndpoint(string key, IEndpoint endpoint)
             => _builders.For(endpoint).Build(key, endpoint, this);
     }
 }

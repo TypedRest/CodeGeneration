@@ -7,7 +7,7 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace TypedRest.OpenApi.CSharp.Dom
 {
-    public abstract class CSharpType
+    public abstract class CSharpType : ICSharpType
     {
         public abstract CSharpIdentifier Identifier { get; }
 

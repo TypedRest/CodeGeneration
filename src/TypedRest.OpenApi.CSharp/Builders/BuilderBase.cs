@@ -12,12 +12,12 @@ namespace TypedRest.OpenApi.CSharp.Builders
     public abstract class BuilderBase<TEndpoint> : IBuilder<TEndpoint>
         where TEndpoint : IEndpoint
     {
-        public (CSharpProperty property, IEnumerable<CSharpType> types) Build(string key, IEndpoint endpoint, IGenerator generator)
+        public (CSharpProperty property, IEnumerable<ICSharpType> types) Build(string key, IEndpoint endpoint, IGenerator generator)
             => Build(key, (TEndpoint)endpoint, generator);
 
-        public (CSharpProperty property, IEnumerable<CSharpType> types) Build(string key, TEndpoint endpoint, IGenerator generator)
+        public (CSharpProperty property, IEnumerable<ICSharpType> types) Build(string key, TEndpoint endpoint, IGenerator generator)
         {
-            var types = new List<CSharpType>();
+            var types = new List<ICSharpType>();
             var implementationType = GetImplementationType(endpoint, generator.Naming);
 
             var additional = GetAdditional(key, endpoint, generator);
@@ -54,7 +54,7 @@ namespace TypedRest.OpenApi.CSharp.Builders
             return (property, types);
         }
 
-        private static CSharpClass CustomImplementation(string key, TEndpoint endpoint, CSharpClassConstruction baseClass, List<CSharpType> types, IGenerator generator)
+        private static CSharpClass CustomImplementation(string key, TEndpoint endpoint, CSharpClassConstruction baseClass, List<ICSharpType> types, IGenerator generator)
         {
             var customImplementation = new CSharpClass(generator.Naming.EndpointType(key, endpoint))
             {
@@ -87,7 +87,7 @@ namespace TypedRest.OpenApi.CSharp.Builders
             return endpointInterface;
         }
 
-        protected virtual (IEnumerable<CSharpType> types, IEnumerable<CSharpIdentifier> typeArguments) GetAdditional(string key, TEndpoint endpoint, IGenerator generator)
+        protected virtual (IEnumerable<ICSharpType> types, IEnumerable<CSharpIdentifier> typeArguments) GetAdditional(string key, TEndpoint endpoint, IGenerator generator)
             => (Enumerable.Empty<CSharpType>(), Enumerable.Empty<CSharpIdentifier>());
 
         protected abstract CSharpIdentifier GetImplementationType(TEndpoint endpoint, INamingConvention naming);

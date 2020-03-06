@@ -9,7 +9,7 @@ namespace TypedRest.OpenApi.CSharp.Builders
     /// </summary>
     public interface IBuilder
     {
-        (CSharpProperty property, IEnumerable<CSharpType> types) Build(string key, IEndpoint endpoint, IGenerator generator);
+        (CSharpProperty property, IEnumerable<ICSharpType> types) Build(string key, IEndpoint endpoint, IGenerator generator);
     }
 
     /// <summary>
@@ -19,6 +19,6 @@ namespace TypedRest.OpenApi.CSharp.Builders
     public interface IBuilder<in TEndpoint> : IBuilder
         where TEndpoint : IEndpoint
     {
-        (CSharpProperty property, IEnumerable<CSharpType> types) Build(string key, TEndpoint endpoint, IGenerator generator);
+        (CSharpProperty property, IEnumerable<ICSharpType> types) Build(string key, TEndpoint endpoint, IGenerator generator);
     }
 }
