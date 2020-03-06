@@ -34,6 +34,7 @@ namespace Namespace1
     /// <summary>
     /// My interface
     /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode(""TypedRest.OpenApi"", ""1.0.0"")]
     public interface MyInterface : BaseInterface
     {
         /// <summary>

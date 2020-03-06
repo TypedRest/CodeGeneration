@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
@@ -21,6 +22,15 @@ namespace TypedRest.OpenApi.CSharp.Dom
               .WithUsings(List(GetNamespaces().Select(x => UsingDirective(IdentifierName(x)))))
               .AddMembers(NamespaceDeclaration(IdentifierName(Identifier.Namespace)).AddMembers(GetTypeDeclaration()))
               .NormalizeWhitespace();
+
+        protected static AttributeListSyntax GeneratedCodeAttribute
+            => AttributeList(SingletonSeparatedList(Attribute(
+                QualifiedName(QualifiedName(QualifiedName(IdentifierName("System"), IdentifierName("CodeDom")), IdentifierName("Compiler")), IdentifierName("GeneratedCode")),
+                AttributeArgumentList(SeparatedList(new[]
+                {
+                    AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal("TypedRest.OpenApi"))),
+                    AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal("1.0.0")))
+                })))));
 
         protected virtual ISet<string> GetNamespaces()
         {
