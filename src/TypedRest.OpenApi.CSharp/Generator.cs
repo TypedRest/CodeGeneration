@@ -31,11 +31,7 @@ namespace TypedRest.OpenApi.CSharp
             types.AddRange(entryEndpoint.types);
 
             if (GenerateDtos)
-            {
-                // TODO: Proper implementation
-                foreach (var pair in schemas)
-                    types.Add(new CSharpClass(Naming.DtoType(pair.Key)));
-            }
+                types.AddRange(schemas.Select(x => new CSharpDto(Naming.DtoType(x.Key), x.Value)));
 
             return types;
         }

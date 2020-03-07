@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.CSharp.Dom;
 using Xunit;
 
@@ -12,10 +13,10 @@ namespace TypedRest.OpenApi.CSharp
             var generator = new Generator(new NamingConvention("MyNamespace", "MyService"));
             var generated = generator.Generate(Sample.EntryEndpoint, Sample.Doc.Components.Schemas);
 
-            var noteDto = Dto("Note");
+            var noteDto = Dto("Note", Sample.NoteSchema);
             var noteEndpoint = ElementEndpoint(noteDto);
 
-            var contactDto = Dto("Contact");
+            var contactDto = Dto("Contact", Sample.ContactSchema);
             var contactEndpointInterface = new CSharpInterface(new CSharpIdentifier("MyNamespace", "IContactElementEndpoint"))
             {
                 Interfaces = {ElementEndpoint(contactDto).ToInterface()},
@@ -78,8 +79,8 @@ namespace TypedRest.OpenApi.CSharp
                 entryEndpointInterface, entryEndpoint, contactEndpointInterface, contactEndpoint);
         }
 
-        private static CSharpClass Dto(string name)
-            => new CSharpClass(new CSharpIdentifier("MyNamespace", name));
+        private static CSharpDto Dto(string name, OpenApiSchema schema)
+            => new CSharpDto(new CSharpIdentifier("MyNamespace", name), schema);
 
         private static CSharpParameter Referrer
             => new CSharpParameter(new CSharpIdentifier("TypedRest.Endpoints", "IEndpoint"), "referrer")
@@ -113,13 +114,13 @@ namespace TypedRest.OpenApi.CSharp
         private static CSharpIdentifier BlobEndpoint
             => new CSharpIdentifier("TypedRest.Endpoints.Raw", "BlobEndpoint");
 
-        private static CSharpIdentifier ElementEndpoint(CSharpClass dto)
+        private static CSharpIdentifier ElementEndpoint(CSharpDto dto)
             => new CSharpIdentifier("TypedRest.Endpoints.Generic", "ElementEndpoint")
             {
                 TypeArguments = {dto.Identifier}
             };
 
-        private static CSharpIdentifier CollectionEndpoint(CSharpClass dto, CSharpIdentifier elementEndpoint)
+        private static CSharpIdentifier CollectionEndpoint(CSharpDto dto, CSharpIdentifier elementEndpoint)
             => new CSharpIdentifier("TypedRest.Endpoints.Generic", "CollectionEndpoint")
             {
                 TypeArguments = {dto.Identifier, elementEndpoint}
