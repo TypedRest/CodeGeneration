@@ -40,7 +40,7 @@ namespace Namespace1
         /// <summary>
         /// My property
         /// </summary>
-        public ICollectionEndpoint<MyModel> MyProperty
+        ICollectionEndpoint<MyModel> MyProperty
         {
             get;
         }

@@ -28,6 +28,6 @@ namespace TypedRest.OpenApi.CSharp.Dom
             => Interfaces.Select(x => SimpleBaseType(x.ToSyntax()));
 
         private IEnumerable<MemberDeclarationSyntax> GetMemberDeclarations()
-            => Properties.Select(property => property.ToSyntax());
+            => Properties.Select(property => property.ToSyntax(publicKeyword: false));
     }
 }

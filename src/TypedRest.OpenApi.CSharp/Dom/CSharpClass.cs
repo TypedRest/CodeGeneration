@@ -62,7 +62,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
                 yield return BaseClass.ToConstructorSyntax(Identifier.Name);
 
             foreach (var property in Properties)
-                yield return property.ToSyntax();
+                yield return property.ToSyntax(publicKeyword: true);
         }
     }
 }

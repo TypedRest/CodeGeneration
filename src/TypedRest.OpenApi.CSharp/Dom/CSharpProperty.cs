@@ -36,11 +36,14 @@ namespace TypedRest.OpenApi.CSharp.Dom
             }
         }
 
-        public PropertyDeclarationSyntax ToSyntax()
+        public PropertyDeclarationSyntax ToSyntax(bool publicKeyword)
         {
-            var propertyDeclaration = PropertyDeclaration(Type.ToSyntax(), Identifier(Name))
-                                     .WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
-                                     .WithDocumentation(Description);
+            var propertyDeclaration = PropertyDeclaration(Type.ToSyntax(), Identifier(Name));
+
+            if (publicKeyword)
+                propertyDeclaration = propertyDeclaration.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)));
+
+            propertyDeclaration = propertyDeclaration.WithDocumentation(Description);
 
             return (GetterExpression == null)
                 ? propertyDeclaration.WithAccessorList(AccessorList(List(GetAccessors())))
