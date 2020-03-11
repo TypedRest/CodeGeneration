@@ -18,10 +18,16 @@ namespace TypedRest.OpenApi.CSharp.Dom
         public List<CSharpProperty> Properties { get; } = new List<CSharpProperty>();
 
         public CompilationUnitSyntax ToSyntax()
-            => CompilationUnit()
-              .WithUsings(List(GetNamespaces().Select(x => UsingDirective(IdentifierName(x)))))
-              .AddMembers(NamespaceDeclaration(IdentifierName(Identifier.Namespace)).AddMembers(GetTypeDeclaration()))
-              .NormalizeWhitespace();
+        {
+            var namespaces = GetNamespaces();
+            if (!string.IsNullOrEmpty(Identifier.Namespace))
+                namespaces.Remove(Identifier.Namespace);
+
+            return CompilationUnit()
+                  .WithUsings(List(namespaces.Select(x => UsingDirective(IdentifierName(x)))))
+                  .AddMembers(NamespaceDeclaration(IdentifierName(Identifier.Namespace)).AddMembers(GetTypeDeclaration()))
+                  .NormalizeWhitespace();
+        }
 
         protected static AttributeListSyntax GeneratedCodeAttribute
             => AttributeList(SingletonSeparatedList(Attribute(
@@ -41,9 +47,6 @@ namespace TypedRest.OpenApi.CSharp.Dom
 
             foreach (string ns in Properties.SelectMany(x => x.GetNamespaces()))
                 namespaces.Add(ns);
-
-            if (!string.IsNullOrEmpty(Identifier.Namespace))
-                namespaces.Remove(Identifier.Namespace);
 
             return namespaces;
         }
