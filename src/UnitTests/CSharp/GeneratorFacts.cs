@@ -11,7 +11,7 @@ namespace TypedRest.OpenApi.CSharp
         public void GeneratesCorrectDom()
         {
             var generator = new Generator(new NamingConvention("MyNamespace", "MyService"));
-            var generated = generator.Generate(Sample.EntryEndpoint, Sample.Doc.Components.Schemas);
+            var generated = generator.Generate(Sample.Doc);
 
             var noteDto = Dto("Note", Sample.NoteSchema);
             var noteEndpoint = ElementEndpoint(noteDto);
