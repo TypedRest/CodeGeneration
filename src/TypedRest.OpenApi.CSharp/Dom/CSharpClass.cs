@@ -41,7 +41,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
 
         protected override MemberDeclarationSyntax GetTypeDeclaration()
             => ClassDeclaration(Identifier.Name)
-              .AddModifiers(Token(SyntaxKind.PublicKeyword))
+              .AddModifiers(Token(SyntaxKind.PublicKeyword), Token(SyntaxKind.PartialKeyword))
               .AddAttributeLists(GeneratedCodeAttribute)
               .WithDocumentation(Description)
               .WithBaseList(BaseList(SeparatedList(GetBaseTypes())))

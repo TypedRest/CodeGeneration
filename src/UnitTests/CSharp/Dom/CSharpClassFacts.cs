@@ -50,7 +50,7 @@ namespace Namespace1
     /// My class
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCode(""TypedRest.OpenApi"", ""1.0.0"")]
-    public class MyClass : BaseClass, MyInterface<MyModel>
+    public partial class MyClass : BaseClass, MyInterface<MyModel>
     {
         public MyClass(IEndpoint referrer): base(referrer, relativeUri: ""./sample"")
         {
