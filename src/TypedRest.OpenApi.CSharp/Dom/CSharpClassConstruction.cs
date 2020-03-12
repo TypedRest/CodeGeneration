@@ -29,22 +29,25 @@ namespace TypedRest.OpenApi.CSharp.Dom
 
         public ObjectCreationExpressionSyntax ToNewSyntax()
             => ObjectCreationExpression(Type.ToSyntax())
-               .WithArgumentList(GetArgumentList());
+               .WithArgumentList(GetArgumentList(thisKeyword: true));
 
         public ConstructorDeclarationSyntax ToConstructorSyntax(string typeName)
             => ConstructorDeclaration(Identifier(typeName))
               .WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
               .WithParameterList(GetParameterList())
-              .WithInitializer(ConstructorInitializer(SyntaxKind.BaseConstructorInitializer, GetArgumentList()))
+              .WithInitializer(ConstructorInitializer(SyntaxKind.BaseConstructorInitializer, GetArgumentList(thisKeyword: false)))
               .WithBody(Block());
 
-        private ArgumentListSyntax GetArgumentList()
+        private ArgumentListSyntax GetArgumentList(bool thisKeyword)
             => ArgumentList(SeparatedList(
-                Parameters.Select(x => x.ToArgumentSyntax())));
+                Parameters.Select(x => thisKeyword && x.Value is ThisReference
+                    ? Argument(ThisExpression())
+                    : x.ToArgumentSyntax())));
 
         private ParameterListSyntax GetParameterList()
             => ParameterList(SeparatedList(
-                Parameters.Where(x => x.Value == null).Select(x => x.ToParameterSyntax())));
+                Parameters.Where(x => x.Value == null || x.Value is ThisReference)
+                          .Select(x => x.ToParameterSyntax())));
 
         public override string ToString() => Type.ToString();
     }

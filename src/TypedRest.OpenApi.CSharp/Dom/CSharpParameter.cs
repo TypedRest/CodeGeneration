@@ -36,7 +36,6 @@ namespace TypedRest.OpenApi.CSharp.Dom
             };
             return literal switch
             {
-                null when Value is ThisReference => Argument(ThisExpression()),
                 null => Argument(IdentifierName(Name)),
                 _ => Argument(literal).WithNameColon(NameColon(IdentifierName(Name)))
             };
