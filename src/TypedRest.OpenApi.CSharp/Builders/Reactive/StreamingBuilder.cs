@@ -13,7 +13,7 @@ namespace TypedRest.OpenApi.CSharp.Builders.Reactive
         protected override CSharpIdentifier GetImplementationType(StreamingEndpoint endpoint, INamingConvention naming)
             => new CSharpIdentifier(Namespace.Name, "StreamingEndpoint")
             {
-                TypeArguments = {naming.DtoFor(endpoint.Schema ?? throw new InvalidOperationException($"Missing schema for {endpoint}."))}
+                TypeArguments = {naming.TypeFor(endpoint.Schema ?? throw new InvalidOperationException($"Missing schema for {endpoint}."))}
             };
 
         protected override IEnumerable<CSharpParameter> GetParameters(StreamingEndpoint endpoint)

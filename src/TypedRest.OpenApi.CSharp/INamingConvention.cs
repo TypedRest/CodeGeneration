@@ -12,6 +12,6 @@ namespace TypedRest.OpenApi.CSharp
 
         CSharpIdentifier DtoType(string key);
 
-        CSharpIdentifier DtoFor(OpenApiSchema schema);
+        CSharpIdentifier TypeFor(OpenApiSchema schema);
     }
 }

@@ -15,7 +15,11 @@ namespace TypedRest.OpenApi.CSharp.Dom
         public static CSharpIdentifier Float => new CSharpIdentifier("float");
         public static CSharpIdentifier Double => new CSharpIdentifier("double");
         public static CSharpIdentifier String => new CSharpIdentifier("string");
+        public static CSharpIdentifier Object => new CSharpIdentifier("object");
         public static CSharpIdentifier Uri => new CSharpIdentifier("System", "Uri");
+
+        public static CSharpIdentifier ListOf(CSharpIdentifier type)
+            => new CSharpIdentifier("System.Collections.Generic", "List") {TypeArguments = {type}};
 
         public string? Namespace { get; }
 
@@ -52,6 +56,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
                 "float" => PredefinedType(Token(SyntaxKind.FloatKeyword)),
                 "double" => PredefinedType(Token(SyntaxKind.DoubleKeyword)),
                 "string" => PredefinedType(Token(SyntaxKind.StringKeyword)),
+                "object" => PredefinedType(Token(SyntaxKind.ObjectKeyword)),
                 _ => (TypeArguments.Count == 0 ? (TypeSyntax)IdentifierName(Name) : GenericName(Identifier(Name)).WithTypeArgumentList(TypeArgumentList(SeparatedList(TypeArguments.Select(x => x.ToSyntax())))))
             };
 

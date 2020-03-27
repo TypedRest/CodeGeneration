@@ -22,7 +22,7 @@ namespace TypedRest.OpenApi.CSharp.Builders
             {
                 TypeArguments =
                 {
-                    naming.DtoFor(endpoint.Schema ?? throw new InvalidOperationException($"Missing schema for {endpoint}."))
+                    naming.TypeFor(endpoint.Schema ?? throw new InvalidOperationException($"Missing schema for {endpoint}."))
                 }
             };
 

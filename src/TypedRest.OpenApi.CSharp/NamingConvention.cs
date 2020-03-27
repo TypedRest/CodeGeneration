@@ -36,9 +36,10 @@ namespace TypedRest.OpenApi.CSharp
                 _namespace,
                 ToPascalCase(key));
 
-        public CSharpIdentifier DtoFor(OpenApiSchema schema)
+        public CSharpIdentifier TypeFor(OpenApiSchema schema)
             => (schema.Type, schema.Format) switch
             {
+                ("array", _) => CSharpIdentifier.ListOf(TypeFor(schema.Items)),
                 ("string", "uri") => CSharpIdentifier.Uri,
                 ("string", _) => CSharpIdentifier.String,
                 ("int", "int64") => CSharpIdentifier.Long,
@@ -46,7 +47,8 @@ namespace TypedRest.OpenApi.CSharp
                 ("number", "float") => CSharpIdentifier.Float,
                 ("number", _) => CSharpIdentifier.Double,
                 ("boolean", _) => CSharpIdentifier.Bool,
-                _ => DtoType(schema.Reference?.Id ?? throw new InvalidOperationException("Unable to determine DTO type for Schema."))
+                _ when !string.IsNullOrEmpty(schema.Reference?.Id) => DtoType(schema.Reference.Id),
+                _ => CSharpIdentifier.Object
             };
 
         protected static string ToPascalCase(string key)

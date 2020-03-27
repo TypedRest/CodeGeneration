@@ -14,8 +14,8 @@ namespace TypedRest.OpenApi.CSharp.Builders.Rpc
             {
                 TypeArguments =
                 {
-                    naming.DtoFor(endpoint.RequestSchema ?? throw new InvalidOperationException($"Missing request schema for {endpoint}.")),
-                    naming.DtoFor(endpoint.ResponseSchema ?? throw new InvalidOperationException($"Missing response schema for {endpoint}."))
+                    naming.TypeFor(endpoint.RequestSchema ?? throw new InvalidOperationException($"Missing request schema for {endpoint}.")),
+                    naming.TypeFor(endpoint.ResponseSchema ?? throw new InvalidOperationException($"Missing response schema for {endpoint}."))
                 }
             };
     }
