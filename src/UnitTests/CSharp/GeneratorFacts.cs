@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.CSharp.Dom;
 using Xunit;
 
@@ -13,10 +12,14 @@ namespace TypedRest.OpenApi.CSharp
             var generator = new Generator(new NamingConvention("MyNamespace", "MyService"));
             var generated = generator.Generate(Sample.Doc);
 
-            var noteDto = Dto("Note", Sample.NoteSchema);
+            var noteDto = Dto("Note", "A note about a specific contact.",
+                Property("Content", "The content of the note.", CSharpIdentifier.String));
             var noteEndpoint = ElementEndpoint(noteDto);
 
-            var contactDto = Dto("Contact", Sample.ContactSchema);
+            var contactDto = Dto("Contact", "A contact in an address book.",
+                Property("Id", "The ID of the contact.", CSharpIdentifier.String),
+                Property("FirstName", "The first name of the contact.", CSharpIdentifier.String),
+                Property("LastName", "The last name of the contact.", CSharpIdentifier.String));
             var contactEndpointInterface = new CSharpInterface(new CSharpIdentifier("MyNamespace", "IContactElementEndpoint"))
             {
                 Interfaces = {ElementEndpoint(contactDto).ToInterface()},
@@ -79,8 +82,17 @@ namespace TypedRest.OpenApi.CSharp
                 entryEndpointInterface, entryEndpoint, contactEndpointInterface, contactEndpoint);
         }
 
-        private static ICSharpType Dto(string name, OpenApiSchema schema)
-            => new CSharpDto(new CSharpIdentifier("MyNamespace", name), schema);
+        private static CSharpClass Dto(string name, string description, params CSharpProperty[] properties)
+        {
+            var type = new CSharpClass(new CSharpIdentifier("MyNamespace", name))
+            {
+                Description = description
+            };
+            foreach (var property in properties)
+                property.HasSetter = true;
+            type.Properties.AddRange(properties);
+            return type;
+        }
 
         private static CSharpParameter Referrer
             => new CSharpParameter(new CSharpIdentifier("TypedRest.Endpoints", "IEndpoint"), "referrer")

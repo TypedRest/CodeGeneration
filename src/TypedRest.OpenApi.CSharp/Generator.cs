@@ -41,6 +41,20 @@ namespace TypedRest.OpenApi.CSharp
             => _builders.For(endpoint).Build(key, endpoint, this);
 
         private IEnumerable<ICSharpType> GetDtos(IDictionary<string, OpenApiSchema> schemas)
-            => schemas.Select(x => new CSharpDto(Naming.DtoType(x.Key), x.Value));
+            => schemas.Select(pair => GetDto(pair.Key, pair.Value));
+
+        private ICSharpType GetDto(string key, OpenApiSchema schema)
+        {
+            var type = new CSharpClass(Naming.DtoType(key)) {Description = schema.Description};
+            type.Properties.AddRange(schema.Properties.Select(pair => GetDtoProperty(pair.Key, pair.Value)));
+            return type;
+        }
+
+        private CSharpProperty GetDtoProperty(string key, OpenApiSchema schema)
+            => new CSharpProperty(Naming.TypeFor(schema), Naming.Property(key))
+            {
+                Description = schema.Description,
+                HasSetter = true
+            };
     }
 }
