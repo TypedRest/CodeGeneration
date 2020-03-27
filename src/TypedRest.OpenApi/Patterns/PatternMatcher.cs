@@ -26,10 +26,12 @@ namespace TypedRest.OpenApi.Patterns
             foreach ((string path, var subTree) in tree.Children)
             {
                 var endpoint = _patterns.Select(x => x.TryGetEndpoint(subTree, this))
-                                        .First(x => x != null);
-                endpoint!.Uri = "./" + path;
-
-                result[path] = endpoint;
+                                        .FirstOrDefault(x => x != null);
+                if (endpoint != null)
+                {
+                    endpoint.Uri = "./" + path;
+                    result[path] = endpoint;
+                }
             }
             return result;
         }
