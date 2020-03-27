@@ -30,10 +30,10 @@ namespace TypedRest.OpenApi.Endpoints
 
         protected void ParseChildren(OpenApiObject data, IEndpointParser parser)
         {
-            foreach (var property in data)
+            foreach ((string key, var value) in data)
             {
-                if (property.Value is OpenApiObject objData)
-                    Children.Add(property.Key, parser.Parse(objData));
+                if (value is OpenApiObject objData)
+                    Children.Add(key, parser.Parse(objData));
             }
         }
 

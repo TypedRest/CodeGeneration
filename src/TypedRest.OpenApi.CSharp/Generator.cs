@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.CSharp.Builders;
 using TypedRest.OpenApi.CSharp.Dom;
@@ -32,7 +31,10 @@ namespace TypedRest.OpenApi.CSharp
             types.AddRange(GetEndpoints("entry", entryEndpoint).types);
 
             if (GenerateDtos)
-                types.AddRange(GetDtos(document.Components.Schemas));
+            {
+                foreach ((string key, var schema) in document.Components.Schemas)
+                    types.Add(GetDto(key, schema));
+            }
 
             return types;
         }
@@ -40,21 +42,18 @@ namespace TypedRest.OpenApi.CSharp
         public (CSharpProperty property, IEnumerable<ICSharpType> types) GetEndpoints(string key, IEndpoint endpoint)
             => _builders.For(endpoint).Build(key, endpoint, this);
 
-        private IEnumerable<ICSharpType> GetDtos(IDictionary<string, OpenApiSchema> schemas)
-            => schemas.Select(pair => GetDto(pair.Key, pair.Value));
-
         private ICSharpType GetDto(string key, OpenApiSchema schema)
         {
             var type = new CSharpClass(Naming.DtoType(key)) {Description = schema.Description};
-            type.Properties.AddRange(schema.Properties.Select(pair => GetDtoProperty(pair.Key, pair.Value)));
+            foreach ((string propKey, var propSchema) in schema.Properties)
+            {
+                type.Properties.Add(new CSharpProperty(Naming.TypeFor(propSchema), Naming.Property(propKey))
+                {
+                    Description = propSchema.Description,
+                    HasSetter = true
+                });
+            }
             return type;
         }
-
-        private CSharpProperty GetDtoProperty(string key, OpenApiSchema schema)
-            => new CSharpProperty(Naming.TypeFor(schema), Naming.Property(key))
-            {
-                Description = schema.Description,
-                HasSetter = true
-            };
     }
 }

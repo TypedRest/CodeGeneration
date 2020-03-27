@@ -20,9 +20,9 @@ namespace TypedRest.OpenApi.CSharp.Builders
             var types = new List<ICSharpType>();
             var implementationType = GetImplementationType(endpoint, generator.Naming);
 
-            var additional = GetAdditional(key, endpoint, generator);
-            types.AddRange(additional.types);
-            implementationType.TypeArguments.AddRange(additional.typeArguments);
+            var (additionalTypes, typeArguments) = GetAdditional(key, endpoint, generator);
+            types.AddRange(additionalTypes);
+            implementationType.TypeArguments.AddRange(typeArguments);
 
             var construction = new CSharpClassConstruction(implementationType);
             construction.Parameters.AddRange(GetParameters(endpoint));
@@ -62,9 +62,9 @@ namespace TypedRest.OpenApi.CSharp.Builders
                 Description = endpoint.Description
             };
 
-            foreach (var pair in endpoint.Children)
+            foreach ((string childKey, var childEndpoint) in endpoint.Children)
             {
-                var (property, additionalTypes) = generator.GetEndpoints(pair.Key, pair.Value);
+                var (property, additionalTypes) = generator.GetEndpoints(childKey, childEndpoint);
                 customImplementation.Properties.Add(property);
                 types.AddRange(additionalTypes);
             }

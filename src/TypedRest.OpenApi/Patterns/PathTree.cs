@@ -50,11 +50,11 @@ namespace TypedRest.OpenApi.Patterns
         public static PathTree From(OpenApiPaths paths)
         {
             var tree = new PathTree();
-            foreach (var path in paths)
+            foreach ((string path, var item) in paths)
             {
                 tree.Add(
-                    path.Key.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries),
-                    path.Value);
+                    path.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries),
+                    item);
             }
             return tree;
         }

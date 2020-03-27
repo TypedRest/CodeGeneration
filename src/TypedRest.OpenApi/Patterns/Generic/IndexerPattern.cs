@@ -29,13 +29,13 @@ namespace TypedRest.OpenApi.Patterns.Generic
 
         private static IEndpoint? ExtractElementEndpoint(IDictionary<string, IEndpoint> childEndpoints)
         {
-            var match = childEndpoints.FirstOrDefault(x => x.Key.StartsWith("{") && x.Key.EndsWith("}"));
-            if (match.Value == null)
+            (string key, var endpoint) = childEndpoints.FirstOrDefault(x => x.Key.StartsWith("{") && x.Key.EndsWith("}"));
+            if (endpoint == null)
                 return null;
-            childEndpoints.Remove(match.Key);
+            childEndpoints.Remove(key);
 
-            match.Value.Uri = null;
-            return match.Value;
+            endpoint.Uri = null;
+            return endpoint;
         }
 
         /// <summary>

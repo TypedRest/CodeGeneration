@@ -23,13 +23,13 @@ namespace TypedRest.OpenApi.Patterns
         public IDictionary<string, IEndpoint> GetEndpoints(PathTree tree)
         {
             var result = new Dictionary<string, IEndpoint>();
-            foreach (var pair in tree.Children)
+            foreach ((string path, var subTree) in tree.Children)
             {
-                var endpoint = _patterns.Select(x => x.TryGetEndpoint(pair.Value, this))
+                var endpoint = _patterns.Select(x => x.TryGetEndpoint(subTree, this))
                                         .First(x => x != null);
-                endpoint!.Uri = "./" + pair.Key;
+                endpoint!.Uri = "./" + path;
 
-                result[pair.Key] = endpoint;
+                result[path] = endpoint;
             }
             return result;
         }
