@@ -17,12 +17,18 @@ namespace TypedRest.OpenApi.CSharp.Dom
         }
 
         protected override MemberDeclarationSyntax GetTypeDeclaration()
-            => InterfaceDeclaration(Identifier.Name)
-              .AddModifiers(Token(SyntaxKind.PublicKeyword), Token(SyntaxKind.PartialKeyword))
-              .AddAttributeLists(GeneratedCodeAttribute)
-              .WithDocumentation(Description)
-              .WithBaseList(BaseList(SeparatedList(GetBaseTypes())))
-              .WithMembers(List(GetMemberDeclarations()));
+        {
+            var declaration = InterfaceDeclaration(Identifier.Name)
+                                            .AddModifiers(Token(SyntaxKind.PublicKeyword), Token(SyntaxKind.PartialKeyword))
+                                            .AddAttributeLists(GeneratedCodeAttribute)
+                                            .WithDocumentation(Description)
+                                            .WithMembers(List(GetMemberDeclarations()));
+
+            var baseTypes = GetBaseTypes().ToList();
+            return baseTypes.Any()
+                ? declaration.WithBaseList(BaseList(SeparatedList(baseTypes)))
+                : declaration;
+        }
 
         private IEnumerable<BaseTypeSyntax> GetBaseTypes()
             => Interfaces.Select(x => SimpleBaseType(x.ToSyntax()));
