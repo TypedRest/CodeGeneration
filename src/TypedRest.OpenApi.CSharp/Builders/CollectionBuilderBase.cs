@@ -17,7 +17,7 @@ namespace TypedRest.OpenApi.CSharp.Builders
 
         protected abstract string TypeName { get; }
 
-        protected override CSharpIdentifier GetImplementationType(TEndpoint endpoint, INamingConvention naming)
+        protected override CSharpIdentifier GetImplementationType(TEndpoint endpoint, INamingStrategy naming)
             => new CSharpIdentifier(TypeNamespace, TypeName)
             {
                 TypeArguments =

@@ -9,7 +9,7 @@ namespace TypedRest.OpenApi.CSharp.Builders.Reactive
     /// </summary>
     public class PollingBuilder : BuilderBase<PollingEndpoint>
     {
-        protected override CSharpIdentifier GetImplementationType(PollingEndpoint endpoint, INamingConvention naming)
+        protected override CSharpIdentifier GetImplementationType(PollingEndpoint endpoint, INamingStrategy naming)
             => new CSharpIdentifier(Namespace.Name, "PollingEndpoint")
             {
                 TypeArguments = {naming.TypeFor(endpoint.Schema ?? throw new InvalidOperationException($"Missing schema for {endpoint}."))}

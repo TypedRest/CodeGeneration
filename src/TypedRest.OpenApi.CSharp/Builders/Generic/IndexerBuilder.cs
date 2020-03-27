@@ -8,7 +8,7 @@ namespace TypedRest.OpenApi.CSharp.Builders.Generic
     /// </summary>
     public class IndexerBuilder : IndexerBuilderBase<IndexerEndpoint>
     {
-        protected override CSharpIdentifier GetImplementationType(IndexerEndpoint endpoint, INamingConvention naming)
+        protected override CSharpIdentifier GetImplementationType(IndexerEndpoint endpoint, INamingStrategy naming)
             => new CSharpIdentifier(Namespace.Name, "IndexerEndpoint");
 
         protected override CSharpIdentifier GetInterfaceType(CSharpIdentifier implementationType)

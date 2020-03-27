@@ -6,7 +6,7 @@ namespace TypedRest.OpenApi.CSharp
 {
     public interface IGenerator
     {
-        INamingConvention Naming { get; }
+        INamingStrategy Naming { get; }
 
         bool GenerateInterfaces { get; }
 

@@ -42,7 +42,7 @@ namespace TypedRest.OpenApi.Cli.Commands
         }
 
         private IEnumerable<ICSharpType> GenerateSource(OpenApiDocument doc)
-            => new Generator(new NamingConvention(ServiceName, Namespace ?? ServiceName, DtoNamespace ?? Namespace ?? ServiceName))
+            => new Generator(new NamingStrategy(ServiceName, Namespace ?? ServiceName, DtoNamespace ?? Namespace ?? ServiceName))
             {
                 GenerateInterfaces = GenerateInterfaces,
                 GenerateDtos = GenerateDtos

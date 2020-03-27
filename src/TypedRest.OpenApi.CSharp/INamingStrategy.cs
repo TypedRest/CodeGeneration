@@ -4,7 +4,7 @@ using TypedRest.OpenApi.Endpoints;
 
 namespace TypedRest.OpenApi.CSharp
 {
-    public interface INamingConvention
+    public interface INamingStrategy
     {
         string Property(string key);
 

@@ -90,7 +90,7 @@ namespace TypedRest.OpenApi.CSharp.Builders
         protected virtual (IEnumerable<ICSharpType> types, IEnumerable<CSharpIdentifier> typeArguments) GetAdditional(string key, TEndpoint endpoint, IGenerator generator)
             => (Enumerable.Empty<CSharpType>(), Enumerable.Empty<CSharpIdentifier>());
 
-        protected abstract CSharpIdentifier GetImplementationType(TEndpoint endpoint, INamingConvention naming);
+        protected abstract CSharpIdentifier GetImplementationType(TEndpoint endpoint, INamingStrategy naming);
 
         protected virtual CSharpIdentifier GetInterfaceType(CSharpIdentifier implementationType)
             => implementationType.ToInterface();

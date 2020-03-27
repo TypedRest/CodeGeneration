@@ -9,7 +9,7 @@ namespace TypedRest.OpenApi.CSharp.Builders
     /// </summary>
     public class EntryBuilder : BuilderBase<EntryEndpoint>
     {
-        protected override CSharpIdentifier GetImplementationType(EntryEndpoint endpoint, INamingConvention naming)
+        protected override CSharpIdentifier GetImplementationType(EntryEndpoint endpoint, INamingStrategy naming)
             => new CSharpIdentifier(Namespace.Name, "EntryEndpoint");
 
         protected override CSharpIdentifier GetInterfaceType(CSharpIdentifier implementationType)

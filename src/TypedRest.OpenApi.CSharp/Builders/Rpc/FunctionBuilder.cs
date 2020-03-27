@@ -9,7 +9,7 @@ namespace TypedRest.OpenApi.CSharp.Builders.Rpc
     /// </summary>
     public class FunctionBuilder : BuilderBase<FunctionEndpoint>
     {
-        protected override CSharpIdentifier GetImplementationType(FunctionEndpoint endpoint, INamingConvention naming)
+        protected override CSharpIdentifier GetImplementationType(FunctionEndpoint endpoint, INamingStrategy naming)
             => new CSharpIdentifier(Namespace.Name, "FunctionEndpoint")
             {
                 TypeArguments =

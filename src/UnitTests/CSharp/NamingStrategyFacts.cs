@@ -7,14 +7,14 @@ using Xunit;
 
 namespace TypedRest.OpenApi.CSharp
 {
-    public class NamingConventionFacts
+    public class NamingStrategyFacts
     {
-        private readonly INamingConvention _namingConvention = new NamingConvention("MyService", "MyNamespace", "MyNamespace");
+        private readonly INamingStrategy _namingStrategy = new NamingStrategy("MyService", "MyNamespace", "MyNamespace");
 
         [Fact]
         public void PropertyEmptyString()
         {
-            _namingConvention
+            _namingStrategy
                .Property("")
                .Should().Be("");
         }
@@ -22,7 +22,7 @@ namespace TypedRest.OpenApi.CSharp
         [Fact]
         public void PropertyFromSnakeCase()
         {
-            _namingConvention
+            _namingStrategy
                .Property("my_property")
                .Should().Be("MyProperty");
         }
@@ -30,7 +30,7 @@ namespace TypedRest.OpenApi.CSharp
         [Fact]
         public void PropertyFromCamelCase()
         {
-            _namingConvention
+            _namingStrategy
                .Property("myProperty")
                .Should().Be("MyProperty");
         }
@@ -38,7 +38,7 @@ namespace TypedRest.OpenApi.CSharp
         [Fact]
         public void EndpointFromTypeSnakeCase()
         {
-            _namingConvention
+            _namingStrategy
                .EndpointType("my_type", new Endpoint())
                .Should().BeEquivalentTo(new CSharpIdentifier("MyNamespace", "MyTypeEndpoint"));
         }
@@ -46,7 +46,7 @@ namespace TypedRest.OpenApi.CSharp
         [Fact]
         public void EndpointTypeFromCamelCase()
         {
-            _namingConvention
+            _namingStrategy
                .EndpointType("myType", new Endpoint())
                .Should().BeEquivalentTo(new CSharpIdentifier("MyNamespace", "MyTypeEndpoint"));
         }
@@ -54,7 +54,7 @@ namespace TypedRest.OpenApi.CSharp
         [Fact]
         public void EndpointTypeFromPlural()
         {
-            _namingConvention
+            _namingStrategy
                .EndpointType("myTypes", new IndexerEndpoint())
                .Should().BeEquivalentTo(new CSharpIdentifier("MyNamespace", "MyTypeCollectionEndpoint"));
         }
@@ -62,7 +62,7 @@ namespace TypedRest.OpenApi.CSharp
         [Fact]
         public void DtoTypeFromTypeSnakeCase()
         {
-            _namingConvention
+            _namingStrategy
                .DtoType("my_type")
                .Should().BeEquivalentTo(new CSharpIdentifier("MyNamespace", "MyType"));
         }
@@ -70,7 +70,7 @@ namespace TypedRest.OpenApi.CSharp
         [Fact]
         public void DtoTypeFromCamelCase()
         {
-            _namingConvention
+            _namingStrategy
                .DtoType("myType")
                .Should().BeEquivalentTo(new CSharpIdentifier("MyNamespace", "MyType"));
         }
@@ -78,7 +78,7 @@ namespace TypedRest.OpenApi.CSharp
         [Fact]
         public void TypeForString()
         {
-            _namingConvention
+            _namingStrategy
                .TypeFor(new OpenApiSchema {Type = "string"})
                .Should().BeEquivalentTo(CSharpIdentifier.String);
         }
@@ -86,7 +86,7 @@ namespace TypedRest.OpenApi.CSharp
         [Fact]
         public void TypeForArrayOfUri()
         {
-            _namingConvention
+            _namingStrategy
                .TypeFor(new OpenApiSchema {Type = "array", Items = new OpenApiSchema {Type = "string", Format = "uri"}})
                .Should().BeEquivalentTo(CSharpIdentifier.ListOf(CSharpIdentifier.Uri));
         }
@@ -94,9 +94,9 @@ namespace TypedRest.OpenApi.CSharp
         [Fact]
         public void TypeForReference()
         {
-            _namingConvention
+            _namingStrategy
                .TypeFor(new OpenApiSchema {Reference = new OpenApiReference {Id = "myType"}})
-               .Should().BeEquivalentTo(_namingConvention.DtoType("myType"));
+               .Should().BeEquivalentTo(_namingStrategy.DtoType("myType"));
         }
     }
 }

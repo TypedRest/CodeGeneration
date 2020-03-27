@@ -9,13 +9,13 @@ namespace TypedRest.OpenApi.CSharp
 {
     public class Generator : IGenerator
     {
-        public INamingConvention Naming { get; }
+        public INamingStrategy Naming { get; }
 
         private readonly BuilderRegistry _builders;
 
-        public Generator(INamingConvention namingConvention, BuilderRegistry? builders = null)
+        public Generator(INamingStrategy namingStrategy, BuilderRegistry? builders = null)
         {
-            Naming = namingConvention;
+            Naming = namingStrategy;
             _builders = builders ?? BuilderRegistry.Default;
         }
 

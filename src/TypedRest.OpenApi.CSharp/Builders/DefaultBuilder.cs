@@ -8,7 +8,7 @@ namespace TypedRest.OpenApi.CSharp.Builders
     /// </summary>
     public class DefaultBuilder : BuilderBase<Endpoint>
     {
-        protected override CSharpIdentifier GetImplementationType(Endpoint endpoint, INamingConvention naming)
+        protected override CSharpIdentifier GetImplementationType(Endpoint endpoint, INamingStrategy naming)
             => new CSharpIdentifier(Namespace.Name, "EndpointBase");
 
         protected override CSharpIdentifier GetInterfaceType(CSharpIdentifier implementationType)
