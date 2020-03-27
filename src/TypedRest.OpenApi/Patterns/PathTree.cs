@@ -11,7 +11,7 @@ namespace TypedRest.OpenApi.Patterns
     public class PathTree
     {
         /// <summary>
-        /// The <see cref="OpenApiPathItem"/> at this level of tree, if any.
+        /// The <see cref="OpenApiPathItem"/> at this level of the tree, if any.
         /// </summary>
         public OpenApiPathItem? Item { get; set; }
 
