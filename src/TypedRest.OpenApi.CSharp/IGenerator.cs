@@ -10,6 +10,6 @@ namespace TypedRest.OpenApi.CSharp
 
         bool GenerateInterfaces { get; }
 
-        (CSharpProperty property, IEnumerable<ICSharpType> types) GenerateEndpoint(string key, IEndpoint endpoint);
+        (CSharpProperty property, IEnumerable<ICSharpType> types) GetEndpoints(string key, IEndpoint endpoint);
     }
 }

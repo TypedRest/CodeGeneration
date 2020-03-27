@@ -79,7 +79,7 @@ namespace TypedRest.OpenApi.CSharp
                 entryEndpointInterface, entryEndpoint, contactEndpointInterface, contactEndpoint);
         }
 
-        private static CSharpDto Dto(string name, OpenApiSchema schema)
+        private static ICSharpType Dto(string name, OpenApiSchema schema)
             => new CSharpDto(new CSharpIdentifier("MyNamespace", name), schema);
 
         private static CSharpParameter Referrer
@@ -114,13 +114,13 @@ namespace TypedRest.OpenApi.CSharp
         private static CSharpIdentifier BlobEndpoint
             => new CSharpIdentifier("TypedRest.Endpoints.Raw", "BlobEndpoint");
 
-        private static CSharpIdentifier ElementEndpoint(CSharpDto dto)
+        private static CSharpIdentifier ElementEndpoint(ICSharpType dto)
             => new CSharpIdentifier("TypedRest.Endpoints.Generic", "ElementEndpoint")
             {
                 TypeArguments = {dto.Identifier}
             };
 
-        private static CSharpIdentifier CollectionEndpoint(CSharpDto dto, CSharpIdentifier elementEndpoint)
+        private static CSharpIdentifier CollectionEndpoint(ICSharpType dto, CSharpIdentifier elementEndpoint)
             => new CSharpIdentifier("TypedRest.Endpoints.Generic", "CollectionEndpoint")
             {
                 TypeArguments = {dto.Identifier, elementEndpoint}

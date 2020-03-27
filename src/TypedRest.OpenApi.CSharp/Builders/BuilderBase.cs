@@ -64,7 +64,7 @@ namespace TypedRest.OpenApi.CSharp.Builders
 
             foreach (var pair in endpoint.Children)
             {
-                var (property, additionalTypes) = generator.GenerateEndpoint(pair.Key, pair.Value);
+                var (property, additionalTypes) = generator.GetEndpoints(pair.Key, pair.Value);
                 customImplementation.Properties.Add(property);
                 types.AddRange(additionalTypes);
             }

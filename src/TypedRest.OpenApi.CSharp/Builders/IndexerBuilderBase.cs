@@ -17,7 +17,7 @@ namespace TypedRest.OpenApi.CSharp.Builders
             if (endpoint.Element == null) throw new InvalidOperationException($"Missing element for endpoint '{key}'.");
 
             string elementKey = key.TrimEnd('s') + "Element";
-            var (property, types) = generator.GenerateEndpoint(elementKey, endpoint.Element);
+            var (property, types) = generator.GetEndpoints(elementKey, endpoint.Element);
             return (types, typeArguments: new [] {property.GetterExpression!.Type});
         }
     }

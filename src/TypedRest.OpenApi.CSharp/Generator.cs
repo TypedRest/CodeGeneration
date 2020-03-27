@@ -27,17 +27,20 @@ namespace TypedRest.OpenApi.CSharp
         public List<ICSharpType> Generate(OpenApiDocument document)
         {
             var types = new List<ICSharpType>();
+            var entryEndpoint = document.GetTypedRest() ?? throw new ArgumentException("No TypedRest endpoints set.", nameof(document));
 
-            var entryEndpoint = GenerateEndpoint("entry", document.GetTypedRest() ?? throw new ArgumentException("No TypedRest endpoints set.", nameof(document)));
-            types.AddRange(entryEndpoint.types);
+            types.AddRange(GetEndpoints("entry", entryEndpoint).types);
 
             if (GenerateDtos)
-                types.AddRange(document.Components.Schemas.Select(x => new CSharpDto(Naming.DtoType(x.Key), x.Value)));
+                types.AddRange(GetDtos(document.Components.Schemas));
 
             return types;
         }
 
-        public (CSharpProperty property, IEnumerable<ICSharpType> types) GenerateEndpoint(string key, IEndpoint endpoint)
+        public (CSharpProperty property, IEnumerable<ICSharpType> types) GetEndpoints(string key, IEndpoint endpoint)
             => _builders.For(endpoint).Build(key, endpoint, this);
+
+        private IEnumerable<ICSharpType> GetDtos(IDictionary<string, OpenApiSchema> schemas)
+            => schemas.Select(x => new CSharpDto(Naming.DtoType(x.Key), x.Value));
     }
 }
