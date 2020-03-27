@@ -11,8 +11,8 @@ namespace TypedRest.OpenApi.Patterns
     {
         public IEndpoint? TryGetEndpoint(PathTree tree, IPatternMatcher patternMatcher)
         {
-            var item = tree.Item;
-            if (item == null || !RequiredOperations.All(item.Operations.Keys.Contains))
+            var item = tree.Item ?? new OpenApiPathItem();
+            if (!RequiredOperations.All(item.Operations.Keys.Contains))
                 return null;
 
             var endpoint = BuildEndpoint(item);
