@@ -16,7 +16,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
 
             Assert(new CSharpClass(myClass)
             {
-                Description = "My class",
+                Description = "My class\nDetails",
                 BaseClass = new CSharpClassConstruction(baseClass)
                 {
                     Parameters =
@@ -48,6 +48,7 @@ namespace Namespace1
 {
     /// <summary>
     /// My class
+    /// Details
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCode(""TypedRest.OpenApi"", ""1.0.0"")]
     public partial class MyClass : BaseClass, MyInterface<MyModel>

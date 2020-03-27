@@ -16,7 +16,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
 
             Assert(new CSharpInterface(myInterface)
             {
-                Description = "My interface",
+                Description = "My interface\nDetails",
                 Interfaces = {baseInterface},
                 Properties =
                 {
@@ -33,6 +33,7 @@ namespace Namespace1
 {
     /// <summary>
     /// My interface
+    /// Details
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCode(""TypedRest.OpenApi"", ""1.0.0"")]
     public partial interface MyInterface : BaseInterface
