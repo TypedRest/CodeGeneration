@@ -9,7 +9,7 @@ namespace TypedRest.OpenApi.CSharp
         [Fact]
         public void GeneratesCorrectDom()
         {
-            var generator = new Generator(new NamingConvention("MyNamespace", "MyService"));
+            var generator = new Generator(new NamingConvention("MyService", "MyNamespace", "MyNamespace"));
             var generated = generator.Generate(Sample.Doc);
 
             var noteDto = Dto("Note", "A note about a specific contact.",

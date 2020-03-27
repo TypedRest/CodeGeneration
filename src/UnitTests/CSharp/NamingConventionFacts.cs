@@ -9,7 +9,7 @@ namespace TypedRest.OpenApi.CSharp
 {
     public class NamingConventionFacts
     {
-        private readonly INamingConvention _namingConvention = new NamingConvention("MyNamespace", "MyService");
+        private readonly INamingConvention _namingConvention = new NamingConvention("MyService", "MyNamespace", "MyNamespace");
 
         [Fact]
         public void PropertyEmptyString()

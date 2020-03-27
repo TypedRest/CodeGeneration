@@ -9,13 +9,15 @@ namespace TypedRest.OpenApi.CSharp
 {
     public class NamingConvention : INamingConvention
     {
-        private readonly string _namespace;
         private readonly string _serviceName;
+        private readonly string _endpointNamespace;
+        private readonly string _dtoNamespace;
 
-        public NamingConvention(string ns, string serviceName)
+        public NamingConvention(string serviceName, string endpointNamespace, string dtoNamespace)
         {
-            _namespace = ns;
             _serviceName = serviceName;
+            _endpointNamespace = endpointNamespace;
+            _dtoNamespace = dtoNamespace;
         }
 
         public virtual string Property(string key)
@@ -23,7 +25,7 @@ namespace TypedRest.OpenApi.CSharp
 
         public virtual CSharpIdentifier EndpointType(string key, IEndpoint endpoint)
             => new CSharpIdentifier(
-                _namespace,
+                _endpointNamespace,
                 endpoint switch
                 {
                     EntryEndpoint _ => (_serviceName + "Client"),
@@ -33,7 +35,7 @@ namespace TypedRest.OpenApi.CSharp
 
         public CSharpIdentifier DtoType(string key)
             => new CSharpIdentifier(
-                _namespace,
+                _dtoNamespace,
                 ToPascalCase(key));
 
         public CSharpIdentifier TypeFor(OpenApiSchema schema)
