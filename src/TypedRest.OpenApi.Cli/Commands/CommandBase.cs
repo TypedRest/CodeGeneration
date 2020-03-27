@@ -1,12 +1,31 @@
+using System;
+using System.IO;
 using CommandLine;
+using Microsoft.OpenApi;
+using Microsoft.OpenApi.Extensions;
+using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi.Readers;
 
 namespace TypedRest.OpenApi.Cli.Commands
 {
     public abstract class CommandBase
     {
+        public abstract int Run();
+
         [Option('v', "verbose", HelpText = "Set output to verbose messages.")]
         public bool Verbose { get; set; }
 
-        public abstract int Run();
+        [Option('f', "file", HelpText = "The path to the Swagger or OpenAPI spec file.", Required = true)]
+        public string InputPath { get; set; } = default!;
+
+        protected OpenApiDocument ReadDoc()
+            => new OpenApiStringReader(new OpenApiReaderSettings().AddTypedRest())
+              .Read(ReadFile(), out _)
+              .ResolveTypedRestReferences();
+
+        private string ReadFile()
+            => InputPath == "-"
+                ? Console.In.ReadToEnd()
+                : File.ReadAllText(InputPath);
     }
 }
