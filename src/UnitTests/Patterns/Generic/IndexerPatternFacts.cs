@@ -13,7 +13,7 @@ namespace TypedRest.OpenApi.Patterns.Generic
         {
             var mockChildMatches = new Dictionary<string, IEndpoint>
             {
-                ["{id}"] = new Endpoint {Description = "element"},
+                ["{}"] = new Endpoint {Description = "element"},
                 ["other"] = new Endpoint {Description = "other"}
             };
 

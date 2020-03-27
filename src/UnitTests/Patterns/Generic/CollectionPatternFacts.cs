@@ -14,7 +14,7 @@ namespace TypedRest.OpenApi.Patterns.Generic
         {
             var mockChildMatches = new Dictionary<string, IEndpoint>
             {
-                ["{id}"] = new ElementEndpoint
+                ["{}"] = new ElementEndpoint
                 {
                     Schema = Sample.ContactSchema,
                     Children = {["sub"] = new Endpoint {Description = "sub"}}
@@ -42,7 +42,7 @@ namespace TypedRest.OpenApi.Patterns.Generic
         {
             var mockChildMatches = new Dictionary<string, IEndpoint>
             {
-                ["{id}"] = new ElementEndpoint {Schema = Sample.ContactSchema},
+                ["{}"] = new ElementEndpoint {Schema = Sample.ContactSchema},
                 ["other"] = new Endpoint {Description = "other"}
             };
 

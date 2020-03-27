@@ -39,6 +39,10 @@ namespace TypedRest.OpenApi.Patterns
 
         private PathTree GetChild(string name)
         {
+            // Trim placeholders
+            if (name.StartsWith("{") && name.EndsWith("}"))
+                name = "{}";
+
             if (!Children.TryGetValue(name, out var child))
                 Children.Add(name, child = new PathTree());
             return child;
