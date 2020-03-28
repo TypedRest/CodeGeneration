@@ -43,8 +43,8 @@ namespace TypedRest.OpenApi.CSharp
             {
                 ("string", "uri") => CSharpIdentifier.Uri,
                 ("string", _) => CSharpIdentifier.String,
-                ("int", "int64") => CSharpIdentifier.Long,
-                ("int", _) => CSharpIdentifier.Int,
+                ("integer", "int64") => CSharpIdentifier.Long,
+                ("integer", _) => CSharpIdentifier.Int,
                 ("number", "float") => CSharpIdentifier.Float,
                 ("number", _) => CSharpIdentifier.Double,
                 ("boolean", _) => CSharpIdentifier.Bool,
