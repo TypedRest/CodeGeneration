@@ -1,5 +1,7 @@
 using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi.Readers;
 using TypedRest.OpenApi.Endpoints;
+using TypedRest.OpenApi.Patterns;
 
 namespace TypedRest.OpenApi
 {
@@ -14,7 +16,17 @@ namespace TypedRest.OpenApi
         public const string TypedRestKey = "x-endpoints";
 
         /// <summary>
-        /// Gets the TypedRest extension from the OpenAPI Spec <paramref name="document"/>.
+        /// Reads an OpenAPI document from an <paramref name="input"/> string with support for the TypedRest extension.
+        /// </summary>
+        public static OpenApiDocument ReadWithTypedRest(string input)
+        {
+            var doc = new OpenApiStringReader(new OpenApiReaderSettings().AddTypedRest()).Read(input, out _);
+            doc.GetTypedRest()?.ResolveReferences(doc.Components);
+            return doc;
+        }
+
+        /// <summary>
+        /// Gets the TypedRest extension from the OpenAPI Spec <paramref name="document"/>, if present.
         /// </summary>
         /// <seealso cref="OpenApiReaderSettingsExtensions.AddTypedRest"/>
         public static EntryEndpoint? GetTypedRest(this OpenApiDocument document)
@@ -33,12 +45,18 @@ namespace TypedRest.OpenApi
         }
 
         /// <summary>
-        /// Resolves <see cref="OpenApiReference"/>s in TypedRest endpoints.
+        /// Generates an <see cref="EntryEndpoint"/> with children by matching patterns in the OpenAPI Spec document.
         /// </summary>
-        public static OpenApiDocument ResolveTypedRestReferences(this OpenApiDocument doc)
+        /// <param name="document">The document to check for patterns.</param>
+        /// <param name="patterns">An ordered list of all known <see cref="IPattern"/>s; leave <c>null</c> for default.</param>
+        public static EntryEndpoint MatchTypedRestPatterns(this OpenApiDocument document, PatternRegistry? patterns = null)
         {
-            doc.GetTypedRest()?.ResolveReferences(doc.Components);
-            return doc;
+            var matcher = new PatternMatcher(patterns ?? PatternRegistry.Default);
+
+            var entryEndpoint = new EntryEndpoint();
+            entryEndpoint.Children.AddRange(matcher.GetEndpoints(PathTree.From(document.Paths)));
+
+            return entryEndpoint;
         }
     }
 }

@@ -4,7 +4,6 @@ using System.Text;
 using CommandLine;
 using Microsoft.OpenApi;
 using Microsoft.OpenApi.Extensions;
-using TypedRest.OpenApi.Patterns;
 
 namespace TypedRest.OpenApi.Cli.Commands
 {
@@ -23,9 +22,7 @@ namespace TypedRest.OpenApi.Cli.Commands
         public override int Run()
         {
             var doc = ReadDoc();
-
-            doc.SetTypedRest(new PatternMatcher().GetEntryEndpoint(doc));
-
+            doc.SetTypedRest(doc.MatchTypedRestPatterns());
             Write(doc.Serialize(OutputVersion, OutputFormat));
 
             return 0;

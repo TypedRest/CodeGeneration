@@ -8,7 +8,7 @@ namespace TypedRest.OpenApi.Patterns
         [Fact]
         public void MatchesPatterns()
         {
-            var entryEndpoint = new PatternMatcher().GetEntryEndpoint(Sample.Doc);
+            var entryEndpoint = Sample.Doc.MatchTypedRestPatterns();
 
             entryEndpoint.Should().BeEquivalentTo(Sample.Doc.GetTypedRest(), options => options.IncludingAllRuntimeProperties());
         }

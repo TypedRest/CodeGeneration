@@ -19,9 +19,7 @@ namespace TypedRest.OpenApi.Cli.Commands
         public string InputPath { get; set; } = default!;
 
         protected OpenApiDocument ReadDoc()
-            => new OpenApiStringReader(new OpenApiReaderSettings().AddTypedRest())
-              .Read(ReadFile(), out _)
-              .ResolveTypedRestReferences();
+            => OpenApiDocumentExtensions.ReadWithTypedRest(ReadFile());
 
         private string ReadFile()
             => InputPath == "-"

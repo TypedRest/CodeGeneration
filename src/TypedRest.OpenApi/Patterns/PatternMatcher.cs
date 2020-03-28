@@ -15,9 +15,9 @@ namespace TypedRest.OpenApi.Patterns
         /// Creates a pattern matcher.
         /// </summary>
         /// <param name="patterns">An ordered list of all known <see cref="IPattern"/>s.</param>
-        public PatternMatcher(PatternRegistry? patterns = null)
+        public PatternMatcher(PatternRegistry patterns)
         {
-            _patterns = patterns ?? PatternRegistry.Default;
+            _patterns = patterns;
         }
 
         public IDictionary<string, IEndpoint> GetEndpoints(PathTree tree)
