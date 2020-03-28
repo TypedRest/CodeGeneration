@@ -35,22 +35,22 @@ namespace TypedRest.OpenApi
             if (!obj.TryGetObject(name, out var schemaObj)) return null;
             string? schemaRef = schemaObj.GetString("$ref");
 
-            OpenApiSchema? FromRefPrefix(string prefix)
-            {
-                if (schemaRef == null || !schemaRef.StartsWith(prefix)) return null;
-
-                return new OpenApiSchema
-                {
-                    Reference = new OpenApiReference
+            OpenApiReference? Reference(string prefix)
+                => schemaRef != null && schemaRef.StartsWith(prefix)
+                    ? new OpenApiReference
                     {
                         Id = schemaRef.Substring(prefix.Length),
                         Type = ReferenceType.Schema
                     }
-                };
-            }
+                    : null;
 
-            return FromRefPrefix("#/components/schemas/")
-                ?? FromRefPrefix("#/definitions/");
+            return new OpenApiSchema
+            {
+                Type = schemaObj.GetString("type"),
+                Format = schemaObj.GetString("type"),
+                Reference = Reference(prefix: "#/components/schemas/")
+                         ?? Reference(prefix: "#/definitions/")
+            };
         }
 
         /// <summary>
