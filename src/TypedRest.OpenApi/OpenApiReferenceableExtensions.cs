@@ -16,12 +16,6 @@ namespace TypedRest.OpenApi
             => schema.Resolve(components.Schemas);
 
         /// <summary>
-        /// Resolves the <see cref="OpenApiSchema.Reference"/> in the <paramref name="link"/>, if present, using <paramref name="components"/>.
-        /// </summary>
-        public static OpenApiLink Resolve(this OpenApiLink link, OpenApiComponents components)
-            => link.Resolve(components.Links);
-
-        /// <summary>
         /// Resolves the <see cref="IOpenApiReferenceable.Reference"/> in the <paramref name="referenceable"/>, if present, using <paramref name="targets"/>.
         /// </summary>
         public static T Resolve<T>(this T referenceable, IDictionary<string, T> targets)
