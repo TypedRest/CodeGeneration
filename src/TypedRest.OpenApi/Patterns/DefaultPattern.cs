@@ -1,4 +1,3 @@
-using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.Endpoints;
 
 namespace TypedRest.OpenApi.Patterns
@@ -6,12 +5,16 @@ namespace TypedRest.OpenApi.Patterns
     /// <summary>
     /// The default fallback pattern that is used if no other matches are found. Generates <see cref="Endpoint"/>s.
     /// </summary>
-    public class DefaultPattern : PatternBase
+    public class DefaultPattern : IPattern
     {
-        protected override OperationType[] RequiredOperations
-            => new OperationType[0];
+        public IEndpoint? TryGetEndpoint(PathTree tree, IPatternMatcher patternMatcher)
+        {
+            var children = patternMatcher.GetEndpoints(tree);
+            if (children.Count == 0) return null; // Plain endpoint with no children serves no purpose
 
-        protected override IEndpoint? BuildEndpoint(OpenApiPathItem item)
-            => new Endpoint();
+            var endpoint = new Endpoint();
+            endpoint.Children.AddRange(children);
+            return endpoint;
+        }
     }
 }
