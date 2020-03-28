@@ -50,7 +50,7 @@ namespace TypedRest.OpenApi.CSharp
                 ("boolean", _) => CSharpIdentifier.Bool,
                 ("array", _) => CSharpIdentifier.ListOf(TypeFor(schema.Items)),
                 _ when !string.IsNullOrEmpty(schema.Reference?.Id) => DtoType(schema.Reference.Id),
-                _ => CSharpIdentifier.Object
+                _ => new CSharpIdentifier("Newtonsoft.Json.Linq", "JObject")
             };
 
         protected virtual string Normalize(string key)
