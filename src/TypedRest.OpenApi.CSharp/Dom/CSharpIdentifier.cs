@@ -21,6 +21,9 @@ namespace TypedRest.OpenApi.CSharp.Dom
         public static CSharpIdentifier ListOf(CSharpIdentifier type)
             => new CSharpIdentifier("System.Collections.Generic", "List") {TypeArguments = {type}};
 
+        public static CSharpIdentifier DictionaryOf(CSharpIdentifier keyType, CSharpIdentifier valueType)
+            => new CSharpIdentifier("System.Collections.Generic", "Dictionary") {TypeArguments = {keyType, valueType}};
+
         public string? Namespace { get; }
 
         public string Name { get; }
