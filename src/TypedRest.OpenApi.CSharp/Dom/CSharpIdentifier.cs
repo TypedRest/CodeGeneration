@@ -28,16 +28,23 @@ namespace TypedRest.OpenApi.CSharp.Dom
 
         public string Name { get; }
 
-        public CSharpIdentifier(string name)
+        public bool Nullable { get; }
+
+        public CSharpIdentifier(string name, bool nullable = false)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
+            Nullable = nullable;
         }
 
-        public CSharpIdentifier(string? ns, string name)
+        public CSharpIdentifier(string? ns, string name, bool nullable = false)
         {
             Namespace = ns;
             Name = name ?? throw new ArgumentNullException(nameof(name));
+            Nullable = nullable;
         }
+
+        public CSharpIdentifier AsNullable()
+            => new CSharpIdentifier(Namespace, Name, nullable: true);
 
         public List<CSharpIdentifier> TypeArguments { get; } = new List<CSharpIdentifier>();
 
@@ -51,7 +58,8 @@ namespace TypedRest.OpenApi.CSharp.Dom
         }
 
         public TypeSyntax ToSyntax()
-            => Name switch
+        {
+            var type = Name switch
             {
                 "bool" => PredefinedType(Token(SyntaxKind.BoolKeyword)),
                 "int" => PredefinedType(Token(SyntaxKind.IntKeyword)),
@@ -62,6 +70,8 @@ namespace TypedRest.OpenApi.CSharp.Dom
                 "object" => PredefinedType(Token(SyntaxKind.ObjectKeyword)),
                 _ => (TypeArguments.Count == 0 ? (TypeSyntax)IdentifierName(Name) : GenericName(Identifier(Name)).WithTypeArgumentList(TypeArgumentList(SeparatedList(TypeArguments.Select(x => x.ToSyntax())))))
             };
+            return Nullable ? NullableType(type) : type;
+        }
 
         public CSharpIdentifier ToInterface()
         {
