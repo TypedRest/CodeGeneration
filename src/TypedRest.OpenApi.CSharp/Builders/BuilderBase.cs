@@ -58,8 +58,9 @@ namespace TypedRest.OpenApi.CSharp.Builders
         {
             var customImplementation = new CSharpClass(generator.Naming.EndpointType(key, endpoint))
             {
-                BaseClass = baseClass,
-                Description = endpoint.Description
+                Description = endpoint.Description,
+                Attributes = {Attributes.GeneratedCode},
+                BaseClass = baseClass
             };
 
             foreach ((string childKey, var childEndpoint) in endpoint.Children)
@@ -76,8 +77,9 @@ namespace TypedRest.OpenApi.CSharp.Builders
         {
             var endpointInterface = new CSharpInterface(implementation.Identifier.ToInterface())
             {
-                Interfaces = {interfaceType},
-                Description = endpoint.Description
+                Description = endpoint.Description,
+                Attributes = {Attributes.GeneratedCode},
+                Interfaces = {interfaceType}
             };
             foreach (var property in implementation.Properties)
                 endpointInterface.Properties.Add(new CSharpProperty(property.Type, property.Name) {Description = property.Description});

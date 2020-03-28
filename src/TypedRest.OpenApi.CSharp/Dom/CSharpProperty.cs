@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
@@ -14,6 +15,8 @@ namespace TypedRest.OpenApi.CSharp.Dom
 
         public string? Description { get; set; }
 
+        public List<CSharpAttribute> Attributes { get; } = new List<CSharpAttribute>();
+
         public CSharpProperty(CSharpIdentifier type, string name)
         {
             Type = type ?? throw new ArgumentNullException(nameof(type));
@@ -26,6 +29,12 @@ namespace TypedRest.OpenApi.CSharp.Dom
 
         public IEnumerable<string> GetNamespaces()
         {
+            foreach (string? ns in Attributes.Select(x => x.Identifier.Namespace))
+            {
+                if (ns != null)
+                    yield return ns;
+            }
+
             foreach (string ns in Type.GetNamespaces())
                 yield return ns;
 
@@ -43,7 +52,9 @@ namespace TypedRest.OpenApi.CSharp.Dom
             if (publicKeyword)
                 propertyDeclaration = propertyDeclaration.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)));
 
-            propertyDeclaration = propertyDeclaration.WithDocumentation(Description);
+            propertyDeclaration = propertyDeclaration
+                                 .WithAttributeLists(List(Attributes.Select(x => x.ToSyntax())))
+                                 .WithDocumentation(Description);
 
             return (GetterExpression == null)
                 ? propertyDeclaration.WithAccessorList(AccessorList(List(GetAccessors())))

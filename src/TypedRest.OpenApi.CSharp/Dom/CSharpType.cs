@@ -11,9 +11,11 @@ namespace TypedRest.OpenApi.CSharp.Dom
     {
         public abstract CSharpIdentifier Identifier { get; }
 
-        public List<CSharpIdentifier> Interfaces { get; } = new List<CSharpIdentifier>();
-
         public string? Description { get; set; }
+
+        public List<CSharpAttribute> Attributes { get; } = new List<CSharpAttribute>();
+
+        public List<CSharpIdentifier> Interfaces { get; } = new List<CSharpIdentifier>();
 
         public List<CSharpProperty> Properties { get; } = new List<CSharpProperty>();
 
@@ -29,18 +31,15 @@ namespace TypedRest.OpenApi.CSharp.Dom
                   .NormalizeWhitespace();
         }
 
-        protected static AttributeListSyntax GeneratedCodeAttribute
-            => AttributeList(SingletonSeparatedList(Attribute(
-                QualifiedName(QualifiedName(QualifiedName(IdentifierName("System"), IdentifierName("CodeDom")), IdentifierName("Compiler")), IdentifierName("GeneratedCode")),
-                AttributeArgumentList(SeparatedList(new[]
-                {
-                    AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal("TypedRest.OpenApi"))),
-                    AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal("1.0.0")))
-                })))));
-
         protected virtual ISet<string> GetNamespaces()
         {
             var namespaces = new SortedSet<string>();
+
+            foreach (string? ns in Attributes.Select(x => x.Identifier.Namespace))
+            {
+                if (ns != null)
+                    namespaces.Add(ns);
+            }
 
             foreach (string ns in Interfaces.SelectMany(x => x.GetNamespaces()))
                 namespaces.Add(ns);

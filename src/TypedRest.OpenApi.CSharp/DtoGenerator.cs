@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.CSharp.Dom;
 
@@ -19,18 +20,36 @@ namespace TypedRest.OpenApi.CSharp
                 yield return GetDto(key, schema);
         }
 
-        private ICSharpType GetDto(string key, OpenApiSchema schema)
+        protected virtual ICSharpType GetDto(string key, OpenApiSchema schema)
         {
-            var type = new CSharpClass(_naming.DtoType(key)) {Description = schema.Description};
-            foreach ((string propKey, var propSchema) in schema.Properties)
+            var type = new CSharpClass(_naming.DtoType(key))
             {
-                type.Properties.Add(new CSharpProperty(_naming.TypeFor(propSchema), _naming.Property(propKey))
-                {
-                    Description = propSchema.Description,
-                    HasSetter = true
-                });
-            }
+                Description = schema.Description,
+                Attributes = {Attributes.GeneratedCode}
+            };
+
+            foreach ((string propKey, var propSchema) in schema.Properties)
+                type.Properties.Add(GetProperty(propKey, propSchema, schema));
+
             return type;
+        }
+
+        protected virtual CSharpProperty GetProperty(string key, OpenApiSchema schema, OpenApiSchema dtoSchema)
+        {
+            var property = new CSharpProperty(_naming.TypeFor(schema), _naming.Property(key))
+            {
+                Description = schema.Description,
+                Attributes = {Attributes.JsonProperty(key)},
+                HasSetter = true
+            };
+
+            if (dtoSchema.Required.Contains(key))
+                property.Attributes.Add(Attributes.Required);
+
+            if (key.Equals("id", StringComparison.InvariantCultureIgnoreCase))
+                property.Attributes.Add(Attributes.Key);
+
+            return property;
         }
     }
 }

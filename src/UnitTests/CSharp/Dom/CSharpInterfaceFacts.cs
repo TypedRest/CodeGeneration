@@ -14,18 +14,22 @@ namespace TypedRest.OpenApi.CSharp.Dom
                 TypeArguments = {new CSharpIdentifier(ns: "Models", name: "MyModel")}
             };
 
+            var dummyAttribute = new CSharpAttribute(new CSharpIdentifier("Attributes", "Dummy")) {Arguments = {"myValue"}};
             Assert(new CSharpInterface(myInterface)
             {
                 Description = "My interface\nDetails",
+                Attributes = {dummyAttribute},
                 Interfaces = {baseInterface},
                 Properties =
                 {
                     new CSharpProperty(endpointInterface, "MyProperty")
                     {
-                        Description = "My property"
+                        Description = "My property",
+                        Attributes = {dummyAttribute}
                     }
                 }
-            }, @"using Models;
+            }, @"using Attributes;
+using Models;
 using Namespace2;
 using TypedRest.Endpoints.Generic;
 
@@ -35,12 +39,13 @@ namespace Namespace1
     /// My interface
     /// Details
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode(""TypedRest.OpenApi"", ""1.0.0"")]
+    [Dummy(""myValue"")]
     public partial interface MyInterface : BaseInterface
     {
         /// <summary>
         /// My property
         /// </summary>
+        [Dummy(""myValue"")]
         ICollectionEndpoint<MyModel> MyProperty
         {
             get;

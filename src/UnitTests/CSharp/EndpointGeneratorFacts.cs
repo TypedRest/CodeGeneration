@@ -19,8 +19,9 @@ namespace TypedRest.OpenApi.CSharp
 
             var contactEndpointInterface = new CSharpInterface(new CSharpIdentifier("MyNamespace", "IContactElementEndpoint"))
             {
-                Interfaces = {ElementEndpoint("Contact").ToInterface()},
                 Description = "A specific contact.",
+                Attributes = {Attributes.GeneratedCode},
+                Interfaces = {ElementEndpoint("Contact").ToInterface()},
                 Properties =
                 {
                     Property("Note", "The note for a specific contact.", noteEndpoint.ToInterface()),
@@ -30,6 +31,8 @@ namespace TypedRest.OpenApi.CSharp
             };
             var contactEndpoint = new CSharpClass(new CSharpIdentifier("MyNamespace", "ContactElementEndpoint"))
             {
+                Description = contactEndpointInterface.Description,
+                Attributes = {Attributes.GeneratedCode},
                 BaseClass = new CSharpClassConstruction(ElementEndpoint("Contact"))
                 {
                     Parameters =
@@ -39,7 +42,6 @@ namespace TypedRest.OpenApi.CSharp
                     }
                 },
                 Interfaces = {contactEndpointInterface.Identifier},
-                Description = contactEndpointInterface.Description,
                 Properties =
                 {
                     Property("Note", "The note for a specific contact.", noteEndpoint.ToInterface(), noteEndpoint, "./note"),
@@ -52,6 +54,7 @@ namespace TypedRest.OpenApi.CSharp
 
             var entryEndpointInterface = new CSharpInterface(new CSharpIdentifier("MyNamespace", "IMyServiceClient"))
             {
+                Attributes = {Attributes.GeneratedCode},
                 Interfaces = {new CSharpIdentifier("TypedRest.Endpoints", "IEndpoint")},
                 Properties =
                 {
@@ -60,6 +63,7 @@ namespace TypedRest.OpenApi.CSharp
             };
             var entryEndpoint = new CSharpClass(new CSharpIdentifier("MyNamespace", "MyServiceClient"))
             {
+                Attributes = {Attributes.GeneratedCode},
                 BaseClass = new CSharpClassConstruction(new CSharpIdentifier("TypedRest.Endpoints", "EntryEndpoint"))
                 {
                     Parameters =

@@ -14,9 +14,11 @@ namespace TypedRest.OpenApi.CSharp.Dom
             var baseClass = new CSharpIdentifier(ns: "Namespace2", name: "BaseClass");
             var endpointInterface = new CSharpIdentifier("TypedRest.Endpoints", "IEndpoint");
 
+            var dummyAttribute = new CSharpAttribute(new CSharpIdentifier("Attributes", "Dummy")) {Arguments = {"myValue"}};
             Assert(new CSharpClass(myClass)
             {
                 Description = "My class\nDetails",
+                Attributes = {dummyAttribute},
                 BaseClass = new CSharpClassConstruction(baseClass)
                 {
                     Parameters =
@@ -31,6 +33,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
                     new CSharpProperty(myInterface, "MyProperty")
                     {
                         Description = "My property",
+                        Attributes = {dummyAttribute},
                         GetterExpression = new CSharpClassConstruction(otherClass)
                         {
                             Parameters =
@@ -40,7 +43,8 @@ namespace TypedRest.OpenApi.CSharp.Dom
                         }
                     }
                 }
-            }, @"using Models;
+            }, @"using Attributes;
+using Models;
 using Namespace2;
 using TypedRest.Endpoints;
 
@@ -50,7 +54,7 @@ namespace Namespace1
     /// My class
     /// Details
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode(""TypedRest.OpenApi"", ""1.0.0"")]
+    [Dummy(""myValue"")]
     public partial class MyClass : BaseClass, MyInterface<MyModel>
     {
         public MyClass(IEndpoint referrer): base(referrer, relativeUri: ""./sample"")
@@ -60,6 +64,7 @@ namespace Namespace1
         /// <summary>
         /// My property
         /// </summary>
+        [Dummy(""myValue"")]
         public MyInterface<MyModel> MyProperty => new OtherClass<MyModel>(arg1: ""value"");
     }
 }");
