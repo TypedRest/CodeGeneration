@@ -46,7 +46,7 @@ namespace TypedRest.OpenApi.CSharp.Dom
 
         private ParameterListSyntax GetParameterList()
             => ParameterList(SeparatedList(
-                Parameters.Where(x => x.Value == null || x.Value is ThisReference)
+                Parameters.Where(x => !x.HasStaticValue)
                           .Select(x => x.ToParameterSyntax())));
 
         public override string ToString() => Type.ToString();

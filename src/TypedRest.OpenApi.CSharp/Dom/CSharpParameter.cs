@@ -13,6 +13,9 @@ namespace TypedRest.OpenApi.CSharp.Dom
 
         public object? Value { get; set; }
 
+        public bool HasStaticValue
+            => Value != null && !(Value is ThisReference);
+
         public CSharpParameter(CSharpIdentifier type, string name)
         {
             Type = type ?? throw new ArgumentNullException(nameof(type));
