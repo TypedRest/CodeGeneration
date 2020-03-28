@@ -1,28 +1,25 @@
 ﻿using FluentAssertions;
+using TypedRest.OpenApi.CSharp.Builders;
 using TypedRest.OpenApi.CSharp.Dom;
 using Xunit;
 
 namespace TypedRest.OpenApi.CSharp
 {
-    public class GeneratorFacts
+    public class EndpointGeneratorFacts
     {
         [Fact]
         public void GeneratesCorrectDom()
         {
-            var generator = new Generator(new NamingStrategy("MyService", "MyNamespace", "MyNamespace"));
-            var generated = generator.Generate(Sample.Doc);
+            var generator = new EndpointGenerator(
+                new NamingStrategy("MyService", "MyNamespace", "MyNamespace"),
+                BuilderRegistry.Default);
+            var generated = generator.Generate(Sample.EntryEndpoint);
 
-            var noteDto = Dto("Note", "A note about a specific contact.",
-                Property("Content", "The content of the note.", CSharpIdentifier.String));
-            var noteEndpoint = ElementEndpoint(noteDto);
+            var noteEndpoint = ElementEndpoint("Note");
 
-            var contactDto = Dto("Contact", "A contact in an address book.",
-                Property("Id", "The ID of the contact.", CSharpIdentifier.String),
-                Property("FirstName", "The first name of the contact.", CSharpIdentifier.String),
-                Property("LastName", "The last name of the contact.", CSharpIdentifier.String));
             var contactEndpointInterface = new CSharpInterface(new CSharpIdentifier("MyNamespace", "IContactElementEndpoint"))
             {
-                Interfaces = {ElementEndpoint(contactDto).ToInterface()},
+                Interfaces = {ElementEndpoint("Contact").ToInterface()},
                 Description = "A specific contact.",
                 Properties =
                 {
@@ -33,7 +30,7 @@ namespace TypedRest.OpenApi.CSharp
             };
             var contactEndpoint = new CSharpClass(new CSharpIdentifier("MyNamespace", "ContactElementEndpoint"))
             {
-                BaseClass = new CSharpClassConstruction(ElementEndpoint(contactDto))
+                BaseClass = new CSharpClassConstruction(ElementEndpoint("Contact"))
                 {
                     Parameters =
                     {
@@ -51,14 +48,14 @@ namespace TypedRest.OpenApi.CSharp
                 }
             };
 
-            var collectionEndpoint = CollectionEndpoint(contactDto, contactEndpoint.Identifier);
+            var collectionEndpoint = CollectionEndpoint("Contact", contactEndpoint.Identifier);
 
             var entryEndpointInterface = new CSharpInterface(new CSharpIdentifier("MyNamespace", "IMyServiceClient"))
             {
                 Interfaces = {new CSharpIdentifier("TypedRest.Endpoints", "IEndpoint")},
                 Properties =
                 {
-                    Property("Contacts", "Collection of contacts.", CollectionEndpoint(contactDto, contactEndpointInterface.Identifier).ToInterface())
+                    Property("Contacts", "Collection of contacts.", CollectionEndpoint("Contact", contactEndpointInterface.Identifier).ToInterface())
                 }
             };
             var entryEndpoint = new CSharpClass(new CSharpIdentifier("MyNamespace", "MyServiceClient"))
@@ -73,25 +70,12 @@ namespace TypedRest.OpenApi.CSharp
                 Interfaces = {entryEndpointInterface.Identifier},
                 Properties =
                 {
-                    Property("Contacts", "Collection of contacts.", CollectionEndpoint(contactDto, contactEndpointInterface.Identifier).ToInterface(), collectionEndpoint, "./contacts")
+                    Property("Contacts", "Collection of contacts.", CollectionEndpoint("Contact", contactEndpointInterface.Identifier).ToInterface(), collectionEndpoint, "./contacts")
                 }
             };
 
             generated.Should().BeEquivalentTo(
-                contactDto, noteDto,
                 entryEndpointInterface, entryEndpoint, contactEndpointInterface, contactEndpoint);
-        }
-
-        private static CSharpClass Dto(string name, string description, params CSharpProperty[] properties)
-        {
-            var type = new CSharpClass(new CSharpIdentifier("MyNamespace", name))
-            {
-                Description = description
-            };
-            foreach (var property in properties)
-                property.HasSetter = true;
-            type.Properties.AddRange(properties);
-            return type;
         }
 
         private static CSharpParameter Referrer
@@ -126,16 +110,16 @@ namespace TypedRest.OpenApi.CSharp
         private static CSharpIdentifier BlobEndpoint
             => new CSharpIdentifier("TypedRest.Endpoints.Raw", "BlobEndpoint");
 
-        private static CSharpIdentifier ElementEndpoint(ICSharpType dto)
+        private static CSharpIdentifier ElementEndpoint(string dto)
             => new CSharpIdentifier("TypedRest.Endpoints.Generic", "ElementEndpoint")
             {
-                TypeArguments = {dto.Identifier}
+                TypeArguments = {new CSharpIdentifier("MyNamespace", dto)}
             };
 
-        private static CSharpIdentifier CollectionEndpoint(ICSharpType dto, CSharpIdentifier elementEndpoint)
+        private static CSharpIdentifier CollectionEndpoint(string dto, CSharpIdentifier elementEndpoint)
             => new CSharpIdentifier("TypedRest.Endpoints.Generic", "CollectionEndpoint")
             {
-                TypeArguments = {dto.Identifier, elementEndpoint}
+                TypeArguments = {new CSharpIdentifier("MyNamespace", dto), elementEndpoint}
             };
     }
 }

@@ -26,7 +26,7 @@ namespace TypedRest.OpenApi.CSharp.Builders
                 }
             };
 
-        protected override (IEnumerable<ICSharpType> types, IEnumerable<CSharpIdentifier> typeArguments) GetAdditional(string key, TEndpoint endpoint, IGenerator generator)
+        protected override (IEnumerable<ICSharpType> types, IEnumerable<CSharpIdentifier> typeArguments) GetAdditional(string key, TEndpoint endpoint, IEndpointGenerator generator)
         {
             if (endpoint.Element == null)
                 return (Enumerable.Empty<CSharpType>(), Enumerable.Empty<CSharpIdentifier>());

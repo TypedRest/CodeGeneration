@@ -12,12 +12,12 @@ namespace TypedRest.OpenApi.CSharp.Builders
     public abstract class IndexerBuilderBase<TEndpoint> : BuilderBase<TEndpoint>
         where TEndpoint : IndexerEndpoint
     {
-        protected override (IEnumerable<ICSharpType> types, IEnumerable<CSharpIdentifier> typeArguments) GetAdditional(string key, TEndpoint endpoint, IGenerator generator)
+        protected override (IEnumerable<ICSharpType> types, IEnumerable<CSharpIdentifier> typeArguments) GetAdditional(string key, TEndpoint endpoint, IEndpointGenerator generator)
         {
             if (endpoint.Element == null) throw new InvalidOperationException($"Missing element for endpoint '{key}'.");
 
             string elementKey = key.TrimEnd('s') + "Element";
-            var (property, types) = generator.GetEndpoints(elementKey, endpoint.Element);
+            var (property, types) = generator.Generate(elementKey, endpoint.Element);
             return (types, typeArguments: new [] {property.GetterExpression!.Type});
         }
     }

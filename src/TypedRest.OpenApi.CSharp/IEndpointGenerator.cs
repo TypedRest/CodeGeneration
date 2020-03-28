@@ -4,12 +4,12 @@ using TypedRest.OpenApi.Endpoints;
 
 namespace TypedRest.OpenApi.CSharp
 {
-    public interface IGenerator
+    public interface IEndpointGenerator
     {
         INamingStrategy Naming { get; }
 
-        bool GenerateInterfaces { get; }
+        bool WithInterfaces { get; }
 
-        (CSharpProperty property, IEnumerable<ICSharpType> types) GetEndpoints(string key, IEndpoint endpoint);
+        (CSharpProperty property, IEnumerable<ICSharpType> types) Generate(string key, IEndpoint endpoint);
     }
 }

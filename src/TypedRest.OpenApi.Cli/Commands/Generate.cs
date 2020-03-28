@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using CommandLine;
-using Microsoft.OpenApi.Models;
 using TypedRest.OpenApi.CSharp;
 using TypedRest.OpenApi.CSharp.Dom;
-using TypedRest.OpenApi.Patterns;
 
 namespace TypedRest.OpenApi.Cli.Commands
 {
@@ -32,21 +31,16 @@ namespace TypedRest.OpenApi.Cli.Commands
         public override int Run()
         {
             var doc = ReadDoc();
+            var naming = new NamingStrategy(ServiceName, Namespace ?? ServiceName, DtoNamespace ?? Namespace ?? ServiceName);
 
-            if (doc.GetTypedRest() == null)
-                doc.SetTypedRest(new PatternMatcher().GetEntryEndpoint(doc));
+            var types = doc.GenerateTypedRestEndpoints(naming, GenerateInterfaces);
+            if (GenerateDtos)
+                types = types.Concat(doc.GenerateDtos(naming));
 
-            WriteSource(GenerateSource(doc));
+            WriteSource(types);
 
             return 0;
         }
-
-        private IEnumerable<ICSharpType> GenerateSource(OpenApiDocument doc)
-            => new Generator(new NamingStrategy(ServiceName, Namespace ?? ServiceName, DtoNamespace ?? Namespace ?? ServiceName))
-            {
-                GenerateInterfaces = GenerateInterfaces,
-                GenerateDtos = GenerateDtos
-            }.Generate(doc);
 
         private void WriteSource(IEnumerable<ICSharpType> types)
         {

@@ -12,10 +12,10 @@ namespace TypedRest.OpenApi.CSharp.Builders
     public abstract class BuilderBase<TEndpoint> : IBuilder<TEndpoint>
         where TEndpoint : IEndpoint
     {
-        public (CSharpProperty property, IEnumerable<ICSharpType> types) Build(string key, IEndpoint endpoint, IGenerator generator)
+        public (CSharpProperty property, IEnumerable<ICSharpType> types) Build(string key, IEndpoint endpoint, IEndpointGenerator generator)
             => Build(key, (TEndpoint)endpoint, generator);
 
-        public (CSharpProperty property, IEnumerable<ICSharpType> types) Build(string key, TEndpoint endpoint, IGenerator generator)
+        public (CSharpProperty property, IEnumerable<ICSharpType> types) Build(string key, TEndpoint endpoint, IEndpointGenerator generator)
         {
             var types = new List<ICSharpType>();
             var implementationType = GetImplementationType(endpoint, generator.Naming);
@@ -35,7 +35,7 @@ namespace TypedRest.OpenApi.CSharp.Builders
                 types.Add(customImplementation);
                 construction = customImplementation.GetConstruction();
 
-                if (generator.GenerateInterfaces)
+                if (generator.WithInterfaces)
                 {
                     var customInterface = CustomInterface(endpoint, interfaceType, customImplementation);
                     types.Add(customInterface);
@@ -54,7 +54,7 @@ namespace TypedRest.OpenApi.CSharp.Builders
             return (property, types);
         }
 
-        private static CSharpClass CustomImplementation(string key, TEndpoint endpoint, CSharpClassConstruction baseClass, List<ICSharpType> types, IGenerator generator)
+        private static CSharpClass CustomImplementation(string key, TEndpoint endpoint, CSharpClassConstruction baseClass, List<ICSharpType> types, IEndpointGenerator generator)
         {
             var customImplementation = new CSharpClass(generator.Naming.EndpointType(key, endpoint))
             {
@@ -64,7 +64,7 @@ namespace TypedRest.OpenApi.CSharp.Builders
 
             foreach ((string childKey, var childEndpoint) in endpoint.Children)
             {
-                var (property, additionalTypes) = generator.GetEndpoints(childKey, childEndpoint);
+                var (property, additionalTypes) = generator.Generate(childKey, childEndpoint);
                 customImplementation.Properties.Add(property);
                 types.AddRange(additionalTypes);
             }
@@ -87,7 +87,7 @@ namespace TypedRest.OpenApi.CSharp.Builders
             return endpointInterface;
         }
 
-        protected virtual (IEnumerable<ICSharpType> types, IEnumerable<CSharpIdentifier> typeArguments) GetAdditional(string key, TEndpoint endpoint, IGenerator generator)
+        protected virtual (IEnumerable<ICSharpType> types, IEnumerable<CSharpIdentifier> typeArguments) GetAdditional(string key, TEndpoint endpoint, IEndpointGenerator generator)
             => (Enumerable.Empty<CSharpType>(), Enumerable.Empty<CSharpIdentifier>());
 
         protected abstract CSharpIdentifier GetImplementationType(TEndpoint endpoint, INamingStrategy naming);
