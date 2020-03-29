@@ -13,7 +13,7 @@ namespace TypedRest.OpenApi
         /// <summary>
         /// The property name used to add TypedRest as an extension to an <see cref="OpenApiDocument"/>.
         /// </summary>
-        public const string TypedRestKey = "x-endpoints";
+        public const string TypedRestKey = "x-typedrest";
 
         /// <summary>
         /// Reads an OpenAPI document from an <paramref name="input"/> string with support for the TypedRest extension.

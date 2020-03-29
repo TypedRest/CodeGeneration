@@ -166,7 +166,7 @@ components:
           type: string
           description: The content of the note.
       description: A note about a specific contact.
-x-endpoints:
+x-typedrest:
   contacts:
     kind: collection
     description: Collection of contacts.

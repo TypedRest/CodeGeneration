@@ -162,7 +162,7 @@ definitions:
       content:
         description: The content of the note.
         type: string
-x-endpoints:
+x-typedrest:
   contacts:
     kind: collection
     description: Collection of contacts.
