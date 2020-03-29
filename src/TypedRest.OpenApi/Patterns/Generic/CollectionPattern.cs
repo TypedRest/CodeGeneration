@@ -9,25 +9,28 @@ namespace TypedRest.OpenApi.Patterns.Generic
     /// </summary>
     public class CollectionPattern : IndexerPattern
     {
-        protected override OperationType[] RequiredOperations
-            => new[] {OperationType.Get /*, OperationType.Post*/};
-
-        protected override IndexerEndpoint? BuildEndpoint(OpenApiPathItem? item, IEndpoint elementEndpoint)
+        public override IEndpoint? TryGetEndpoint(PathTree tree, IPatternMatcher patternMatcher)
         {
-            if (item == null || !(elementEndpoint is ElementEndpoint element)) return null;
-            var operation = item.Operations[OperationType.Get];
+            if (tree.Item == null || !tree.Item.Operations.TryGetValue(OperationType.Get, out var operation))
+                return null;
 
+            var children = patternMatcher.GetEndpoints(tree);
+            var element = ExtractElement<ElementEndpoint>(children);
+            if (element == null) return null;
+
+            // Ensure collection and element schemas match
             var schema = operation.Get200Response()?.GetJsonSchema();
             if (schema?.Type != "array" || schema.Items?.Reference?.Id != element.Schema?.Reference?.Id) return null;
-
             element.Schema = null;
 
-            return new CollectionEndpoint
+            var endpoint = new CollectionEndpoint
             {
                 Schema = schema.Items,
-                Element = (element.Children.Count == 0) ? null : element,
+                Element = (element.Children.Count == 0) ? null : element, // Trim trivial element endpoint
                 Description = operation.Description ?? operation.Summary
             };
+            endpoint.Children.AddRange(children);
+            return endpoint;
         }
     }
 }

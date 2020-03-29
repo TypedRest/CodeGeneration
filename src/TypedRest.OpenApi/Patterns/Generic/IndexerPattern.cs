@@ -11,43 +11,41 @@ namespace TypedRest.OpenApi.Patterns.Generic
     /// </summary>
     public class IndexerPattern : IPattern
     {
-        public IEndpoint? TryGetEndpoint(PathTree tree, IPatternMatcher patternMatcher)
+        public virtual IEndpoint? TryGetEndpoint(PathTree tree, IPatternMatcher patternMatcher)
         {
-            var operations = tree.Item?.Operations.Keys ?? new OperationType[0];
-            if (!RequiredOperations.All(operations.Contains))
-                return null;
+            OpenApiOperation? operation = null;
+            tree.Item?.Operations.TryGetValue(OperationType.Get, out operation);
 
-            var childEndpoints = patternMatcher.GetEndpoints(tree);
-            var elementEndpoint = ExtractElementEndpoint(childEndpoints);
-            if (elementEndpoint == null) return null;
+            var children = patternMatcher.GetEndpoints(tree);
+            var element = ExtractElement<IEndpoint>(children);
+            if (element == null) return null;
 
-            var endpoint = BuildEndpoint(tree.Item, elementEndpoint);
-            endpoint?.Children.AddRange(childEndpoints);
-
-            return endpoint;
-        }
-
-        private static IEndpoint? ExtractElementEndpoint(IDictionary<string, IEndpoint> childEndpoints)
-        {
-            (string key, var endpoint) = childEndpoints.FirstOrDefault(x => x.Key == "{}");
-            if (endpoint == null)
-                return null;
-            childEndpoints.Remove(key);
-
-            endpoint.Uri = null;
+            var endpoint = new IndexerEndpoint
+            {
+                Element = element,
+                Description = operation?.Description ?? operation?.Summary
+            };
+            endpoint.Children.AddRange(children);
             return endpoint;
         }
 
         /// <summary>
-        /// A list of <see cref="OperationType"/>s the root of the path tree must support in order for this pattern to be applicable.
+        /// Extracts an element endpoint from a set of child endpoints.
         /// </summary>
-        protected virtual OperationType[] RequiredOperations
-            => new OperationType[0];
+        /// <param name="children">The child endpoints to search for. A potential match will be removed from this dictionary.</param>
+        /// <typeparam name="T">The type of endpoint to search for.</typeparam>
+        /// <returns>The element endpoint; <c>null</c> if none was found.</returns>
+        protected static T? ExtractElement<T>(IDictionary<string, IEndpoint> children)
+            where T : class, IEndpoint
+        {
+            (string key, var element) = children.FirstOrDefault(x => x.Key == "{}" && x.Value is T);
+            if (element != null)
+            {
+                children.Remove(key);
+                element.Uri = null;
+            }
 
-        /// <summary>
-        /// Builds the endpoint using information from the <paramref name="item"/> and <paramref name="elementEndpoint"/>. <c>null</c> if the pattern does not match.
-        /// </summary>
-        protected virtual IndexerEndpoint? BuildEndpoint(OpenApiPathItem? item, IEndpoint elementEndpoint)
-            => new IndexerEndpoint {Element = elementEndpoint};
+            return (T?)element;
+        }
     }
 }

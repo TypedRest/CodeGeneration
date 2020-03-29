@@ -10,7 +10,7 @@ namespace TypedRest.OpenApi.CSharp.Builders
     /// Common base class for <see cref="IBuilder{TEndpoint}"/>s for <see cref="CollectionEndpoint"/> and derived types.
     /// </summary>
     /// <typeparam name="TEndpoint">The type of <see cref="CollectionEndpoint"/> to generate code for.</typeparam>
-    public abstract class CollectionBuilderBase<TEndpoint> : IndexerBuilderBase<TEndpoint>
+    public abstract class CollectionBuilderBase<TEndpoint> : BuilderBase<TEndpoint>
         where TEndpoint : CollectionEndpoint
     {
         protected abstract string TypeNamespace { get; }
@@ -34,7 +34,9 @@ namespace TypedRest.OpenApi.CSharp.Builders
             if (endpoint.Element is ElementEndpoint elementEndpoint && elementEndpoint.Schema == null)
                 elementEndpoint.Schema = endpoint.Schema;
 
-            return base.GetAdditional(key, endpoint, generator);
+            string elementKey = key.TrimEnd('s') + "Element";
+            var (property, types) = generator.Generate(elementKey, endpoint.Element);
+            return (types, typeArguments: new [] {property.GetterExpression!.Type});
         }
 
         protected override CSharpIdentifier GetInterfaceType(CSharpIdentifier implementationType)

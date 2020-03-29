@@ -8,7 +8,7 @@ namespace TypedRest.OpenApi.Endpoints.Generic
     /// <summary>
     /// Endpoint for a collection of entities addressable as <see cref="ElementEndpoint"/>s.
     /// </summary>
-    public class CollectionEndpoint : IndexerEndpoint
+    public class CollectionEndpoint : Endpoint
     {
         public override string Kind => "collection";
 
@@ -17,13 +17,18 @@ namespace TypedRest.OpenApi.Endpoints.Generic
         /// </summary>
         public OpenApiSchema? Schema { get; set; }
 
-        protected override string ElementDefaultKind => "element";
+        /// <summary>
+        /// A template for child endpoints addressable by ID.
+        /// </summary>
+        public IEndpoint? Element { get; set; }
 
         public override void Parse(OpenApiObject data, IEndpointParser parser)
         {
             base.Parse(data, parser);
 
             Schema = data.GetSchema("schema");
+            if (data.TryGetObject("element", out var element))
+                Element = parser.Parse(element, defaultKind: "element");
         }
 
         public override void ResolveReferences(OpenApiComponents components)
@@ -31,6 +36,7 @@ namespace TypedRest.OpenApi.Endpoints.Generic
             base.ResolveReferences(components);
 
             Schema = Schema?.Resolve(components);
+            Element?.ResolveReferences(components);
         }
 
         protected override void WriteBody(IOpenApiWriter writer, OpenApiSpecVersion specVersion)
@@ -38,6 +44,7 @@ namespace TypedRest.OpenApi.Endpoints.Generic
             base.WriteBody(writer, specVersion);
 
             writer.WriteOptionalObject("schema", Schema, specVersion);
+            writer.WriteOptionalObject("element", Element, specVersion);
         }
     }
 }

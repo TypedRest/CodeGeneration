@@ -13,9 +13,9 @@ namespace TypedRest.OpenApi.Endpoints
     {
         public virtual string Kind => "";
 
-        public string? Description { get; set; }
-
         public string? Uri { get; set; }
+
+        public string? Description { get; set; }
 
         public IDictionary<string, IEndpoint> Children { get; } = new Dictionary<string, IEndpoint>();
 
@@ -51,15 +51,15 @@ namespace TypedRest.OpenApi.Endpoints
         protected virtual void WriteBody(IOpenApiWriter writer, OpenApiSpecVersion specVersion)
         {
             if (!string.IsNullOrEmpty(Kind)) writer.WriteProperty("kind", Kind);
-            writer.WriteProperty("description", Description);
             writer.WriteProperty("uri", Uri);
-            writer.WriteOptionalMap("children", Children, specVersion);
+            writer.WriteProperty("description", Description);
         }
 
         public virtual void Write(IOpenApiWriter writer, OpenApiSpecVersion specVersion)
         {
             writer.WriteStartObject();
             WriteBody(writer, specVersion);
+            writer.WriteOptionalMap("children", Children, specVersion);
             writer.WriteEndObject();
         }
 

@@ -165,25 +165,25 @@ definitions:
 x-typedrest:
   contacts:
     kind: collection
-    description: Collection of contacts.
     uri: ./contacts
+    description: Collection of contacts.
+    schema:
+      $ref: '#/definitions/Contact'
     element:
       kind: element
       description: A specific contact.
       children:
         note:
           kind: element
-          description: The note for a specific contact.
           uri: ./note
+          description: The note for a specific contact.
           schema:
             $ref: '#/definitions/Note'
         poke:
           kind: action
-          description: Pokes a contact.
           uri: ./poke
+          description: Pokes a contact.
         picture:
           kind: blob
-          description: A picture of a specific contact.
           uri: ./picture
-    schema:
-      $ref: '#/definitions/Contact'
+          description: A picture of a specific contact.
