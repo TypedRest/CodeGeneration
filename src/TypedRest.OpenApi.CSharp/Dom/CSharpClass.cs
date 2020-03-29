@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis.CSharp;
@@ -7,14 +6,11 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace TypedRest.OpenApi.CSharp.Dom
 {
-    public class CSharpClass : CSharpType
+    public class CSharpClass : CSharpInterface
     {
-        public override CSharpIdentifier Identifier { get; }
-
         public CSharpClass(CSharpIdentifier identifier)
-        {
-            Identifier = identifier ?? throw new ArgumentNullException(nameof(identifier));
-        }
+            : base(identifier)
+        {}
 
         public CSharpClassConstruction? BaseClass { get; set; }
 
@@ -39,36 +35,25 @@ namespace TypedRest.OpenApi.CSharp.Dom
             return namespaces;
         }
 
-        protected override MemberDeclarationSyntax GetTypeDeclaration()
-        {
-            var declaration = ClassDeclaration(Identifier.Name)
-                             .AddModifiers(Token(SyntaxKind.PublicKeyword), Token(SyntaxKind.PartialKeyword))
-                             .WithAttributeLists(List(Attributes.Select(x => x.ToSyntax())))
-                             .WithDocumentation(Description)
-                             .WithMembers(List(GetMemberDeclarations()));
+        protected override TypeDeclarationSyntax GetTypeDeclaration()
+            => ClassDeclaration(Identifier.Name);
 
-            var baseTypes = GetBaseTypes().ToList();
-            return baseTypes.Any()
-                ? declaration.WithBaseList(BaseList(SeparatedList(baseTypes)))
-                : declaration;
-        }
-
-        private IEnumerable<BaseTypeSyntax> GetBaseTypes()
+        protected override IEnumerable<BaseTypeSyntax> GetBaseTypes()
         {
             if (BaseClass != null)
                 yield return SimpleBaseType(BaseClass.Type.ToSyntax());
 
-            foreach (var @interface in Interfaces)
-                yield return SimpleBaseType(@interface.ToSyntax());
+            foreach (var type in base.GetBaseTypes())
+                yield return type;
         }
 
-        private IEnumerable<MemberDeclarationSyntax> GetMemberDeclarations()
+        protected override IEnumerable<MemberDeclarationSyntax> GetMemberDeclarations()
         {
             if (BaseClass != null && BaseClass.Parameters.Count != 0)
                 yield return BaseClass.ToConstructorSyntax(Identifier.Name);
 
-            foreach (var property in Properties)
-                yield return property.ToSyntax(publicKeyword: true);
+            foreach (var member in base.GetMemberDeclarations())
+                yield return member.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)));
         }
     }
 }

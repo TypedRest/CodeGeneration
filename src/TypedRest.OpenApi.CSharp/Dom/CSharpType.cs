@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -9,15 +10,16 @@ namespace TypedRest.OpenApi.CSharp.Dom
 {
     public abstract class CSharpType : ICSharpType
     {
-        public abstract CSharpIdentifier Identifier { get; }
+        public CSharpIdentifier Identifier { get; }
+
+        protected CSharpType(CSharpIdentifier identifier)
+        {
+            Identifier = identifier ?? throw new ArgumentNullException(nameof(identifier));
+        }
 
         public string? Description { get; set; }
 
         public List<CSharpAttribute> Attributes { get; } = new List<CSharpAttribute>();
-
-        public List<CSharpIdentifier> Interfaces { get; } = new List<CSharpIdentifier>();
-
-        public List<CSharpProperty> Properties { get; } = new List<CSharpProperty>();
 
         public CompilationUnitSyntax ToSyntax()
         {
@@ -25,9 +27,14 @@ namespace TypedRest.OpenApi.CSharp.Dom
             if (!string.IsNullOrEmpty(Identifier.Namespace))
                 namespaces.Remove(Identifier.Namespace);
 
+            var member = GetMemberDeclaration()
+                        .AddModifiers(Token(SyntaxKind.PublicKeyword), Token(SyntaxKind.PartialKeyword))
+                        .WithAttributeLists(List(Attributes.Select(x => x.ToSyntax())))
+                        .WithDocumentation(Description);
+
             return CompilationUnit()
                   .WithUsings(List(namespaces.Select(x => UsingDirective(IdentifierName(x)))))
-                  .AddMembers(NamespaceDeclaration(IdentifierName(Identifier.Namespace)).AddMembers(GetTypeDeclaration()))
+                  .AddMembers(NamespaceDeclaration(IdentifierName(Identifier.Namespace)).AddMembers(member))
                   .NormalizeWhitespace();
         }
 
@@ -41,16 +48,10 @@ namespace TypedRest.OpenApi.CSharp.Dom
                     namespaces.Add(ns);
             }
 
-            foreach (string ns in Interfaces.SelectMany(x => x.GetNamespaces()))
-                namespaces.Add(ns);
-
-            foreach (string ns in Properties.SelectMany(x => x.GetNamespaces()))
-                namespaces.Add(ns);
-
             return namespaces;
         }
 
-        protected abstract MemberDeclarationSyntax GetTypeDeclaration();
+        protected abstract MemberDeclarationSyntax GetMemberDeclaration();
 
         public override string ToString() => Identifier.ToString();
     }

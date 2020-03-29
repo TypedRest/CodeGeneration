@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
@@ -9,20 +7,17 @@ namespace TypedRest.OpenApi.CSharp.Dom
 {
     public class CSharpInterface : CSharpType
     {
-        public override CSharpIdentifier Identifier { get; }
-
         public CSharpInterface(CSharpIdentifier identifier)
-        {
-            Identifier = identifier ?? throw new ArgumentNullException(nameof(identifier));
-        }
+            : base(identifier)
+        {}
 
-        protected override MemberDeclarationSyntax GetTypeDeclaration()
+        public List<CSharpIdentifier> Interfaces { get; } = new List<CSharpIdentifier>();
+
+        public List<CSharpProperty> Properties { get; } = new List<CSharpProperty>();
+
+        protected override MemberDeclarationSyntax GetMemberDeclaration()
         {
-            var declaration = InterfaceDeclaration(Identifier.Name)
-                             .AddModifiers(Token(SyntaxKind.PublicKeyword), Token(SyntaxKind.PartialKeyword))
-                             .WithAttributeLists(List(Attributes.Select(x => x.ToSyntax())))
-                             .WithDocumentation(Description)
-                             .WithMembers(List(GetMemberDeclarations()));
+            var declaration = GetTypeDeclaration().WithMembers(List(GetMemberDeclarations()));
 
             var baseTypes = GetBaseTypes().ToList();
             return baseTypes.Any()
@@ -30,10 +25,26 @@ namespace TypedRest.OpenApi.CSharp.Dom
                 : declaration;
         }
 
-        private IEnumerable<BaseTypeSyntax> GetBaseTypes()
+        protected virtual TypeDeclarationSyntax GetTypeDeclaration()
+            => InterfaceDeclaration(Identifier.Name);
+
+        protected override ISet<string> GetNamespaces()
+        {
+            var namespaces = base.GetNamespaces();
+
+            foreach (string ns in Interfaces.SelectMany(x => x.GetNamespaces()))
+                namespaces.Add(ns);
+
+            foreach (string ns in Properties.SelectMany(x => x.GetNamespaces()))
+                namespaces.Add(ns);
+
+            return namespaces;
+        }
+
+        protected virtual IEnumerable<BaseTypeSyntax> GetBaseTypes()
             => Interfaces.Select(x => SimpleBaseType(x.ToSyntax()));
 
-        private IEnumerable<MemberDeclarationSyntax> GetMemberDeclarations()
-            => Properties.Select(property => property.ToSyntax(publicKeyword: false));
+        protected virtual IEnumerable<MemberDeclarationSyntax> GetMemberDeclarations()
+            => Properties.Select(property => property.ToSyntax());
     }
 }
