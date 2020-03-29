@@ -20,7 +20,7 @@ namespace TypedRest.OpenApi.Endpoints.Generic
         /// <summary>
         /// A template for child endpoints addressable by ID.
         /// </summary>
-        public IEndpoint? Element { get; set; }
+        public ElementEndpoint? Element { get; set; }
 
         public override void Parse(OpenApiObject data, IEndpointParser parser)
         {
@@ -28,7 +28,7 @@ namespace TypedRest.OpenApi.Endpoints.Generic
 
             Schema = data.GetSchema("schema");
             if (data.TryGetObject("element", out var element))
-                Element = parser.Parse(element, defaultKind: "element");
+                Element = parser.Parse(element, defaultKind: "element") as ElementEndpoint;
         }
 
         public override void ResolveReferences(OpenApiComponents components)
