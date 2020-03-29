@@ -1,3 +1,5 @@
+using System;
+using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Readers;
 using TypedRest.OpenApi.Endpoints;
 
@@ -9,13 +11,19 @@ namespace TypedRest.OpenApi
     public static class OpenApiReaderSettingsExtensions
     {
         /// <summary>
-        /// Adds support for the TypedRest OpenAPI Spec Extension.
+        /// Registers a TypedRest endpoint <paramref name="parser"/> as an OpenAPI extension parser.
         /// </summary>
         /// <seealso cref="OpenApiDocumentExtensions.GetTypedRest"/>
-        public static OpenApiReaderSettings AddTypedRest(this OpenApiReaderSettings settings, EndpointRegistry? endpointRegistry = null)
+        public static OpenApiReaderSettings AddTypedRest(this OpenApiReaderSettings settings, IEndpointParser parser)
         {
-            var parser = new EndpointParser(endpointRegistry);
-            settings.ExtensionParsers.Add(OpenApiDocumentExtensions.TypedRestKey, parser.Parse);
+            settings.ExtensionParsers.Add(OpenApiDocumentExtensions.TypedRestKey, (data, _) =>
+            {
+                if (!(data is OpenApiObject objData)) throw new FormatException($"{OpenApiDocumentExtensions.TypedRestKey} is not an object.");
+
+                var entryEndpoint = new EntryEndpoint();
+                entryEndpoint.Parse(objData, parser);
+                return entryEndpoint;
+            });
             return settings;
         }
     }

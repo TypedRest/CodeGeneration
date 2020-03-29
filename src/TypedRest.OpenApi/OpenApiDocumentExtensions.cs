@@ -16,11 +16,16 @@ namespace TypedRest.OpenApi
         public const string TypedRestKey = "x-typedrest";
 
         /// <summary>
-        /// Reads an OpenAPI document from an <paramref name="input"/> string with support for the TypedRest extension.
+        /// Reads an OpenAPI document from a string with support for the TypedRest extension.
         /// </summary>
-        public static OpenApiDocument ReadWithTypedRest(string input)
+        /// <param name="input">The JSON or YAML content to read.</param>
+        /// <param name="endpointRegistry">A list of all known <see cref="IEndpoint"/> kinds; leave <c>null</c> for default.</param>
+        public static OpenApiDocument ReadWithTypedRest(string input, EndpointRegistry? endpointRegistry = null)
         {
-            var doc = new OpenApiStringReader(new OpenApiReaderSettings().AddTypedRest()).Read(input, out _);
+            var parser = new EndpointParser(endpointRegistry ?? EndpointRegistry.Default);
+            var reader = new OpenApiStringReader(new OpenApiReaderSettings().AddTypedRest(parser));
+
+            var doc = reader.Read(input, out _);
             doc.GetTypedRest()?.ResolveReferences(doc.Components);
             return doc;
         }
