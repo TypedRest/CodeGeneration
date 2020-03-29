@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.OpenApi.Models;
-using TypedRest.OpenApi.CSharp.Dom;
+using NanoByte.CodeGeneration;
 using TypedRest.OpenApi.Endpoints;
 using TypedRest.OpenApi.Endpoints.Generic;
 
@@ -43,11 +43,11 @@ namespace TypedRest.OpenApi.CSharp
             {
                 ("string", "uri") => CSharpIdentifier.Uri,
                 ("string", _) => CSharpIdentifier.String,
-                ("integer", "int64") => CSharpIdentifier.Long.AsNullable(),
-                ("integer", _) => CSharpIdentifier.Int.AsNullable(),
-                ("number", "float") => CSharpIdentifier.Float.AsNullable(),
-                ("number", _) => CSharpIdentifier.Double.AsNullable(),
-                ("boolean", _) => CSharpIdentifier.Bool.AsNullable(),
+                ("integer", "int64") => CSharpIdentifier.Long.ToNullable(),
+                ("integer", _) => CSharpIdentifier.Int.ToNullable(),
+                ("number", "float") => CSharpIdentifier.Float.ToNullable(),
+                ("number", _) => CSharpIdentifier.Double.ToNullable(),
+                ("boolean", _) => CSharpIdentifier.Bool.ToNullable(),
                 ("array", _) => CSharpIdentifier.ListOf(TypeFor(schema.Items)),
                 ("object", _) when schema.AdditionalProperties != null => CSharpIdentifier.DictionaryOf(CSharpIdentifier.String, TypeFor(schema.AdditionalProperties)),
                 _ when !string.IsNullOrEmpty(schema.Reference?.Id) => DtoType(schema.Reference.Id),

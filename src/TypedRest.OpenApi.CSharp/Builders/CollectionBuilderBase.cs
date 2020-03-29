@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TypedRest.OpenApi.CSharp.Dom;
+using NanoByte.CodeGeneration;
 using TypedRest.OpenApi.Endpoints.Generic;
 
 namespace TypedRest.OpenApi.CSharp.Builders

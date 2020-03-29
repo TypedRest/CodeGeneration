@@ -1,7 +1,7 @@
 ﻿﻿using System.Collections.Generic;
  using FluentAssertions;
  using Microsoft.OpenApi.Models;
- using TypedRest.OpenApi.CSharp.Dom;
+ using NanoByte.CodeGeneration;
 using Xunit;
 
 namespace TypedRest.OpenApi.CSharp
@@ -31,7 +31,7 @@ namespace TypedRest.OpenApi.CSharp
         {
             var type = new CSharpClass(new CSharpIdentifier("MyNamespace", name))
             {
-                Description = description,
+                Summary = description,
                 Attributes = {Attributes.GeneratedCode}
             };
             type.Properties.AddRange(properties);
@@ -42,7 +42,7 @@ namespace TypedRest.OpenApi.CSharp
         {
             var property = new CSharpProperty(CSharpIdentifier.String, name)
             {
-                Description = description,
+                Summary = description,
                 Attributes = {Attributes.JsonProperty(jsonName)},
                 HasSetter = true
             };

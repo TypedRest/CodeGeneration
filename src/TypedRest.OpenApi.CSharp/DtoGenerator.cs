@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.OpenApi.Models;
-using TypedRest.OpenApi.CSharp.Dom;
+using NanoByte.CodeGeneration;
 
 namespace TypedRest.OpenApi.CSharp
 {
@@ -24,7 +24,7 @@ namespace TypedRest.OpenApi.CSharp
         {
             var type = new CSharpClass(_naming.DtoType(key))
             {
-                Description = schema.Description,
+                Summary = schema.Description,
                 Attributes = {Attributes.GeneratedCode}
             };
 
@@ -38,7 +38,7 @@ namespace TypedRest.OpenApi.CSharp
         {
             var property = new CSharpProperty(_naming.TypeFor(schema), _naming.Property(key))
             {
-                Description = schema.Description,
+                Summary = schema.Description,
                 Attributes = {Attributes.JsonProperty(key)},
                 HasSetter = true
             };

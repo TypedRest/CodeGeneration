@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using TypedRest.OpenApi.CSharp.Builders;
-using TypedRest.OpenApi.CSharp.Dom;
+using NanoByte.CodeGeneration;
 using Xunit;
 
 namespace TypedRest.OpenApi.CSharp
@@ -19,7 +19,7 @@ namespace TypedRest.OpenApi.CSharp
 
             var contactEndpointInterface = new CSharpInterface(new CSharpIdentifier("MyNamespace", "IContactElementEndpoint"))
             {
-                Description = "A specific contact.",
+                Summary = "A specific contact.",
                 Attributes = {Attributes.GeneratedCode},
                 Interfaces = {ElementEndpoint("Contact").ToInterface()},
                 Properties =
@@ -31,9 +31,9 @@ namespace TypedRest.OpenApi.CSharp
             };
             var contactEndpoint = new CSharpClass(new CSharpIdentifier("MyNamespace", "ContactElementEndpoint"))
             {
-                Description = contactEndpointInterface.Description,
+                Summary = contactEndpointInterface.Summary,
                 Attributes = {Attributes.GeneratedCode},
-                BaseClass = new CSharpClassConstruction(ElementEndpoint("Contact"))
+                BaseClass = new CSharpConstructor(ElementEndpoint("Contact"))
                 {
                     Parameters =
                     {
@@ -64,7 +64,7 @@ namespace TypedRest.OpenApi.CSharp
             var entryEndpoint = new CSharpClass(new CSharpIdentifier("MyNamespace", "MyServiceClient"))
             {
                 Attributes = {Attributes.GeneratedCode},
-                BaseClass = new CSharpClassConstruction(new CSharpIdentifier("TypedRest.Endpoints", "EntryEndpoint"))
+                BaseClass = new CSharpConstructor(new CSharpIdentifier("TypedRest.Endpoints", "EntryEndpoint"))
                 {
                     Parameters =
                     {
@@ -92,11 +92,11 @@ namespace TypedRest.OpenApi.CSharp
         {
             var property = new CSharpProperty(interfaceType, name)
             {
-                Description = description
+                Summary = description
             };
             if (implementationType != null)
             {
-                property.GetterExpression = new CSharpClassConstruction(implementationType)
+                property.GetterExpression = new CSharpConstructor(implementationType)
                 {
                     Parameters =
                     {

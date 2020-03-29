@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TypedRest.OpenApi.CSharp.Dom;
+using NanoByte.CodeGeneration;
 using TypedRest.OpenApi.Endpoints;
 
 namespace TypedRest.OpenApi.CSharp.Builders
@@ -24,7 +24,7 @@ namespace TypedRest.OpenApi.CSharp.Builders
             types.AddRange(additionalTypes);
             implementationType.TypeArguments.AddRange(typeArguments);
 
-            var construction = new CSharpClassConstruction(implementationType);
+            var construction = new CSharpConstructor(implementationType);
             construction.Parameters.AddRange(GetParameters(endpoint));
 
             var interfaceType = GetInterfaceType(implementationType);
@@ -48,17 +48,17 @@ namespace TypedRest.OpenApi.CSharp.Builders
             var property = new CSharpProperty(interfaceType, generator.Naming.Property(key))
             {
                 GetterExpression = construction,
-                Description = endpoint.Description
+                Summary = endpoint.Description
             };
 
             return (property, types);
         }
 
-        private static CSharpClass CustomImplementation(string key, TEndpoint endpoint, CSharpClassConstruction baseClass, List<ICSharpType> types, IEndpointGenerator generator)
+        private static CSharpClass CustomImplementation(string key, TEndpoint endpoint, CSharpConstructor baseClass, List<ICSharpType> types, IEndpointGenerator generator)
         {
             var customImplementation = new CSharpClass(generator.Naming.EndpointType(key, endpoint))
             {
-                Description = endpoint.Description,
+                Summary = endpoint.Description,
                 Attributes = {Attributes.GeneratedCode},
                 BaseClass = baseClass
             };
@@ -77,12 +77,12 @@ namespace TypedRest.OpenApi.CSharp.Builders
         {
             var endpointInterface = new CSharpInterface(implementation.Identifier.ToInterface())
             {
-                Description = endpoint.Description,
+                Summary = endpoint.Description,
                 Attributes = {Attributes.GeneratedCode},
                 Interfaces = {interfaceType}
             };
             foreach (var property in implementation.Properties)
-                endpointInterface.Properties.Add(new CSharpProperty(property.Type, property.Name) {Description = property.Description});
+                endpointInterface.Properties.Add(new CSharpProperty(property.Type, property.Name) {Summary = property.Summary});
 
             implementation.Interfaces.Add(endpointInterface.Identifier);
 

@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.OpenApi.Models;
-using TypedRest.OpenApi.CSharp.Dom;
+using NanoByte.CodeGeneration;
 using TypedRest.OpenApi.Endpoints;
 using TypedRest.OpenApi.Endpoints.Generic;
 using Xunit;

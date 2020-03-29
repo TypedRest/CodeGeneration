@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using CommandLine;
 using TypedRest.OpenApi.CSharp;
-using TypedRest.OpenApi.CSharp.Dom;
+using NanoByte.CodeGeneration;
 
 namespace TypedRest.OpenApi.Cli.Commands
 {

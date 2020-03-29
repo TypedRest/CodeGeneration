@@ -1,4 +1,4 @@
-using TypedRest.OpenApi.CSharp.Dom;
+using NanoByte.CodeGeneration;
 using TypedRest.OpenApi.Endpoints.Raw;
 
 namespace TypedRest.OpenApi.CSharp.Builders.Raw
