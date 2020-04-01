@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <LangVersion>8.0</LangVersion>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <Nullable>annotations</Nullable>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
+    <OutputPath>..\..\artifacts\$(Configuration)\</OutputPath>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(TargetFramework)=='netstandard2.1'">
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>Parses OpenAPI/Swagger documents and infers TypedRest Endpoints from patterns.</Description>
+    <Summary>Infers TypedRest Endpoints from patterns in OpenAPI/Swagger</Summary>
+    <PackageTags>Typed REST OpenAPI Swagger C# CodeGen</PackageTags>
+    <PackageProjectUrl>https://typedrest.net/openapi/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/TypedRest/CodeGeneration</RepositoryUrl>
+    <Authors>Bastian Eicher</Authors>
+    <Copyright>Copyright Bastian Eicher</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(MSBuildRuntimeType)'=='Full'">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.1.4" />
+  </ItemGroup>
+
+</Project>

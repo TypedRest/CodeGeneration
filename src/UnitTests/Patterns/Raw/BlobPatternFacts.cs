@@ -1,9 +1,9 @@
 using FluentAssertions;
 using Microsoft.OpenApi.Models;
-using TypedRest.OpenApi.Endpoints.Raw;
+using TypedRest.CodeGeneration.Endpoints.Raw;
 using Xunit;
 
-namespace TypedRest.OpenApi.Patterns.Raw
+namespace TypedRest.CodeGeneration.Patterns.Raw
 {
     public class BlobPatternFacts : PatternFactsBase<BlobPattern>
     {

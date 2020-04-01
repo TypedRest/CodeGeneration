@@ -2,12 +2,12 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using Microsoft.OpenApi.Models;
-using TypedRest.OpenApi.Endpoints;
-using TypedRest.OpenApi.Endpoints.Generic;
-using TypedRest.OpenApi.Endpoints.Raw;
-using TypedRest.OpenApi.Endpoints.Rpc;
+using TypedRest.CodeGeneration.Endpoints;
+using TypedRest.CodeGeneration.Endpoints.Generic;
+using TypedRest.CodeGeneration.Endpoints.Raw;
+using TypedRest.CodeGeneration.Endpoints.Rpc;
 
-namespace TypedRest.OpenApi
+namespace TypedRest.CodeGeneration
 {
     public static class Sample
     {

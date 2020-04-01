@@ -7,7 +7,7 @@ RECURSIVE = YES
 EXCLUDE_PATTERNS = */UnitTests/* */Properties/* */obj/* */bin/*
 
 OUTPUT_DIRECTORY = ../artifacts/Documentation
-GENERATE_TAGFILE = ../artifacts/Documentation/typedrest-openapi.tag
+GENERATE_TAGFILE = ../artifacts/Documentation/typedrest-codegen.tag
 HTML_OUTPUT = .
 
 GENERATE_LATEX = NO

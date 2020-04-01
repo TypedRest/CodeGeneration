@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using Moq;
-using TypedRest.OpenApi.Endpoints;
+using TypedRest.CodeGeneration.Endpoints;
 
-namespace TypedRest.OpenApi.Patterns
+namespace TypedRest.CodeGeneration.Patterns
 {
     public class PatternFactsBase<TPattern>
         where TPattern : IPattern, new()

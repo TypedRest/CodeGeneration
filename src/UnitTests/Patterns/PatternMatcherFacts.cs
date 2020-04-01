@@ -1,7 +1,7 @@
 using FluentAssertions;
 using Xunit;
 
-namespace TypedRest.OpenApi.Patterns
+namespace TypedRest.CodeGeneration.Patterns
 {
     public class PatternMatcherFacts
     {

@@ -1,11 +1,11 @@
 ﻿using FluentAssertions;
 using Microsoft.OpenApi.Models;
 using NanoByte.CodeGeneration;
-using TypedRest.OpenApi.Endpoints;
-using TypedRest.OpenApi.Endpoints.Generic;
+using TypedRest.CodeGeneration.Endpoints;
+using TypedRest.CodeGeneration.Endpoints.Generic;
 using Xunit;
 
-namespace TypedRest.OpenApi.CSharp
+namespace TypedRest.CodeGeneration.CSharp
 {
     public class NamingStrategyFacts
     {

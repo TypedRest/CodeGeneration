@@ -1,10 +1,10 @@
 using System.Net;
 using FluentAssertions;
 using Microsoft.OpenApi.Models;
-using TypedRest.OpenApi.Endpoints.Rpc;
+using TypedRest.CodeGeneration.Endpoints.Rpc;
 using Xunit;
 
-namespace TypedRest.OpenApi.Patterns.Rpc
+namespace TypedRest.CodeGeneration.Patterns.Rpc
 {
     public class ActionPatternFacts : PatternFactsBase<ActionPattern>
     {

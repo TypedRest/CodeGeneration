@@ -1,19 +1,19 @@
-# TypedRest OpenAPI
+# TypedRest Code Generation
 
-[![Build status](https://img.shields.io/appveyor/ci/TypedRest/typedrest-openapi.svg)](https://ci.appveyor.com/project/TypedRest/typedrest-openapi)  
+[![Build status](https://img.shields.io/appveyor/ci/TypedRest/CodeGeneration.svg)](https://ci.appveyor.com/project/TypedRest/CodeGeneration)  
 Tool that automatically infers [TypedRest Endpoints](https://typedrest.net/endpoints/) from patterns in [OpenAPI/Swagger](https://swagger.io/resources/open-api/) documents and generates source code for TypedRest clients.
 
 ## Usage
 
 Make sure you have the [.NET Core SDK 3.1+](https://dotnet.microsoft.com/download) installed and run:
 
-    dotnet tool install -g typedrest-openapi
+    dotnet tool install -g typedrest-codegen
 
-You can now use the `typedrest-openapi` command-line tool:
+You can now use the `typedrest-codegen` command-line tool:
 
-    typedrest-openapi --input myapi.yml --output myclient/
+    typedrest-codegen generate -f myapi.yml -o myclient/
 
-For further information take a look a the **[TypedRest OpenAPI Documentation](https://typedrest.net/openapi/)**.
+For further information take a look a the **[TypedRest OpenAPI Documentation](https://typedrest.net/code-generation/)**.
 
 ## Custom code
 
@@ -25,7 +25,7 @@ Parses OpenAPI/Swagger documents and infers TypedRest Endpoints from patterns.
 [![TypedRest.OpenApi.CSharp](https://img.shields.io/nuget/v/TypedRest.OpenApi.CSharp.svg?label=TypedRest.OpenApi.CSharp)](https://www.nuget.org/packages/TypedRest.OpenApi.CSharp/)  
 Generates C# source code for [TypedRest .NET](https://github.com/TypedRest/TypedRest-DotNet) clients from OpenAPI/Swagger documents.
 
-For further information take a look a the **[API Documentation](https://openapi.typedrest.net/)**.
+For further information take a look a the **[API Documentation](https://code-generation.typedrest.net/)**.
 
 References:
 - http://jack.ukleja.com/code-generation-with-roslyn/

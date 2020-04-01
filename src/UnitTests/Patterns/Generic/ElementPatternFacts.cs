@@ -1,10 +1,10 @@
 using System.Net;
 using FluentAssertions;
 using Microsoft.OpenApi.Models;
-using TypedRest.OpenApi.Endpoints.Generic;
+using TypedRest.CodeGeneration.Endpoints.Generic;
 using Xunit;
 
-namespace TypedRest.OpenApi.Patterns.Generic
+namespace TypedRest.CodeGeneration.Patterns.Generic
 {
     public class ElementPatternFacts : PatternFactsBase<ElementPattern>
     {

@@ -3,7 +3,7 @@ using Microsoft.OpenApi;
 using Microsoft.OpenApi.Extensions;
 using Xunit;
 
-namespace TypedRest.OpenApi
+namespace TypedRest.CodeGeneration
 {
     public class SerializationFacts
     {

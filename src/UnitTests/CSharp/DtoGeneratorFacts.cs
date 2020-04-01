@@ -4,7 +4,7 @@
  using NanoByte.CodeGeneration;
 using Xunit;
 
-namespace TypedRest.OpenApi.CSharp
+namespace TypedRest.CodeGeneration.CSharp
 {
     public class DtoGeneratorFacts
     {

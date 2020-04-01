@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>TypedRest.OpenApi</RootNamespace>
+    <RootNamespace>TypedRest.CodeGeneration</RootNamespace>
     <LangVersion>8.0</LangVersion>
     <DebugType>full</DebugType>
     <IsPackable>False</IsPackable>
@@ -21,11 +21,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TypedRest.OpenApi.CSharp\TypedRest.OpenApi.CSharp.csproj" />
+    <ProjectReference Include="..\TypedRest.CodeGeneration.CSharp\TypedRest.CodeGeneration.CSharp.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp3.1'">
-    <ProjectReference Include="..\TypedRest.OpenApi.Cli\TypedRest.OpenApi.Cli.csproj" />
+    <ProjectReference Include="..\TypedRest.CodeGeneration.Cli\TypedRest.CodeGeneration.Cli.csproj" />
   </ItemGroup>
 
   <ItemGroup>

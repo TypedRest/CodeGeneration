@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
-using TypedRest.OpenApi.CSharp.Builders;
+using TypedRest.CodeGeneration.CSharp.Builders;
 using NanoByte.CodeGeneration;
 using Xunit;
 
-namespace TypedRest.OpenApi.CSharp
+namespace TypedRest.CodeGeneration.CSharp
 {
     public class EndpointGeneratorFacts
     {
