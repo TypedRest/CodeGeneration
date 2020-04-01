@@ -1,0 +1,5 @@
+var searchData=
+[
+  ['keyvaluepairextensions_85',['KeyValuePairExtensions',['../class_typed_rest_1_1_code_generation_1_1_key_value_pair_extensions.html',1,'TypedRest::CodeGeneration']]],
+  ['kind_86',['Kind',['../interface_typed_rest_1_1_code_generation_1_1_endpoints_1_1_i_endpoint.html#a69d21ea4c3774d2361262ce811882fea',1,'TypedRest::CodeGeneration::Endpoints::IEndpoint']]]
+];
