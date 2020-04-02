@@ -17,7 +17,7 @@ namespace TypedRest.CodeGeneration.Patterns.Rpc
                 {
                     Operations =
                     {
-                        [OperationType.Post] = Sample.Operation(statusCode: HttpStatusCode.NoContent, summary: "An action.")
+                        [OperationType.Post] = Sample.Operation(statusCode: HttpStatusCode.NoContent, description: "An action.")
                     }
                 }
             };

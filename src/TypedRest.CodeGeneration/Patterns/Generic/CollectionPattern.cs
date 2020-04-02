@@ -11,15 +11,18 @@ namespace TypedRest.CodeGeneration.Patterns.Generic
     {
         public override IEndpoint? TryGetEndpoint(PathTree tree, IPatternMatcher patternMatcher)
         {
-            if (tree.Item == null || !tree.Item.Operations.TryGetValue(OperationType.Get, out var operation))
+            var item = tree.Item;
+            if (item == null || !item.Operations.TryGetValue(OperationType.Get, out var operation))
                 return null;
 
             var children = patternMatcher.GetEndpoints(tree);
             var element = ExtractElement<ElementEndpoint>(children);
             if (element == null) return null;
 
+            var response = operation.Get200Response();
+            var schema = response?.GetJsonSchema();
+
             // Ensure collection and element schemas match
-            var schema = operation.Get200Response()?.GetJsonSchema();
             if (schema?.Type != "array" || schema.Items?.Reference?.Id != element.Schema?.Reference?.Id) return null;
             element.Schema = null;
 
@@ -27,7 +30,7 @@ namespace TypedRest.CodeGeneration.Patterns.Generic
             {
                 Schema = schema.Items,
                 Element = (element.Children.Count == 0) ? null : element, // Trim trivial element endpoint
-                Description = operation.Description ?? operation.Summary
+                Description = item.Description ?? operation.Description ?? operation.Summary ?? response?.Description ?? schema.Description
             };
             endpoint.Children.AddRange(children);
             return endpoint;

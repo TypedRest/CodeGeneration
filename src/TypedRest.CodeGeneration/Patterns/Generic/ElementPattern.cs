@@ -16,13 +16,14 @@ namespace TypedRest.CodeGeneration.Patterns.Generic
         {
             var operation = item.Operations[OperationType.Get];
 
-            var schema = operation.Get200Response()?.GetJsonSchema();
+            var response = operation.Get200Response();
+            var schema = response?.GetJsonSchema();
             if (schema == null) return null;
 
             return new ElementEndpoint
             {
                 Schema = schema,
-                Description = operation.Description ?? operation.Summary
+                Description = item.Description ?? operation.Description ?? operation.Summary ?? response?.Description ?? schema.Description
             };
         }
     }

@@ -17,7 +17,7 @@ namespace TypedRest.CodeGeneration.Patterns.Generic
                 {
                     Operations =
                     {
-                        [OperationType.Get] = Sample.Operation(response: Sample.ContactSchema, summary: "A specific contact."),
+                        [OperationType.Get] = Sample.Operation(response: Sample.ContactSchema, description: "A specific contact."),
                         [OperationType.Put] = Sample.Operation(statusCode: HttpStatusCode.NoContent, request: Sample.ContactSchema),
                         [OperationType.Delete] = Sample.Operation(statusCode: HttpStatusCode.NoContent)
                     }

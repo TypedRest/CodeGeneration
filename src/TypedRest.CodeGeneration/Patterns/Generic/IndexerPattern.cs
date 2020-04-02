@@ -13,8 +13,9 @@ namespace TypedRest.CodeGeneration.Patterns.Generic
     {
         public virtual IEndpoint? TryGetEndpoint(PathTree tree, IPatternMatcher patternMatcher)
         {
+            var item = tree.Item;
             OpenApiOperation? operation = null;
-            tree.Item?.Operations.TryGetValue(OperationType.Get, out operation);
+            item?.Operations.TryGetValue(OperationType.Get, out operation);
 
             var children = patternMatcher.GetEndpoints(tree);
             var element = ExtractElement<IEndpoint>(children);
@@ -23,7 +24,7 @@ namespace TypedRest.CodeGeneration.Patterns.Generic
             var endpoint = new IndexerEndpoint
             {
                 Element = element,
-                Description = operation?.Description ?? operation?.Summary
+                Description = item?.Description ?? operation?.Description ?? operation?.Summary
             };
             endpoint.Children.AddRange(children);
             return endpoint;

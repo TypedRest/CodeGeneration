@@ -1,4 +1,3 @@
-using System.Net;
 using Microsoft.OpenApi.Models;
 using TypedRest.CodeGeneration.Endpoints;
 using TypedRest.CodeGeneration.Endpoints.Rpc;
@@ -12,7 +11,7 @@ namespace TypedRest.CodeGeneration.Patterns.Rpc
     {
         protected override IEndpoint? BuildEndpoint(OpenApiOperation operation)
         {
-            var requestSchema = operation.GetRequest()?.GetJsonSchema();
+            var requestSchema = operation.RequestBody?.GetJsonSchema();
             var responseSchema = operation.Get20XResponse()?.GetJsonSchema();
             if (requestSchema == null || responseSchema == null) return null;
 

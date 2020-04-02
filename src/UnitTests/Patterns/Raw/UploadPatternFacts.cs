@@ -17,7 +17,7 @@ namespace TypedRest.CodeGeneration.Patterns.Raw
                 {
                     Operations =
                     {
-                        [OperationType.Post] = Sample.Operation(statusCode: HttpStatusCode.Accepted, mimeType: "application/octet-stream", request: new OpenApiSchema(), summary: "Upload a file.")
+                        [OperationType.Post] = Sample.Operation(statusCode: HttpStatusCode.Accepted, mimeType: "application/octet-stream", request: new OpenApiSchema(), description: "Upload a file.")
                     }
                 }
             };
@@ -45,7 +45,7 @@ namespace TypedRest.CodeGeneration.Patterns.Raw
                 {
                     Operations =
                     {
-                        [OperationType.Post] = Sample.Operation(statusCode: HttpStatusCode.Accepted, mimeType: "multipart/form-data", request: formSchema, summary: "Upload a file.")
+                        [OperationType.Post] = Sample.Operation(statusCode: HttpStatusCode.Accepted, mimeType: "multipart/form-data", request: formSchema, description: "Upload a file.")
                     }
                 }
             };

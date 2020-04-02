@@ -8,35 +8,39 @@ namespace TypedRest.CodeGeneration
     public static class OpenApiOperationExtensions
     {
         /// <summary>
-        /// Gets the media types for requests.
+        /// Gets the HTTP 200 response, if any.
         /// </summary>
-        public static IDictionary<string, OpenApiMediaType>? GetRequest(this OpenApiOperation operation)
-            => operation.RequestBody?.Content;
-
-        /// <summary>
-        /// Gets the media types for HTTP 200 responses.
-        /// </summary>
-        public static IDictionary<string, OpenApiMediaType>? Get200Response(this OpenApiOperation operation)
+        public static OpenApiResponse? Get200Response(this OpenApiOperation operation)
             => operation.GetResponse(HttpStatusCode.OK);
 
         /// <summary>
-        /// Gets the media types for HTTP 200, 201 and 202 responses.
+        /// Gets the HTTP 200, 201, 202 or 204 response, if any.
         /// </summary>
-        public static IDictionary<string, OpenApiMediaType>? Get20XResponse(this OpenApiOperation operation)
+        public static OpenApiResponse? Get20XResponse(this OpenApiOperation operation)
             => operation.GetResponse(HttpStatusCode.OK)
             ?? operation.GetResponse(HttpStatusCode.Created)
-            ?? operation.GetResponse(HttpStatusCode.Accepted);
+            ?? operation.GetResponse(HttpStatusCode.Accepted)
+            ?? operation.GetResponse(HttpStatusCode.NoContent);
 
         /// <summary>
-        /// Gets the media types for responses with a specific HTTP <paramref name="statusCode"/>.
+        /// Gets the response for a specific HTTP <paramref name="statusCode"/>, if any.
         /// </summary>
-        public static IDictionary<string, OpenApiMediaType>? GetResponse(this OpenApiOperation operation, HttpStatusCode statusCode)
-            => operation.Responses.TryGetValue(((int)statusCode).ToString(), out var response) ? response.Content : null;
+        public static OpenApiResponse? GetResponse(this OpenApiOperation operation, HttpStatusCode statusCode)
+            => operation.Responses.TryGetValue(((int)statusCode).ToString(), out var response) ? response : null;
 
         /// <summary>
-        /// Gets the schema for a JSON media type, if any.
+        /// Gets the schema for the JSON media type, if any.
         /// </summary>
-        public static OpenApiSchema? GetJsonSchema(this IDictionary<string, OpenApiMediaType> content)
+        public static OpenApiSchema? GetJsonSchema(this OpenApiRequestBody request)
+            => request.Content.GetJsonSchema();
+
+        /// <summary>
+        /// Gets the schema for the JSON media type, if any.
+        /// </summary>
+        public static OpenApiSchema? GetJsonSchema(this OpenApiResponse response)
+            => response.Content.GetJsonSchema();
+
+        private static OpenApiSchema? GetJsonSchema(this IDictionary<string, OpenApiMediaType> content)
             => content.FirstOrDefault(x => x.Key.Contains("/json")).Value?.Schema;
     }
 }

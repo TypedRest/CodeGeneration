@@ -16,7 +16,7 @@ namespace TypedRest.CodeGeneration.Patterns.Rpc
                 {
                     Operations =
                     {
-                        [OperationType.Post] = Sample.Operation(response: Sample.ContactSchema, summary: "A producer.")
+                        [OperationType.Post] = Sample.Operation(response: Sample.ContactSchema, description: "A producer.")
                     }
                 }
             };

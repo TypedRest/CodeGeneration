@@ -46,7 +46,7 @@ namespace TypedRest.CodeGeneration
             {
                 Operations =
                 {
-                    [OperationType.Get] = Operation(response: new OpenApiSchema {Type = "array", Items = ContactSchema}, summary: "Collection of contacts."),
+                    [OperationType.Get] = Operation(response: new OpenApiSchema {Type = "array", Items = ContactSchema}, description: "Collection of contacts."),
                     [OperationType.Post] = Operation(statusCode: HttpStatusCode.Created, request: ContactSchema, response: ContactSchema)
                 }
             },
@@ -54,7 +54,7 @@ namespace TypedRest.CodeGeneration
             {
                 Operations =
                 {
-                    [OperationType.Get] = Operation(parameter: "id", response: ContactSchema, summary: "A specific contact."),
+                    [OperationType.Get] = Operation(parameter: "id", response: ContactSchema, description: "A specific contact."),
                     [OperationType.Put] = Operation(parameter: "id", statusCode: HttpStatusCode.NoContent, request: ContactSchema),
                     [OperationType.Delete] = Operation(parameter: "id", statusCode: HttpStatusCode.NoContent)
                 }
@@ -63,7 +63,7 @@ namespace TypedRest.CodeGeneration
             {
                 Operations =
                 {
-                    [OperationType.Get] = Operation(parameter: "id", response: NoteSchema, summary: "The note for a specific contact."),
+                    [OperationType.Get] = Operation(parameter: "id", response: NoteSchema, description: "The note for a specific contact."),
                     [OperationType.Put] = Operation(parameter: "id", statusCode: HttpStatusCode.NoContent, request: NoteSchema)
                 }
             },
@@ -71,14 +71,14 @@ namespace TypedRest.CodeGeneration
             {
                 Operations =
                 {
-                    [OperationType.Post] = Operation(parameter: "id", statusCode: HttpStatusCode.NoContent, summary: "Pokes a contact.")
+                    [OperationType.Post] = Operation(parameter: "id", statusCode: HttpStatusCode.NoContent, description: "Pokes a contact.")
                 }
             },
             ["/contacts/{id}/picture"] = new OpenApiPathItem
             {
                 Operations =
                 {
-                    [OperationType.Get] = Operation(parameter: "id", mimeType: "image/jpeg", response: new OpenApiSchema(), summary: "A picture of a specific contact."),
+                    [OperationType.Get] = Operation(parameter: "id", mimeType: "image/jpeg", response: new OpenApiSchema(), description: "A picture of a specific contact."),
                     [OperationType.Put] = Operation(parameter: "id", statusCode: HttpStatusCode.NoContent, mimeType: "image/jpeg", request: new OpenApiSchema()),
                 }
             }
@@ -146,15 +146,14 @@ namespace TypedRest.CodeGeneration
             Description = "A note about a specific contact."
         };
 
-        public static OpenApiOperation Operation(HttpStatusCode statusCode = HttpStatusCode.OK, string? parameter = null, string? mimeType = "application/json", OpenApiSchema? request = null, OpenApiSchema? response = null, string? summary = null)
+        public static OpenApiOperation Operation(HttpStatusCode statusCode = HttpStatusCode.OK, string? parameter = null, string? mimeType = "application/json", OpenApiSchema? request = null, OpenApiSchema? response = null, string? description = "")
         {
-            var responseObj = new OpenApiResponse();
+            var responseObj = new OpenApiResponse {Description = description};
             if (response != null)
                 responseObj.Content[mimeType] = new OpenApiMediaType {Schema = response};
 
             var operation = new OpenApiOperation
             {
-                Summary = summary,
                 Responses = new OpenApiResponses
                 {
                     [((int)statusCode).ToString()] = responseObj

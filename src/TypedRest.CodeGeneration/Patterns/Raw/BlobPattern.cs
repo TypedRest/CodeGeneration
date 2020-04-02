@@ -16,11 +16,12 @@ namespace TypedRest.CodeGeneration.Patterns.Raw
         {
             var operation = item.Operations[OperationType.Get];
 
-            if (operation.Get200Response() == null) return null;
+            var response = operation.Get200Response();
+            if (response == null) return null;
 
             return new BlobEndpoint
             {
-                Description = operation.Description ?? operation.Summary
+                Description = item.Description ?? operation.Description ?? operation.Summary ?? response.Description
             };
         }
     }

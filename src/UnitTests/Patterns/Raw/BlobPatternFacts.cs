@@ -16,7 +16,7 @@ namespace TypedRest.CodeGeneration.Patterns.Raw
                 {
                     Operations =
                     {
-                        [OperationType.Get] = Sample.Operation(mimeType: "application/octet-stream", response: new OpenApiSchema(), summary: "A blob."),
+                        [OperationType.Get] = Sample.Operation(mimeType: "application/octet-stream", response: new OpenApiSchema(), description: "A blob."),
                         [OperationType.Put] = Sample.Operation(mimeType: "application/octet-stream", request: new OpenApiSchema())
                     }
                 }

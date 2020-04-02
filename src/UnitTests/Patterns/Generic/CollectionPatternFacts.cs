@@ -70,7 +70,7 @@ namespace TypedRest.CodeGeneration.Patterns.Generic
                 {
                     Operations =
                     {
-                        [OperationType.Get] = Sample.Operation(response: new OpenApiSchema {Type = "array", Items = Sample.ContactSchema}, summary: "Collection of contacts."),
+                        [OperationType.Get] = Sample.Operation(response: new OpenApiSchema {Type = "array", Items = Sample.ContactSchema}, description: "Collection of contacts."),
                         [OperationType.Post] = Sample.Operation(request: Sample.ContactSchema)
                     }
                 }

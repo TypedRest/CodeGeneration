@@ -17,15 +17,15 @@ namespace TypedRest.CodeGeneration.Patterns.Raw
         {
             var operation = item.Operations[OperationType.Post];
 
-            var request = operation.GetRequest();
+            var request = operation.RequestBody;
             if (request == null) return null;
 
             return new UploadEndpoint
             {
-                FormField = request.TryGetValue("multipart/form-data", out var mediaType)
+                FormField = request.Content.TryGetValue("multipart/form-data", out var mediaType)
                     ? mediaType?.Schema.Properties.FirstOrDefault(x => x.Value.Type == "binary").Key
                     : null,
-                Description = operation.Description ?? operation.Summary
+                Description = item.Description ?? operation.Description ?? operation.Summary ?? request.Description ?? operation.RequestBody?.Description ?? operation.Get20XResponse()?.Description
             };
         }
     }

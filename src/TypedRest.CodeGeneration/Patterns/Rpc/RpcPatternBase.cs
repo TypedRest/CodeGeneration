@@ -17,7 +17,7 @@ namespace TypedRest.CodeGeneration.Patterns.Rpc
 
             var endpoint = BuildEndpoint(operation);
             if (endpoint != null)
-                endpoint.Description = operation.Description ?? operation.Summary;
+                endpoint.Description = item.Description ?? operation.Description ?? operation.Summary ?? operation.RequestBody?.Description ?? operation.Get20XResponse()?.Description;
 
             return endpoint;
         }

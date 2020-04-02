@@ -9,15 +9,16 @@ paths:
         - application/json
       responses:
         '200':
+          description: ''
           schema:
             type: string
   /contacts:
     get:
-      summary: Collection of contacts.
       produces:
         - application/json
       responses:
         '200':
+          description: Collection of contacts.
           schema:
             type: array
             items:
@@ -34,11 +35,11 @@ paths:
             $ref: '#/definitions/Contact'
       responses:
         '201':
+          description: ''
           schema:
             $ref: '#/definitions/Contact'
   '/contacts/{id}':
     get:
-      summary: A specific contact.
       produces:
         - application/json
       parameters:
@@ -48,6 +49,7 @@ paths:
           type: string
       responses:
         '200':
+          description: A specific contact.
           schema:
             $ref: '#/definitions/Contact'
     put:
@@ -63,7 +65,8 @@ paths:
           schema:
             $ref: '#/definitions/Contact'
       responses:
-        '204': { }
+        '204':
+          description: ''
     delete:
       parameters:
         - in: path
@@ -71,10 +74,10 @@ paths:
           required: true
           type: string
       responses:
-        '204': { }
+        '204':
+          description: ''
   '/contacts/{id}/note':
     get:
-      summary: The note for a specific contact.
       produces:
         - application/json
       parameters:
@@ -84,6 +87,7 @@ paths:
           type: string
       responses:
         '200':
+          description: The note for a specific contact.
           schema:
             $ref: '#/definitions/Note'
     put:
@@ -99,20 +103,20 @@ paths:
           schema:
             $ref: '#/definitions/Note'
       responses:
-        '204': { }
+        '204':
+          description: ''
   '/contacts/{id}/poke':
     post:
-      summary: Pokes a contact.
       parameters:
         - in: path
           name: id
           required: true
           type: string
       responses:
-        '204': { }
+        '204':
+          description: Pokes a contact.
   '/contacts/{id}/picture':
     get:
-      summary: A picture of a specific contact.
       produces:
         - image/jpeg
       parameters:
@@ -122,6 +126,7 @@ paths:
           type: string
       responses:
         '200':
+          description: A picture of a specific contact.
           schema: { }
     put:
       consumes:
@@ -135,7 +140,8 @@ paths:
           name: body
           schema: { }
       responses:
-        '204': { }
+        '204':
+          description: ''
 definitions:
   Contact:
     description: A contact in an address book.
