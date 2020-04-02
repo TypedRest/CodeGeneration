@@ -30,7 +30,7 @@ namespace TypedRest.CodeGeneration.Cli.Commands
 
         public override int Run()
         {
-            var doc = ReadDoc();
+            var (doc, _) = ReadDoc();
             var naming = new NamingStrategy(ServiceName, Namespace ?? ServiceName, DtoNamespace ?? Namespace ?? ServiceName);
 
             var types = doc.GenerateTypedRestEndpoints(naming, GenerateInterfaces);
