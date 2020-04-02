@@ -12,9 +12,6 @@ namespace TypedRest.CodeGeneration.Cli.Commands
     {
         public abstract int Run();
 
-        [Option('v', "verbose", HelpText = "Set output to verbose messages.")]
-        public bool Verbose { get; set; }
-
         [Option('f', "file", HelpText = "The path to the Swagger or OpenAPI spec file.", Required = true)]
         public string InputPath { get; set; } = default!;
 
