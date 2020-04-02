@@ -24,14 +24,14 @@ namespace TypedRest.CodeGeneration
         [Fact]
         public void CanDeserializeV2()
         {
-            OpenApiDocumentExtensions.ReadWithTypedRest(Sample.YamlV2)
+            OpenApiDocumentExtensions.ReadWithTypedRest(Sample.YamlV2, out _)
                                      .Should().BeEquivalentTo(Sample.Doc, options => options.IncludingAllRuntimeProperties());
         }
 
         [Fact]
         public void CanDeserializeV3()
         {
-            OpenApiDocumentExtensions.ReadWithTypedRest(Sample.YamlV3)
+            OpenApiDocumentExtensions.ReadWithTypedRest(Sample.YamlV3, out _)
                                      .Should().BeEquivalentTo(Sample.Doc, options => options.IncludingAllRuntimeProperties());
         }
     }

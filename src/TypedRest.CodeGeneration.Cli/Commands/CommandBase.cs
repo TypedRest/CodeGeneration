@@ -1,10 +1,7 @@
 using System;
 using System.IO;
 using CommandLine;
-using Microsoft.OpenApi;
-using Microsoft.OpenApi.Extensions;
 using Microsoft.OpenApi.Models;
-using Microsoft.OpenApi.Readers;
 
 namespace TypedRest.CodeGeneration.Cli.Commands
 {
@@ -16,7 +13,12 @@ namespace TypedRest.CodeGeneration.Cli.Commands
         public string InputPath { get; set; } = default!;
 
         protected OpenApiDocument ReadDoc()
-            => OpenApiDocumentExtensions.ReadWithTypedRest(ReadFile());
+        {
+            var doc = OpenApiDocumentExtensions.ReadWithTypedRest(ReadFile(), out var diagnostic);
+            foreach (var error in diagnostic.Errors)
+                Console.Error.WriteLine("Warning: " + error.Message);
+            return doc;
+        }
 
         private string ReadFile()
             => InputPath == "-"

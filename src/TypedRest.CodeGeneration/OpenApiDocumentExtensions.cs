@@ -19,13 +19,14 @@ namespace TypedRest.CodeGeneration
         /// Reads an OpenAPI document from a string with support for the TypedRest extension.
         /// </summary>
         /// <param name="input">The JSON or YAML content to read.</param>
+        /// <param name="diagnostic">Returns diagnostic information about the parsing process.</param>
         /// <param name="endpointRegistry">A list of all known <see cref="IEndpoint"/> kinds; leave <c>null</c> for default.</param>
-        public static OpenApiDocument ReadWithTypedRest(string input, EndpointRegistry? endpointRegistry = null)
+        public static OpenApiDocument ReadWithTypedRest(string input, out OpenApiDiagnostic diagnostic, EndpointRegistry? endpointRegistry = null)
         {
             var parser = new EndpointParser(endpointRegistry ?? EndpointRegistry.Default);
             var reader = new OpenApiStringReader(new OpenApiReaderSettings().AddTypedRest(parser));
 
-            var doc = reader.Read(input, out _);
+            var doc = reader.Read(input, out diagnostic);
             doc.GetTypedRest()?.ResolveReferences(doc.Components);
             return doc;
         }
