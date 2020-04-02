@@ -21,7 +21,7 @@ namespace TypedRest.CodeGeneration.CSharp
         public static IEnumerable<ICSharpType> GenerateDtos(this OpenApiDocument doc, INamingStrategy naming)
         {
             var generator = new DtoGenerator(naming);
-            return generator.Generate(doc.Components.Schemas);
+            return generator.Generate(doc.Components?.Schemas ?? new Dictionary<string, OpenApiSchema>());
         }
     }
 }

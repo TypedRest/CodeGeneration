@@ -59,7 +59,7 @@ namespace TypedRest.CodeGeneration
             var matcher = new PatternMatcher(patterns ?? PatternRegistry.Default);
 
             var entryEndpoint = new EntryEndpoint();
-            entryEndpoint.Children.AddRange(matcher.GetEndpoints(PathTree.From(document.Paths)));
+            entryEndpoint.Children.AddRange(matcher.GetEndpoints(PathTree.From(document.Paths ?? new OpenApiPaths())));
 
             return entryEndpoint;
         }
