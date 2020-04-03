@@ -22,34 +22,40 @@ namespace TypedRest.CodeGeneration.CSharp
 
         protected virtual ICSharpType GetDto(string key, OpenApiSchema schema)
         {
-            var type = new CSharpClass(_naming.DtoType(key))
+            var dto = new CSharpClass(_naming.DtoType(key))
             {
                 Summary = schema.Description,
                 Attributes = {Attributes.GeneratedCode}
             };
 
             foreach ((string propKey, var propSchema) in schema.Properties)
-                type.Properties.Add(GetProperty(propKey, propSchema, schema));
+            {
+                var property = GetProperty(propKey, propSchema, dto.Identifier);
 
-            return type;
+                if (schema.Required.Contains(propKey))
+                    property.Attributes.Add(Attributes.Required);
+
+                if (propKey.Equals("id", StringComparison.InvariantCultureIgnoreCase))
+                    property.Attributes.Add(Attributes.Key);
+
+                dto.Properties.Add(property);
+            }
+
+            return dto;
         }
 
-        protected virtual CSharpProperty GetProperty(string key, OpenApiSchema? schema, OpenApiSchema dtoSchema)
+        protected virtual CSharpProperty GetProperty(string key, OpenApiSchema? schema, CSharpIdentifier dtoIdentifier)
         {
-            var property = new CSharpProperty(_naming.TypeFor(schema), _naming.Property(key))
+            string propertyName = _naming.Property(key);
+            if (propertyName == dtoIdentifier.Name)
+                propertyName += "Value";
+
+            return new CSharpProperty(_naming.TypeFor(schema), propertyName)
             {
                 Summary = schema?.Description,
                 Attributes = {Attributes.JsonProperty(key)},
                 HasSetter = true
             };
-
-            if (dtoSchema.Required.Contains(key))
-                property.Attributes.Add(Attributes.Required);
-
-            if (key.Equals("id", StringComparison.InvariantCultureIgnoreCase))
-                property.Attributes.Add(Attributes.Key);
-
-            return property;
         }
     }
 }
