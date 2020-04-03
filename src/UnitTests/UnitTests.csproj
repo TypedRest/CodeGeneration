@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <AssemblyName>TypedRest.Codegeneration.UnitTests</AssemblyName>
     <RootNamespace>TypedRest.CodeGeneration</RootNamespace>
     <LangVersion>8.0</LangVersion>
     <DebugType>full</DebugType>
