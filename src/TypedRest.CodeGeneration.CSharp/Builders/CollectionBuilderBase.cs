@@ -31,8 +31,8 @@ namespace TypedRest.CodeGeneration.CSharp.Builders
             if (endpoint.Element == null)
                 return (Enumerable.Empty<CSharpType>(), Enumerable.Empty<CSharpIdentifier>());
 
-            if (endpoint.Element is ElementEndpoint elementEndpoint && elementEndpoint.Schema == null)
-                elementEndpoint.Schema = endpoint.Schema;
+            if (endpoint.Element.Schema == null)
+                endpoint.Element.Schema = endpoint.Schema;
 
             string elementKey = key.TrimEnd('s') + "Element";
             var (property, types) = generator.Generate(elementKey, endpoint.Element);
