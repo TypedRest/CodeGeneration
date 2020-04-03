@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.OpenApi.Models;
-using TypedRest.CodeGeneration.CSharp.Builders;
 using NanoByte.CodeGeneration;
+using TypedRest.CodeGeneration.CSharp.Dtos;
+using TypedRest.CodeGeneration.CSharp.Endpoints;
 using TypedRest.CodeGeneration.Patterns;
 
 namespace TypedRest.CodeGeneration.CSharp
