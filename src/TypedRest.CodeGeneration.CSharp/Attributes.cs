@@ -2,24 +2,24 @@
 
 namespace TypedRest.CodeGeneration.CSharp
 {
-    public static class Attributes
+    internal static class Attributes
     {
         public static CSharpAttribute GeneratedCode
-            => new CSharpAttribute(new CSharpIdentifier("System.CodeDom.Compiler", "GeneratedCode"))
+            => new CSharpAttribute(new CSharpIdentifier("System.CodeDom.Compiler", "GeneratedCodeAttribute"))
             {
                 Arguments = {"TypedRest.CodeGeneration", "1.0.0"}
             };
 
         public static CSharpAttribute JsonProperty(string name)
-            => new CSharpAttribute(new CSharpIdentifier("Newtonsoft.Json", "JsonProperty"))
+            => new CSharpAttribute(new CSharpIdentifier("Newtonsoft.Json", "JsonPropertyAttribute"))
             {
                 Arguments = {name}
             };
 
         public static CSharpAttribute Required
-            => new CSharpAttribute(new CSharpIdentifier("System.ComponentModel.DataAnnotations", "Required"));
+            => new CSharpAttribute(new CSharpIdentifier("System.ComponentModel.DataAnnotations", "RequiredAttribute"));
 
         public static CSharpAttribute Key
-            => new CSharpAttribute(new CSharpIdentifier("System.ComponentModel.DataAnnotations", "Key"));
+            => new CSharpAttribute(new CSharpIdentifier("System.ComponentModel.DataAnnotations", "KeyAttribute"));
     }
 }
