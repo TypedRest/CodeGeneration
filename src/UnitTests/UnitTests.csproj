@@ -3,22 +3,12 @@
   <PropertyGroup>
     <AssemblyName>TypedRest.Codegeneration.UnitTests</AssemblyName>
     <RootNamespace>TypedRest.CodeGeneration</RootNamespace>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <LangVersion>8.0</LangVersion>
     <DebugType>full</DebugType>
     <IsPackable>False</IsPackable>
-    <Nullable>annotations</Nullable>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(OS)'=='Windows_NT' Or '$(MSBuildRuntimeType)'=='Mono'">
-    <TargetFrameworks>net472;netcoreapp3.1</TargetFrameworks>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(OS)'!='Windows_NT' And '$(MSBuildRuntimeType)'=='Core'">
-    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="$(TargetFramework)=='netcoreapp3.1'">
     <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>

@@ -10,15 +10,12 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <NoWarn>$(NoWarn);1591</NoWarn>
-    <Nullable>annotations</Nullable>
+    <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <RunCodeAnalysis>False</RunCodeAnalysis>
     <OutputPath>..\..\artifacts\$(Configuration)\</OutputPath>
   </PropertyGroup>
 
-  <PropertyGroup Condition="$(TargetFramework)=='netcoreapp3.1'">
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
 
   <PropertyGroup>
     <Description>Tool that automatically infers TypedRest Endpoints from patterns in OpenAPI/Swagger documents and generates source code for TypedRest clients.</Description>
