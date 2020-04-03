@@ -16,6 +16,15 @@ namespace TypedRest.CodeGeneration.CSharp
                 Arguments = {name}
             };
 
+        public static CSharpAttribute EnumMember(string name)
+            => new CSharpAttribute(new CSharpIdentifier("System.Runtime.Serialization", "EnumMemberAttribute"))
+            {
+                NamedArguments =
+                {
+                    ("Value", name)
+                }
+            };
+
         public static CSharpAttribute Required
             => new CSharpAttribute(new CSharpIdentifier("System.ComponentModel.DataAnnotations", "RequiredAttribute"));
 
