@@ -6,13 +6,14 @@ namespace TypedRest.CodeGeneration.CSharp.Endpoints
 {
     public class EndpointGeneratorFacts
     {
+        private readonly EndpointGenerator _generator = new EndpointGenerator(
+            new NamingStrategy("MyService", "MyNamespace", "MyNamespace"),
+            BuilderRegistry.Default);
+
         [Fact]
-        public void GeneratesCorrectDom()
+        public void GeneratesCorrectSource()
         {
-            var generator = new EndpointGenerator(
-                new NamingStrategy("MyService", "MyNamespace", "MyNamespace"),
-                BuilderRegistry.Default);
-            var generated = generator.Generate(Sample.EntryEndpoint);
+            var generated = _generator.Generate(Sample.EntryEndpoint);
 
             var noteEndpoint = ElementEndpoint("Note");
 
