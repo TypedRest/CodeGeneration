@@ -34,11 +34,11 @@ namespace TypedRest.CodeGeneration.CSharp
             return type;
         }
 
-        protected virtual CSharpProperty GetProperty(string key, OpenApiSchema schema, OpenApiSchema dtoSchema)
+        protected virtual CSharpProperty GetProperty(string key, OpenApiSchema? schema, OpenApiSchema dtoSchema)
         {
             var property = new CSharpProperty(_naming.TypeFor(schema), _naming.Property(key))
             {
-                Summary = schema.Description,
+                Summary = schema?.Description,
                 Attributes = {Attributes.JsonProperty(key)},
                 HasSetter = true
             };
