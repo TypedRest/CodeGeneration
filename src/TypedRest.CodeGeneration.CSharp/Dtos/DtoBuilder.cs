@@ -18,7 +18,7 @@ namespace TypedRest.CodeGeneration.CSharp.Dtos
         }
 
         public static DtoBuilder? For(string key, OpenApiSchema schema, INamingStrategy naming)
-            => schema.Type switch
+            => (schema.Type ?? "object") switch
             {
                 "object" => new DtoClassBuilder(key, schema, naming),
                 "string" when schema.Enum.Count != 0 => new DtoEnumBuilder(key, schema, naming),

@@ -49,8 +49,8 @@ namespace TypedRest.CodeGeneration.CSharp
                 ("number", _) => CSharpIdentifier.Double.ToNullable(),
                 ("boolean", _) => CSharpIdentifier.Bool.ToNullable(),
                 ("array", _) => CSharpIdentifier.ListOf(TypeFor(schema?.Items)),
-                ("object", _) when schema?.AdditionalProperties != null => CSharpIdentifier.DictionaryOf(CSharpIdentifier.String, TypeFor(schema.AdditionalProperties)),
                 _ when !string.IsNullOrEmpty(schema?.Reference?.Id) => DtoType(schema.Reference.Id),
+                _ when schema?.AdditionalProperties != null => CSharpIdentifier.DictionaryOf(CSharpIdentifier.String, TypeFor(schema.AdditionalProperties)),
                 _ => new CSharpIdentifier("Newtonsoft.Json.Linq", "JObject")
             };
 
