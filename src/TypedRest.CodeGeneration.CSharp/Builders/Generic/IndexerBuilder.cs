@@ -14,7 +14,7 @@ namespace TypedRest.CodeGeneration.CSharp.Builders.Generic
         {
             if (endpoint.Element == null) throw new InvalidOperationException($"Missing element for endpoint '{key}'.");
 
-            string elementKey = key.TrimEnd('s') + "Element";
+            string elementKey = key.TrimEnd('s') + "_Element";
             var (property, types) = generator.Generate(elementKey, endpoint.Element);
             return (types, typeArguments: new [] {property.GetterExpression!.Type});
         }
