@@ -54,6 +54,8 @@ namespace TypedRest.CodeGeneration.CSharp
                 _ => new CSharpIdentifier("Newtonsoft.Json.Linq", "JObject")
             };
 
+        private static readonly char[] _separators = {' ', '-', '_', '.'};
+
         protected virtual string Normalize(string key)
         {
             key = key.Replace("$", "");
@@ -62,8 +64,8 @@ namespace TypedRest.CodeGeneration.CSharp
                 "" => "",
                 null => "",
                 // kebap-case or snake_case
-                {} when key.Contains('-') || key.Contains('_') || key.Contains('.') => string.Concat(
-                    key.Split(new[] {'-', '_', '.'}, StringSplitOptions.RemoveEmptyEntries)
+                {} when _separators.Any(key.Contains) => string.Concat(
+                    key.Split(_separators, StringSplitOptions.RemoveEmptyEntries)
                        .Select(word => word.Substring(0, 1).ToUpper() + word.Substring(1).ToLower())),
                 // CamelCase
                 _ => (key.Substring(0, 1).ToUpper() + key.Substring(1))
