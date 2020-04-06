@@ -1,6 +1,4 @@
-# TypedRest OpenAPI Extensions
-
-TODO
+# TypedRest Code Generation API
 
 This website documents the TypedRest OpenAPI Extensions API.
 

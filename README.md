@@ -13,7 +13,7 @@ You can now use the `typedrest-codegen` command-line tool:
 
     typedrest-codegen generate -f myapi.yml -o myclient/
 
-For further information take a look a the **[TypedRest OpenAPI Documentation](https://typedrest.net/code-generation/)**.
+For further information take a look a the **[Documentation](https://typedrest.net/code-generation/)**.
 
 ## Custom code
 
