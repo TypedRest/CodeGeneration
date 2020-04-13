@@ -11,11 +11,15 @@ namespace TypedRest.CodeGeneration
     public static class OpenApiReaderSettingsExtensions
     {
         /// <summary>
-        /// Registers a TypedRest endpoint <paramref name="parser"/> as an OpenAPI extension parser.
+        /// Registers the TypedRest OpenAPI extension parser.
         /// </summary>
+        /// <param name="settings">The settings to register the extension parser in.</param>
+        /// <param name="endpointRegistry">A list of all known <see cref="IEndpoint"/> kinds; leave <c>null</c> for default.</param>
         /// <seealso cref="OpenApiDocumentExtensions.GetTypedRest"/>
-        public static OpenApiReaderSettings AddTypedRest(this OpenApiReaderSettings settings, IEndpointParser parser)
+        public static OpenApiReaderSettings AddTypedRest(this OpenApiReaderSettings settings, EndpointRegistry? endpointRegistry = null)
         {
+            var parser = new EndpointParser(endpointRegistry ?? EndpointRegistry.Default);
+
             settings.ExtensionParsers.Add(OpenApiDocumentExtensions.TypedRestKey, (data, _) =>
             {
                 if (!(data is OpenApiObject objData)) throw new FormatException($"{OpenApiDocumentExtensions.TypedRestKey} is not an object.");

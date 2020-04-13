@@ -3,6 +3,7 @@ using System.IO;
 using CommandLine;
 using Microsoft.OpenApi;
 using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi.Readers;
 
 namespace TypedRest.CodeGeneration.Cli.Commands
 {
@@ -15,15 +16,17 @@ namespace TypedRest.CodeGeneration.Cli.Commands
 
         protected (OpenApiDocument, OpenApiSpecVersion) ReadDoc()
         {
-            var doc = OpenApiDocumentExtensions.ReadWithTypedRest(ReadFile(), out var diagnostic);
+            var reader = new OpenApiStreamReader(new OpenApiReaderSettings().AddTypedRest());
+
+            using var stream = InputPath == "-"
+                ? Console.OpenStandardInput()
+                : File.OpenRead(InputPath);
+            var doc = reader.Read(stream, out var diagnostic);
+
             foreach (var error in diagnostic.Errors)
                 Console.Error.WriteLine("Warning: " + error.Message);
+
             return (doc, diagnostic.SpecificationVersion);
         }
-
-        private string ReadFile()
-            => InputPath == "-"
-                ? Console.In.ReadToEnd()
-                : File.ReadAllText(InputPath);
     }
 }

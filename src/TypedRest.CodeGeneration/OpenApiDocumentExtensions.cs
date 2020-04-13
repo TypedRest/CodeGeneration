@@ -1,5 +1,4 @@
 using Microsoft.OpenApi.Models;
-using Microsoft.OpenApi.Readers;
 using TypedRest.CodeGeneration.Endpoints;
 using TypedRest.CodeGeneration.Patterns;
 
@@ -16,29 +15,21 @@ namespace TypedRest.CodeGeneration
         public const string TypedRestKey = "x-typedrest";
 
         /// <summary>
-        /// Reads an OpenAPI document from a string with support for the TypedRest extension.
-        /// </summary>
-        /// <param name="input">The JSON or YAML content to read.</param>
-        /// <param name="diagnostic">Returns diagnostic information about the parsing process.</param>
-        /// <param name="endpointRegistry">A list of all known <see cref="IEndpoint"/> kinds; leave <c>null</c> for default.</param>
-        public static OpenApiDocument ReadWithTypedRest(string input, out OpenApiDiagnostic diagnostic, EndpointRegistry? endpointRegistry = null)
-        {
-            var parser = new EndpointParser(endpointRegistry ?? EndpointRegistry.Default);
-            var reader = new OpenApiStringReader(new OpenApiReaderSettings().AddTypedRest(parser));
-
-            var doc = reader.Read(input, out diagnostic);
-            doc.GetTypedRest()?.ResolveReferences(doc.Components);
-            return doc;
-        }
-
-        /// <summary>
         /// Gets the TypedRest extension from the OpenAPI Spec <paramref name="document"/>, if present.
         /// </summary>
+        /// <param name="document">The document to get TypedRest data from.</param>
+        /// <param name="resolveReferences">Automatically runs <see cref="IEndpoint.ResolveReferences"/> on the endpoints before returning them.</param>
         /// <seealso cref="OpenApiReaderSettingsExtensions.AddTypedRest"/>
-        public static EntryEndpoint? GetTypedRest(this OpenApiDocument document)
+        public static EntryEndpoint? GetTypedRest(this OpenApiDocument document, bool resolveReferences = true)
         {
-            document.Extensions.TryGetValue(TypedRestKey, out var endpoint);
-            return endpoint as EntryEndpoint;
+            document.Extensions.TryGetValue(TypedRestKey, out var output);
+            if (output is EntryEndpoint endpoint)
+            {
+                if (resolveReferences)
+                    endpoint.ResolveReferences(document.Components);
+                return endpoint;
+            }
+            else return null;
         }
 
         /// <summary>

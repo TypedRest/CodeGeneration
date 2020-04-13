@@ -1,6 +1,8 @@
 using FluentAssertions;
 using Microsoft.OpenApi;
 using Microsoft.OpenApi.Extensions;
+using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi.Readers;
 using Xunit;
 
 namespace TypedRest.CodeGeneration
@@ -24,15 +26,23 @@ namespace TypedRest.CodeGeneration
         [Fact]
         public void CanDeserializeV2()
         {
-            OpenApiDocumentExtensions.ReadWithTypedRest(Sample.YamlV2, out _)
-                                     .Should().BeEquivalentTo(Sample.Doc, options => options.IncludingAllRuntimeProperties());
+            Deserialize(Sample.YamlV2)
+               .Should().BeEquivalentTo(Sample.Doc, options => options.IncludingAllRuntimeProperties());
         }
 
         [Fact]
         public void CanDeserializeV3()
         {
-            OpenApiDocumentExtensions.ReadWithTypedRest(Sample.YamlV3, out _)
-                                     .Should().BeEquivalentTo(Sample.Doc, options => options.IncludingAllRuntimeProperties());
+            Deserialize(Sample.YamlV3)
+               .Should().BeEquivalentTo(Sample.Doc, options => options.IncludingAllRuntimeProperties());
+        }
+
+        private OpenApiDocument Deserialize(string data)
+        {
+            var reader = new OpenApiStringReader(new OpenApiReaderSettings().AddTypedRest());
+            var doc = reader.Read(data, out _);
+            doc.GetTypedRest(); // Resolves references
+            return doc;
         }
     }
 }
