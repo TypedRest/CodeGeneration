@@ -27,6 +27,13 @@ namespace TypedRest.CodeGeneration
             => obj.TryGetValue(name, out var anyData) && anyData is OpenApiInteger intData ? intData.Value : (int?)null;
 
         /// <summary>
+        /// Gets a bool property with specified <paramref name="name"/> from the <paramref name="obj"/>.
+        /// </summary>
+        /// <returns>The value of the property or <c>false</c> if it was not found or had the wrong type.</returns>
+        public static bool GetBool(this OpenApiObject obj, string name)
+            => obj.TryGetValue(name, out var anyData) && anyData is OpenApiBoolean boolData && boolData.Value;
+
+        /// <summary>
         /// Gets a schema property with specified <paramref name="name"/> from the <paramref name="obj"/>.
         /// </summary>
         /// <returns>The value of the property or <c>null</c> if it was not found or had the wrong type.</returns>
