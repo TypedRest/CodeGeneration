@@ -33,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NanoByte.CodeGeneration" Version="0.2.3" />
+    <PackageReference Include="NanoByte.CodeGeneration" Version="0.3.0" />
   </ItemGroup>
 
 </Project>
