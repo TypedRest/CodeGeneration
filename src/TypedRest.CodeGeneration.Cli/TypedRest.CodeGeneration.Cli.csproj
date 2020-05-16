@@ -6,9 +6,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <LangVersion>8.0</LangVersion>
     <OutputType>Exe</OutputType>
-    <PackAsTool>True</PackAsTool>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackAsTool>True</PackAsTool>
+    <DeterministicSourcePaths>False</DeterministicSourcePaths>
     <NoWarn>$(NoWarn);1591</NoWarn>
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
