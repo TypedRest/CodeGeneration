@@ -1,4 +1,5 @@
-PROJECT_NAME = "TypedRest OpenAPI Extensions"
+PROJECT_NAME = "TypedRest Code Generation"
+PROJECT_NUMBER = $(VERSION)
 
 INPUT = . ../src
 USE_MDFILE_AS_MAINPAGE = main.md
