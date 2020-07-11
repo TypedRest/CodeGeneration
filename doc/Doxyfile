@@ -1,4 +1,6 @@
 PROJECT_NAME = "TypedRest Code Generation"
+PROJECT_LOGO = ../logo.svg
+PROJECT_BRIEF = "generate TypedRest clients from OpenAPI/Swagger"
 PROJECT_NUMBER = $(VERSION)
 
 INPUT = . ../src

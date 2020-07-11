@@ -1,4 +1,4 @@
-# TypedRest Code Generation
+# ![TypedRest](logo.svg) Code Generation
 
 [![Build](https://github.com/TypedRest/CodeGeneration/workflows/Build/badge.svg?branch=master)](https://github.com/TypedRest/CodeGeneration/actions?query=workflow%3ABuild)  
 Tool that automatically infers [TypedRest Endpoints](https://typedrest.net/endpoints/) from patterns in [OpenAPI/Swagger](https://swagger.io/resources/open-api/) documents and generates source code for TypedRest clients.
