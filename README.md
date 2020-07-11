@@ -1,6 +1,6 @@
 # TypedRest Code Generation
 
-[![Build status](https://img.shields.io/appveyor/ci/TypedRest/CodeGeneration.svg)](https://ci.appveyor.com/project/TypedRest/CodeGeneration)  
+[![Build](https://github.com/TypedRest/CodeGeneration/workflows/Build/badge.svg?branch=master)](https://github.com/TypedRest/CodeGeneration/actions?query=workflow%3ABuild)  
 Tool that automatically infers [TypedRest Endpoints](https://typedrest.net/endpoints/) from patterns in [OpenAPI/Swagger](https://swagger.io/resources/open-api/) documents and generates source code for TypedRest clients.
 
 ## Usage
