@@ -1,5 +1,24 @@
 {
   "extends": [
     "config:base"
+  ],
+  "packageRules": [
+    {
+      "packagePatterns": ["Test", "Assert", "Mock", "[Xx]unit", "Moq"],
+      "groupName": "Testing deps",
+      "automerge": true,
+      "automergeType": "branch"
+    },
+    {
+      "packagePatterns": ["^NanoByte\\.CodeGeneration"],
+      "groupName": "NanoByte.CodeGeneration",
+      "automerge": true,
+      "automergeType": "branch"
+    },
+    {
+      "packagePatterns": ["SourceLink", "OpenApi"],
+      "automerge": true,
+      "automergeType": "branch"
+    }
   ]
 }
