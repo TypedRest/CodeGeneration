@@ -22,11 +22,11 @@ namespace TypedRest.CodeGeneration.Cli.Commands
         [Option("dto-namespace", HelpText = "The C# namespace for the DTOs. Uses namespace if not set.")]
         public string? DtoNamespace { get; set; }
 
-        [Option("generate-interfaces", HelpText = "Controls whether to generate interfaces for endpoints.", Default = true)]
-        public bool GenerateInterfaces { get; set; } = true;
+        [Option("generate-interfaces", HelpText = "Controls whether to generate interfaces for endpoints.")]
+        public bool GenerateInterfaces { get; set; }
 
-        [Option("generate-dtos", HelpText = "Controls whether to generate DTOs.", Default = true)]
-        public bool GenerateDtos { get; set; } = true;
+        [Option("generate-dtos", HelpText = "Controls whether to generate DTOs.")]
+        public bool GenerateDtos { get; set; }
 
         public override int Run()
         {
