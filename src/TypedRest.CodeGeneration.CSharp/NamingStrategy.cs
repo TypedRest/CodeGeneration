@@ -28,7 +28,7 @@ namespace TypedRest.CodeGeneration.CSharp
                 EndpointNamespace,
                 endpoint switch
                 {
-                    EntryEndpoint _ => (ServiceName + "Client"),
+                    EntryEndpoint _ => ServiceName + "Client",
                     IndexerEndpoint _ when key.EndsWith("s") => Normalize(key.Substring(0, key.Length - 1)) + "CollectionEndpoint",
                     _ => Normalize(key) + "Endpoint"
                 });
