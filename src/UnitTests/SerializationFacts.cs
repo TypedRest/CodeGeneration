@@ -27,14 +27,17 @@ namespace TypedRest.CodeGeneration
         public void CanDeserializeV2()
         {
             Deserialize(Sample.YamlV2)
-               .Should().BeEquivalentTo(Sample.Doc, options => options.IncludingAllRuntimeProperties());
+               .Should().BeEquivalentTo(Sample.Doc, options =>
+                    options.IncludingAllRuntimeProperties()
+                           .Excluding(info => info.SelectedMemberPath.Contains("RequestBody.Extensions")));
         }
 
         [Fact]
         public void CanDeserializeV3()
         {
             Deserialize(Sample.YamlV3)
-               .Should().BeEquivalentTo(Sample.Doc, options => options.IncludingAllRuntimeProperties());
+               .Should().BeEquivalentTo(Sample.Doc, options =>
+                    options.IncludingAllRuntimeProperties());
         }
 
         private OpenApiDocument Deserialize(string data)
