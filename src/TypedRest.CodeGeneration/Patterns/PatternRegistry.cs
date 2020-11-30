@@ -27,7 +27,7 @@ namespace TypedRest.CodeGeneration.Patterns
               .Add(new IndexerPattern())
               .Add(new CollectionPattern());
 
-        private readonly Stack<IPattern> _patterns = new Stack<IPattern>();
+        private readonly Stack<IPattern> _patterns = new();
 
         /// <summary>
         /// Adds <paramref name="pattern"/> to the top of the list of known patterns.

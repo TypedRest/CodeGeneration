@@ -33,7 +33,7 @@ namespace TypedRest.CodeGeneration
             }
         }.SetTypedRest(EntryEndpoint);
 
-        public static OpenApiPaths Paths => new OpenApiPaths
+        public static OpenApiPaths Paths => new()
         {
             ["/"] = new OpenApiPathItem
             {
@@ -84,7 +84,7 @@ namespace TypedRest.CodeGeneration
             }
         };
 
-        public static EntryEndpoint EntryEndpoint => new EntryEndpoint
+        public static EntryEndpoint EntryEndpoint => new()
         {
             Children =
             {
@@ -120,7 +120,7 @@ namespace TypedRest.CodeGeneration
             }
         };
 
-        public static OpenApiSchema ContactSchema => new OpenApiSchema
+        public static OpenApiSchema ContactSchema => new()
         {
             Reference = SchemaReference("Contact"),
             Required = {"firstName", "lastName"},
@@ -134,7 +134,7 @@ namespace TypedRest.CodeGeneration
             Description = "A contact in an address book."
         };
 
-        public static OpenApiSchema NoteSchema => new OpenApiSchema
+        public static OpenApiSchema NoteSchema => new()
         {
             Reference = SchemaReference("Note"),
             Required = {"content"},
@@ -193,9 +193,9 @@ namespace TypedRest.CodeGeneration
         }
 
         private static OpenApiSchema StringProperty(string? description = null)
-            => new OpenApiSchema {Type = "string", Description = description};
+            => new() {Type = "string", Description = description};
 
         private static OpenApiReference SchemaReference(string id)
-            => new OpenApiReference {Id = id, Type = ReferenceType.Schema};
+            => new() {Id = id, Type = ReferenceType.Schema};
     }
 }

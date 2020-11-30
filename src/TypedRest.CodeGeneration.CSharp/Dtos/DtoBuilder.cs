@@ -25,7 +25,7 @@ namespace TypedRest.CodeGeneration.CSharp.Dtos
                 _ => null
             };
 
-        protected readonly List<ICSharpType> ChildTypes = new List<ICSharpType>();
+        protected readonly List<ICSharpType> ChildTypes = new();
 
         public IEnumerable<ICSharpType> BuildTypes()
         {

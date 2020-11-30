@@ -10,7 +10,7 @@ namespace TypedRest.CodeGeneration.CSharp.Endpoints.Rpc
     public class ConsumerBuilder : BuilderBase<ConsumerEndpoint>
     {
         protected override CSharpIdentifier GetImplementationType(ConsumerEndpoint endpoint, INamingStrategy naming)
-            => new CSharpIdentifier(Namespace.Name, "ConsumerEndpoint")
+            => new(Namespace.Name, "ConsumerEndpoint")
             {
                 TypeArguments = {naming.TypeFor(endpoint.Schema ?? throw new InvalidOperationException($"Missing schema for {endpoint}."))}
             };

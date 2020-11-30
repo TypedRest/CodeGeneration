@@ -18,7 +18,7 @@ namespace TypedRest.CodeGeneration.CSharp.Endpoints
         protected abstract string TypeName { get; }
 
         protected override CSharpIdentifier GetImplementationType(TEndpoint endpoint, INamingStrategy naming)
-            => new CSharpIdentifier(TypeNamespace, TypeName)
+            => new(TypeNamespace, TypeName)
             {
                 TypeArguments =
                 {
@@ -43,6 +43,7 @@ namespace TypedRest.CodeGeneration.CSharp.Endpoints
             var identifier = implementationType.ToInterface();
 
             if (identifier.TypeArguments.Count == 2)
+                // TODO: Skip this if Generator.WithInterfaces is not true
                 identifier.TypeArguments[1] = identifier.TypeArguments[1].ToInterface();
 
             return identifier;

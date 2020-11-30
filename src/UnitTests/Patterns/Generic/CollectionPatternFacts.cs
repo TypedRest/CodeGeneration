@@ -64,7 +64,7 @@ namespace TypedRest.CodeGeneration.Patterns.Generic
         }
 
         private static PathTree CollectionTree
-            => new PathTree
+            => new()
             {
                 Item = new OpenApiPathItem
                 {

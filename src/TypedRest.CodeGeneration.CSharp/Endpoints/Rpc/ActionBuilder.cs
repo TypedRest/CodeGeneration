@@ -9,6 +9,6 @@ namespace TypedRest.CodeGeneration.CSharp.Endpoints.Rpc
     public class ActionBuilder : BuilderBase<ActionEndpoint>
     {
         protected override CSharpIdentifier GetImplementationType(ActionEndpoint endpoint, INamingStrategy naming)
-            => new CSharpIdentifier(Namespace.Name, "ActionEndpoint");
+            => new(Namespace.Name, "ActionEndpoint");
     }
 }

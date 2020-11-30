@@ -9,7 +9,7 @@ namespace TypedRest.CodeGeneration.CSharp.Dtos
 {
     public class DtoGeneratorFacts
     {
-        private readonly DtoGenerator _generator = new DtoGenerator(
+        private readonly DtoGenerator _generator = new(
             new NamingStrategy("MyService", "MyNamespace", "MyNamespace"));
 
         [Fact]
@@ -28,7 +28,7 @@ namespace TypedRest.CodeGeneration.CSharp.Dtos
                     Property("Content", "content", "The content of the note.", required: true)));
         }
 
-        private static readonly OpenApiSchema _enumSchema = new OpenApiSchema
+        private static readonly OpenApiSchema _enumSchema = new()
         {
             Description = "My enum",
             Type = "string",
@@ -57,7 +57,7 @@ namespace TypedRest.CodeGeneration.CSharp.Dtos
         {
             _generator.Generate(new Dictionary<string, OpenApiSchema>
             {
-                ["myType"] = new OpenApiSchema
+                ["myType"] = new()
                 {
                     Description = "My type",
                     Type = "object",
@@ -108,6 +108,6 @@ namespace TypedRest.CodeGeneration.CSharp.Dtos
         }
 
         private static CSharpEnumValue DtoEnumValue(string name, string jsonName)
-            => new CSharpEnumValue(name) {Attributes = { Attributes.EnumMember(jsonName)}};
+            => new(name) {Attributes = { Attributes.EnumMember(jsonName)}};
     }
 }

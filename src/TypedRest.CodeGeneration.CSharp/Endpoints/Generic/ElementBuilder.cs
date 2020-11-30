@@ -10,7 +10,7 @@ namespace TypedRest.CodeGeneration.CSharp.Endpoints.Generic
     public class ElementBuilder : BuilderBase<ElementEndpoint>
     {
         protected override CSharpIdentifier GetImplementationType(ElementEndpoint endpoint, INamingStrategy naming)
-            => new CSharpIdentifier(Namespace.Name, "ElementEndpoint")
+            => new(Namespace.Name, "ElementEndpoint")
             {
                 TypeArguments = {naming.TypeFor(endpoint.Schema ?? throw new InvalidOperationException($"Missing schema for {endpoint}."))}
             };

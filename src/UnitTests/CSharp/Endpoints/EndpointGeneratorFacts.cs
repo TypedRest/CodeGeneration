@@ -6,7 +6,7 @@ namespace TypedRest.CodeGeneration.CSharp.Endpoints
 {
     public class EndpointGeneratorFacts
     {
-        private readonly EndpointGenerator _generator = new EndpointGenerator(
+        private readonly EndpointGenerator _generator = new(
             new NamingStrategy("MyService", "MyNamespace", "MyNamespace"),
             BuilderRegistry.Default);
 
@@ -83,7 +83,7 @@ namespace TypedRest.CodeGeneration.CSharp.Endpoints
         }
 
         private static CSharpParameter Referrer
-            => new CSharpParameter(new CSharpIdentifier("TypedRest.Endpoints", "IEndpoint"), "referrer")
+            => new(new CSharpIdentifier("TypedRest.Endpoints", "IEndpoint"), "referrer")
             {
                 Value = new ThisReference()
             };
@@ -109,19 +109,19 @@ namespace TypedRest.CodeGeneration.CSharp.Endpoints
         }
 
         private static CSharpIdentifier ActionEndpoint
-            => new CSharpIdentifier("TypedRest.Endpoints.Rpc", "ActionEndpoint");
+            => new("TypedRest.Endpoints.Rpc", "ActionEndpoint");
 
         private static CSharpIdentifier BlobEndpoint
-            => new CSharpIdentifier("TypedRest.Endpoints.Raw", "BlobEndpoint");
+            => new("TypedRest.Endpoints.Raw", "BlobEndpoint");
 
         private static CSharpIdentifier ElementEndpoint(string dto)
-            => new CSharpIdentifier("TypedRest.Endpoints.Generic", "ElementEndpoint")
+            => new("TypedRest.Endpoints.Generic", "ElementEndpoint")
             {
                 TypeArguments = {new CSharpIdentifier("MyNamespace", dto)}
             };
 
         private static CSharpIdentifier CollectionEndpoint(string dto, CSharpIdentifier elementEndpoint)
-            => new CSharpIdentifier("TypedRest.Endpoints.Generic", "CollectionEndpoint")
+            => new("TypedRest.Endpoints.Generic", "CollectionEndpoint")
             {
                 TypeArguments = {new CSharpIdentifier("MyNamespace", dto), elementEndpoint}
             };

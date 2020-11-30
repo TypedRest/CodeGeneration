@@ -9,9 +9,9 @@ namespace TypedRest.CodeGeneration.CSharp.Endpoints
     public class DefaultBuilder : BuilderBase<Endpoint>
     {
         protected override CSharpIdentifier GetImplementationType(Endpoint endpoint, INamingStrategy naming)
-            => new CSharpIdentifier(Namespace.Name, "EndpointBase");
+            => new(Namespace.Name, "EndpointBase");
 
         protected override CSharpIdentifier GetInterfaceType(CSharpIdentifier implementationType)
-            => new CSharpIdentifier(Namespace.Name, "IEndpoint");
+            => new(Namespace.Name, "IEndpoint");
     }
 }

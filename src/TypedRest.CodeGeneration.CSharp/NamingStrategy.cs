@@ -24,17 +24,19 @@ namespace TypedRest.CodeGeneration.CSharp
             => Normalize(key);
 
         public virtual CSharpIdentifier EndpointType(string key, IEndpoint endpoint)
-            => new CSharpIdentifier(
+            => new(
                 EndpointNamespace,
                 endpoint switch
                 {
                     EntryEndpoint _ => ServiceName + "Client",
+                    // TODO: Avoid name clashes when the same key is used in different places
                     IndexerEndpoint _ when key.EndsWith("s") => Normalize(key.Substring(0, key.Length - 1)) + "CollectionEndpoint",
                     _ => Normalize(key) + "Endpoint"
                 });
 
         public virtual CSharpIdentifier DtoType(string key)
-            => new CSharpIdentifier(
+            // TODO: Extract namespace from key
+            => new(
                 DtoNamespace,
                 Normalize(key));
 

@@ -9,6 +9,6 @@ namespace TypedRest.CodeGeneration.CSharp.Endpoints.Raw
     public class BlobBuilder : BuilderBase<BlobEndpoint>
     {
         protected override CSharpIdentifier GetImplementationType(BlobEndpoint endpoint, INamingStrategy naming)
-            => new CSharpIdentifier(Namespace.Name, "BlobEndpoint");
+            => new(Namespace.Name, "BlobEndpoint");
     }
 }

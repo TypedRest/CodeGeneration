@@ -20,11 +20,12 @@ namespace TypedRest.CodeGeneration.CSharp.Endpoints.Generic
         }
 
         protected override CSharpIdentifier GetImplementationType(IndexerEndpoint endpoint, INamingStrategy naming)
-            => new CSharpIdentifier(Namespace.Name, "IndexerEndpoint");
+            => new(Namespace.Name, "IndexerEndpoint");
 
         protected override CSharpIdentifier GetInterfaceType(CSharpIdentifier implementationType)
         {
             var identifier = implementationType.ToInterface();
+            // TODO: Skip this if Generator.WithInterfaces is not true
             identifier.TypeArguments[0] = identifier.TypeArguments[0].ToInterface();
             return identifier;
         }

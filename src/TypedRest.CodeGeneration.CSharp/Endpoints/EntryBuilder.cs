@@ -10,10 +10,10 @@ namespace TypedRest.CodeGeneration.CSharp.Endpoints
     public class EntryBuilder : BuilderBase<EntryEndpoint>
     {
         protected override CSharpIdentifier GetImplementationType(EntryEndpoint endpoint, INamingStrategy naming)
-            => new CSharpIdentifier(Namespace.Name, "EntryEndpoint");
+            => new(Namespace.Name, "EntryEndpoint");
 
         protected override CSharpIdentifier GetInterfaceType(CSharpIdentifier implementationType)
-            => new CSharpIdentifier(Namespace.Name, "IEndpoint");
+            => new(Namespace.Name, "IEndpoint");
 
         protected override IEnumerable<CSharpParameter> GetParameters(EntryEndpoint endpoint)
             => new[] {new CSharpParameter(CSharpIdentifier.Uri, "uri")};
