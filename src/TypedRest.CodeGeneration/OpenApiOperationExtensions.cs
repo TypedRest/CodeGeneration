@@ -41,6 +41,7 @@ namespace TypedRest.CodeGeneration
             => response.Content.GetJsonSchema();
 
         private static OpenApiSchema? GetJsonSchema(this IDictionary<string, OpenApiMediaType> content)
+            // ReSharper disable once ConstantConditionalAccessQualifier
             => content.FirstOrDefault(x => x.Key.Contains("/json")).Value?.Schema;
     }
 }

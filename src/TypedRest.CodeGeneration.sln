@@ -11,6 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\Unit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypedRest.CodeGeneration.Cli", "TypedRest.CodeGeneration.Cli\TypedRest.CodeGeneration.Cli.csproj", "{C5165001-CC46-4327-A279-BFF54848F74F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{6B3F485A-A354-441E-B334-1887E8FE209B}"
+ProjectSection(SolutionItems) = preProject
+	Directory.Build.props = Directory.Build.props
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
