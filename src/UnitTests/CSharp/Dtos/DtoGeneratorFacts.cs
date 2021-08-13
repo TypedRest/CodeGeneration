@@ -19,13 +19,15 @@ namespace TypedRest.CodeGeneration.CSharp.Dtos
             {
                 ["contact"] = Sample.ContactSchema,
                 ["note"] = Sample.NoteSchema
-            }).Should().BeEquivalentTo(
+            }).Should().BeEquivalentTo(new[]
+            {
                 DtoClass("Contact", "A contact in an address book.",
                     Property("Id", "id", "The ID of the contact.", key: true),
                     Property("FirstName", "firstName", "The first name of the contact.", required: true),
                     Property("LastName", "lastName", "The last name of the contact.", required: true)),
                 DtoClass("Note", "A note about a specific contact.",
-                    Property("Content", "content", "The content of the note.", required: true)));
+                    Property("Content", "content", "The content of the note.", required: true))
+            });
         }
 
         private static readonly OpenApiSchema _enumSchema = new()
@@ -49,7 +51,7 @@ namespace TypedRest.CodeGeneration.CSharp.Dtos
             _generator.Generate(new Dictionary<string, OpenApiSchema>
             {
                 ["myEnum"] = _enumSchema
-            }).Should().BeEquivalentTo(_dtoEnum);
+            }).Should().BeEquivalentTo(new[] {_dtoEnum});
         }
 
         [Fact]
@@ -66,10 +68,12 @@ namespace TypedRest.CodeGeneration.CSharp.Dtos
                         ["myEnum"] = _enumSchema
                     }
                 }
-            }).Should().BeEquivalentTo(
+            }).Should().BeEquivalentTo(new CSharpType[]
+            {
                 DtoClass("MyType", "My type",
                     Property("MyEnum", "myEnum", "My enum", type: _dtoEnum.Identifier)),
-                _dtoEnum);
+                _dtoEnum
+            });
         }
 
         private static CSharpClass DtoClass(string name, string description, params CSharpProperty[] properties)

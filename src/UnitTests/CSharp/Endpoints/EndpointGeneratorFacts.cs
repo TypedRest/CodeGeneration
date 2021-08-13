@@ -78,8 +78,7 @@ namespace TypedRest.CodeGeneration.CSharp.Endpoints
                 }
             };
 
-            generated.Should().BeEquivalentTo(
-                entryEndpointInterface, entryEndpoint, contactEndpointInterface, contactEndpoint);
+            generated.Should().BeEquivalentTo(new[] {entryEndpointInterface, entryEndpoint, contactEndpointInterface, contactEndpoint});
         }
 
         private static CSharpParameter Referrer

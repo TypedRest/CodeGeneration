@@ -29,7 +29,7 @@ namespace TypedRest.CodeGeneration
             Deserialize(Sample.YamlV2)
                .Should().BeEquivalentTo(Sample.Doc, options =>
                     options.IncludingAllRuntimeProperties()
-                           .Excluding(info => info.SelectedMemberPath.Contains("RequestBody.Extensions")));
+                           .Excluding(info => info.Path.Contains("RequestBody.Extensions")));
         }
 
         [Fact]
@@ -40,7 +40,7 @@ namespace TypedRest.CodeGeneration
                     options.IncludingAllRuntimeProperties());
         }
 
-        private OpenApiDocument Deserialize(string data)
+        private static OpenApiDocument Deserialize(string data)
         {
             var reader = new OpenApiStringReader(new OpenApiReaderSettings().AddTypedRest());
             var doc = reader.Read(data, out _);
