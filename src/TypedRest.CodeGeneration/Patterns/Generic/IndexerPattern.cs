@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.OpenApi.Models;
 using TypedRest.CodeGeneration.Endpoints;
 using TypedRest.CodeGeneration.Endpoints.Generic;
@@ -39,14 +38,14 @@ namespace TypedRest.CodeGeneration.Patterns.Generic
         protected static T? ExtractElement<T>(IDictionary<string, IEndpoint> children)
             where T : class, IEndpoint
         {
-            (string key, var element) = children.FirstOrDefault(x => x.Key == "{}" && x.Value is T);
-            if (element != null)
+            if (children.TryGetValue("{}", out var value) && value is T endpoint)
             {
-                children.Remove(key);
-                element.Uri = null;
+                children.Remove("{}");
+                endpoint.Uri = null;
+                return endpoint;
             }
 
-            return (T?)element;
+            return null;
         }
     }
 }

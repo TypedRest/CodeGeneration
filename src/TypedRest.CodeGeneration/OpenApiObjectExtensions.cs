@@ -21,7 +21,7 @@ namespace TypedRest.CodeGeneration
         /// </summary>
         /// <returns>The value of the property or <c>null</c> if it was not found or had the wrong type.</returns>
         public static int? GetInt(this OpenApiObject obj, string name)
-            => obj.TryGetValue(name, out var anyData) && anyData is OpenApiInteger intData ? intData.Value : (int?)null;
+            => obj.TryGetValue(name, out var anyData) && anyData is OpenApiInteger intData ? intData.Value : null;
 
         /// <summary>
         /// Gets a bool property with specified <paramref name="name"/> from the <paramref name="obj"/>.
