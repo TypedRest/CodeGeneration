@@ -1,22 +1,21 @@
 {
-  "extends": [
-    "config:base"
-  ],
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:base", ":disableDependencyDashboard"],
   "packageRules": [
     {
-      "packagePatterns": ["Test", "Assert", "Mock", "[Xx]unit", "Moq"],
+      "matchPackagePatterns": ["Test", "Assert", "Mock", "[Xx]unit", "Moq"],
       "groupName": "Testing deps",
       "automerge": true,
       "automergeType": "branch"
     },
     {
-      "packagePatterns": ["^NanoByte\\.CodeGeneration"],
+      "matchPackagePatterns": ["^NanoByte\\.CodeGeneration"],
       "groupName": "NanoByte.CodeGeneration",
       "automerge": true,
       "automergeType": "branch"
     },
     {
-      "packagePatterns": ["SourceLink", "OpenApi"],
+      "matchPackagePatterns": ["SourceLink", "OpenApi"],
       "automerge": true,
       "automergeType": "branch"
     }
