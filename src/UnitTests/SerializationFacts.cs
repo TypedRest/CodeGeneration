@@ -29,6 +29,7 @@ namespace TypedRest.CodeGeneration
             Deserialize(Sample.YamlV2)
                .Should().BeEquivalentTo(Sample.Doc, options =>
                     options.IncludingAllRuntimeProperties()
+                           .Excluding(info => info.Path.Contains("HostDocument"))
                            .Excluding(info => info.Path.Contains("RequestBody.Extensions")));
         }
 
@@ -37,7 +38,8 @@ namespace TypedRest.CodeGeneration
         {
             Deserialize(Sample.YamlV3)
                .Should().BeEquivalentTo(Sample.Doc, options =>
-                    options.IncludingAllRuntimeProperties());
+                    options.IncludingAllRuntimeProperties()
+                           .Excluding(info => info.Path.Contains("HostDocument")));
         }
 
         private static OpenApiDocument Deserialize(string data)
