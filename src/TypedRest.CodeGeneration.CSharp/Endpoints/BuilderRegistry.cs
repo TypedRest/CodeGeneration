@@ -31,7 +31,7 @@ namespace TypedRest.CodeGeneration.CSharp.Endpoints
               .Add(new StreamingBuilder())
               .Add(new StreamingCollectionBuilder());
 
-        private readonly IDictionary<string, IBuilder> _builders = new Dictionary<string, IBuilder>();
+        private readonly Dictionary<string, IBuilder> _builders = new();
 
         public BuilderRegistry()
         {
