@@ -29,6 +29,7 @@ namespace TypedRest.CodeGeneration
             Deserialize(Sample.YamlV2)
                .Should().BeEquivalentTo(Sample.Doc, options =>
                     options.IncludingAllRuntimeProperties()
+                           .Excluding(info => info.Path.Contains("HashCode"))
                            .Excluding(info => info.Path.Contains("HostDocument"))
                            .Excluding(info => info.Path.Contains("RequestBody.Extensions")));
         }
