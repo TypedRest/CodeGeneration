@@ -3,39 +3,38 @@ using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Writers;
 
-namespace TypedRest.CodeGeneration.Endpoints.Generic
+namespace TypedRest.CodeGeneration.Endpoints.Generic;
+
+/// <summary>
+/// Endpoint for an individual resource.
+/// </summary>
+public class ElementEndpoint : Endpoint
 {
+    public override string Kind => "element";
+
     /// <summary>
-    /// Endpoint for an individual resource.
+    /// Schema describing the representation of this resource. Inherited from the containing <see cref="CollectionEndpoint"/> when unset.
     /// </summary>
-    public class ElementEndpoint : Endpoint
+    public OpenApiSchema? Schema { get; set; }
+
+    public override void Parse(OpenApiObject data, IEndpointParser parser)
     {
-        public override string Kind => "element";
+        base.Parse(data, parser);
 
-        /// <summary>
-        /// Schema describing the representation of this resource. Inherited from the containing <see cref="CollectionEndpoint"/> when unset.
-        /// </summary>
-        public OpenApiSchema? Schema { get; set; }
+        Schema = data.GetSchema("schema");
+    }
 
-        public override void Parse(OpenApiObject data, IEndpointParser parser)
-        {
-            base.Parse(data, parser);
+    public override void ResolveReferences(OpenApiComponents components)
+    {
+        base.ResolveReferences(components);
 
-            Schema = data.GetSchema("schema");
-        }
+        Schema = Schema?.Resolve(components);
+    }
 
-        public override void ResolveReferences(OpenApiComponents components)
-        {
-            base.ResolveReferences(components);
+    protected override void WriteBody(IOpenApiWriter writer, OpenApiSpecVersion specVersion)
+    {
+        base.WriteBody(writer, specVersion);
 
-            Schema = Schema?.Resolve(components);
-        }
-
-        protected override void WriteBody(IOpenApiWriter writer, OpenApiSpecVersion specVersion)
-        {
-            base.WriteBody(writer, specVersion);
-
-            writer.WriteOptionalObject("schema", Schema, specVersion);
-        }
+        writer.WriteOptionalObject("schema", Schema, specVersion);
     }
 }

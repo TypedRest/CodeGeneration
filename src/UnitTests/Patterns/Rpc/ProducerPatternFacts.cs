@@ -3,29 +3,28 @@ using Microsoft.OpenApi.Models;
 using TypedRest.CodeGeneration.Endpoints.Rpc;
 using Xunit;
 
-namespace TypedRest.CodeGeneration.Patterns.Rpc
-{
-    public class ProducerPatternFacts : PatternFactsBase<ProducerPattern>
-    {
-        [Fact]
-        public void GetsEndpoint()
-        {
-            var tree = new PathTree
-            {
-                Item = new OpenApiPathItem
-                {
-                    Operations =
-                    {
-                        [OperationType.Post] = Sample.Operation(response: Sample.ContactSchema, description: "A producer.")
-                    }
-                }
-            };
+namespace TypedRest.CodeGeneration.Patterns.Rpc;
 
-            TryGetEndpoint(tree).Should().BeEquivalentTo(new ProducerEndpoint
+public class ProducerPatternFacts : PatternFactsBase<ProducerPattern>
+{
+    [Fact]
+    public void GetsEndpoint()
+    {
+        var tree = new PathTree
+        {
+            Item = new OpenApiPathItem
             {
-                Schema = Sample.ContactSchema,
-                Description = "A producer."
-            }, options => options.IncludingAllRuntimeProperties());
-        }
+                Operations =
+                {
+                    [OperationType.Post] = Sample.Operation(response: Sample.ContactSchema, description: "A producer.")
+                }
+            }
+        };
+
+        TryGetEndpoint(tree).Should().BeEquivalentTo(new ProducerEndpoint
+        {
+            Schema = Sample.ContactSchema,
+            Description = "A producer."
+        }, options => options.IncludingAllRuntimeProperties());
     }
 }

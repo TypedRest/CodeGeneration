@@ -1,7 +1,6 @@
-﻿namespace TypedRest.CodeGeneration.CSharp.Endpoints.Generic
+﻿namespace TypedRest.CodeGeneration.CSharp.Endpoints.Generic;
+
+internal static class Namespace
 {
-    internal static class Namespace
-    {
-        public const string Name = "TypedRest.Endpoints.Generic";
-    }
+    public const string Name = "TypedRest.Endpoints.Generic";
 }

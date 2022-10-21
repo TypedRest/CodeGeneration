@@ -2,14 +2,13 @@
 using NanoByte.CodeGeneration;
 using TypedRest.CodeGeneration.Endpoints;
 
-namespace TypedRest.CodeGeneration.CSharp.Endpoints
+namespace TypedRest.CodeGeneration.CSharp.Endpoints;
+
+public interface IEndpointGenerator
 {
-    public interface IEndpointGenerator
-    {
-        INamingStrategy Naming { get; }
+    INamingStrategy Naming { get; }
 
-        bool WithInterfaces { get; }
+    bool WithInterfaces { get; }
 
-        (CSharpProperty property, IEnumerable<ICSharpType> types) Generate(string key, IEndpoint endpoint);
-    }
+    (CSharpProperty property, IEnumerable<ICSharpType> types) Generate(string key, IEndpoint endpoint);
 }

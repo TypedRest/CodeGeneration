@@ -1,7 +1,6 @@
-﻿namespace TypedRest.CodeGeneration.CSharp.Endpoints.Reactive
+﻿namespace TypedRest.CodeGeneration.CSharp.Endpoints.Reactive;
+
+internal static class Namespace
 {
-    internal static class Namespace
-    {
-        public const string Name = "TypedRest.Endpoints.Reactive";
-    }
+    public const string Name = "TypedRest.Endpoints.Reactive";
 }

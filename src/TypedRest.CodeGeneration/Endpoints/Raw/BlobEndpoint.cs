@@ -1,10 +1,9 @@
-namespace TypedRest.CodeGeneration.Endpoints.Raw
+namespace TypedRest.CodeGeneration.Endpoints.Raw;
+
+/// <summary>
+/// Endpoint for a binary blob that can be downloaded or uploaded.
+/// </summary>
+public class BlobEndpoint : Endpoint
 {
-    /// <summary>
-    /// Endpoint for a binary blob that can be downloaded or uploaded.
-    /// </summary>
-    public class BlobEndpoint : Endpoint
-    {
-        public override string Kind => "blob";
-    }
+    public override string Kind => "blob";
 }

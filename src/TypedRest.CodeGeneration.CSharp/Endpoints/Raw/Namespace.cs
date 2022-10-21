@@ -1,7 +1,6 @@
-﻿namespace TypedRest.CodeGeneration.CSharp.Endpoints.Raw
+﻿namespace TypedRest.CodeGeneration.CSharp.Endpoints.Raw;
+
+internal static class Namespace
 {
-    internal static class Namespace
-    {
-        public const string Name = "TypedRest.Endpoints.Raw";
-    }
+    public const string Name = "TypedRest.Endpoints.Raw";
 }

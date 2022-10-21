@@ -3,39 +3,38 @@ using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Writers;
 
-namespace TypedRest.CodeGeneration.Endpoints.Rpc
+namespace TypedRest.CodeGeneration.Endpoints.Rpc;
+
+/// <summary>
+/// RPC endpoint that returns an entity as output when invoked.
+/// </summary>
+public class ProducerEndpoint : Endpoint
 {
+    public override string Kind => "producer";
+
     /// <summary>
-    /// RPC endpoint that returns an entity as output when invoked.
+    /// Schema describing the entity provided as output.
     /// </summary>
-    public class ProducerEndpoint : Endpoint
+    public OpenApiSchema? Schema { get; set; }
+
+    public override void Parse(OpenApiObject data, IEndpointParser parser)
     {
-        public override string Kind => "producer";
+        base.Parse(data, parser);
 
-        /// <summary>
-        /// Schema describing the entity provided as output.
-        /// </summary>
-        public OpenApiSchema? Schema { get; set; }
+        Schema = data.GetSchema("schema");
+    }
 
-        public override void Parse(OpenApiObject data, IEndpointParser parser)
-        {
-            base.Parse(data, parser);
+    public override void ResolveReferences(OpenApiComponents components)
+    {
+        base.ResolveReferences(components);
 
-            Schema = data.GetSchema("schema");
-        }
+        Schema = Schema?.Resolve(components);
+    }
 
-        public override void ResolveReferences(OpenApiComponents components)
-        {
-            base.ResolveReferences(components);
+    protected override void WriteBody(IOpenApiWriter writer, OpenApiSpecVersion specVersion)
+    {
+        base.WriteBody(writer, specVersion);
 
-            Schema = Schema?.Resolve(components);
-        }
-
-        protected override void WriteBody(IOpenApiWriter writer, OpenApiSpecVersion specVersion)
-        {
-            base.WriteBody(writer, specVersion);
-
-            writer.WriteOptionalObject("schema", Schema, specVersion);
-        }
+        writer.WriteOptionalObject("schema", Schema, specVersion);
     }
 }

@@ -2,16 +2,15 @@
 using NanoByte.CodeGeneration;
 using TypedRest.CodeGeneration.Endpoints;
 
-namespace TypedRest.CodeGeneration.CSharp
+namespace TypedRest.CodeGeneration.CSharp;
+
+public interface INamingStrategy
 {
-    public interface INamingStrategy
-    {
-        string Property(string key);
+    string Property(string key);
 
-        CSharpIdentifier EndpointType(string key, IEndpoint endpoint);
+    CSharpIdentifier EndpointType(string key, IEndpoint endpoint);
 
-        CSharpIdentifier DtoType(string key);
+    CSharpIdentifier DtoType(string key);
 
-        CSharpIdentifier TypeFor(OpenApiSchema? schema);
-    }
+    CSharpIdentifier TypeFor(OpenApiSchema? schema);
 }

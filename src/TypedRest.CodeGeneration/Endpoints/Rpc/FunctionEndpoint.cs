@@ -3,47 +3,46 @@ using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Writers;
 
-namespace TypedRest.CodeGeneration.Endpoints.Rpc
+namespace TypedRest.CodeGeneration.Endpoints.Rpc;
+
+/// <summary>
+/// RPC endpoint that takes an entity as input and returns another entity as output when invoked.
+/// </summary>
+public class FunctionEndpoint : Endpoint
 {
+    public override string Kind => "function";
+
     /// <summary>
-    /// RPC endpoint that takes an entity as input and returns another entity as output when invoked.
+    /// Schema describing the entity taken as input.
     /// </summary>
-    public class FunctionEndpoint : Endpoint
+    public OpenApiSchema? RequestSchema { get; set; }
+
+    /// <summary>
+    /// Schema describing the entity provided as output.
+    /// </summary>
+    public OpenApiSchema? ResponseSchema { get; set; }
+
+    public override void Parse(OpenApiObject data, IEndpointParser parser)
     {
-        public override string Kind => "function";
+        base.Parse(data, parser);
 
-        /// <summary>
-        /// Schema describing the entity taken as input.
-        /// </summary>
-        public OpenApiSchema? RequestSchema { get; set; }
+        RequestSchema = data.GetSchema("request-schema");
+        ResponseSchema = data.GetSchema("response-schema");
+    }
 
-        /// <summary>
-        /// Schema describing the entity provided as output.
-        /// </summary>
-        public OpenApiSchema? ResponseSchema { get; set; }
+    public override void ResolveReferences(OpenApiComponents components)
+    {
+        base.ResolveReferences(components);
 
-        public override void Parse(OpenApiObject data, IEndpointParser parser)
-        {
-            base.Parse(data, parser);
+        RequestSchema = RequestSchema?.Resolve(components);
+        ResponseSchema = ResponseSchema?.Resolve(components);
+    }
 
-            RequestSchema = data.GetSchema("request-schema");
-            ResponseSchema = data.GetSchema("response-schema");
-        }
+    protected override void WriteBody(IOpenApiWriter writer, OpenApiSpecVersion specVersion)
+    {
+        base.WriteBody(writer, specVersion);
 
-        public override void ResolveReferences(OpenApiComponents components)
-        {
-            base.ResolveReferences(components);
-
-            RequestSchema = RequestSchema?.Resolve(components);
-            ResponseSchema = ResponseSchema?.Resolve(components);
-        }
-
-        protected override void WriteBody(IOpenApiWriter writer, OpenApiSpecVersion specVersion)
-        {
-            base.WriteBody(writer, specVersion);
-
-            writer.WriteOptionalObject("request-schema", RequestSchema, specVersion);
-            writer.WriteOptionalObject("response-schema", ResponseSchema, specVersion);
-        }
+        writer.WriteOptionalObject("request-schema", RequestSchema, specVersion);
+        writer.WriteOptionalObject("response-schema", ResponseSchema, specVersion);
     }
 }

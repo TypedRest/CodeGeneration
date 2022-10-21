@@ -3,40 +3,39 @@ using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Writers;
 
-namespace TypedRest.CodeGeneration.Endpoints.Generic
+namespace TypedRest.CodeGeneration.Endpoints.Generic;
+
+/// <summary>
+/// Endpoint that addresses child endpoints by ID.
+/// </summary>
+public class IndexerEndpoint : Endpoint
 {
+    public override string Kind => "indexer";
+
     /// <summary>
-    /// Endpoint that addresses child endpoints by ID.
+    /// A template for child endpoints addressable by ID.
     /// </summary>
-    public class IndexerEndpoint : Endpoint
+    public IEndpoint? Element { get; set; }
+
+    public override void Parse(OpenApiObject data, IEndpointParser parser)
     {
-        public override string Kind => "indexer";
+        base.Parse(data, parser);
 
-        /// <summary>
-        /// A template for child endpoints addressable by ID.
-        /// </summary>
-        public IEndpoint? Element { get; set; }
+        if (data.TryGetObject("element", out var element))
+            Element = parser.Parse(element);
+    }
 
-        public override void Parse(OpenApiObject data, IEndpointParser parser)
-        {
-            base.Parse(data, parser);
+    public override void ResolveReferences(OpenApiComponents components)
+    {
+        base.ResolveReferences(components);
 
-            if (data.TryGetObject("element", out var element))
-                Element = parser.Parse(element);
-        }
+        Element?.ResolveReferences(components);
+    }
 
-        public override void ResolveReferences(OpenApiComponents components)
-        {
-            base.ResolveReferences(components);
+    protected override void WriteBody(IOpenApiWriter writer, OpenApiSpecVersion specVersion)
+    {
+        base.WriteBody(writer, specVersion);
 
-            Element?.ResolveReferences(components);
-        }
-
-        protected override void WriteBody(IOpenApiWriter writer, OpenApiSpecVersion specVersion)
-        {
-            base.WriteBody(writer, specVersion);
-
-            writer.WriteOptionalObject("element", Element, specVersion);
-        }
+        writer.WriteOptionalObject("element", Element, specVersion);
     }
 }
