@@ -1,9 +1,3 @@
-using System.Collections.Generic;
-using Microsoft.OpenApi;
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
-using Microsoft.OpenApi.Writers;
-
 namespace TypedRest.CodeGeneration.Endpoints;
 
 /// <summary>

@@ -1,8 +1,5 @@
 using System.Net;
-using FluentAssertions;
-using Microsoft.OpenApi.Models;
 using TypedRest.CodeGeneration.Endpoints.Rpc;
-using Xunit;
 
 namespace TypedRest.CodeGeneration.Patterns.Rpc;
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using CommandLine;
-using TypedRest.CodeGeneration.Cli.Commands;
+﻿using TypedRest.CodeGeneration.Cli.Commands;
 
 namespace TypedRest.CodeGeneration.Cli;
 

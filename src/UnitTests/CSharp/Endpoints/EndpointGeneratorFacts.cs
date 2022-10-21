@@ -1,6 +1,4 @@
-﻿using FluentAssertions;
-using NanoByte.CodeGeneration;
-using Xunit;
+﻿using NanoByte.CodeGeneration;
 
 namespace TypedRest.CodeGeneration.CSharp.Endpoints;
 

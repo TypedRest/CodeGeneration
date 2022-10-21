@@ -1,7 +1,3 @@
-using FluentAssertions;
-using Microsoft.OpenApi.Models;
-using Xunit;
-
 namespace TypedRest.CodeGeneration.Patterns;
 
 public class PathTreeFacts

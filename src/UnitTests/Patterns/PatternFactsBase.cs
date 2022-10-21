@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using Moq;
 using TypedRest.CodeGeneration.Endpoints;
 
 namespace TypedRest.CodeGeneration.Patterns;

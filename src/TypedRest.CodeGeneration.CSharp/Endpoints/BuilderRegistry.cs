@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using TypedRest.CodeGeneration.CSharp.Endpoints.Generic;
+﻿using TypedRest.CodeGeneration.CSharp.Endpoints.Generic;
 using TypedRest.CodeGeneration.CSharp.Endpoints.Raw;
 using TypedRest.CodeGeneration.CSharp.Endpoints.Reactive;
 using TypedRest.CodeGeneration.CSharp.Endpoints.Rpc;

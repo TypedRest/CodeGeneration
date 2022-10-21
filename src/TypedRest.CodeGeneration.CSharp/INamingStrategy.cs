@@ -1,5 +1,4 @@
-﻿using Microsoft.OpenApi.Models;
-using NanoByte.CodeGeneration;
+﻿using NanoByte.CodeGeneration;
 using TypedRest.CodeGeneration.Endpoints;
 
 namespace TypedRest.CodeGeneration.CSharp;

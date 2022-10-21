@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using Microsoft.OpenApi.Models;
-using NanoByte.CodeGeneration;
+﻿using NanoByte.CodeGeneration;
 using TypedRest.CodeGeneration.Endpoints;
 using TypedRest.CodeGeneration.Endpoints.Generic;
 

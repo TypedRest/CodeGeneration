@@ -1,10 +1,3 @@
-using System;
-using System.IO;
-using CommandLine;
-using Microsoft.OpenApi;
-using Microsoft.OpenApi.Models;
-using Microsoft.OpenApi.Readers;
-
 namespace TypedRest.CodeGeneration.Cli.Commands;
 
 public abstract class CommandBase

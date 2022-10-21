@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.OpenApi.Models;
-using NanoByte.CodeGeneration;
+﻿using NanoByte.CodeGeneration;
 
 namespace TypedRest.CodeGeneration.CSharp.Dtos;
 

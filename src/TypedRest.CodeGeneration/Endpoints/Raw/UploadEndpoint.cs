@@ -1,7 +1,3 @@
-using Microsoft.OpenApi;
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Writers;
-
 namespace TypedRest.CodeGeneration.Endpoints.Raw;
 
 /// <summary>

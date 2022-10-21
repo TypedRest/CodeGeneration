@@ -1,7 +1,5 @@
-using System.IO;
 using System.Net;
 using System.Reflection;
-using Microsoft.OpenApi.Models;
 using TypedRest.CodeGeneration.Endpoints;
 using TypedRest.CodeGeneration.Endpoints.Generic;
 using TypedRest.CodeGeneration.Endpoints.Raw;

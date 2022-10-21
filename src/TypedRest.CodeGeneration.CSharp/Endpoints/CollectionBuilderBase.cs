@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NanoByte.CodeGeneration;
+﻿using NanoByte.CodeGeneration;
 using TypedRest.CodeGeneration.Endpoints.Generic;
 
 namespace TypedRest.CodeGeneration.CSharp.Endpoints;

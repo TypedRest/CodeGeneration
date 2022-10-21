@@ -1,7 +1,4 @@
-using FluentAssertions;
-using Microsoft.OpenApi.Models;
 using TypedRest.CodeGeneration.Endpoints.Raw;
-using Xunit;
 
 namespace TypedRest.CodeGeneration.Patterns.Raw;
 

@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using TypedRest.CodeGeneration.Patterns.Generic;
 using TypedRest.CodeGeneration.Patterns.Raw;
 using TypedRest.CodeGeneration.Patterns.Rpc;

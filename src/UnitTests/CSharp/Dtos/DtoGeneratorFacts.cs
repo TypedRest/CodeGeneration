@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using FluentAssertions;
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
-using NanoByte.CodeGeneration;
-using Xunit;
+﻿using NanoByte.CodeGeneration;
 
 namespace TypedRest.CodeGeneration.CSharp.Dtos;
 

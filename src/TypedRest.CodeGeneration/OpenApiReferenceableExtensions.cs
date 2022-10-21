@@ -1,7 +1,3 @@
-using System.Collections.Generic;
-using Microsoft.OpenApi.Interfaces;
-using Microsoft.OpenApi.Models;
-
 namespace TypedRest.CodeGeneration;
 
 /// <summary>

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace TypedRest.CodeGeneration;
+﻿namespace TypedRest.CodeGeneration;
 
 /// <summary>
 /// Provides extension methods for <see cref="IDictionary{TKey,TValue}"/>s.

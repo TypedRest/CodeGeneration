@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using NanoByte.CodeGeneration;
 using TypedRest.CodeGeneration.Endpoints.Raw;
 

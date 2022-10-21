@@ -3,6 +3,7 @@
   <PropertyGroup>
     <!-- Build configuration -->
     <LangVersion>10.0</LangVersion>
+    <ImplicitUsings>true</ImplicitUsings>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
@@ -28,6 +29,17 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+  </ItemGroup>
+
+  <!-- Global usings -->
+  <ItemGroup>
+    <Using Include="Microsoft.OpenApi" />
+    <Using Include="Microsoft.OpenApi.Any" />
+    <Using Include="Microsoft.OpenApi.Extensions" />
+    <Using Include="Microsoft.OpenApi.Interfaces" />
+    <Using Include="Microsoft.OpenApi.Models" />
+    <Using Include="Microsoft.OpenApi.Readers" />
+    <Using Include="Microsoft.OpenApi.Writers" />
   </ItemGroup>
 
 </Project>

@@ -1,9 +1,5 @@
-using System.Collections.Generic;
-using FluentAssertions;
-using Microsoft.OpenApi.Models;
 using TypedRest.CodeGeneration.Endpoints;
 using TypedRest.CodeGeneration.Endpoints.Generic;
-using Xunit;
 
 namespace TypedRest.CodeGeneration.Patterns.Generic;
 

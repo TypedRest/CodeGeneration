@@ -1,4 +1,3 @@
-using Microsoft.OpenApi.Models;
 using TypedRest.CodeGeneration.Endpoints;
 
 namespace TypedRest.CodeGeneration.Patterns.Rpc;

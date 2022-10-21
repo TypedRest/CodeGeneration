@@ -1,6 +1,3 @@
-using System;
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Readers;
 using TypedRest.CodeGeneration.Endpoints;
 
 namespace TypedRest.CodeGeneration;

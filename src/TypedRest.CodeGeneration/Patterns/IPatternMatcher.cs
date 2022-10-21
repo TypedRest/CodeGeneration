@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using TypedRest.CodeGeneration.Endpoints;
 
 namespace TypedRest.CodeGeneration.Patterns;

@@ -1,6 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
 
 namespace TypedRest.CodeGeneration;
 

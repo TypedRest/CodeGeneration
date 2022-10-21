@@ -1,6 +1,3 @@
-using FluentAssertions;
-using Xunit;
-
 namespace TypedRest.CodeGeneration.Patterns;
 
 public class PatternMatcherFacts

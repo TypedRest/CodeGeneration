@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using TypedRest.CodeGeneration.Endpoints.Generic;
+﻿using TypedRest.CodeGeneration.Endpoints.Generic;
 using TypedRest.CodeGeneration.Endpoints.Raw;
 using TypedRest.CodeGeneration.Endpoints.Reactive;
 using TypedRest.CodeGeneration.Endpoints.Rpc;

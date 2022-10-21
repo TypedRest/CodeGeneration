@@ -1,4 +1,3 @@
-using System;
 using NanoByte.CodeGeneration;
 using TypedRest.CodeGeneration.Endpoints.Rpc;
 

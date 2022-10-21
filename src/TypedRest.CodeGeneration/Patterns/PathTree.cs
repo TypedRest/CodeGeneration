@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.OpenApi.Models;
-
 namespace TypedRest.CodeGeneration.Patterns;
 
 /// <summary>

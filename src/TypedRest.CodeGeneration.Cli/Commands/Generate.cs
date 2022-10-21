@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using CommandLine;
 using TypedRest.CodeGeneration.CSharp;
 using NanoByte.CodeGeneration;

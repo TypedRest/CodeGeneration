@@ -1,9 +1,4 @@
-using System;
-using System.IO;
 using System.Text;
-using CommandLine;
-using Microsoft.OpenApi;
-using Microsoft.OpenApi.Extensions;
 
 namespace TypedRest.CodeGeneration.Cli.Commands;
 
