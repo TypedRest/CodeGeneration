@@ -15,8 +15,7 @@ public class DtoGenerator
     {
         foreach ((string key, var schema) in schemas)
         {
-            var builder = DtoBuilder.For(key, schema, _naming);
-            if (builder != null)
+            if (DtoBuilder.For(key, schema, _naming) is {} builder)
             {
                 foreach (var type in builder.BuildTypes())
                     yield return type;

@@ -14,11 +14,12 @@ public abstract class RpcPatternBase : PatternBase
     {
         var operation = item.Operations[OperationType.Post];
 
-        var endpoint = BuildEndpoint(operation);
-        if (endpoint != null)
+        if (BuildEndpoint(operation) is {} endpoint)
+        {
             endpoint.Description = item.Description ?? operation.Description ?? operation.Summary ?? operation.RequestBody?.Description ?? operation.Get20XResponse()?.Description;
-
-        return endpoint;
+            return endpoint;
+        }
+        else return null;
     }
 
     /// <summary>

@@ -23,9 +23,8 @@ public class PatternMatcher : IPatternMatcher
         var result = new Dictionary<string, IEndpoint>();
         foreach ((string path, var subTree) in tree.Children)
         {
-            var endpoint = _patterns.Select(x => x.TryGetEndpoint(subTree, this))
-                                    .FirstOrDefault(x => x != null);
-            if (endpoint != null)
+            if (_patterns.Select(x => x.TryGetEndpoint(subTree, this))
+                         .FirstOrDefault(x => x != null) is {} endpoint)
             {
                 endpoint.Uri = "./" + path;
                 result[path] = endpoint;
