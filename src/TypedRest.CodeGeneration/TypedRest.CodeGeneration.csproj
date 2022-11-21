@@ -10,7 +10,7 @@
 
   <!-- Dependencies -->
   <ItemGroup>
-    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.4.1" />
+    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.4.4" />
   </ItemGroup>
 
 </Project>
