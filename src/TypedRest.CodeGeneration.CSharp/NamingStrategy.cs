@@ -48,8 +48,8 @@ public class NamingStrategy : INamingStrategy
             ("number", _) => CSharpIdentifier.Double.ToNullable(),
             ("boolean", _) => CSharpIdentifier.Bool.ToNullable(),
             ("array", _) => CSharpIdentifier.ListOf(TypeFor(schema.Items)),
-            _ when !string.IsNullOrEmpty(schema?.Reference?.Id) => DtoType(schema.Reference.Id),
-            _ when schema?.AdditionalProperties != null => CSharpIdentifier.DictionaryOf(CSharpIdentifier.String, TypeFor(schema.AdditionalProperties)),
+            _ when schema?.Reference?.Id is {Length: > 0} id => DtoType(id),
+            _ when schema?.AdditionalProperties is {} props => CSharpIdentifier.DictionaryOf(CSharpIdentifier.String, TypeFor(props)),
             _ => new CSharpIdentifier("Newtonsoft.Json.Linq", "JObject")
         };
 
