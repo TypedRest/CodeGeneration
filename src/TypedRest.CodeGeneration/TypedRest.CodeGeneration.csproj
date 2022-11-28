@@ -2,6 +2,7 @@
 
   <!-- Project properties -->
   <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <Summary>Infers TypedRest Endpoints from patterns in OpenAPI/Swagger</Summary>
     <Description>Parses OpenAPI/Swagger documents and infers TypedRest Endpoints from patterns.</Description>
     <PackageTags>Typed REST OpenAPI Swagger C# CodeGen</PackageTags>

@@ -4,7 +4,6 @@
     <!-- Build configuration -->
     <LangVersion>10.0</LangVersion>
     <ImplicitUsings>true</ImplicitUsings>
-    <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <OutputType>Library</OutputType>
