@@ -22,7 +22,7 @@ public class CollectionEndpoint : Endpoint
         base.Parse(data, parser);
 
         Schema = data.GetSchema("schema");
-        if (data.TryGetObject("element", out var element))
+        if (data.TryGetObject("element") is {} element)
             Element = parser.Parse(element, defaultKind: "element") as ElementEndpoint;
     }
 

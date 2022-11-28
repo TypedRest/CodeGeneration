@@ -16,7 +16,7 @@ public class IndexerEndpoint : Endpoint
     {
         base.Parse(data, parser);
 
-        if (data.TryGetObject("element", out var element))
+        if (data.TryGetObject("element") is {} element)
             Element = parser.Parse(element);
     }
 

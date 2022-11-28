@@ -1,5 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
-
 namespace TypedRest.CodeGeneration;
 
 /// <summary>
@@ -34,7 +32,7 @@ public static class OpenApiObjectExtensions
     /// <returns>The value of the property or <c>null</c> if it was not found or had the wrong type.</returns>
     public static OpenApiSchema? GetSchema(this OpenApiObject obj, string name)
     {
-        if (!obj.TryGetObject(name, out var schemaObj)) return null;
+        if (obj.TryGetObject(name) is not {} schemaObj) return null;
         string? schemaRef = schemaObj.GetString("$ref");
 
         OpenApiReference? Reference(string prefix)
@@ -60,19 +58,7 @@ public static class OpenApiObjectExtensions
     /// </summary>
     /// <param name="obj">The object to get the property from.</param>
     /// <param name="name">The name of the property to look for.</param>
-    /// <param name="result">The value of the property</param>
-    /// <returns><c>true</c> if the property was found; <c>false</c> if not.</returns>
-    public static bool TryGetObject(this OpenApiObject obj, string name, [NotNullWhen(true)] out OpenApiObject? result)
-    {
-        if (obj.TryGetValue(name, out var anyData) && anyData is OpenApiObject objData)
-        {
-            result = objData;
-            return true;
-        }
-        else
-        {
-            result = null;
-            return false;
-        }
-    }
+    /// <returns>The value of the property; <c>null</c> if it was not found or it is not an object.</returns>
+    public static OpenApiObject? TryGetObject(this OpenApiObject obj, string name)
+        => obj.TryGetValue(name, out var anyData) && anyData is OpenApiObject objData ? objData : null;
 }
