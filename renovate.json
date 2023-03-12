@@ -15,7 +15,7 @@
       "automergeType": "branch"
     },
     {
-      "matchPackagePatterns": ["SourceLink", "OpenApi"],
+      "matchPackagePatterns": ["gittools", "SourceLink", "OpenApi"],
       "automerge": true,
       "automergeType": "branch"
     }
