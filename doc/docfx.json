@@ -19,9 +19,7 @@
     "globalMetadata": {
       "_baseUrl": "https://code-generation.typedrest.net",
       "_appTitle": "TypedRest Code Generation",
-      "_appFooter": "Copyright Bastian Eicher",
-      "_disableBreadcrumb": true,
-      "_enableNewTab": true
+      "_appFooter": "Copyright Bastian Eicher"
     },
     "content": [
       {
@@ -35,9 +33,7 @@
     "overwrite": [
       {
         "src": "../src/",
-        "files": [
-          "**/*.md"
-        ]
+        "files": ["**/*.md"]
       }
     ],
     "xref": [
@@ -45,6 +41,12 @@
     ],
     "xrefService": [
       "https://xref.docs.microsoft.com/query?uid={uid}"
+    ],
+    "postProcessors": ["ExtractSearchIndex"],
+    "template": [
+      "default",
+      "modern",
+      "template"
     ],
     "dest": "../artifacts/Documentation"
   }
