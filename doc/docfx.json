@@ -12,6 +12,7 @@
           ]
         }
       ],
+      "namespaceLayout": "nested",
       "dest": "api"
     }
   ],

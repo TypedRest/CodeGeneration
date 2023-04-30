@@ -18,7 +18,6 @@ public static class OpenApiDocumentExtensions
     /// </summary>
     /// <param name="document">The document to get TypedRest data from.</param>
     /// <param name="resolveReferences">Automatically runs <see cref="IEndpoint.ResolveReferences"/> on the endpoints before returning them.</param>
-    /// <seealso cref="OpenApiReaderSettingsExtensions.AddTypedRest"/>
     public static EntryEndpoint? GetTypedRest(this OpenApiDocument document, bool resolveReferences = true)
     {
         document.Extensions.TryGetValue(TypedRestKey, out var output);
