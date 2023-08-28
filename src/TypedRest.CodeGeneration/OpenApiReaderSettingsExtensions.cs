@@ -18,7 +18,7 @@ public static class OpenApiReaderSettingsExtensions
 
         settings.ExtensionParsers.Add(OpenApiDocumentExtensions.TypedRestKey, (data, _) =>
         {
-            if (!(data is OpenApiObject objData)) throw new FormatException($"{OpenApiDocumentExtensions.TypedRestKey} is not an object.");
+            if (data is not OpenApiObject objData) throw new FormatException($"{OpenApiDocumentExtensions.TypedRestKey} is not an object.");
 
             var entryEndpoint = new EntryEndpoint();
             entryEndpoint.Parse(objData, parser);
