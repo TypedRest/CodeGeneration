@@ -14,7 +14,7 @@
     <ProjectReference Include="..\TypedRest.CodeGeneration\TypedRest.CodeGeneration.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NanoByte.CodeGeneration" Version="0.4.0" />
+    <PackageReference Include="NanoByte.CodeGeneration" Version="0.4.1" />
   </ItemGroup>
 
 </Project>
