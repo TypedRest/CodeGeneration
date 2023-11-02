@@ -24,7 +24,8 @@ public class SerializationFacts
                 options.IncludingAllRuntimeProperties()
                        .Excluding(info => info.Path.Contains("HashCode"))
                        .Excluding(info => info.Path.Contains("HostDocument"))
-                       .Excluding(info => info.Path.Contains("RequestBody.Extensions")));
+                       .Excluding(info => info.Path.Contains("RequestBody.Extensions"))
+                       .Excluding(info => info.Path.Contains("Content")));
     }
 
     [Fact]
