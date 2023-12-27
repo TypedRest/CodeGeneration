@@ -2,7 +2,7 @@
 
   <!-- Project properties -->
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
     <Summary>C# code generator for TypedRest clients from OpenAPI/Swagger</Summary>
     <Description>Generates C# source code for TypedRest .NET clients from OpenAPI/Swagger documents.</Description>
     <PackageTags>Typed REST OpenAPI Swagger CodeGen C#</PackageTags>

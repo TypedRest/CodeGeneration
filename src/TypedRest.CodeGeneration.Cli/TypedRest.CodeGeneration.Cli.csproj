@@ -2,7 +2,7 @@
 
   <!-- Project properties -->
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
     <Summary>C# code generator for TypedRest clients from OpenAPI/Swagger</Summary>
     <Description>Tool that automatically infers TypedRest Endpoints from patterns in OpenAPI/Swagger documents and generates source code for TypedRest clients.</Description>
     <PackageTags>Typed REST OpenAPI Swagger CodeGen Commandline CLI</PackageTags>

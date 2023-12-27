@@ -3,7 +3,7 @@
     {
       "src": [
         {
-          "src": "../artifacts/Release/net6.0",
+          "src": "../artifacts/Release/net8.0",
           "files": [
             "TypedRest.CodeGeneration*.dll"
           ],
