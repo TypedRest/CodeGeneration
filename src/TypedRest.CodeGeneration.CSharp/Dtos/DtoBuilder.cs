@@ -2,18 +2,11 @@
 
 namespace TypedRest.CodeGeneration.CSharp.Dtos;
 
-public abstract class DtoBuilder
+public abstract class DtoBuilder(string key, OpenApiSchema schema, INamingStrategy naming)
 {
-    protected readonly CSharpIdentifier Identifier;
-    protected readonly OpenApiSchema Schema;
-    protected readonly INamingStrategy Naming;
-
-    protected DtoBuilder(string key, OpenApiSchema schema, INamingStrategy naming)
-    {
-        Identifier = naming.DtoType(key);
-        Schema = schema;
-        Naming = naming;
-    }
+    protected readonly CSharpIdentifier Identifier = naming.DtoType(key);
+    protected readonly OpenApiSchema Schema = schema;
+    protected readonly INamingStrategy Naming = naming;
 
     public static DtoBuilder? For(string key, OpenApiSchema schema, INamingStrategy naming)
         => (schema.Type ?? "object") switch

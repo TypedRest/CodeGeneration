@@ -2,12 +2,9 @@
 
 namespace TypedRest.CodeGeneration.CSharp.Dtos;
 
-public class DtoClassBuilder : DtoBuilder
+public class DtoClassBuilder(string key, OpenApiSchema schema, INamingStrategy naming)
+    : DtoBuilder(key, schema, naming)
 {
-    public DtoClassBuilder(string key, OpenApiSchema schema, INamingStrategy naming)
-        : base(key, schema, naming)
-    {}
-
     protected override ICSharpType BuildTypeInner()
     {
         var type = new CSharpClass(Identifier);

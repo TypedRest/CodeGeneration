@@ -4,18 +4,11 @@ using TypedRest.CodeGeneration.Endpoints.Generic;
 
 namespace TypedRest.CodeGeneration.CSharp;
 
-public class NamingStrategy : INamingStrategy
+public class NamingStrategy(string serviceName, string endpointNamespace, string dtoNamespace) : INamingStrategy
 {
-    protected readonly string ServiceName;
-    protected readonly string EndpointNamespace;
-    protected readonly string DtoNamespace;
-
-    public NamingStrategy(string serviceName, string endpointNamespace, string dtoNamespace)
-    {
-        ServiceName = serviceName;
-        EndpointNamespace = endpointNamespace;
-        DtoNamespace = dtoNamespace;
-    }
+    protected readonly string ServiceName = serviceName;
+    protected readonly string EndpointNamespace = endpointNamespace;
+    protected readonly string DtoNamespace = dtoNamespace;
 
     public virtual string Property(string key)
         => Normalize(key);

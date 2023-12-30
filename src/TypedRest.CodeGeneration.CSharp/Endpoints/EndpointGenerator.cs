@@ -3,17 +3,9 @@ using TypedRest.CodeGeneration.Endpoints;
 
 namespace TypedRest.CodeGeneration.CSharp.Endpoints;
 
-public class EndpointGenerator : IEndpointGenerator
+public class EndpointGenerator(INamingStrategy namingStrategy, BuilderRegistry builders) : IEndpointGenerator
 {
-    public INamingStrategy Naming { get; }
-
-    private readonly BuilderRegistry _builders;
-
-    public EndpointGenerator(INamingStrategy namingStrategy, BuilderRegistry builders)
-    {
-        Naming = namingStrategy;
-        _builders = builders;
-    }
+    public INamingStrategy Naming { get; } = namingStrategy;
 
     public bool WithInterfaces { get; set; } = true;
 
@@ -25,5 +17,5 @@ public class EndpointGenerator : IEndpointGenerator
     }
 
     public (CSharpProperty property, IEnumerable<ICSharpType> types) Generate(string key, IEndpoint endpoint)
-        => _builders.For(endpoint).Build(key, endpoint, this);
+        => builders.For(endpoint).Build(key, endpoint, this);
 }
