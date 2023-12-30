@@ -9,7 +9,7 @@ namespace TypedRest.CodeGeneration.Patterns.Raw;
 public class BlobPattern : PatternBase
 {
     protected override OperationType[] RequiredOperations
-        => new[] {OperationType.Get /*, OperationType.Put*/};
+        => [OperationType.Get /*, OperationType.Put*/];
 
     protected override IEndpoint? BuildEndpoint(OpenApiPathItem item)
     {

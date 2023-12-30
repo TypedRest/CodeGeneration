@@ -16,7 +16,7 @@ public abstract class DtoBuilder(string key, OpenApiSchema schema, INamingStrate
             _ => null
         };
 
-    protected readonly List<ICSharpType> ChildTypes = new();
+    protected readonly List<ICSharpType> ChildTypes = [];
 
     public IEnumerable<ICSharpType> BuildTypes()
     {

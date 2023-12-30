@@ -46,7 +46,7 @@ public class NamingStrategy(string serviceName, string endpointNamespace, string
             _ => new CSharpIdentifier("Newtonsoft.Json.Linq", "JObject")
         };
 
-    private static readonly char[] _separators = {' ', '-', '_', '.'};
+    private static readonly char[] _separators = [' ', '-', '_', '.'];
 
     protected virtual string Normalize(string key)
     {

@@ -15,5 +15,5 @@ public class EntryBuilder : BuilderBase<EntryEndpoint>
         => new(Namespace.Name, "IEndpoint");
 
     protected override IEnumerable<CSharpParameter> GetParameters(EntryEndpoint endpoint)
-        => new[] {new CSharpParameter(CSharpIdentifier.Uri, "uri")};
+        => [new CSharpParameter(CSharpIdentifier.Uri, "uri")];
 }

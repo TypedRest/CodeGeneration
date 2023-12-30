@@ -9,7 +9,7 @@ namespace TypedRest.CodeGeneration.Patterns.Generic;
 public class ElementPattern : PatternBase
 {
     protected override OperationType[] RequiredOperations
-        => new[] {OperationType.Get /*, OperationType.Put*/};
+        => [OperationType.Get /*, OperationType.Put*/];
 
     protected override IEndpoint? BuildEndpoint(OpenApiPathItem item)
     {

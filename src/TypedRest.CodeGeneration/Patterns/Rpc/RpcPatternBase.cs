@@ -8,7 +8,7 @@ namespace TypedRest.CodeGeneration.Patterns.Rpc;
 public abstract class RpcPatternBase : PatternBase
 {
     protected override OperationType[] RequiredOperations
-        => new[] {OperationType.Post};
+        => [OperationType.Post];
 
     protected override IEndpoint? BuildEndpoint(OpenApiPathItem item)
     {

@@ -9,7 +9,7 @@ namespace TypedRest.CodeGeneration.Patterns.Raw;
 public class UploadPattern : PatternBase
 {
     protected override OperationType[] RequiredOperations
-        => new[] {OperationType.Post};
+        => [OperationType.Post];
 
     protected override IEndpoint? BuildEndpoint(OpenApiPathItem item)
     {

@@ -76,7 +76,7 @@ public class EndpointGeneratorFacts
             }
         };
 
-        generated.Should().BeEquivalentTo(new[] {entryEndpointInterface, entryEndpoint, contactEndpointInterface, contactEndpoint});
+        generated.Should().BeEquivalentTo([entryEndpointInterface, entryEndpoint, contactEndpointInterface, contactEndpoint]);
     }
 
     private static CSharpParameter Referrer

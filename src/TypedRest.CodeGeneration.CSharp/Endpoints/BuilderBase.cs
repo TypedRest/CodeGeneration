@@ -95,10 +95,9 @@ public abstract class BuilderBase<TEndpoint> : IBuilder<TEndpoint>
     protected virtual CSharpIdentifier GetInterfaceType(CSharpIdentifier implementationType)
         => implementationType.ToInterface();
 
-    protected virtual IEnumerable<CSharpParameter> GetParameters(TEndpoint endpoint)
-        => new[]
-        {
-            new CSharpParameter(new CSharpIdentifier(Namespace.Name, "IEndpoint"), "referrer") {Value = new ThisReference()},
-            new CSharpParameter(endpoint.Uri == null ? CSharpIdentifier.Uri : CSharpIdentifier.String, "relativeUri") {Value = endpoint.Uri}
-        };
+    protected virtual IEnumerable<CSharpParameter> GetParameters(TEndpoint endpoint) =>
+    [
+        new CSharpParameter(new CSharpIdentifier(Namespace.Name, "IEndpoint"), "referrer") { Value = new ThisReference() },
+        new CSharpParameter(endpoint.Uri == null ? CSharpIdentifier.Uri : CSharpIdentifier.String, "relativeUri") { Value = endpoint.Uri }
+    ];
 }

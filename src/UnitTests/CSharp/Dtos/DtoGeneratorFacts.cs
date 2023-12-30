@@ -14,15 +14,14 @@ public class DtoGeneratorFacts
         {
             ["contact"] = Sample.ContactSchema,
             ["note"] = Sample.NoteSchema
-        }).Should().BeEquivalentTo(new[]
-        {
+        }).Should().BeEquivalentTo([
             DtoClass("Contact", "A contact in an address book.",
                 Property("Id", "id", "The ID of the contact.", key: true),
                 Property("FirstName", "firstName", "The first name of the contact.", required: true),
                 Property("LastName", "lastName", "The last name of the contact.", required: true)),
             DtoClass("Note", "A note about a specific contact.",
                 Property("Content", "content", "The content of the note.", required: true))
-        });
+        ]);
     }
 
     private static readonly OpenApiSchema _enumSchema = new()
@@ -46,7 +45,7 @@ public class DtoGeneratorFacts
         _generator.Generate(new Dictionary<string, OpenApiSchema>
         {
             ["myEnum"] = _enumSchema
-        }).Should().BeEquivalentTo(new[] {_dtoEnum});
+        }).Should().BeEquivalentTo([_dtoEnum]);
     }
 
     [Fact]
