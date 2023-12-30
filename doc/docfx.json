@@ -3,13 +3,9 @@
     {
       "src": [
         {
-          "src": "../artifacts/Release/net8.0",
-          "files": [
-            "TypedRest.CodeGeneration*.dll"
-          ],
-          "exclude": [
-            "*.Cli.dll"
-          ]
+          "src": "../src",
+          "files": ["*/*.csproj"],
+          "exclude": ["UnitTests/*", "TypedRest.CodeGeneration.Cli/*"]
         }
       ],
       "namespaceLayout": "nested",
