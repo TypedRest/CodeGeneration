@@ -8,6 +8,9 @@
           "exclude": ["UnitTests/*", "TypedRest.CodeGeneration.Cli/*"]
         }
       ],
+      "properties": {
+        "TargetFramework": "net8.0"
+      },
       "namespaceLayout": "nested",
       "dest": "api"
     }
