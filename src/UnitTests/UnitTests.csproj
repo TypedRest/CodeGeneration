@@ -2,7 +2,7 @@
 
   <!-- Project properties -->
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <AssemblyName>TypedRest.Codegeneration.UnitTests</AssemblyName>
     <RootNamespace>TypedRest.CodeGeneration</RootNamespace>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
