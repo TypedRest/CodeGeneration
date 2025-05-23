@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Shared/">
+    <File Path="Directory.Build.props" />
+  </Folder>
+  <Project Path="TypedRest.CodeGeneration.Cli/TypedRest.CodeGeneration.Cli.csproj" />
+  <Project Path="TypedRest.CodeGeneration.CSharp/TypedRest.CodeGeneration.CSharp.csproj" />
+  <Project Path="TypedRest.CodeGeneration/TypedRest.CodeGeneration.csproj" />
+  <Project Path="UnitTests/UnitTests.csproj" />
+</Solution>
