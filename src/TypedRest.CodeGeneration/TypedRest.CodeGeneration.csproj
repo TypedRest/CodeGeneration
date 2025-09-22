@@ -11,7 +11,7 @@
 
   <!-- Dependencies -->
   <ItemGroup>
-    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.25" />
+    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.26" />
   </ItemGroup>
 
 </Project>
