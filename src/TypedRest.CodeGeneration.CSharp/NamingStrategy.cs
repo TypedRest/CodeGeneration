@@ -25,10 +25,14 @@ public class NamingStrategy(string serviceName, string endpointNamespace, string
             });
 
     public virtual CSharpIdentifier DtoType(string key)
-        // TODO: Extract namespace from key
-        => new(
-            DtoNamespace,
-            Normalize(key));
+    {
+        var parts = key.Split(['.', '/'], StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length <= 1)
+            return new(DtoNamespace, Normalize(key));
+
+        string subNamespace = string.Join(".", parts.Take(parts.Length - 1).Select(Normalize));
+        return new($"{DtoNamespace}.{subNamespace}", Normalize(parts[parts.Length - 1]));
+    }
 
     public virtual CSharpIdentifier TypeFor(OpenApiSchema? schema)
         => (schema?.Type, schema?.Format) switch

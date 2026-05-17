@@ -73,6 +73,22 @@ public class NamingStrategyFacts
     }
 
     [Fact]
+    public void DtoTypeFromDottedKey()
+    {
+        _namingStrategy
+           .DtoType("foo.bar.Baz")
+           .Should().BeEquivalentTo(new CSharpIdentifier("MyNamespace.Foo.Bar", "Baz"));
+    }
+
+    [Fact]
+    public void DtoTypeFromSlashedKey()
+    {
+        _namingStrategy
+           .DtoType("foo/bar/Baz")
+           .Should().BeEquivalentTo(new CSharpIdentifier("MyNamespace.Foo.Bar", "Baz"));
+    }
+
+    [Fact]
     public void TypeForString()
     {
         _namingStrategy
