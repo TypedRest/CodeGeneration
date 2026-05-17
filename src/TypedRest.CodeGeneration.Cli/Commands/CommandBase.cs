@@ -16,8 +16,10 @@ public abstract class CommandBase
             : File.OpenRead(InputPath);
         var doc = reader.Read(stream, out var diagnostic);
 
+        foreach (var warning in diagnostic.Warnings)
+            Console.Error.WriteLine("Warning: " + warning.Message);
         foreach (var error in diagnostic.Errors)
-            Console.Error.WriteLine("Warning: " + error.Message);
+            Console.Error.WriteLine("Error: " + error.Message);
 
         return (doc, diagnostic.SpecificationVersion);
     }
