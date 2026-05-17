@@ -41,7 +41,7 @@ public class DtoClassBuilder(string key, OpenApiSchema schema, INamingStrategy n
 
     private CSharpIdentifier GetPropertyType(string propertyName, OpenApiSchema? schema)
     {
-        if (schema?.Type == "string" && schema.Enum.Count != 0)
+        if (schema is {Type: "string" or "integer", Enum.Count: > 0})
         {
             var dtoEnum = new DtoEnumBuilder(propertyName, schema, Naming).BuildType();
             ChildTypes.Add(dtoEnum);

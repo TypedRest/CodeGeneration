@@ -13,6 +13,7 @@ public abstract class DtoBuilder(string key, OpenApiSchema schema, INamingStrate
         {
             "object" => new DtoClassBuilder(key, schema, naming),
             "string" when schema.Enum.Count != 0 => new DtoEnumBuilder(key, schema, naming),
+            "integer" when schema.Enum.Count != 0 => new DtoEnumBuilder(key, schema, naming),
             _ => null
         };
 
