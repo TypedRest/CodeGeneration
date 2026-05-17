@@ -7,7 +7,7 @@ public interface INamingStrategy
 {
     string Property(string key);
 
-    CSharpIdentifier EndpointType(string key, IEndpoint endpoint);
+    CSharpIdentifier EndpointType(string key, IEndpoint endpoint, string? prefix = null);
 
     CSharpIdentifier DtoType(string key);
 

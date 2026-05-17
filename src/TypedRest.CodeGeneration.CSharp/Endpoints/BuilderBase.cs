@@ -54,18 +54,26 @@ public abstract class BuilderBase<TEndpoint> : IBuilder<TEndpoint>
 
     private static CSharpClass CustomImplementation(string key, TEndpoint endpoint, CSharpConstructor baseClass, List<ICSharpType> types, IEndpointGenerator generator)
     {
-        var customImplementation = new CSharpClass(generator.Naming.EndpointType(key, endpoint))
+        var customImplementation = new CSharpClass(generator.Naming.EndpointType(key, endpoint, generator.GetCollisionPrefix(key)))
         {
             Summary = endpoint.Description,
             Attributes = {Attributes.GeneratedCode},
             BaseClass = baseClass
         };
 
-        foreach ((string childKey, var childEndpoint) in endpoint.Children)
+        generator.PushParent(key);
+        try
         {
-            var (property, additionalTypes) = generator.Generate(childKey, childEndpoint);
-            customImplementation.Properties.Add(property);
-            types.AddRange(additionalTypes);
+            foreach ((string childKey, var childEndpoint) in endpoint.Children)
+            {
+                var (property, additionalTypes) = generator.Generate(childKey, childEndpoint);
+                customImplementation.Properties.Add(property);
+                types.AddRange(additionalTypes);
+            }
+        }
+        finally
+        {
+            generator.PopParent();
         }
 
         return customImplementation;

@@ -1,4 +1,6 @@
 ﻿using NanoByte.CodeGeneration;
+using TypedRest.CodeGeneration.Endpoints;
+using TypedRest.CodeGeneration.Endpoints.Rpc;
 
 namespace TypedRest.CodeGeneration.CSharp.Endpoints;
 
@@ -77,6 +79,32 @@ public class EndpointGeneratorFacts
         };
 
         generated.Should().BeEquivalentTo([entryEndpointInterface, entryEndpoint, contactEndpointInterface, contactEndpoint]);
+    }
+
+    [Fact]
+    public void PrefixesCollidingKeysWithParent()
+    {
+        var entry = new EntryEndpoint
+        {
+            Children =
+            {
+                ["users"] = new Endpoint
+                {
+                    Uri = "./users",
+                    Children = {["settings"] = new Endpoint {Uri = "./settings", Children = {["theme"] = new ActionEndpoint {Uri = "./theme"}}}}
+                },
+                ["accounts"] = new Endpoint
+                {
+                    Uri = "./accounts",
+                    Children = {["settings"] = new Endpoint {Uri = "./settings", Children = {["limit"] = new ActionEndpoint {Uri = "./limit"}}}}
+                }
+            }
+        };
+
+        var generatedNames = _generator.Generate(entry).OfType<CSharpClass>().Select(x => x.Identifier.Name).ToList();
+
+        generatedNames.Should().Contain(["UsersSettingsEndpoint", "AccountsSettingsEndpoint"]);
+        generatedNames.Should().NotContain("SettingsEndpoint");
     }
 
     private static CSharpParameter Referrer

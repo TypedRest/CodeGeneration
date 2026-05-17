@@ -13,16 +13,18 @@ public class NamingStrategy(string serviceName, string endpointNamespace, string
     public virtual string Property(string key)
         => Normalize(key);
 
-    public virtual CSharpIdentifier EndpointType(string key, IEndpoint endpoint)
-        => new(
+    public virtual CSharpIdentifier EndpointType(string key, IEndpoint endpoint, string? prefix = null)
+    {
+        string prefixed = prefix is null ? "" : Normalize(prefix);
+        return new(
             EndpointNamespace,
             endpoint switch
             {
                 EntryEndpoint _ => ServiceName + "Client",
-                // TODO: Avoid name clashes when the same key is used in different places
-                IndexerEndpoint _ => Normalize(key.Depluralize()) + "CollectionEndpoint",
-                _ => Normalize(key) + "Endpoint"
+                IndexerEndpoint _ => prefixed + Normalize(key.Depluralize()) + "CollectionEndpoint",
+                _ => prefixed + Normalize(key) + "Endpoint"
             });
+    }
 
     public virtual CSharpIdentifier DtoType(string key)
     {
