@@ -11,7 +11,7 @@ public class EntryBuilder : BuilderBase<EntryEndpoint>
     protected override CSharpIdentifier GetImplementationType(EntryEndpoint endpoint, INamingStrategy naming)
         => new(Namespace.Name, "EntryEndpoint");
 
-    protected override CSharpIdentifier GetInterfaceType(CSharpIdentifier implementationType)
+    protected override CSharpIdentifier GetInterfaceType(CSharpIdentifier implementationType, bool withInterfaces)
         => new(Namespace.Name, "IEndpoint");
 
     protected override IEnumerable<CSharpParameter> GetParameters(EntryEndpoint endpoint)

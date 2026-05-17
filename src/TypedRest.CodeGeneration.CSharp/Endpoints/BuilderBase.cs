@@ -25,7 +25,7 @@ public abstract class BuilderBase<TEndpoint> : IBuilder<TEndpoint>
         var construction = new CSharpConstructor(implementationType);
         construction.Parameters.AddRange(GetParameters(endpoint));
 
-        var interfaceType = GetInterfaceType(implementationType);
+        var interfaceType = GetInterfaceType(implementationType, generator.WithInterfaces);
 
         if (endpoint.Children.Count > 0)
         {
@@ -92,7 +92,7 @@ public abstract class BuilderBase<TEndpoint> : IBuilder<TEndpoint>
 
     protected abstract CSharpIdentifier GetImplementationType(TEndpoint endpoint, INamingStrategy naming);
 
-    protected virtual CSharpIdentifier GetInterfaceType(CSharpIdentifier implementationType)
+    protected virtual CSharpIdentifier GetInterfaceType(CSharpIdentifier implementationType, bool withInterfaces)
         => implementationType.ToInterface();
 
     protected virtual IEnumerable<CSharpParameter> GetParameters(TEndpoint endpoint) =>

@@ -11,6 +11,6 @@ public class DefaultBuilder : BuilderBase<Endpoint>
     protected override CSharpIdentifier GetImplementationType(Endpoint endpoint, INamingStrategy naming)
         => new(Namespace.Name, "EndpointBase");
 
-    protected override CSharpIdentifier GetInterfaceType(CSharpIdentifier implementationType)
+    protected override CSharpIdentifier GetInterfaceType(CSharpIdentifier implementationType, bool withInterfaces)
         => new(Namespace.Name, "IEndpoint");
 }

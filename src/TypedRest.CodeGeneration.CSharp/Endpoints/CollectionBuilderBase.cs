@@ -35,12 +35,11 @@ public abstract class CollectionBuilderBase<TEndpoint> : BuilderBase<TEndpoint>
         return (types, typeArguments: new [] {property.GetterExpression!.Type});
     }
 
-    protected override CSharpIdentifier GetInterfaceType(CSharpIdentifier implementationType)
+    protected override CSharpIdentifier GetInterfaceType(CSharpIdentifier implementationType, bool withInterfaces)
     {
         var identifier = implementationType.ToInterface();
 
-        if (identifier.TypeArguments.Count == 2)
-            // TODO: Skip this if Generator.WithInterfaces is not true
+        if (withInterfaces && identifier.TypeArguments.Count == 2)
             identifier.TypeArguments[1] = identifier.TypeArguments[1].ToInterface();
 
         return identifier;
