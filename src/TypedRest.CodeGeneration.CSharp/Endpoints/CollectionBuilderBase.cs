@@ -30,7 +30,7 @@ public abstract class CollectionBuilderBase<TEndpoint> : BuilderBase<TEndpoint>
 
         endpoint.Element.Schema ??= endpoint.Schema;
 
-        string elementKey = key.TrimEnd('s') + "_Element";
+        string elementKey = key.Depluralize() + "_Element";
         var (property, types) = generator.Generate(elementKey, endpoint.Element);
         return (types, typeArguments: new [] {property.GetterExpression!.Type});
     }

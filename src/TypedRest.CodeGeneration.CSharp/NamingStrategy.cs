@@ -20,7 +20,7 @@ public class NamingStrategy(string serviceName, string endpointNamespace, string
             {
                 EntryEndpoint _ => ServiceName + "Client",
                 // TODO: Avoid name clashes when the same key is used in different places
-                IndexerEndpoint _ when key.EndsWith("s") => Normalize(key.Substring(0, key.Length - 1)) + "CollectionEndpoint",
+                IndexerEndpoint _ => Normalize(key.Depluralize()) + "CollectionEndpoint",
                 _ => Normalize(key) + "Endpoint"
             });
 
