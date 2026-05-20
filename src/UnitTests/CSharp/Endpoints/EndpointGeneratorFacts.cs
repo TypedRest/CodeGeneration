@@ -33,7 +33,7 @@ public class EndpointGeneratorFacts
         {
             Summary = contactEndpointInterface.Summary,
             Attributes = {Attributes.GeneratedCode},
-            BaseClass = new CSharpConstructor(ElementEndpoint("Contact"))
+            BaseConstructor = new(ElementEndpoint("Contact"))
             {
                 Parameters =
                 {
@@ -64,7 +64,7 @@ public class EndpointGeneratorFacts
         var entryEndpoint = new CSharpClass(new CSharpIdentifier("MyNamespace", "MyServiceClient"))
         {
             Attributes = {Attributes.GeneratedCode},
-            BaseClass = new CSharpConstructor(new CSharpIdentifier("TypedRest.Endpoints", "EntryEndpoint"))
+            BaseConstructor = new(new CSharpIdentifier("TypedRest.Endpoints", "EntryEndpoint"))
             {
                 Parameters =
                 {
@@ -121,7 +121,7 @@ public class EndpointGeneratorFacts
         };
         if (implementationType != null)
         {
-            property.GetterExpression = new CSharpConstructor(implementationType)
+            property.GetterExpression = new(implementationType)
             {
                 Parameters =
                 {

@@ -22,16 +22,16 @@ public abstract class BuilderBase<TEndpoint> : IBuilder<TEndpoint>
         types.AddRange(additionalTypes);
         implementationType.TypeArguments.AddRange(typeArguments);
 
-        var construction = new CSharpConstructor(implementationType);
-        construction.Parameters.AddRange(GetParameters(endpoint));
+        var objectCreation = new CSharpObjectCreation(implementationType);
+        objectCreation.Parameters.AddRange(GetParameters(endpoint));
 
         var interfaceType = GetInterfaceType(implementationType, generator.WithInterfaces);
 
         if (endpoint.Children.Count > 0)
         {
-            var customImplementation = CustomImplementation(key, endpoint, construction, types, generator);
+            var customImplementation = CustomImplementation(key, endpoint, objectCreation, types, generator);
             types.Add(customImplementation);
-            construction = customImplementation.GetConstruction();
+            objectCreation = customImplementation.ToObjectCreation();
 
             if (generator.WithInterfaces)
             {
@@ -45,20 +45,20 @@ public abstract class BuilderBase<TEndpoint> : IBuilder<TEndpoint>
 
         var property = new CSharpProperty(interfaceType, generator.Naming.Property(key))
         {
-            GetterExpression = construction,
+            GetterExpression = objectCreation,
             Summary = endpoint.Description
         };
 
         return (property, types);
     }
 
-    private static CSharpClass CustomImplementation(string key, TEndpoint endpoint, CSharpConstructor baseClass, List<ICSharpType> types, IEndpointGenerator generator)
+    private static CSharpClass CustomImplementation(string key, TEndpoint endpoint, CSharpObjectCreation baseConstructor, List<ICSharpType> types, IEndpointGenerator generator)
     {
         var customImplementation = new CSharpClass(generator.Naming.EndpointType(key, endpoint, generator.GetCollisionPrefix(key)))
         {
             Summary = endpoint.Description,
             Attributes = {Attributes.GeneratedCode},
-            BaseClass = baseClass
+            BaseConstructor = baseConstructor
         };
 
         generator.PushParent(key);
