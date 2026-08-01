@@ -32,6 +32,26 @@ public class NamingStrategyFacts
            .Should().Be("MyProperty");
     }
 
+    [Theory]
+    [InlineData("n/a", "NA")]
+    [InlineData("a+b", "AB")]
+    [InlineData("$ref", "Ref")]
+    [InlineData("my property", "MyProperty")]
+    public void PropertyStripsCharactersInvalidInIdentifiers(string key, string expected)
+    {
+        _namingStrategy
+           .Property(key)
+           .Should().Be(expected);
+    }
+
+    [Fact]
+    public void PropertyEscapesLeadingDigit()
+    {
+        _namingStrategy
+           .Property("1st")
+           .Should().Be("_1st");
+    }
+
     [Fact]
     public void EndpointFromTypeSnakeCase()
     {

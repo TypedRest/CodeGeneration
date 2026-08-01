@@ -50,6 +50,75 @@ public class DtoGeneratorFacts
     }
 
     [Fact]
+    public void GeneratesUniqueEnumValueNames()
+    {
+        _generator.Generate(new Dictionary<string, OpenApiSchema>
+        {
+            ["myEnum"] = new()
+            {
+                Description = "My enum",
+                Type = "string",
+                Enum =
+                {
+                    new OpenApiString(""),
+                    new OpenApiString("1st"),
+                    new OpenApiString("foo-bar"),
+                    new OpenApiString("foo_bar")
+                }
+            }
+        }).Should().BeEquivalentTo([
+            DtoEnum("MyEnum", "My enum",
+                DtoEnumValue("Empty", ""),
+                DtoEnumValue("_1st", "1st"),
+                DtoEnumValue("FooBar", "foo-bar"),
+                DtoEnumValue("FooBar2", "foo_bar"))
+        ]);
+    }
+
+    [Fact]
+    public void GeneratesNamesForNegativeEnumValues()
+    {
+        _generator.Generate(new Dictionary<string, OpenApiSchema>
+        {
+            ["myEnum"] = new()
+            {
+                Description = "My enum",
+                Type = "integer",
+                Enum = {new OpenApiInteger(-1), new OpenApiInteger(1)}
+            }
+        }).Should().BeEquivalentTo([
+            DtoEnum("MyEnum", "My enum",
+                new CSharpEnumValue("ValueMinus1") {Value = -1},
+                new CSharpEnumValue("Value1") {Value = 1})
+        ]);
+    }
+
+    [Fact]
+    public void MarksDeprecatedPropertiesAsObsolete()
+    {
+        _generator.Generate(new Dictionary<string, OpenApiSchema>
+        {
+            ["myType"] = new()
+            {
+                Description = "My type",
+                Type = "object",
+                Properties = new Dictionary<string, OpenApiSchema>
+                {
+                    ["legacy"] = new() {Type = "string", Deprecated = true, Description = "My legacy value."}
+                }
+            }
+        }).Should().BeEquivalentTo([
+            DtoClass("MyType", "My type",
+                new CSharpProperty(CSharpIdentifier.String.ToNullable(), "Legacy")
+                {
+                    Summary = "My legacy value.",
+                    Attributes = {Attributes.JsonProperty("legacy"), Attributes.Obsolete},
+                    HasSetter = true
+                })
+        ]);
+    }
+
+    [Fact]
     public void GeneratesInlineEnums()
     {
         _generator.Generate(new Dictionary<string, OpenApiSchema>

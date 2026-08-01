@@ -59,21 +59,49 @@ public class NamingStrategy(string serviceName, string endpointNamespace, string
             : type;
     }
 
-    private static readonly char[] _separators = [' ', '-', '_', '.'];
-
     protected virtual string Normalize(string key)
     {
-        key = key.Replace("$", "");
-        return key switch
+        if (string.IsNullOrEmpty(key)) return "";
+
+        var words = SplitWords(key);
+        string result = words.Count switch
         {
-            "" => "",
-            null => "",
-            // kebap-case or snake_case
-            {} when _separators.Any(key.Contains) => string.Concat(
-                key.Split(_separators, StringSplitOptions.RemoveEmptyEntries)
-                   .Select(word => word.Substring(0, 1).ToUpper() + word.Substring(1).ToLower())),
-            // CamelCase
-            _ => (key.Substring(0, 1).ToUpper() + key.Substring(1))
+            0 => "",
+            // CamelCase: preserve the inner casing
+            1 when words[0].Length == key.Length => Capitalize(words[0]),
+            // kebap-case, snake_case or anything else separated by non-identifier characters
+            _ => string.Concat(words.Select(word => Capitalize(word.ToLower())))
         };
+
+        // C# identifiers may not start with a digit
+        return result.Length != 0 && char.IsDigit(result[0]) ? "_" + result : result;
     }
+
+    /// <summary>
+    /// Splits a key into words, treating every character that may not appear in a C# identifier as a separator.
+    /// </summary>
+    private static List<string> SplitWords(string key)
+    {
+        var words = new List<string>();
+
+        int start = -1;
+        for (int i = 0; i < key.Length; i++)
+        {
+            if (char.IsLetterOrDigit(key[i]))
+            {
+                if (start < 0) start = i;
+            }
+            else if (start >= 0)
+            {
+                words.Add(key.Substring(start, i - start));
+                start = -1;
+            }
+        }
+        if (start >= 0) words.Add(key.Substring(start));
+
+        return words;
+    }
+
+    private static string Capitalize(string word)
+        => word.Substring(0, 1).ToUpper() + word.Substring(1);
 }
