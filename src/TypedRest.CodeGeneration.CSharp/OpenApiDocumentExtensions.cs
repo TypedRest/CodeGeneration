@@ -1,4 +1,5 @@
-﻿using NanoByte.CodeGeneration;
+﻿using Microsoft.CodeAnalysis.CSharp;
+using NanoByte.CodeGeneration;
 using TypedRest.CodeGeneration.CSharp.Dtos;
 using TypedRest.CodeGeneration.CSharp.Endpoints;
 using TypedRest.CodeGeneration.Patterns;
@@ -17,9 +18,9 @@ public static class OpenApiDocumentExtensions
         return generator.Generate(entryEndpoint);
     }
 
-    public static IEnumerable<ICSharpType> GenerateDtos(this OpenApiDocument doc, INamingStrategy naming)
+    public static IEnumerable<ICSharpType> GenerateDtos(this OpenApiDocument doc, INamingStrategy naming, LanguageVersion languageVersion = LanguageVersion.Latest)
     {
-        var generator = new DtoGenerator(naming);
+        var generator = new DtoGenerator(naming, languageVersion);
         return generator.Generate(doc.Components?.Schemas ?? new Dictionary<string, OpenApiSchema>());
     }
 }

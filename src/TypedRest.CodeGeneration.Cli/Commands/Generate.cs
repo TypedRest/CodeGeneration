@@ -1,4 +1,5 @@
 using CommandLine;
+using Microsoft.CodeAnalysis.CSharp;
 using TypedRest.CodeGeneration.CSharp;
 using NanoByte.CodeGeneration;
 
@@ -25,14 +26,23 @@ public class Generate : CommandBase
     [Option("generate-dtos", HelpText = "Controls whether to generate DTOs.")]
     public bool GenerateDtos { get; set; }
 
+    [Option("lang-version", Default = "latest", HelpText = "The minimum C# version the generated DTOs must compile with, using the same values as the MSBuild LangVersion property.")]
+    public string LangVersion { get; set; } = "latest";
+
     public override int Run()
     {
+        if (!LanguageVersionFacts.TryParse(LangVersion, out var languageVersion))
+        {
+            Console.Error.WriteLine($"Error: Invalid --lang-version '{LangVersion}'. Expected a value such as '8', '11.0' or 'latest'.");
+            return 1;
+        }
+
         var (doc, _) = ReadDoc();
         var naming = new NamingStrategy(ServiceName, Namespace ?? ServiceName, DtoNamespace ?? Namespace ?? ServiceName);
 
         var types = doc.GenerateTypedRestEndpoints(naming, GenerateInterfaces);
         if (GenerateDtos)
-            types = types.Concat(doc.GenerateDtos(naming));
+            types = types.Concat(doc.GenerateDtos(naming, languageVersion));
 
         WriteSource(types);
 

@@ -1,9 +1,10 @@
-﻿using NanoByte.CodeGeneration;
+﻿using Microsoft.CodeAnalysis.CSharp;
+using NanoByte.CodeGeneration;
 
 namespace TypedRest.CodeGeneration.CSharp.Dtos;
 
-public class DtoEnumBuilder(string key, OpenApiSchema schema, INamingStrategy naming)
-    : DtoBuilder(key, schema, naming)
+public class DtoEnumBuilder(string key, OpenApiSchema schema, INamingStrategy naming, LanguageVersion languageVersion = LanguageVersion.Latest)
+    : DtoBuilder(key, schema, naming, languageVersion)
 {
     protected override ICSharpType BuildTypeInner()
     {

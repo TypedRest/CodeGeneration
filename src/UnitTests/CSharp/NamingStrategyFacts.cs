@@ -97,6 +97,38 @@ public class NamingStrategyFacts
     }
 
     [Fact]
+    public void TypeForNullableString()
+    {
+        _namingStrategy
+           .TypeFor(new OpenApiSchema {Type = "string", Nullable = true})
+           .Should().BeEquivalentTo(CSharpIdentifier.String.ToNullable());
+    }
+
+    [Fact]
+    public void TypeForNullableStringWithoutNullableReferenceTypes()
+    {
+        _namingStrategy
+           .TypeFor(new OpenApiSchema {Type = "array", Items = new OpenApiSchema {Type = "string", Nullable = true}}, nullableReferenceTypes: false)
+           .Should().BeEquivalentTo(CSharpIdentifier.ListOf(CSharpIdentifier.String));
+    }
+
+    [Fact]
+    public void TypeForNullableIntegerWithoutNullableReferenceTypes()
+    {
+        _namingStrategy
+           .TypeFor(new OpenApiSchema {Type = "integer", Nullable = true}, nullableReferenceTypes: false)
+           .Should().BeEquivalentTo(CSharpIdentifier.Int.ToNullable());
+    }
+
+    [Fact]
+    public void TypeForInteger()
+    {
+        _namingStrategy
+           .TypeFor(new OpenApiSchema {Type = "integer"})
+           .Should().BeEquivalentTo(CSharpIdentifier.Int);
+    }
+
+    [Fact]
     public void TypeForArrayOfUri()
     {
         _namingStrategy

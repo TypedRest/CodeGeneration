@@ -11,5 +11,5 @@ public interface INamingStrategy
 
     CSharpIdentifier DtoType(string key);
 
-    CSharpIdentifier TypeFor(OpenApiSchema? schema);
+    CSharpIdentifier TypeFor(OpenApiSchema? schema, bool nullableReferenceTypes = true);
 }
