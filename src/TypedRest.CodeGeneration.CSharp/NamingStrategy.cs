@@ -41,10 +41,15 @@ public class NamingStrategy(string serviceName, string endpointNamespace, string
         var type = (schema?.Type, schema?.Format) switch
         {
             ("string", "uri") => CSharpIdentifier.Uri,
+            ("string", "uuid" or "guid") => Guid,
+            ("string", "date-time") => DateTimeOffset,
+            ("string", "date") => DateTime,
+            ("string", "time" or "duration") => TimeSpan,
             ("string", _) => CSharpIdentifier.String,
             ("integer", "int64") => CSharpIdentifier.Long,
             ("integer", _) => CSharpIdentifier.Int,
             ("number", "float") => CSharpIdentifier.Float,
+            ("number", "decimal") => Decimal,
             ("number", _) => CSharpIdentifier.Double,
             ("boolean", _) => CSharpIdentifier.Bool,
             ("array", _) => CSharpIdentifier.ListOf(TypeFor(schema.Items, nullableReferenceTypes)),
@@ -53,11 +58,17 @@ public class NamingStrategy(string serviceName, string endpointNamespace, string
             _ => new CSharpIdentifier("Newtonsoft.Json.Linq", "JObject")
         };
 
-        bool isValueType = schema?.Type is "integer" or "number" or "boolean";
+        bool isValueType = schema?.Type is "integer" or "number" or "boolean" || schema.HasValueTypeFormat();
         return schema is {Nullable: true} && (nullableReferenceTypes || isValueType)
             ? type.ToNullable()
             : type;
     }
+
+    private static CSharpIdentifier Guid => new("System", "Guid");
+    private static CSharpIdentifier DateTime => new("System", "DateTime");
+    private static CSharpIdentifier DateTimeOffset => new("System", "DateTimeOffset");
+    private static CSharpIdentifier TimeSpan => new("System", "TimeSpan");
+    private static CSharpIdentifier Decimal => new(null, "decimal");
 
     protected virtual string Normalize(string key)
     {

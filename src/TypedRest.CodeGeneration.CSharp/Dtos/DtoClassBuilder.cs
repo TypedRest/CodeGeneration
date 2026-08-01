@@ -6,15 +6,29 @@ namespace TypedRest.CodeGeneration.CSharp.Dtos;
 public class DtoClassBuilder(string key, OpenApiSchema schema, INamingStrategy naming, LanguageVersion languageVersion = LanguageVersion.Latest)
     : DtoBuilder(key, schema, naming, languageVersion)
 {
+    /// <summary>
+    /// The properties of this type, including any merged in from inline <c>allOf</c> schemas.
+    /// </summary>
+    protected readonly IReadOnlyDictionary<string, OpenApiSchema> Properties = GetProperties(schema);
+
+    /// <summary>
+    /// The keys of the required properties, including any from inline <c>allOf</c> schemas.
+    /// </summary>
+    protected readonly ICollection<string> RequiredProperties = GetRequiredProperties(schema);
+
     protected override ICSharpType BuildTypeInner()
     {
         var type = new CSharpClass(Identifier);
 
-        foreach ((string propKey, var propSchema) in Schema.Properties)
+        // A single $ref in allOf becomes the base class; its properties are inherited rather than repeated
+        if (GetBaseSchema(Schema)?.Reference?.Id is {} baseId)
+            type.BaseConstructor = new CSharpObjectCreation(Naming.DtoType(baseId));
+
+        foreach ((string propKey, var propSchema) in Properties)
         {
             var property = BuildProperty(propKey, propSchema);
 
-            if (Schema.Required.Contains(propKey))
+            if (RequiredProperties.Contains(propKey))
                 property.Attributes.Add(Attributes.Required);
 
             if (propKey.Equals("id", StringComparison.InvariantCultureIgnoreCase))
@@ -26,6 +40,42 @@ public class DtoClassBuilder(string key, OpenApiSchema schema, INamingStrategy n
         return type;
     }
 
+    /// <summary>
+    /// Returns the <c>allOf</c> entry to use as the base class. C# has no multiple inheritance, so any
+    /// additional <c>$ref</c> entries are flattened into this type instead.
+    /// </summary>
+    private static OpenApiSchema? GetBaseSchema(OpenApiSchema schema)
+        => schema.AllOf.FirstOrDefault(x => x.Reference?.Id is {Length: > 0});
+
+    /// <summary>
+    /// Returns the schemas contributing properties to this type: the schema itself plus every
+    /// <c>allOf</c> entry except the one used as the base class.
+    /// </summary>
+    private static IEnumerable<OpenApiSchema> GetSources(OpenApiSchema schema)
+    {
+        var baseSchema = GetBaseSchema(schema);
+
+        yield return schema;
+        foreach (var source in schema.AllOf)
+        {
+            if (source != baseSchema) yield return source;
+        }
+    }
+
+    private static IReadOnlyDictionary<string, OpenApiSchema> GetProperties(OpenApiSchema schema)
+    {
+        var result = new Dictionary<string, OpenApiSchema>();
+        foreach (var source in GetSources(schema))
+        {
+            foreach ((string key, var value) in source.Properties)
+                result[key] = value;
+        }
+        return result;
+    }
+
+    private static ICollection<string> GetRequiredProperties(OpenApiSchema schema)
+        => new HashSet<string>(GetSources(schema).SelectMany(x => x.Required));
+
     protected virtual CSharpProperty BuildProperty(string key, OpenApiSchema? schema)
     {
         string propertyName = Naming.Property(key);
@@ -33,7 +83,7 @@ public class DtoClassBuilder(string key, OpenApiSchema schema, INamingStrategy n
             propertyName += "Value";
 
         var type = GetPropertyType(propertyName, schema);
-        bool required = Schema.Required.Contains(key);
+        bool required = RequiredProperties.Contains(key);
 
         // Below C# 8 reference types cannot be annotated as nullable at all
         bool canBeNullable = NullableReferenceTypes || !IsReferenceType(schema);
@@ -64,16 +114,47 @@ public class DtoClassBuilder(string key, OpenApiSchema schema, INamingStrategy n
         return property;
     }
 
-    private CSharpIdentifier GetPropertyType(string propertyName, OpenApiSchema? schema)
-    {
-        if (schema is {Type: "string" or "integer", Enum.Count: > 0})
+    private CSharpIdentifier GetPropertyType(string nameHint, OpenApiSchema? schema)
+        => schema switch
         {
-            var dtoEnum = new DtoEnumBuilder(propertyName, schema, Naming, LanguageVersion).BuildType();
-            ChildTypes.Add(dtoEnum);
-            return dtoEnum.Identifier;
-        }
+            // Inline enum
+            {Reference: null, Type: "string" or "integer", Enum.Count: > 0} =>
+                AddChildType(new DtoEnumBuilder(ChildKey(nameHint), schema, Naming, LanguageVersion)),
 
-        return Naming.TypeFor(schema, NullableReferenceTypes);
+            // Inline object
+            {Reference: null, Properties.Count: > 0} =>
+                AddChildType(new DtoClassBuilder(ChildKey(nameHint), schema, Naming, LanguageVersion)),
+
+            // Array of inline enums/objects
+            {Type: "array", Items: {} items} when NeedsChildType(items) =>
+                CSharpIdentifier.ListOf(GetPropertyType(nameHint.Depluralize(), items)),
+
+            // Dictionary of inline enums/objects
+            {AdditionalProperties: {} values} when NeedsChildType(values) =>
+                CSharpIdentifier.DictionaryOf(CSharpIdentifier.String, GetPropertyType(nameHint, values)),
+
+            _ => Naming.TypeFor(schema, NullableReferenceTypes)
+        };
+
+    /// <summary>
+    /// Indicates whether a schema is inlined rather than referenced and therefore needs a type generated for it.
+    /// </summary>
+    private static bool NeedsChildType(OpenApiSchema schema)
+        => schema is {Reference: null, Type: "string" or "integer", Enum.Count: > 0}
+                  or {Reference: null, Properties.Count: > 0};
+
+    /// <summary>
+    /// Prefixes a child type's key with this type's name, so that e.g. two classes with an inline
+    /// <c>status</c> enum do not both generate a type called <c>Status</c>.
+    /// </summary>
+    private string ChildKey(string nameHint)
+        => Identifier.Name + nameHint;
+
+    private CSharpIdentifier AddChildType(DtoBuilder builder)
+    {
+        var types = builder.BuildTypes().ToList();
+        ChildTypes.AddRange(types);
+        return types[0].Identifier;
     }
 
     private static bool IsCollection(OpenApiSchema? schema)
@@ -87,7 +168,7 @@ public class DtoClassBuilder(string key, OpenApiSchema schema, INamingStrategy n
         => schema?.Type switch
         {
             null or "object" => true, // $ref to a generated class, or the JObject fallback
-            "string" => schema.Enum.Count == 0, // string/Uri, unless it is an inline enum
+            "string" => schema.Enum.Count == 0 && !schema.HasValueTypeFormat(), // string/Uri, unless it is an inline enum or a format that maps to a value type (e.g. uuid)
             _ => false // integer/number/boolean map to value types
         };
 }

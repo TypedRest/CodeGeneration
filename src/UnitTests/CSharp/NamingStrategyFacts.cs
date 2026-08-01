@@ -140,6 +140,30 @@ public class NamingStrategyFacts
            .Should().BeEquivalentTo(CSharpIdentifier.Int.ToNullable());
     }
 
+    [Theory]
+    [InlineData("string", "uuid", "System", "Guid")]
+    [InlineData("string", "guid", "System", "Guid")]
+    [InlineData("string", "date-time", "System", "DateTimeOffset")]
+    [InlineData("string", "date", "System", "DateTime")]
+    [InlineData("string", "time", "System", "TimeSpan")]
+    [InlineData("string", "duration", "System", "TimeSpan")]
+    [InlineData("number", "decimal", null, "decimal")]
+    public void TypeForFormat(string type, string format, string? ns, string name)
+    {
+        _namingStrategy
+           .TypeFor(new OpenApiSchema {Type = type, Format = format})
+           .Should().BeEquivalentTo(new CSharpIdentifier(ns, name));
+    }
+
+    [Fact]
+    public void TypeForNullableGuidWithoutNullableReferenceTypes()
+    {
+        // Formats that map to value types stay nullable even without nullable reference types
+        _namingStrategy
+           .TypeFor(new OpenApiSchema {Type = "string", Format = "uuid", Nullable = true}, nullableReferenceTypes: false)
+           .Should().BeEquivalentTo(new CSharpIdentifier("System", "Guid").ToNullable());
+    }
+
     [Fact]
     public void TypeForInteger()
     {

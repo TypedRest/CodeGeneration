@@ -50,6 +50,48 @@ public class DtoGeneratorFacts
     }
 
     [Fact]
+    public void GeneratesInheritanceFromAllOf()
+    {
+        var baseType = new OpenApiSchema
+        {
+            Type = "object",
+            Reference = new OpenApiReference {Id = "myBase"},
+            Required = {"kind"},
+            Properties = new Dictionary<string, OpenApiSchema> {["kind"] = new() {Type = "string"}}
+        };
+
+        var derived = _generator.Generate(new Dictionary<string, OpenApiSchema>
+        {
+            ["myDerived"] = new()
+            {
+                Description = "My derived type",
+                AllOf =
+                {
+                    baseType,
+                    new OpenApiSchema
+                    {
+                        Type = "object",
+                        Required = {"name"},
+                        Properties = new Dictionary<string, OpenApiSchema> {["name"] = new() {Type = "string", Description = "My name."}}
+                    }
+                }
+            }
+        }).Should().ContainSingle().Subject.Should().BeOfType<CSharpClass>().Subject;
+
+        // The $ref becomes the base class, the inline schema is merged in
+        derived.BaseConstructor!.Type.Should().BeEquivalentTo(new CSharpIdentifier("MyNamespace", "MyBase"));
+        derived.Properties.Should().BeEquivalentTo([
+            new CSharpProperty(CSharpIdentifier.String, "Name")
+            {
+                Summary = "My name.",
+                Attributes = {Attributes.JsonProperty("name"), Attributes.Required},
+                HasSetter = true,
+                IsRequired = true
+            }
+        ]);
+    }
+
+    [Fact]
     public void GeneratesUniqueEnumValueNames()
     {
         _generator.Generate(new Dictionary<string, OpenApiSchema>
@@ -134,9 +176,44 @@ public class DtoGeneratorFacts
             }
         }).Should().BeEquivalentTo(new CSharpType[]
         {
+            // The enum is named after the containing type as well as the property, to avoid collisions
             DtoClass("MyType", "My type",
-                Property("MyEnum", "myEnum", "My enum", type: _dtoEnum.Identifier)),
-            _dtoEnum
+                Property("MyEnum", "myEnum", "My enum", type: new CSharpIdentifier("MyNamespace", "MyTypeMyEnum"))),
+            DtoEnum("MyTypeMyEnum", "My enum",
+                DtoEnumValue("Value1", "value1"),
+                DtoEnumValue("Value2", "value2"))
+        });
+    }
+
+    [Fact]
+    public void GeneratesClassesForInlineObjects()
+    {
+        _generator.Generate(new Dictionary<string, OpenApiSchema>
+        {
+            ["myType"] = new()
+            {
+                Description = "My type",
+                Type = "object",
+                Properties = new Dictionary<string, OpenApiSchema>
+                {
+                    ["address"] = new()
+                    {
+                        Description = "My address.",
+                        Type = "object",
+                        Properties = new Dictionary<string, OpenApiSchema> {["city"] = new() {Type = "string"}}
+                    }
+                }
+            }
+        }).Should().BeEquivalentTo(new CSharpType[]
+        {
+            DtoClass("MyType", "My type",
+                Property("Address", "address", "My address.", type: new CSharpIdentifier("MyNamespace", "MyTypeAddress"))),
+            DtoClass("MyTypeAddress", "My address.",
+                new CSharpProperty(CSharpIdentifier.String.ToNullable(), "City")
+                {
+                    Attributes = {Attributes.JsonProperty("city")},
+                    HasSetter = true
+                })
         });
     }
 
