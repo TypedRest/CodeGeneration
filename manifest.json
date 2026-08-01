@@ -1,0 +1,1325 @@
+{
+  "source_base_path": "/home/runner/work/CodeGeneration/CodeGeneration/doc",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      }
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../icon.png",
+      "output": {
+        "resource": {
+          "relative_path": "icon.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Dtos.DtoBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Dtos.DtoBuilder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Dtos.DtoBuilder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Dtos.DtoClassBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Dtos.DtoClassBuilder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Dtos.DtoClassBuilder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Dtos.DtoEnumBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Dtos.DtoEnumBuilder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Dtos.DtoEnumBuilder",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Dtos.DtoGenerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Dtos.DtoGenerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Dtos.DtoGenerator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Dtos.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Dtos.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Dtos",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.BuilderBase-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.BuilderBase-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Endpoints.BuilderBase<TEndpoint>",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.CSharp.Endpoints.BuilderBase-1.yml\" sourcestartlinenumber=\"1\">Common base class for <xref href=\"TypedRest.CodeGeneration.CSharp.Endpoints.IBuilder%601\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.BuilderRegistry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.BuilderRegistry.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Endpoints.BuilderRegistry",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.CSharp.Endpoints.BuilderRegistry.yml\" sourcestartlinenumber=\"1\">A list of all known <xref href=\"TypedRest.CodeGeneration.CSharp.Endpoints.IBuilder\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.CollectionBuilderBase-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.CollectionBuilderBase-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Endpoints.CollectionBuilderBase<TEndpoint>",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.CSharp.Endpoints.CollectionBuilderBase-1.yml\" sourcestartlinenumber=\"1\">Common base class for <xref href=\"TypedRest.CodeGeneration.CSharp.Endpoints.IBuilder%601\" data-throw-if-not-resolved=\"false\"></xref>s for <xref href=\"TypedRest.CodeGeneration.Endpoints.Generic.CollectionEndpoint\" data-throw-if-not-resolved=\"false\"></xref> and derived types.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.DefaultBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.DefaultBuilder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Endpoints.DefaultBuilder",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.CSharp.Endpoints.DefaultBuilder.yml\" sourcestartlinenumber=\"1\">Builds C# code snippets for <xref href=\"TypedRest.CodeGeneration.Endpoints.Endpoint\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.EndpointGenerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.EndpointGenerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Endpoints.EndpointGenerator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.EntryBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.EntryBuilder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Endpoints.EntryBuilder",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.CSharp.Endpoints.EntryBuilder.yml\" sourcestartlinenumber=\"1\">Builds C# code snippets for <xref href=\"TypedRest.CodeGeneration.Endpoints.EntryEndpoint\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Generic.CollectionBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Generic.CollectionBuilder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Endpoints.Generic.CollectionBuilder",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.CSharp.Endpoints.Generic.CollectionBuilder.yml\" sourcestartlinenumber=\"1\">Builds C# code snippets for <xref href=\"TypedRest.CodeGeneration.Endpoints.Generic.CollectionEndpoint\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Generic.ElementBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Generic.ElementBuilder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Endpoints.Generic.ElementBuilder",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.CSharp.Endpoints.Generic.ElementBuilder.yml\" sourcestartlinenumber=\"1\">Builds C# code snippets for <xref href=\"TypedRest.CodeGeneration.Endpoints.Generic.ElementEndpoint\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Generic.IndexerBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Generic.IndexerBuilder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Endpoints.Generic.IndexerBuilder",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.CSharp.Endpoints.Generic.IndexerBuilder.yml\" sourcestartlinenumber=\"1\">Builds C# code snippets for <xref href=\"TypedRest.CodeGeneration.Endpoints.Generic.IndexerEndpoint\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Generic.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Generic.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Endpoints.Generic",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.IBuilder-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.IBuilder-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Endpoints.IBuilder<TEndpoint>",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.CSharp.Endpoints.IBuilder-1.yml\" sourcestartlinenumber=\"1\">Builds C# code snippets for <code class=\"typeparamref\">TEndpoint</code>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.IBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.IBuilder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Endpoints.IBuilder",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.CSharp.Endpoints.IBuilder.yml\" sourcestartlinenumber=\"1\">Builds C# code snippets for a specific type of <xref href=\"TypedRest.CodeGeneration.Endpoints.IEndpoint\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.IEndpointGenerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.IEndpointGenerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Endpoints.IEndpointGenerator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Raw.BlobBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Raw.BlobBuilder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Endpoints.Raw.BlobBuilder",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.CSharp.Endpoints.Raw.BlobBuilder.yml\" sourcestartlinenumber=\"1\">Builds C# code snippets for <xref href=\"TypedRest.CodeGeneration.Endpoints.Raw.BlobEndpoint\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Raw.UploadBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Raw.UploadBuilder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Endpoints.Raw.UploadBuilder",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.CSharp.Endpoints.Raw.UploadBuilder.yml\" sourcestartlinenumber=\"1\">Builds C# code snippets for <xref href=\"TypedRest.CodeGeneration.Endpoints.Raw.UploadEndpoint\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Raw.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Raw.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Endpoints.Raw",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Reactive.PollingBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Reactive.PollingBuilder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Endpoints.Reactive.PollingBuilder",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.CSharp.Endpoints.Reactive.PollingBuilder.yml\" sourcestartlinenumber=\"1\">Builds C# code snippets for <xref href=\"TypedRest.CodeGeneration.Endpoints.Reactive.PollingEndpoint\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Reactive.StreamingBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Reactive.StreamingBuilder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Endpoints.Reactive.StreamingBuilder",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.CSharp.Endpoints.Reactive.StreamingBuilder.yml\" sourcestartlinenumber=\"1\">Builds C# code snippets for <xref href=\"TypedRest.CodeGeneration.Endpoints.Reactive.StreamingEndpoint\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Reactive.StreamingCollectionBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Reactive.StreamingCollectionBuilder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Endpoints.Reactive.StreamingCollectionBuilder",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.CSharp.Endpoints.Reactive.StreamingCollectionBuilder.yml\" sourcestartlinenumber=\"1\">Builds C# code snippets for <xref href=\"TypedRest.CodeGeneration.Endpoints.Reactive.StreamingCollectionEndpoint\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Reactive.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Reactive.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Endpoints.Reactive",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Rpc.ActionBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Rpc.ActionBuilder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Endpoints.Rpc.ActionBuilder",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.CSharp.Endpoints.Rpc.ActionBuilder.yml\" sourcestartlinenumber=\"1\">Builds C# code snippets for <xref href=\"TypedRest.CodeGeneration.Endpoints.Rpc.ActionEndpoint\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Rpc.ConsumerBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Rpc.ConsumerBuilder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Endpoints.Rpc.ConsumerBuilder",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.CSharp.Endpoints.Rpc.ConsumerBuilder.yml\" sourcestartlinenumber=\"1\">Builds C# code snippets for <xref href=\"TypedRest.CodeGeneration.Endpoints.Rpc.ConsumerEndpoint\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Rpc.FunctionBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Rpc.FunctionBuilder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Endpoints.Rpc.FunctionBuilder",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.CSharp.Endpoints.Rpc.FunctionBuilder.yml\" sourcestartlinenumber=\"1\">Builds C# code snippets for <xref href=\"TypedRest.CodeGeneration.Endpoints.Rpc.FunctionEndpoint\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Rpc.ProducerBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Rpc.ProducerBuilder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Endpoints.Rpc.ProducerBuilder",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.CSharp.Endpoints.Rpc.ProducerBuilder.yml\" sourcestartlinenumber=\"1\">Builds C# code snippets for <xref href=\"TypedRest.CodeGeneration.Endpoints.Rpc.ProducerEndpoint\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Rpc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.Rpc.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Endpoints.Rpc",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.Endpoints.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.Endpoints",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.GenerationOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.GenerationOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.GenerationOptions",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.CSharp.GenerationOptions.yml\" sourcestartlinenumber=\"1\">Options controlling the generation of a TypedRest client.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.INamingStrategy.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.INamingStrategy.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.INamingStrategy",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.KeyExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.KeyExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.KeyExtensions",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.CSharp.KeyExtensions.yml\" sourcestartlinenumber=\"1\">Helpers for transforming OpenAPI path/property keys before they become C# identifiers.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.NamingStrategy.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.NamingStrategy.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.NamingStrategy",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.OpenApiDocumentExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.OpenApiDocumentExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp.OpenApiDocumentExtensions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.CSharp.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.CSharp.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.CSharp",
+      "Summary": "<p sourcefile=\"../src/TypedRest.CodeGeneration.CSharp/_Namespace.md\" sourcestartlinenumber=\"1\">Generates C# source code for <a href=\"https://github.com/TypedRest/TypedRest-DotNet\" sourcefile=\"../src/TypedRest.CodeGeneration.CSharp/_Namespace.md\" sourcestartlinenumber=\"1\">TypedRest .NET</a> clients from <a href=\"https://swagger.io/resources/open-api/\" sourcefile=\"../src/TypedRest.CodeGeneration.CSharp/_Namespace.md\" sourcestartlinenumber=\"1\">OpenAPI/Swagger</a> documents.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.DictionaryExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.DictionaryExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.DictionaryExtensions",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.DictionaryExtensions.yml\" sourcestartlinenumber=\"1\">Provides extension methods for <xref href=\"System.Collections.Generic.IDictionary%602\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Endpoints.Endpoint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Endpoints.Endpoint.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Endpoints.Endpoint",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Endpoints.Endpoint.yml\" sourcestartlinenumber=\"1\">Represents a TypedRest endpoint.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Endpoints.EndpointParser.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Endpoints.EndpointParser.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Endpoints.EndpointParser",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Endpoints.EndpointParser.yml\" sourcestartlinenumber=\"1\">Parses <xref href=\"TypedRest.CodeGeneration.Endpoints.IEndpoint\" data-throw-if-not-resolved=\"false\"></xref>s in <xref href=\"Microsoft.OpenApi.Models.OpenApiDocument\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Endpoints.EndpointRegistry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Endpoints.EndpointRegistry.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Endpoints.EndpointRegistry",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Endpoints.EndpointRegistry.yml\" sourcestartlinenumber=\"1\">A list of all known <xref href=\"TypedRest.CodeGeneration.Endpoints.IEndpoint\" data-throw-if-not-resolved=\"false\"></xref> kinds.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Endpoints.EntryEndpoint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Endpoints.EntryEndpoint.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Endpoints.EntryEndpoint",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Endpoints.EntryEndpoint.yml\" sourcestartlinenumber=\"1\">Represent the top-level URI of an API.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Endpoints.Generic.CollectionEndpoint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Endpoints.Generic.CollectionEndpoint.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Endpoints.Generic.CollectionEndpoint",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Endpoints.Generic.CollectionEndpoint.yml\" sourcestartlinenumber=\"1\">Endpoint for a collection of entities addressable as <xref href=\"TypedRest.CodeGeneration.Endpoints.Generic.ElementEndpoint\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Endpoints.Generic.ElementEndpoint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Endpoints.Generic.ElementEndpoint.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Endpoints.Generic.ElementEndpoint",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Endpoints.Generic.ElementEndpoint.yml\" sourcestartlinenumber=\"1\">Endpoint for an individual resource.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Endpoints.Generic.IndexerEndpoint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Endpoints.Generic.IndexerEndpoint.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Endpoints.Generic.IndexerEndpoint",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Endpoints.Generic.IndexerEndpoint.yml\" sourcestartlinenumber=\"1\">Endpoint that addresses child endpoints by ID.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Endpoints.Generic.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Endpoints.Generic.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Endpoints.Generic",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Endpoints.IEndpoint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Endpoints.IEndpoint.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Endpoints.IEndpoint",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Endpoints.IEndpoint.yml\" sourcestartlinenumber=\"1\">Represents a TypedRest endpoint.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Endpoints.IEndpointParser.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Endpoints.IEndpointParser.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Endpoints.IEndpointParser",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Endpoints.IEndpointParser.yml\" sourcestartlinenumber=\"1\">Parses <xref href=\"TypedRest.CodeGeneration.Endpoints.IEndpoint\" data-throw-if-not-resolved=\"false\"></xref>s in <xref href=\"Microsoft.OpenApi.Models.OpenApiDocument\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Endpoints.Raw.BlobEndpoint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Endpoints.Raw.BlobEndpoint.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Endpoints.Raw.BlobEndpoint",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Endpoints.Raw.BlobEndpoint.yml\" sourcestartlinenumber=\"1\">Endpoint for a binary blob that can be downloaded or uploaded.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Endpoints.Raw.UploadEndpoint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Endpoints.Raw.UploadEndpoint.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Endpoints.Raw.UploadEndpoint",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Endpoints.Raw.UploadEndpoint.yml\" sourcestartlinenumber=\"1\">Endpoint that accepts binary uploads.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Endpoints.Raw.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Endpoints.Raw.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Endpoints.Raw",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Endpoints.Reactive.PollingEndpoint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Endpoints.Reactive.PollingEndpoint.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Endpoints.Reactive.PollingEndpoint",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Endpoints.Reactive.PollingEndpoint.yml\" sourcestartlinenumber=\"1\">Endpoint for a resource that can be polled for state changes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Endpoints.Reactive.StreamingCollectionEndpoint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Endpoints.Reactive.StreamingCollectionEndpoint.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Endpoints.Reactive.StreamingCollectionEndpoint",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Endpoints.Reactive.StreamingCollectionEndpoint.yml\" sourcestartlinenumber=\"1\">Endpoint for a collection of entities observable as an append-only stream using long-polling.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Endpoints.Reactive.StreamingEndpoint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Endpoints.Reactive.StreamingEndpoint.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Endpoints.Reactive.StreamingEndpoint",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Endpoints.Reactive.StreamingEndpoint.yml\" sourcestartlinenumber=\"1\">Endpoint for a stream of entities using a persistent HTTP connection.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Endpoints.Reactive.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Endpoints.Reactive.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Endpoints.Reactive",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Endpoints.Rpc.ActionEndpoint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Endpoints.Rpc.ActionEndpoint.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Endpoints.Rpc.ActionEndpoint",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Endpoints.Rpc.ActionEndpoint.yml\" sourcestartlinenumber=\"1\">RPC endpoint that is invoked with no input or output.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Endpoints.Rpc.ConsumerEndpoint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Endpoints.Rpc.ConsumerEndpoint.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Endpoints.Rpc.ConsumerEndpoint",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Endpoints.Rpc.ConsumerEndpoint.yml\" sourcestartlinenumber=\"1\">RPC endpoint that takes an entity as input when invoked.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Endpoints.Rpc.FunctionEndpoint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Endpoints.Rpc.FunctionEndpoint.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Endpoints.Rpc.FunctionEndpoint",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Endpoints.Rpc.FunctionEndpoint.yml\" sourcestartlinenumber=\"1\">RPC endpoint that takes an entity as input and returns another entity as output when invoked.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Endpoints.Rpc.ProducerEndpoint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Endpoints.Rpc.ProducerEndpoint.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Endpoints.Rpc.ProducerEndpoint",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Endpoints.Rpc.ProducerEndpoint.yml\" sourcestartlinenumber=\"1\">RPC endpoint that returns an entity as output when invoked.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Endpoints.Rpc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Endpoints.Rpc.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Endpoints.Rpc",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Endpoints.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Endpoints.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Endpoints",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.KeyValuePairExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.KeyValuePairExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.KeyValuePairExtensions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.OpenApiDocumentExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.OpenApiDocumentExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.OpenApiDocumentExtensions",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.OpenApiDocumentExtensions.yml\" sourcestartlinenumber=\"1\">Provides extension methods for <xref href=\"Microsoft.OpenApi.Models.OpenApiDocument\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.OpenApiObjectExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.OpenApiObjectExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.OpenApiObjectExtensions",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.OpenApiObjectExtensions.yml\" sourcestartlinenumber=\"1\">Provides extension methods for <xref href=\"Microsoft.OpenApi.Any.OpenApiObject\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.OpenApiOperationExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.OpenApiOperationExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.OpenApiOperationExtensions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.OpenApiReaderSettingsExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.OpenApiReaderSettingsExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.OpenApiReaderSettingsExtensions",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.OpenApiReaderSettingsExtensions.yml\" sourcestartlinenumber=\"1\">Provides extension methods for <xref href=\"Microsoft.OpenApi.Readers.OpenApiReaderSettings\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.OpenApiReferenceableExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.OpenApiReferenceableExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.OpenApiReferenceableExtensions",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.OpenApiReferenceableExtensions.yml\" sourcestartlinenumber=\"1\">Provides extension methods for <xref href=\"Microsoft.OpenApi.Interfaces.IOpenApiReferenceable\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.OpenApiWriterExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.OpenApiWriterExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.OpenApiWriterExtensions",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.OpenApiWriterExtensions.yml\" sourcestartlinenumber=\"1\">Provides extension methods for <xref href=\"Microsoft.OpenApi.Writers.IOpenApiWriter\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Patterns.DefaultPattern.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Patterns.DefaultPattern.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Patterns.DefaultPattern",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Patterns.DefaultPattern.yml\" sourcestartlinenumber=\"1\">The default fallback pattern that is used if no other matches are found. Generates <xref href=\"TypedRest.CodeGeneration.Endpoints.Endpoint\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Patterns.Generic.CollectionPattern.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Patterns.Generic.CollectionPattern.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Patterns.Generic.CollectionPattern",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Patterns.Generic.CollectionPattern.yml\" sourcestartlinenumber=\"1\">A pattern that generates <xref href=\"TypedRest.CodeGeneration.Endpoints.Generic.CollectionEndpoint\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Patterns.Generic.ElementPattern.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Patterns.Generic.ElementPattern.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Patterns.Generic.ElementPattern",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Patterns.Generic.ElementPattern.yml\" sourcestartlinenumber=\"1\">A pattern that generates <xref href=\"TypedRest.CodeGeneration.Endpoints.Generic.ElementEndpoint\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Patterns.Generic.IndexerPattern.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Patterns.Generic.IndexerPattern.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Patterns.Generic.IndexerPattern",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Patterns.Generic.IndexerPattern.yml\" sourcestartlinenumber=\"1\">A pattern that generates <xref href=\"TypedRest.CodeGeneration.Endpoints.Generic.IndexerEndpoint\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Patterns.Generic.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Patterns.Generic.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Patterns.Generic",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Patterns.IPattern.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Patterns.IPattern.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Patterns.IPattern",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Patterns.IPattern.yml\" sourcestartlinenumber=\"1\">Generates <xref href=\"TypedRest.CodeGeneration.Endpoints.IEndpoint\" data-throw-if-not-resolved=\"false\"></xref>s from <xref href=\"TypedRest.CodeGeneration.Patterns.PathTree\" data-throw-if-not-resolved=\"false\"></xref>s if they match a specific pattern.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Patterns.IPatternMatcher.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Patterns.IPatternMatcher.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Patterns.IPatternMatcher",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Patterns.IPatternMatcher.yml\" sourcestartlinenumber=\"1\">Matches a set of <xref href=\"TypedRest.CodeGeneration.Patterns.IPattern\" data-throw-if-not-resolved=\"false\"></xref>s against a path tree.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Patterns.PathTree.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Patterns.PathTree.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Patterns.PathTree",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Patterns.PathTree.yml\" sourcestartlinenumber=\"1\">A tree-like structure organizing <xref href=\"Microsoft.OpenApi.Models.OpenApiPathItem\" data-throw-if-not-resolved=\"false\"></xref>s based on path prefixes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Patterns.PatternBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Patterns.PatternBase.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Patterns.PatternBase",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Patterns.PatternBase.yml\" sourcestartlinenumber=\"1\">Common base class for <xref href=\"TypedRest.CodeGeneration.Patterns.IPattern\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Patterns.PatternMatcher.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Patterns.PatternMatcher.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Patterns.PatternMatcher",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Patterns.PatternMatcher.yml\" sourcestartlinenumber=\"1\">Matches a set of <xref href=\"TypedRest.CodeGeneration.Patterns.IPattern\" data-throw-if-not-resolved=\"false\"></xref>s against a path tree.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Patterns.PatternRegistry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Patterns.PatternRegistry.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Patterns.PatternRegistry",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Patterns.PatternRegistry.yml\" sourcestartlinenumber=\"1\">An ordered list of all known <xref href=\"TypedRest.CodeGeneration.Patterns.IPattern\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Patterns.Raw.BlobPattern.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Patterns.Raw.BlobPattern.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Patterns.Raw.BlobPattern",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Patterns.Raw.BlobPattern.yml\" sourcestartlinenumber=\"1\">A pattern that generates <xref href=\"TypedRest.CodeGeneration.Endpoints.Raw.BlobEndpoint\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Patterns.Raw.UploadPattern.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Patterns.Raw.UploadPattern.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Patterns.Raw.UploadPattern",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Patterns.Raw.UploadPattern.yml\" sourcestartlinenumber=\"1\">A pattern that generates <xref href=\"TypedRest.CodeGeneration.Endpoints.Raw.UploadEndpoint\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Patterns.Raw.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Patterns.Raw.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Patterns.Raw",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Patterns.Rpc.ActionPattern.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Patterns.Rpc.ActionPattern.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Patterns.Rpc.ActionPattern",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Patterns.Rpc.ActionPattern.yml\" sourcestartlinenumber=\"1\">A pattern that generates <xref href=\"TypedRest.CodeGeneration.Endpoints.Rpc.ActionEndpoint\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Patterns.Rpc.ConsumerPattern.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Patterns.Rpc.ConsumerPattern.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Patterns.Rpc.ConsumerPattern",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Patterns.Rpc.ConsumerPattern.yml\" sourcestartlinenumber=\"1\">A pattern that generates <xref href=\"TypedRest.CodeGeneration.Endpoints.Rpc.ConsumerEndpoint\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Patterns.Rpc.FunctionPattern.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Patterns.Rpc.FunctionPattern.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Patterns.Rpc.FunctionPattern",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Patterns.Rpc.FunctionPattern.yml\" sourcestartlinenumber=\"1\">A pattern that generates <xref href=\"TypedRest.CodeGeneration.Endpoints.Rpc.FunctionEndpoint\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Patterns.Rpc.ProducerPattern.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Patterns.Rpc.ProducerPattern.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Patterns.Rpc.ProducerPattern",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Patterns.Rpc.ProducerPattern.yml\" sourcestartlinenumber=\"1\">A pattern that generates <xref href=\"TypedRest.CodeGeneration.Endpoints.Rpc.ProducerEndpoint\" data-throw-if-not-resolved=\"false\"></xref>s.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Patterns.Rpc.RpcPatternBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Patterns.Rpc.RpcPatternBase.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Patterns.Rpc.RpcPatternBase",
+      "Summary": "<p sourcefile=\"api/TypedRest.CodeGeneration.Patterns.Rpc.RpcPatternBase.yml\" sourcestartlinenumber=\"1\">Common base class for patterns that produce RPC endpoints.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Patterns.Rpc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Patterns.Rpc.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Patterns.Rpc",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.Patterns.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.Patterns.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration.Patterns",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/TypedRest.CodeGeneration.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/TypedRest.CodeGeneration.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "TypedRest.CodeGeneration",
+      "Summary": "<p sourcefile=\"../src/TypedRest.CodeGeneration/_Namespace.md\" sourcestartlinenumber=\"1\">Parses <a href=\"https://swagger.io/resources/open-api/\" sourcefile=\"../src/TypedRest.CodeGeneration/_Namespace.md\" sourcestartlinenumber=\"1\">OpenAPI/Swagger</a> documents and infers <a href=\"https://typedrest.net/endpoints/\" sourcefile=\"../src/TypedRest.CodeGeneration/_Namespace.md\" sourcestartlinenumber=\"1\">TypedRest Endpoints</a> from patterns in the described paths.</p>\n"
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html"
+        },
+        ".json": {
+          "relative_path": "api/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html"
+        },
+        ".json": {
+          "relative_path": "toc.json"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

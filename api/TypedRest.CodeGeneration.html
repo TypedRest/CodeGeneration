@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Namespace TypedRest.CodeGeneration | TypedRest Code Generation </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Namespace TypedRest.CodeGeneration | TypedRest Code Generation ">
+      
+      <meta name="description" content="Parses OpenAPI/Swagger documents and infers TypedRest Endpoints from patterns in the described paths.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/TypedRest/CodeGeneration/blob/0.1.0/src/TypedRest.CodeGeneration/_Namespace.md/#L2">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="TypedRest.CodeGeneration">
+
+  <h1 id="TypedRest_CodeGeneration" data-uid="TypedRest.CodeGeneration" class="text-break">Namespace TypedRest.CodeGeneration</h1>
+  <div class="markdown level0 summary"><p>Parses <a href="https://swagger.io/resources/open-api/">OpenAPI/Swagger</a> documents and infers <a href="https://typedrest.net/endpoints/">TypedRest Endpoints</a> from patterns in the described paths.</p>
+</div>
+  <div class="markdown level0 conceptual">
+<div class="NOTE">
+<h5>Note</h5>
+<p>NuGet package: <a href="https://www.nuget.org/packages/TypedRest.CodeGeneration/">TypedRest.CodeGeneration</a></p>
+</div>
+<h2 id="usage">Usage</h2>
+<p>Register the <code>x-typedrest</code> extension parser when reading a document, then either read the endpoints the document already describes or infer them from its paths:</p>
+<pre><code class="lang-csharp">var reader = new OpenApiStreamReader(new OpenApiReaderSettings().AddTypedRest());
+var doc = reader.Read(File.OpenRead(&quot;myapi.yml&quot;), out _);
+
+EntryEndpoint endpoints = doc.GetTypedRest() ?? doc.MatchTypedRestPatterns();
+</code></pre>
+<p><a class="xref" href="TypedRest.CodeGeneration.OpenApiDocumentExtensions.html#TypedRest_CodeGeneration_OpenApiDocumentExtensions_MatchTypedRestPatterns_">MatchTypedRestPatterns</a> arranges the paths into a tree and matches each node against the patterns in <a class="xref" href="TypedRest.CodeGeneration.Patterns.PatternRegistry.html#TypedRest_CodeGeneration_Patterns_PatternRegistry_Default">PatternRegistry.Default</a>. Write the result back into the document with <a class="xref" href="TypedRest.CodeGeneration.OpenApiDocumentExtensions.html#TypedRest_CodeGeneration_OpenApiDocumentExtensions_SetTypedRest_">SetTypedRest</a> to persist or hand-edit it.</p>
+<h2 id="extension-points">Extension points</h2>
+<p>Implement <a class="xref" href="TypedRest.CodeGeneration.Patterns.IPattern.html">IPattern</a> and add it to a <a class="xref" href="TypedRest.CodeGeneration.Patterns.PatternRegistry.html">PatternRegistry</a> to recognize path shapes of your own:</p>
+<pre><code class="lang-csharp">var patterns = PatternRegistry.Default.Add(new MyPattern());
+var endpoints = doc.MatchTypedRestPatterns(patterns);
+</code></pre>
+<p>Patterns added later take precedence; the first one that matches a node wins.</p>
+<p>Implement <a class="xref" href="TypedRest.CodeGeneration.Endpoints.IEndpoint.html">IEndpoint</a> and add it to an <a class="xref" href="TypedRest.CodeGeneration.Endpoints.EndpointRegistry.html">EndpointRegistry</a> to introduce a new endpoint kind, then pass the registry to <a class="xref" href="TypedRest.CodeGeneration.OpenApiReaderSettingsExtensions.html#TypedRest_CodeGeneration_OpenApiReaderSettingsExtensions_AddTypedRest_">AddTypedRest</a> so that <code>x-typedrest</code> extensions using that kind can be parsed.</p>
+<h2 id="api">API</h2>
+</div>
+  <div class="markdown level0 remarks"></div>
+
+    <h3 id="namespaces">
+Namespaces
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="TypedRest.CodeGeneration.CSharp.html">TypedRest.CodeGeneration.CSharp</a></dt>
+      <dd><p>Generates C# source code for <a href="https://github.com/TypedRest/TypedRest-DotNet">TypedRest .NET</a> clients from <a href="https://swagger.io/resources/open-api/">OpenAPI/Swagger</a> documents.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="TypedRest.CodeGeneration.Endpoints.html">TypedRest.CodeGeneration.Endpoints</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="TypedRest.CodeGeneration.Patterns.html">TypedRest.CodeGeneration.Patterns</a></dt>
+      <dd></dd>
+    </dl>
+    <h3 id="classes">
+Classes
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="TypedRest.CodeGeneration.DictionaryExtensions.html">DictionaryExtensions</a></dt>
+      <dd><p>Provides extension methods for <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2">IDictionary&lt;TKey, TValue&gt;</a>s.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="TypedRest.CodeGeneration.KeyValuePairExtensions.html">KeyValuePairExtensions</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="TypedRest.CodeGeneration.OpenApiDocumentExtensions.html">OpenApiDocumentExtensions</a></dt>
+      <dd><p>Provides extension methods for <a class="xref" href="https://github.com/microsoft/OpenAPI.NET/blob/0.1.0/src/Microsoft.OpenApi/Models/OpenApiDocument.cs">OpenApiDocument</a>s.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="TypedRest.CodeGeneration.OpenApiObjectExtensions.html">OpenApiObjectExtensions</a></dt>
+      <dd><p>Provides extension methods for <a class="xref" href="https://github.com/microsoft/OpenAPI.NET/blob/0.1.0/src/Microsoft.OpenApi/Any/OpenApiObject.cs">OpenApiObject</a>s.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="TypedRest.CodeGeneration.OpenApiOperationExtensions.html">OpenApiOperationExtensions</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="TypedRest.CodeGeneration.OpenApiReaderSettingsExtensions.html">OpenApiReaderSettingsExtensions</a></dt>
+      <dd><p>Provides extension methods for <a class="xref" href="https://github.com/microsoft/OpenAPI.NET/blob/0.1.0/src/Microsoft.OpenApi.Readers/OpenApiReaderSettings.cs">OpenApiReaderSettings</a>s.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="TypedRest.CodeGeneration.OpenApiReferenceableExtensions.html">OpenApiReferenceableExtensions</a></dt>
+      <dd><p>Provides extension methods for <a class="xref" href="https://github.com/microsoft/OpenAPI.NET/blob/0.1.0/src/Microsoft.OpenApi/Interfaces/IOpenApiReferenceable.cs">IOpenApiReferenceable</a>s.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="TypedRest.CodeGeneration.OpenApiWriterExtensions.html">OpenApiWriterExtensions</a></dt>
+      <dd><p>Provides extension methods for <a class="xref" href="https://github.com/microsoft/OpenAPI.NET/blob/0.1.0/src/Microsoft.OpenApi/Writers/IOpenApiWriter.cs">IOpenApiWriter</a>s.</p>
+</dd>
+    </dl>
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/TypedRest/CodeGeneration/blob/0.1.0/src/TypedRest.CodeGeneration/_Namespace.md/#L2" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
