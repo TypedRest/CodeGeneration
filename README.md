@@ -19,10 +19,10 @@ For further information take a look a the **[Documentation](https://typedrest.ne
 
 If you want to generate clients for more complex APIs you may need to add custom code. You can do this by creating your own command-line tools and using these NuGet packages:
 
-[![TypedRest.OpenApi](https://img.shields.io/nuget/v/TypedRest.OpenApi.svg?label=TypedRest.OpenApi)](https://www.nuget.org/packages/TypedRest.OpenApi/)  
+[![TypedRest.CodeGeneration](https://img.shields.io/nuget/v/TypedRest.CodeGeneration.svg?label=TypedRest.CodeGeneration)](https://www.nuget.org/packages/TypedRest.CodeGeneration/)  
 Parses OpenAPI/Swagger documents and infers TypedRest Endpoints from patterns.
 
-[![TypedRest.OpenApi.CSharp](https://img.shields.io/nuget/v/TypedRest.OpenApi.CSharp.svg?label=TypedRest.OpenApi.CSharp)](https://www.nuget.org/packages/TypedRest.OpenApi.CSharp/)  
+[![TypedRest.CodeGeneration.CSharp](https://img.shields.io/nuget/v/TypedRest.CodeGeneration.CSharp.svg?label=TypedRest.CodeGeneration.CSharp)](https://www.nuget.org/packages/TypedRest.CodeGeneration.CSharp/)  
 Generates C# source code for [TypedRest .NET](https://github.com/TypedRest/TypedRest-DotNet) clients from OpenAPI/Swagger documents.
 
 For further information take a look a the **[API Documentation](https://code-generation.typedrest.net/)**.
