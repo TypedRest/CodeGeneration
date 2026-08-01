@@ -1,7 +1,8 @@
 # ![TypedRest](https://raw.githubusercontent.com/TypedRest/TypedRest-DotNet/master/logo.svg) Code Generation
 
-[![Build](https://github.com/TypedRest/CodeGeneration/actions/workflows/build.yml/badge.svg)](https://github.com/TypedRest/CodeGeneration/actions/workflows/build.yml)  
-Tool that automatically infers [TypedRest Endpoints](https://typedrest.net/endpoints/) from patterns in [OpenAPI/Swagger](https://swagger.io/resources/open-api/) documents and generates source code for TypedRest clients.
+[![Build](https://github.com/TypedRest/CodeGeneration/actions/workflows/build.yml/badge.svg)](https://github.com/TypedRest/CodeGeneration/actions/workflows/build.yml)
+[![API documentation](https://img.shields.io/badge/api-docs-orange.svg)](https://code-generation.typedrest.net/)  
+Tool that automatically infers [TypedRest Endpoints](https://typedrest.net/endpoints/) from patterns in [OpenAPI/Swagger](https://swagger.io/resources/open-api/) documents and generates source code for TypedRest clients. It currently only supports generating C# clients.
 
 ## Command-line tool
 
