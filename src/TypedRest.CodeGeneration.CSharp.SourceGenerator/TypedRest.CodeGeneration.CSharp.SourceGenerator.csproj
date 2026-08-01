@@ -37,7 +37,7 @@
     <AdditionalFiles Include="AnalyzerReleases.Unshipped.md" />
   </ItemGroup>
 
-  <!-- MSBuild integration files (Update instead of Include because the default None glob already covers them) -->
+  <!-- MSBuild integration files -->
   <ItemGroup>
     <None Update="build\$(MSBuildProjectName).props" Pack="true" PackagePath="build\$(MSBuildProjectName).props" />
     <None Update="build\$(MSBuildProjectName).targets" Pack="true" PackagePath="build\$(MSBuildProjectName).targets" />
