@@ -1,0 +1,13 @@
+<Project>
+
+  <!-- Hand the spec files to the compiler, which in turn hands them to the generator.
+       Done during evaluation (this file is imported after the project body) because the metadata has to be in place
+       before GenerateMSBuildEditorConfigFile runs, which is what makes it visible to the compiler. -->
+  <ItemGroup>
+    <AdditionalFiles Include="@(TypedRestOpenApi)" />
+
+    <!-- Re-run the compiler when a spec file changes (fast up-to-date check in Visual Studio) -->
+    <UpToDateCheckInput Include="@(TypedRestOpenApi)" />
+  </ItemGroup>
+
+</Project>

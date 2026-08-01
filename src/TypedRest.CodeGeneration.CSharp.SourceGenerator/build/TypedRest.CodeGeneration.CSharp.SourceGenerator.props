@@ -1,0 +1,32 @@
+<Project>
+
+  <!-- Marks every TypedRestOpenApi item, so the generator can tell them apart from other AdditionalFiles -->
+  <ItemDefinitionGroup>
+    <TypedRestOpenApi>
+      <IsTypedRestSpec>true</IsTypedRestSpec>
+    </TypedRestOpenApi>
+  </ItemDefinitionGroup>
+
+  <!-- Make MSBuild properties readable by the generator via build_property.* -->
+  <ItemGroup>
+    <CompilerVisibleProperty Include="RootNamespace" />
+    <CompilerVisibleProperty Include="TypedRestServiceName" />
+    <CompilerVisibleProperty Include="TypedRestNamespace" />
+    <CompilerVisibleProperty Include="TypedRestDtoNamespace" />
+    <CompilerVisibleProperty Include="TypedRestGenerateInterfaces" />
+    <CompilerVisibleProperty Include="TypedRestGenerateDtos" />
+    <CompilerVisibleProperty Include="TypedRestLangVersion" />
+  </ItemGroup>
+
+  <!-- Make TypedRestOpenApi item metadata readable by the generator via build_metadata.TypedRestOpenApi.* -->
+  <ItemGroup>
+    <CompilerVisibleItemMetadata Include="TypedRestOpenApi" MetadataName="IsTypedRestSpec" />
+    <CompilerVisibleItemMetadata Include="TypedRestOpenApi" MetadataName="ServiceName" />
+    <CompilerVisibleItemMetadata Include="TypedRestOpenApi" MetadataName="Namespace" />
+    <CompilerVisibleItemMetadata Include="TypedRestOpenApi" MetadataName="DtoNamespace" />
+    <CompilerVisibleItemMetadata Include="TypedRestOpenApi" MetadataName="GenerateInterfaces" />
+    <CompilerVisibleItemMetadata Include="TypedRestOpenApi" MetadataName="GenerateDtos" />
+    <CompilerVisibleItemMetadata Include="TypedRestOpenApi" MetadataName="LangVersion" />
+  </ItemGroup>
+
+</Project>

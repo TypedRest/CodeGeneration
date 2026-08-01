@@ -1,0 +1,78 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Project properties -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>TypedRest.CodeGeneration.CSharp</RootNamespace>
+    <Summary>Roslyn source generator for TypedRest clients from OpenAPI/Swagger</Summary>
+    <Description>Generates C# source code for TypedRest .NET clients from OpenAPI/Swagger documents at compile time.</Description>
+    <PackageTags>Typed REST OpenAPI Swagger CodeGen C# Roslyn SourceGenerator</PackageTags>
+    <OutputPath>..\..\artifacts\$(Configuration)\</OutputPath>
+  </PropertyGroup>
+
+  <!-- Roslyn component packaging -->
+  <PropertyGroup>
+    <IsRoslynComponent>true</IsRoslynComponent>
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <IncludeSymbols>False</IncludeSymbols><!-- Overrides Directory.Build.props; without lib/ the symbol package would be empty -->
+    <NoWarn>$(NoWarn);NU5128</NoWarn><!-- No lib/ref assets; expected for analyzer-only packages -->
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies><!-- An analyzer must ship its dependencies alongside it -->
+  </PropertyGroup>
+
+  <!-- Dependencies -->
+  <ItemGroup>
+    <ProjectReference Include="..\TypedRest.CodeGeneration.CSharp\TypedRest.CodeGeneration.CSharp.csproj" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Provided by the compiler hosting the generator, so compile-time only -->
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.6.0" PrivateAssets="all" ExcludeAssets="runtime" />
+  </ItemGroup>
+
+  <!-- Analyzer release tracking (RS2008) -->
+  <ItemGroup>
+    <AdditionalFiles Include="AnalyzerReleases.Shipped.md" />
+    <AdditionalFiles Include="AnalyzerReleases.Unshipped.md" />
+  </ItemGroup>
+
+  <!-- MSBuild integration files (Update instead of Include because the default None glob already covers them) -->
+  <ItemGroup>
+    <None Update="build\$(MSBuildProjectName).props" Pack="true" PackagePath="build\$(MSBuildProjectName).props" />
+    <None Update="build\$(MSBuildProjectName).targets" Pack="true" PackagePath="build\$(MSBuildProjectName).targets" />
+  </ItemGroup>
+
+  <!-- The assemblies that make up the analyzer. Evaluated inside a target so that $(OutDir) includes the target framework. -->
+  <Target Name="_CollectTypedRestAnalyzerAssemblies">
+    <ItemGroup>
+      <TypedRestAnalyzerAssembly Include="$(OutDir)TypedRest.CodeGeneration.dll" />
+      <TypedRestAnalyzerAssembly Include="$(OutDir)TypedRest.CodeGeneration.CSharp.dll" />
+      <TypedRestAnalyzerAssembly Include="$(OutDir)NanoByte.CodeGeneration.dll" />
+      <TypedRestAnalyzerAssembly Include="$(OutDir)Microsoft.OpenApi.dll" />
+      <TypedRestAnalyzerAssembly Include="$(OutDir)Microsoft.OpenApi.Readers.dll" />
+      <TypedRestAnalyzerAssembly Include="$(OutDir)SharpYaml.dll" />
+    </ItemGroup>
+  </Target>
+
+  <!-- Pack the generator and its private dependencies, but not Microsoft.CodeAnalysis.* -->
+  <PropertyGroup>
+    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);_PackTypedRestAnalyzer</TargetsForTfmSpecificContentInPackage>
+  </PropertyGroup>
+  <Target Name="_PackTypedRestAnalyzer" DependsOnTargets="_CollectTypedRestAnalyzerAssemblies">
+    <ItemGroup>
+      <TfmSpecificPackageFile Include="$(TargetPath);@(TypedRestAnalyzerAssembly)" PackagePath="analyzers/dotnet/cs/" />
+    </ItemGroup>
+  </Target>
+
+  <!-- Also flow the dependencies when this project is referenced with OutputItemType="Analyzer" -->
+  <PropertyGroup>
+    <GetTargetPathDependsOn>$(GetTargetPathDependsOn);_AddTypedRestAnalyzerDependencies</GetTargetPathDependsOn>
+  </PropertyGroup>
+  <Target Name="_AddTypedRestAnalyzerDependencies" DependsOnTargets="_CollectTypedRestAnalyzerAssemblies">
+    <ItemGroup>
+      <TargetPathWithTargetPlatformMoniker Include="@(TypedRestAnalyzerAssembly)" IncludeRuntimeDependency="false" />
+    </ItemGroup>
+  </Target>
+
+</Project>

@@ -8,6 +8,15 @@ namespace TypedRest.CodeGeneration.CSharp;
 
 public static class OpenApiDocumentExtensions
 {
+    public static IEnumerable<ICSharpType> GenerateTypedRest(this OpenApiDocument doc, GenerationOptions options, PatternRegistry? patterns = null, BuilderRegistry? builders = null)
+    {
+        var naming = options.NamingStrategy();
+        var types = doc.GenerateTypedRestEndpoints(naming, options.GenerateInterfaces, patterns, builders);
+        return options.GenerateDtos
+            ? types.Concat(doc.GenerateDtos(naming, options.LanguageVersion))
+            : types;
+    }
+
     public static IEnumerable<ICSharpType> GenerateTypedRestEndpoints(this OpenApiDocument doc, INamingStrategy naming, bool withInterfaces = true, PatternRegistry? patterns = null, BuilderRegistry? builders = null)
     {
         var generator = new EndpointGenerator(naming, builders ?? BuilderRegistry.Default)

@@ -13,6 +13,40 @@ You can now use the `typedrest-codegen` command-line tool:
 
     typedrest-codegen generate -f myapi.yml -o myclient/ -s MyService --generate-interfaces --generate-dtos
 
+## Source generator
+
+As an alternative to writing the generated code to disk you can generate the client during compilation:
+
+    dotnet add package TypedRest.CodeGeneration.CSharp.SourceGenerator
+
+Then reference the OpenAPI/Swagger document from your project file:
+
+```xml
+<ItemGroup>
+  <TypedRestOpenApi Include="myapi.yml" ServiceName="MyService" Namespace="MyCompany.MyService" />
+</ItemGroup>
+```
+
+The following metadata is supported. Each of them can also be set as an MSBuild property (prefixed with `TypedRest`, e.g. `$(TypedRestServiceName)`) to provide a default for all spec files in a project.
+
+| Metadata             | Description                                                  | Default                               |
+| -------------------- | ------------------------------------------------------------ | ------------------------------------- |
+| `ServiceName`        | The service name to use for the entry endpoint. Required.    |                                       |
+| `Namespace`          | The C# namespace for the endpoints.                          | `$(RootNamespace)`, else service name |
+| `DtoNamespace`       | The C# namespace for the DTOs.                               | the endpoint namespace                |
+| `GenerateInterfaces` | Controls whether to generate interfaces for endpoints.       | `true`                                |
+| `GenerateDtos`       | Controls whether to generate DTOs.                           | `true`                                |
+| `LangVersion`        | The minimum C# version the generated DTOs must compile with. | the project's `$(LangVersion)`        |
+
+Note that `GenerateInterfaces` and `GenerateDtos` default to `true` here, while the command-line tool requires them to be turned on explicitly. Generated endpoints reference the DTO types by name, so turning `GenerateDtos` off means you have to provide those types yourself.
+
+To inspect the generated code set `<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>`; the files are then written to `obj/`.
+
+Limitations:
+
+- The source generator runs inside the compiler, so it requires a .NET SDK that ships Roslyn 5.6 or newer (.NET SDK 10.0.302+). Use the command-line tool for older toolchains.
+- Only local `$ref`s are resolved. Bundle multi-file specs into a single document first.
+
 ## Custom code
 
 If you want to generate clients for more complex APIs you may need to add custom code. You can do this by creating your own command-line tools and using these NuGet packages:

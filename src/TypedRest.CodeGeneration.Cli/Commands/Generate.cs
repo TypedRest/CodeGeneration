@@ -38,13 +38,15 @@ public class Generate : CommandBase
         }
 
         var (doc, _) = ReadDoc();
-        var naming = new NamingStrategy(ServiceName, Namespace ?? ServiceName, DtoNamespace ?? Namespace ?? ServiceName);
 
-        var types = doc.GenerateTypedRestEndpoints(naming, GenerateInterfaces);
-        if (GenerateDtos)
-            types = types.Concat(doc.GenerateDtos(naming, languageVersion));
-
-        WriteSource(types);
+        WriteSource(doc.GenerateTypedRest(new(ServiceName)
+        {
+            Namespace = Namespace,
+            DtoNamespace = DtoNamespace,
+            GenerateInterfaces = GenerateInterfaces,
+            GenerateDtos = GenerateDtos,
+            LanguageVersion = languageVersion
+        }));
 
         return 0;
     }

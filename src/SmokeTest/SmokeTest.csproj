@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Project properties -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>SmokeTest</RootNamespace>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <IsPackable>False</IsPackable>
+    <GenerateDocumentationFile>False</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <!-- This project consumes the generated client, not the OpenAPI model, so drop the shared global usings -->
+  <ItemGroup>
+    <Using Remove="Microsoft.OpenApi;Microsoft.OpenApi.Any;Microsoft.OpenApi.Extensions;Microsoft.OpenApi.Interfaces;Microsoft.OpenApi.Models;Microsoft.OpenApi.Readers;Microsoft.OpenApi.Writers" />
+  </ItemGroup>
+
+  <!-- Dependencies -->
+  <ItemGroup>
+    <ProjectReference Include="..\TypedRest.CodeGeneration.CSharp.SourceGenerator\TypedRest.CodeGeneration.CSharp.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="False" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="TypedRest" Version="1.6.5" />
+  </ItemGroup>
+
+  <!-- Simulates what consumers get from the NuGet package -->
+  <Import Project="..\TypedRest.CodeGeneration.CSharp.SourceGenerator\build\TypedRest.CodeGeneration.CSharp.SourceGenerator.props" />
+
+  <ItemGroup>
+    <TypedRestOpenApi Include="..\UnitTests\sample-v3.yml" ServiceName="Sample" Namespace="SmokeTest.Client" />
+  </ItemGroup>
+
+  <!-- Simulates what consumers get from the NuGet package -->
+  <Import Project="..\TypedRest.CodeGeneration.CSharp.SourceGenerator\build\TypedRest.CodeGeneration.CSharp.SourceGenerator.targets" />
+
+</Project>
