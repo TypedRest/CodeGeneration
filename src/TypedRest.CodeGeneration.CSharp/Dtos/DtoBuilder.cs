@@ -44,6 +44,7 @@ public abstract class DtoBuilder(string key, OpenApiSchema schema, INamingStrate
         var type = BuildTypeInner();
         type.Summary = Schema.Description;
         type.Attributes.Add(Attributes.GeneratedCode);
+        if (Schema.Deprecated) type.Attributes.Add(Attributes.Obsolete);
         type.NullableContext = NullableReferenceTypes;
         return type;
     }

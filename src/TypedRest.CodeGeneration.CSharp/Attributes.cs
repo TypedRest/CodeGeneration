@@ -25,6 +25,9 @@ internal static class Attributes
             }
         };
 
+    public static CSharpAttribute Obsolete
+        => new(new CSharpIdentifier("System", "ObsoleteAttribute"));
+
     public static CSharpAttribute Required
         => new(new CSharpIdentifier("System.ComponentModel.DataAnnotations", "RequiredAttribute"));
 

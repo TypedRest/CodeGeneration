@@ -58,6 +58,9 @@ public class DtoClassBuilder(string key, OpenApiSchema schema, INamingStrategy n
                 property.InitializerExpression = "null!";
         }
 
+        if (schema is {Deprecated: true})
+            property.Attributes.Add(Attributes.Obsolete);
+
         return property;
     }
 
