@@ -3,17 +3,15 @@
 [![Build](https://github.com/TypedRest/CodeGeneration/actions/workflows/build.yml/badge.svg)](https://github.com/TypedRest/CodeGeneration/actions/workflows/build.yml)  
 Tool that automatically infers [TypedRest Endpoints](https://typedrest.net/endpoints/) from patterns in [OpenAPI/Swagger](https://swagger.io/resources/open-api/) documents and generates source code for TypedRest clients.
 
-## Usage
+## Command-line tool
 
-Make sure you have the [.NET SDK 8.0+](https://dotnet.microsoft.com/download) installed and run:
+Make sure you have the [.NET SDK](https://dotnet.microsoft.com/download) installed and run:
 
     dotnet tool install -g typedrest-codegen
 
 You can now use the `typedrest-codegen` command-line tool:
 
-    typedrest-codegen generate -f myapi.yml -o myclient/
-
-For further information take a look a the **[Documentation](https://typedrest.net/code-generation/)**.
+    typedrest-codegen generate -f myapi.yml -o myclient/ -s MyService --generate-interfaces --generate-dtos
 
 ## Custom code
 
