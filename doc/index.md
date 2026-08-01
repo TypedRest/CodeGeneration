@@ -21,12 +21,21 @@ foreach (var type in doc.GenerateTypedRest(new GenerationOptions("MyService")
     type.WriteToDirectory("myclient/");
 ```
 
-**NuGet packages**
+## NuGet packages
 
-[TypedRest.CodeGeneration](https://www.nuget.org/packages/TypedRest.CodeGeneration/)  
-Parses OpenAPI/Swagger documents and infers TypedRest Endpoints from patterns.  
-Start at <xref:TypedRest.CodeGeneration.OpenApiDocumentExtensions.MatchTypedRestPatterns*>. The inferred structure is a tree of <xref:TypedRest.CodeGeneration.Endpoints.IEndpoint>s, built by the <xref:TypedRest.CodeGeneration.Patterns.IPattern>s in a <xref:TypedRest.CodeGeneration.Patterns.PatternRegistry>.
+| Package                                                                                                                            | Namespace                              | Description                                                                                                                |
+| ---------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| [TypedRest.CodeGeneration](https://www.nuget.org/packages/TypedRest.CodeGeneration/)                                               | <xref:TypedRest.CodeGeneration>        | Parses OpenAPI/Swagger documents and infers TypedRest Endpoints from patterns.                                             |
+| [TypedRest.CodeGeneration.CSharp](https://www.nuget.org/packages/TypedRest.CodeGeneration.CSharp/)                                 | <xref:TypedRest.CodeGeneration.CSharp> | Generates C# source code for TypedRest .NET clients from OpenAPI/Swagger documents.                                        |
+| [TypedRest.CodeGeneration.CSharp.SourceGenerator](https://www.nuget.org/packages/TypedRest.CodeGeneration.CSharp.SourceGenerator/) |                                        | Roslyn [source generator](https://typedrest.net/code-generation/source-generator/) that builds clients during compilation. |
+| [typedrest-codegen](https://www.nuget.org/packages/typedrest-codegen/)                                                             |                                        | [Command-line tool](https://typedrest.net/code-generation/cli/) that writes the generated code to disk.                    |
 
-[TypedRest.CodeGeneration.CSharp](https://www.nuget.org/packages/TypedRest.CodeGeneration.CSharp/)  
-Generates C# source code for [TypedRest .NET](https://github.com/TypedRest/TypedRest-DotNet) clients from OpenAPI/Swagger documents.  
-Start at <xref:TypedRest.CodeGeneration.CSharp.OpenApiDocumentExtensions.GenerateTypedRest*>, configured via <xref:TypedRest.CodeGeneration.CSharp.GenerationOptions>. Change the emitted code with the builders in a <xref:TypedRest.CodeGeneration.CSharp.Endpoints.BuilderRegistry>, or the generated names with a <xref:TypedRest.CodeGeneration.CSharp.NamingStrategy>.
+### Dependencies
+
+```mermaid
+flowchart TD
+    cli["typedrest-codegen"] --> csharp
+    sourcegen["TypedRest.CodeGeneration.CSharp.<br>SourceGenerator"] --> csharp
+    csharp["TypedRest.CodeGeneration.<br>CSharp"] --> core
+    core["TypedRest.CodeGeneration"]
+```
