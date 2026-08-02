@@ -40,7 +40,7 @@ public class GenerationOptions(string serviceName)
     public bool GenerateEntryConstructor { get; set; } = true;
 
     /// <summary>
-    /// The minimum C# version the generated DTOs must compile with.
+    /// The minimum C# version the generated code must compile with.
     /// </summary>
     public LanguageVersion LanguageVersion { get; set; } = LanguageVersion.Latest;
 

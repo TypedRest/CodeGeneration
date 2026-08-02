@@ -24,14 +24,14 @@ For a walkthrough see the **[usage guide](https://typedrest.net/code-generation/
 
 Each `TypedRestOpenApi` item supports the following metadata. Each can also be set as an MSBuild property (prefixed with `TypedRest`, e.g. `$(TypedRestServiceName)`) to provide a default for all spec files in a project.
 
-| Metadata                   | Description                                                        | Default                               |
-| -------------------------- | ------------------------------------------------------------------ | ------------------------------------- |
-| `ServiceName`              | The service name to use for the entry endpoint. Required.          |                                       |
-| `Namespace`                | The C# namespace for the endpoints.                                | `$(RootNamespace)`, else service name |
-| `DtoNamespace`             | The C# namespace for the DTOs.                                     | the endpoint namespace                |
-| `GenerateInterfaces`       | Controls whether to generate interfaces for endpoints.             | `true`                                |
-| `GenerateDtos`             | Controls whether to generate DTOs.                                 | `true`                                |
-| `GenerateEntryConstructor` | Controls whether the entry endpoint gets a constructor taking the base URI. | `true`                       |
+| Metadata                   | Description                                                                 | Default                               |
+| -------------------------- | --------------------------------------------------------------------------- | ------------------------------------- |
+| `ServiceName`              | The service name to use for the entry endpoint. Required.                   |                                       |
+| `Namespace`                | The C# namespace for the endpoints.                                         | `$(RootNamespace)`, else service name |
+| `DtoNamespace`             | The C# namespace for the DTOs.                                              | the endpoint namespace                |
+| `GenerateInterfaces`       | Controls whether to generate interfaces for endpoints.                      | `true`                                |
+| `GenerateDtos`             | Controls whether to generate DTOs.                                          | `true`                                |
+| `GenerateEntryConstructor` | Controls whether the entry endpoint gets a constructor taking the base URI. | `true`                                |
 
 Note that `GenerateInterfaces` and `GenerateDtos` default to `true` here, while the [command-line tool](https://www.nuget.org/packages/typedrest-codegen/) requires them to be turned on explicitly. Generated endpoints reference the DTO types by name, so turning `GenerateDtos` off means you have to provide those types yourself.
 
@@ -60,13 +60,13 @@ To inspect the generated code set `<EmitCompilerGeneratedFiles>true</EmitCompile
 
 ## Diagnostics
 
-| ID        | Severity | Meaning                                                                            |
-| --------- | -------- | ---------------------------------------------------------------------------------- |
+| ID        | Severity | Meaning                                                                                   |
+| --------- | -------- | ----------------------------------------------------------------------------------------- |
 | `TRCG001` | Error    | A `TypedRestOpenApi` item has no `ServiceName` and no `$(TypedRestServiceName)` fallback. |
-| `TRCG002` | Error    | The OpenAPI document contains an error.                                            |
-| `TRCG003` | Warning  | The OpenAPI document contains something questionable.                              |
-| `TRCG004` | Error    | Code generation failed for a document.                                             |
-| `TRCG005` | Warning  | The content of a spec file could not be read.                                      |
+| `TRCG002` | Error    | The OpenAPI document contains an error.                                                   |
+| `TRCG003` | Warning  | The OpenAPI document contains something questionable.                                     |
+| `TRCG004` | Error    | Code generation failed for a document.                                                    |
+| `TRCG005` | Warning  | The content of a spec file could not be read.                                             |
 
 ## Limitations
 

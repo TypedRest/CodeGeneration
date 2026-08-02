@@ -25,8 +25,8 @@ Generates a TypedRest client.
 | `--dto-namespace`                 | The C# namespace for the DTOs.                                                                                            | the endpoint namespace |
 | `--generate-interfaces`           | Also generate interfaces for the endpoints.                                                                               | off                    |
 | `--generate-dtos`                 | Also generate DTOs for the schemas in the document.                                                                       | off                    |
-| `--generate-entry-constructor`    | Give the entry endpoint a constructor taking the base URI. Pass `false` to write your own in a partial class.              | on                     |
-| `--lang-version`                  | The minimum C# version the generated DTOs must compile with, using the same values as the MSBuild `LangVersion` property. | `latest`               |
+| `--generate-entry-constructor`    | Give the entry endpoint a constructor taking the base URI. Pass `false` to write your own in a partial class.             | on                     |
+| `--lang-version`                  | The minimum C# version the generated code must compile with, using the same values as the MSBuild `LangVersion` property. | `latest`               |
 
 Unlike the [source generator](https://www.nuget.org/packages/TypedRest.CodeGeneration.CSharp.SourceGenerator/), interfaces and DTOs are opt-in here. Generated endpoints reference the DTO types by name, so without `--generate-dtos` you have to provide those types yourself.
 
