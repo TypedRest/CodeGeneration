@@ -28,6 +28,7 @@ public class BuilderRegistry
           .Add(new BlobBuilder())
           .Add(new PollingBuilder())
           .Add(new StreamingBuilder())
+          .Add(new SseStreamingBuilder())
           .Add(new StreamingCollectionBuilder());
 
     private readonly Dictionary<string, IBuilder> _builders = new();

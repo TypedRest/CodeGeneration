@@ -26,6 +26,7 @@ public class EndpointRegistry
           .Add<FunctionEndpoint>()
           .Add<PollingEndpoint>()
           .Add<StreamingEndpoint>()
+          .Add<SseStreamingEndpoint>()
           .Add<UploadEndpoint>()
           .Add<BlobEndpoint>();
 
