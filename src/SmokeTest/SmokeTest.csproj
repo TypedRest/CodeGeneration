@@ -19,7 +19,7 @@
     <ProjectReference Include="..\TypedRest.CodeGeneration.CSharp.SourceGenerator\TypedRest.CodeGeneration.CSharp.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="False" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="TypedRest" Version="1.6.5" />
+    <PackageReference Include="TypedRest" Version="1.7.0" />
   </ItemGroup>
 
   <!-- Simulates what consumers get from the NuGet package -->
