@@ -24,16 +24,38 @@ For a walkthrough see the **[usage guide](https://typedrest.net/code-generation/
 
 Each `TypedRestOpenApi` item supports the following metadata. Each can also be set as an MSBuild property (prefixed with `TypedRest`, e.g. `$(TypedRestServiceName)`) to provide a default for all spec files in a project.
 
-| Metadata             | Description                                                  | Default                               |
-| -------------------- | ------------------------------------------------------------ | ------------------------------------- |
-| `ServiceName`        | The service name to use for the entry endpoint. Required.    |                                       |
-| `Namespace`          | The C# namespace for the endpoints.                          | `$(RootNamespace)`, else service name |
-| `DtoNamespace`       | The C# namespace for the DTOs.                               | the endpoint namespace                |
-| `GenerateInterfaces` | Controls whether to generate interfaces for endpoints.       | `true`                                |
-| `GenerateDtos`       | Controls whether to generate DTOs.                           | `true`                                |
-| `LangVersion`        | The minimum C# version the generated DTOs must compile with. | the project's `$(LangVersion)`        |
+| Metadata                   | Description                                                        | Default                               |
+| -------------------------- | ------------------------------------------------------------------ | ------------------------------------- |
+| `ServiceName`              | The service name to use for the entry endpoint. Required.          |                                       |
+| `Namespace`                | The C# namespace for the endpoints.                                | `$(RootNamespace)`, else service name |
+| `DtoNamespace`             | The C# namespace for the DTOs.                                     | the endpoint namespace                |
+| `GenerateInterfaces`       | Controls whether to generate interfaces for endpoints.             | `true`                                |
+| `GenerateDtos`             | Controls whether to generate DTOs.                                 | `true`                                |
+| `GenerateEntryConstructor` | Controls whether the entry endpoint gets a constructor taking the base URI. | `true`                       |
+| `LangVersion`              | The minimum C# version the generated DTOs must compile with.       | the project's `$(LangVersion)`        |
 
 Note that `GenerateInterfaces` and `GenerateDtos` default to `true` here, while the [command-line tool](https://www.nuget.org/packages/typedrest-codegen/) requires them to be turned on explicitly. Generated endpoints reference the DTO types by name, so turning `GenerateDtos` off means you have to provide those types yourself.
+
+## Customizing the entry point
+
+Every generated type is `partial`, so you can add members in your own files. The entry endpoint is the one place where that is not enough on its own: its constructor is what passes the base URI, the error handler and any default headers to `EntryEndpoint`, and a partial class cannot change a constructor that has already been generated.
+
+Set `GenerateEntryConstructor="false"` to have the generator emit the class and its base type but no constructor, then write your own:
+
+```xml
+<TypedRestOpenApi Include="myapi.yml" ServiceName="MyService" GenerateEntryConstructor="false" />
+```
+
+```csharp
+public partial class MyServiceClient
+{
+    public MyServiceClient(Uri uri, string token)
+        : base(uri, errorHandler: new MyServiceErrorHandler())
+    {
+        HttpClient.DefaultRequestHeaders.Authorization = new("Bearer", token);
+    }
+}
+```
 
 To inspect the generated code set `<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>`; the files are then written to `obj/`.
 

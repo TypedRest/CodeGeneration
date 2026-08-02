@@ -147,6 +147,21 @@ public class TypedRestSourceGeneratorFacts
     }
 
     [Fact]
+    public void HonorsGenerateEntryConstructorBeingDisabled()
+    {
+        var result = new GeneratorTestHarness(Sample.YamlV3)
+                    .ForService("MyService")
+                    .WithMetadata("Namespace", "MyNamespace")
+                    .WithMetadata("GenerateEntryConstructor", "false")
+                    .Run();
+
+        result.Diagnostics.Should().BeEmpty();
+        Source(result, "sample-v3.MyNamespace.MyServiceClient.g.cs")
+           .Should().Contain("public partial class MyServiceClient : EntryEndpoint, IMyServiceClient", "the base class is still needed")
+           .And.NotContain("public MyServiceClient(", "the consumer supplies the constructors in their own partial class");
+    }
+
+    [Fact]
     public void UsesDtoNamespace()
     {
         var result = new GeneratorTestHarness(Sample.YamlV3)

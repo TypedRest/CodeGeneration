@@ -19,6 +19,7 @@ internal sealed record SpecInput(
     string? DtoNamespace,
     bool? GenerateInterfaces,
     bool? GenerateDtos,
+    bool? GenerateEntryConstructor,
     string? LangVersion)
 {
     /// <summary>
@@ -37,6 +38,7 @@ internal sealed record SpecInput(
             GetString(options, ConfigKeys.DtoNamespace),
             GetBool(options, ConfigKeys.GenerateInterfaces),
             GetBool(options, ConfigKeys.GenerateDtos),
+            GetBool(options, ConfigKeys.GenerateEntryConstructor),
             GetString(options, ConfigKeys.LangVersion));
     }
 

@@ -26,6 +26,9 @@ public class Generate : CommandBase
     [Option("generate-dtos", HelpText = "Controls whether to generate DTOs.")]
     public bool GenerateDtos { get; set; }
 
+    [Option("generate-entry-constructor", Default = true, HelpText = "Controls whether the entry endpoint gets a constructor taking the base URI. Turn this off to supply the constructors yourself in a partial class.")]
+    public bool GenerateEntryConstructor { get; set; } = true;
+
     [Option("lang-version", Default = "latest", HelpText = "The minimum C# version the generated DTOs must compile with, using the same values as the MSBuild LangVersion property.")]
     public string LangVersion { get; set; } = "latest";
 
@@ -45,6 +48,7 @@ public class Generate : CommandBase
             DtoNamespace = DtoNamespace,
             GenerateInterfaces = GenerateInterfaces,
             GenerateDtos = GenerateDtos,
+            GenerateEntryConstructor = GenerateEntryConstructor,
             LanguageVersion = languageVersion
         }));
 

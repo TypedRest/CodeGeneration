@@ -20,6 +20,7 @@ internal static class ConfigKeys
     public const string DtoNamespace = "DtoNamespace";
     public const string GenerateInterfaces = "GenerateInterfaces";
     public const string GenerateDtos = "GenerateDtos";
+    public const string GenerateEntryConstructor = "GenerateEntryConstructor";
     public const string LangVersion = "LangVersion";
 
     /// <summary>The MSBuild property the endpoint namespace falls back to.</summary>

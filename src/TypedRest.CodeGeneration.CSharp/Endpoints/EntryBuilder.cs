@@ -14,6 +14,8 @@ public class EntryBuilder : BuilderBase<EntryEndpoint>
     protected override CSharpIdentifier GetInterfaceType(CSharpIdentifier implementationType, bool withInterfaces)
         => new(Namespace.Name, "IEndpoint");
 
-    protected override IEnumerable<CSharpParameter> GetParameters(EntryEndpoint endpoint)
-        => [new CSharpParameter(CSharpIdentifier.Uri, "uri")];
+    protected override IEnumerable<CSharpParameter> GetParameters(EntryEndpoint endpoint, IEndpointGenerator generator)
+        => generator.GenerateEntryConstructor
+            ? [new CSharpParameter(CSharpIdentifier.Uri, "uri")]
+            : [];
 }

@@ -23,7 +23,7 @@ public abstract class BuilderBase<TEndpoint> : IBuilder<TEndpoint>
         implementationType.TypeArguments.AddRange(typeArguments);
 
         var objectCreation = new CSharpObjectCreation(implementationType);
-        objectCreation.Parameters.AddRange(GetParameters(endpoint));
+        objectCreation.Parameters.AddRange(GetParameters(endpoint, generator));
 
         var interfaceType = GetInterfaceType(implementationType, generator.WithInterfaces);
 
@@ -103,7 +103,7 @@ public abstract class BuilderBase<TEndpoint> : IBuilder<TEndpoint>
     protected virtual CSharpIdentifier GetInterfaceType(CSharpIdentifier implementationType, bool withInterfaces)
         => implementationType.ToInterface();
 
-    protected virtual IEnumerable<CSharpParameter> GetParameters(TEndpoint endpoint) =>
+    protected virtual IEnumerable<CSharpParameter> GetParameters(TEndpoint endpoint, IEndpointGenerator generator) =>
     [
         new CSharpParameter(new CSharpIdentifier(Namespace.Name, "IEndpoint"), "referrer") { Value = new ThisReference() },
         new CSharpParameter(endpoint.Uri == null ? CSharpIdentifier.Uri : CSharpIdentifier.String, "relativeUri") { Value = endpoint.Uri }

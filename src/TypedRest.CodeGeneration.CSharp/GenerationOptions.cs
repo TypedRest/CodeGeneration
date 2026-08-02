@@ -34,6 +34,12 @@ public class GenerationOptions(string serviceName)
     public bool GenerateDtos { get; set; }
 
     /// <summary>
+    /// Controls whether the entry endpoint gets a generated constructor taking the base URI.
+    /// Turn this off to supply the constructors yourself in a partial class, e.g. to pass an error handler or custom headers.
+    /// </summary>
+    public bool GenerateEntryConstructor { get; set; } = true;
+
+    /// <summary>
     /// The minimum C# version the generated DTOs must compile with.
     /// </summary>
     public LanguageVersion LanguageVersion { get; set; } = LanguageVersion.Latest;

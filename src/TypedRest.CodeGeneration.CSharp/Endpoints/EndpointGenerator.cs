@@ -10,6 +10,8 @@ public class EndpointGenerator(INamingStrategy namingStrategy, BuilderRegistry b
 
     public bool WithInterfaces { get; set; } = true;
 
+    public bool GenerateEntryConstructor { get; set; } = true;
+
     private HashSet<string> _collidingKeys = new();
     private readonly Stack<string> _parentKeys = new();
 

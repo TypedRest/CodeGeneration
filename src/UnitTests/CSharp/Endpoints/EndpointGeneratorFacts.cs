@@ -107,6 +107,26 @@ public class EndpointGeneratorFacts
         generatedNames.Should().NotContain("SettingsEndpoint");
     }
 
+    [Fact]
+    public void OmitsEntryConstructorWhenDisabled()
+    {
+        var generator = new EndpointGenerator(
+            new NamingStrategy("MyService", "MyNamespace", "MyNamespace"),
+            BuilderRegistry.Default)
+        {
+            GenerateEntryConstructor = false
+        };
+
+        var entry = generator.Generate(Sample.EntryEndpoint)
+                             .OfType<CSharpClass>()
+                             .Single(x => x.Identifier.Name == "MyServiceClient");
+
+        // The base class has to survive, so the partial class the consumer writes can still call base(...)
+        entry.BaseConstructor!.Type.Name.Should().Be("EntryEndpoint");
+        entry.BaseConstructor.Parameters.Should().BeEmpty();
+        entry.Properties.Should().NotBeEmpty();
+    }
+
     private static CSharpParameter Referrer
         => new(new CSharpIdentifier("TypedRest.Endpoints", "IEndpoint"), "referrer")
         {

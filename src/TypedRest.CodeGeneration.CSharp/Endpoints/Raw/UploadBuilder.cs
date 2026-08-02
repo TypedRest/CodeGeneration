@@ -11,9 +11,9 @@ public class UploadBuilder : BuilderBase<UploadEndpoint>
     protected override CSharpIdentifier GetImplementationType(UploadEndpoint endpoint, INamingStrategy naming)
         => new(Namespace.Name, "UploadEndpoint");
 
-    protected override IEnumerable<CSharpParameter> GetParameters(UploadEndpoint endpoint)
+    protected override IEnumerable<CSharpParameter> GetParameters(UploadEndpoint endpoint, IEndpointGenerator generator)
     {
-        foreach (var parameter in base.GetParameters(endpoint))
+        foreach (var parameter in base.GetParameters(endpoint, generator))
             yield return parameter;
 
         if (!string.IsNullOrEmpty(endpoint.FormField))

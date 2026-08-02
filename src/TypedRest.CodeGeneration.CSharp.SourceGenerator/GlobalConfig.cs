@@ -12,6 +12,7 @@ internal sealed record GlobalConfig(
     string? DtoNamespace,
     bool? GenerateInterfaces,
     bool? GenerateDtos,
+    bool? GenerateEntryConstructor,
     string? LangVersion)
 {
     public static GlobalConfig From(AnalyzerConfigOptions options)
@@ -22,6 +23,7 @@ internal sealed record GlobalConfig(
             GetString(options, ConfigKeys.DtoNamespace),
             GetBool(options, ConfigKeys.GenerateInterfaces),
             GetBool(options, ConfigKeys.GenerateDtos),
+            GetBool(options, ConfigKeys.GenerateEntryConstructor),
             GetString(options, ConfigKeys.LangVersion));
 
     private static string? GetString(AnalyzerConfigOptions options, string name)

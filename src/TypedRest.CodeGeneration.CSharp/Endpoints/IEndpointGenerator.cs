@@ -9,6 +9,12 @@ public interface IEndpointGenerator
 
     bool WithInterfaces { get; }
 
+    /// <summary>
+    /// Controls whether the entry endpoint gets a generated constructor taking the base URI.
+    /// Turn this off to supply the constructors yourself in a partial class, e.g. to pass an error handler or custom headers.
+    /// </summary>
+    bool GenerateEntryConstructor { get; }
+
     (CSharpProperty property, IEnumerable<ICSharpType> types) Generate(string key, IEndpoint endpoint);
 
     /// <summary>

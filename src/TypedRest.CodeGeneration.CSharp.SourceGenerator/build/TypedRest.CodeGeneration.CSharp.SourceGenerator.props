@@ -15,6 +15,7 @@
     <CompilerVisibleProperty Include="TypedRestDtoNamespace" />
     <CompilerVisibleProperty Include="TypedRestGenerateInterfaces" />
     <CompilerVisibleProperty Include="TypedRestGenerateDtos" />
+    <CompilerVisibleProperty Include="TypedRestGenerateEntryConstructor" />
     <CompilerVisibleProperty Include="TypedRestLangVersion" />
   </ItemGroup>
 
@@ -26,6 +27,7 @@
     <CompilerVisibleItemMetadata Include="TypedRestOpenApi" MetadataName="DtoNamespace" />
     <CompilerVisibleItemMetadata Include="TypedRestOpenApi" MetadataName="GenerateInterfaces" />
     <CompilerVisibleItemMetadata Include="TypedRestOpenApi" MetadataName="GenerateDtos" />
+    <CompilerVisibleItemMetadata Include="TypedRestOpenApi" MetadataName="GenerateEntryConstructor" />
     <CompilerVisibleItemMetadata Include="TypedRestOpenApi" MetadataName="LangVersion" />
   </ItemGroup>
 

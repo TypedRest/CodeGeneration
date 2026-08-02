@@ -79,6 +79,7 @@ public class TypedRestSourceGenerator : IIncrementalGenerator
             DtoNamespace = spec.DtoNamespace ?? globalConfig.DtoNamespace,
             GenerateInterfaces = spec.GenerateInterfaces ?? globalConfig.GenerateInterfaces ?? true,
             GenerateDtos = spec.GenerateDtos ?? globalConfig.GenerateDtos ?? true,
+            GenerateEntryConstructor = spec.GenerateEntryConstructor ?? globalConfig.GenerateEntryConstructor ?? true,
             LanguageVersion = languageVersion
         };
 

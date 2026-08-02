@@ -14,9 +14,9 @@ public class StreamingBuilder : BuilderBase<StreamingEndpoint>
             TypeArguments = {naming.TypeFor(endpoint.Schema ?? throw new InvalidOperationException($"Missing schema for {endpoint}."))}
         };
 
-    protected override IEnumerable<CSharpParameter> GetParameters(StreamingEndpoint endpoint)
+    protected override IEnumerable<CSharpParameter> GetParameters(StreamingEndpoint endpoint, IEndpointGenerator generator)
     {
-        foreach (var parameter in base.GetParameters(endpoint))
+        foreach (var parameter in base.GetParameters(endpoint, generator))
             yield return parameter;
 
         if (!string.IsNullOrEmpty(endpoint.Separator))
