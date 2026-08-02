@@ -80,20 +80,8 @@ public class TypedRestSourceGeneratorFacts
                     .ForService("MyService")
                     .Run();
 
-        result.Diagnostics.Select(x => x.Id).Should().BeEquivalentTo(["TRCG005"]);
-        result.GeneratedSources.Should().BeEmpty();
-    }
-
-    [Fact]
-    public void WarnsOnInvalidLangVersion()
-    {
-        var result = new GeneratorTestHarness(Sample.YamlV3)
-                    .ForService("MyService")
-                    .WithMetadata("LangVersion", "bogus")
-                    .Run();
-
         result.Diagnostics.Select(x => x.Id).Should().BeEquivalentTo(["TRCG004"]);
-        result.GeneratedSources.Should().NotBeEmpty();
+        result.GeneratedSources.Should().BeEmpty();
     }
 
     [Fact]

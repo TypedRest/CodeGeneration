@@ -19,8 +19,7 @@ internal sealed record SpecInput(
     string? DtoNamespace,
     bool? GenerateInterfaces,
     bool? GenerateDtos,
-    bool? GenerateEntryConstructor,
-    string? LangVersion)
+    bool? GenerateEntryConstructor)
 {
     /// <summary>
     /// Reads a spec file and its metadata. Returns <c>null</c> if the file is not marked as a TypedRest spec.
@@ -38,8 +37,7 @@ internal sealed record SpecInput(
             GetString(options, ConfigKeys.DtoNamespace),
             GetBool(options, ConfigKeys.GenerateInterfaces),
             GetBool(options, ConfigKeys.GenerateDtos),
-            GetBool(options, ConfigKeys.GenerateEntryConstructor),
-            GetString(options, ConfigKeys.LangVersion));
+            GetBool(options, ConfigKeys.GenerateEntryConstructor));
     }
 
     private static string? GetString(AnalyzerConfigOptions options, string name)

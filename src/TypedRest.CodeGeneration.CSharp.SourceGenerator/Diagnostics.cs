@@ -25,18 +25,13 @@ internal static class Diagnostics
         "Warning in OpenAPI specification '{0}': {1}",
         Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, helpLinkUri: HelpLink);
 
-    public static readonly DiagnosticDescriptor InvalidLangVersion = new(
-        "TRCG004", "Invalid LangVersion",
-        "Invalid LangVersion '{0}'. Expected a value such as '8', '11.0' or 'latest'. Falling back to the language version of the project.",
-        Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, helpLinkUri: HelpLink);
-
     public static readonly DiagnosticDescriptor GenerationFailed = new(
-        "TRCG005", "Code generation failed",
+        "TRCG004", "Code generation failed",
         "Failed to generate a TypedRest client from '{0}': {1}: {2}",
         Category, DiagnosticSeverity.Error, isEnabledByDefault: true, helpLinkUri: HelpLink);
 
     public static readonly DiagnosticDescriptor UnreadableSpec = new(
-        "TRCG006", "Unreadable OpenAPI specification",
+        "TRCG005", "Unreadable OpenAPI specification",
         "Could not read the content of '{0}'",
         Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, helpLinkUri: HelpLink);
 }

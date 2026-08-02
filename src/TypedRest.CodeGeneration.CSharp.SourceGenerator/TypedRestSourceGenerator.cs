@@ -67,12 +67,6 @@ public class TypedRestSourceGenerator : IIncrementalGenerator
         foreach (var warning in diagnostic.Warnings)
             context.ReportDiagnostic(Diagnostic.Create(Diagnostics.SpecWarning, location, fileName, warning.Message));
 
-        if ((spec.LangVersion ?? globalConfig.LangVersion) is {} langVersion)
-        {
-            if (LanguageVersionFacts.TryParse(langVersion, out var parsed)) languageVersion = parsed;
-            else context.ReportDiagnostic(Diagnostic.Create(Diagnostics.InvalidLangVersion, location, langVersion));
-        }
-
         var options = new GenerationOptions(serviceName)
         {
             Namespace = spec.Namespace ?? globalConfig.Namespace ?? globalConfig.RootNamespace,

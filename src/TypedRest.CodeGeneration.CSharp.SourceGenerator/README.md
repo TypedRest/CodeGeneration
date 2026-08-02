@@ -32,7 +32,6 @@ Each `TypedRestOpenApi` item supports the following metadata. Each can also be s
 | `GenerateInterfaces`       | Controls whether to generate interfaces for endpoints.             | `true`                                |
 | `GenerateDtos`             | Controls whether to generate DTOs.                                 | `true`                                |
 | `GenerateEntryConstructor` | Controls whether the entry endpoint gets a constructor taking the base URI. | `true`                       |
-| `LangVersion`              | The minimum C# version the generated DTOs must compile with.       | the project's `$(LangVersion)`        |
 
 Note that `GenerateInterfaces` and `GenerateDtos` default to `true` here, while the [command-line tool](https://www.nuget.org/packages/typedrest-codegen/) requires them to be turned on explicitly. Generated endpoints reference the DTO types by name, so turning `GenerateDtos` off means you have to provide those types yourself.
 
@@ -66,9 +65,8 @@ To inspect the generated code set `<EmitCompilerGeneratedFiles>true</EmitCompile
 | `TRCG001` | Error    | A `TypedRestOpenApi` item has no `ServiceName` and no `$(TypedRestServiceName)` fallback. |
 | `TRCG002` | Error    | The OpenAPI document contains an error.                                            |
 | `TRCG003` | Warning  | The OpenAPI document contains something questionable.                              |
-| `TRCG004` | Warning  | `LangVersion` is not a valid value; the project's language version is used instead. |
-| `TRCG005` | Error    | Code generation failed for a document.                                             |
-| `TRCG006` | Warning  | The content of a spec file could not be read.                                      |
+| `TRCG004` | Error    | Code generation failed for a document.                                             |
+| `TRCG005` | Warning  | The content of a spec file could not be read.                                      |
 
 ## Limitations
 
