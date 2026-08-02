@@ -19,6 +19,8 @@ EntryEndpoint endpoints = doc.GetTypedRest() ?? doc.MatchTypedRestPatterns();
 
 `MatchTypedRestPatterns()` arranges the paths into a tree and matches each node against the patterns in `PatternRegistry.Default`. Write the result back into the document with `doc.SetTypedRest(endpoints)` to persist or hand-edit it.
 
+Matching is deliberately conservative: a pattern only claims a path when the endpoint it produces is an accurate description of it. `ElementPattern`, for instance, models a single type that is both read and written, so it declines paths whose `PUT`/`PATCH` takes a different schema than the `GET` returns, rather than generating an endpoint that would send the wrong request body. Those paths fall through to a plain endpoint that still exposes its children, leaving the operations to be written by hand.
+
 ## Extension points
 
 Implement `IPattern` and add it to a `PatternRegistry` to recognize path shapes of your own:

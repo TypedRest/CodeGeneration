@@ -24,4 +24,32 @@ public class BlobPatternFacts : PatternFactsBase<BlobPattern>
             Description = "A blob."
         }, options => options.IncludingAllRuntimeProperties());
     }
+
+    [Fact]
+    public void IgnoresJsonPayload()
+    {
+        var tree = new PathTree
+        {
+            Item = new OpenApiPathItem
+            {
+                Operations = {[OperationType.Get] = Sample.Operation(response: Sample.ContactSchema)}
+            }
+        };
+
+        TryGetEndpoint(tree).Should().BeNull("a JSON body belongs to one of the typed patterns");
+    }
+
+    [Fact]
+    public void IgnoresEmptyPayload()
+    {
+        var tree = new PathTree
+        {
+            Item = new OpenApiPathItem
+            {
+                Operations = {[OperationType.Get] = Sample.Operation()}
+            }
+        };
+
+        TryGetEndpoint(tree).Should().BeNull("a response with no body is not a blob");
+    }
 }

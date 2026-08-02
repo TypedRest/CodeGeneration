@@ -18,6 +18,9 @@ public class BlobPattern : PatternBase
         var response = operation.Get200Response();
         if (response == null) return null;
 
+        // A blob is a binary payload. Anything served as JSON, or with no body at all, belongs to another pattern.
+        if (response.Content.Count == 0 || response.HasJsonContent()) return null;
+
         return new BlobEndpoint
         {
             Description = item.Description ?? operation.Description ?? operation.Summary ?? response.Description
