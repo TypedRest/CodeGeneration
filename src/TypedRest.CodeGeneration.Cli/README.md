@@ -6,6 +6,10 @@ Make sure you have the [.NET SDK](https://dotnet.microsoft.com/download) install
 
     dotnet tool install -g typedrest-codegen
 
+Alternatively you can use [0install](https://0install.net/), which downloads the .NET runtime on-demand:
+
+    0install add typedrest-codegen https://code-generation.typedrest.net/typedrest-codegen.xml
+
 If you build your client with the .NET SDK, consider the [source generator](https://www.nuget.org/packages/TypedRest.CodeGeneration.CSharp.SourceGenerator/) instead. It runs the same generator during compilation, without writing files to your source tree.
 
 For a walkthrough see the **[usage guide](https://typedrest.net/code-generation/cli/)**.

@@ -20,7 +20,11 @@ jobs:
 
       # Build
       - name: Build
-        run: ./build.sh ${{steps.gitversion.outputs.nuGetVersion}}${{github.ref_type != 'tag' && format('-{0}', steps.gitversion.outputs.shortSha) || ''}}
+        run: src/build.sh ${{steps.gitversion.outputs.nuGetVersion}}${{github.ref_type != 'tag' && format('-{0}', steps.gitversion.outputs.shortSha) || ''}}
+      - name: Test
+        run: src/test.sh
+      - name: Build documentation
+        run: doc/build.sh
       - name: Report test results
         if: always()
         uses: dorny/test-reporter@v3
@@ -28,6 +32,12 @@ jobs:
           name: Test Report
           reporter: dotnet-trx
           path: src/UnitTests/TestResults/*.trx
+      - uses: 0install/github-actions/0template@v1
+        id: feed
+        with:
+          template: typedrest-codegen.xml.template
+          version: ${{steps.gitversion.outputs.legacySemVer}}
+          github-release: ${{github.ref_type == 'tag'}}
 
       # Release
       - name: Get tag message
@@ -48,8 +58,27 @@ jobs:
             **[NuGet package](https://www.nuget.org/packages/TypedRest.CodeGeneration/${{steps.gitversion.outputs.nuGetVersion}})**
             ## Changes
             ${{steps.tag_message.outputs.message}}
+          files: |
+            ${{steps.feed.outputs.feed}}
+            ${{steps.feed.outputs.archive}}
 
       # Publish
+      - name: Checkout gh-pages
+        if: github.ref_type == 'tag'
+        uses: actions/checkout@v7
+        with:
+          ref: gh-pages
+          path: gh-pages
+          show-progress: false
+      - uses: 0install/github-actions/0publish@v1
+        if: github.ref_type == 'tag'
+        with:
+          feed: gh-pages/typedrest-codegen.xml
+          add-from: ${{steps.feed.outputs.feed}}
+          gpg-key: ${{secrets.GPG_KEY}}
+      - name: Copy 0install feed into documentation
+        if: github.ref_type == 'tag'
+        run: cp gh-pages/typedrest-codegen.xml gh-pages/*.gpg artifacts/Documentation/
       - name: Publish documentation
         if: github.ref_type == 'tag'
         uses: peaceiris/actions-gh-pages@v4

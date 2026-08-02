@@ -19,6 +19,10 @@ Or write it to disk with the command-line tool:
     dotnet tool install -g typedrest-codegen
     typedrest-codegen generate -f myapi.yml -o myclient/ -s MyService --generate-interfaces --generate-dtos
 
+The command-line tool is also available as a [0install](https://0install.net/) feed:
+
+    0install add typedrest-codegen https://code-generation.typedrest.net/typedrest-codegen.xml
+
 Read the **[Code generation documentation](https://typedrest.net/code-generation/)** for how the inference works, how to configure both tools and what to do when the inferred client is not what you want.
 
 ## NuGet packages

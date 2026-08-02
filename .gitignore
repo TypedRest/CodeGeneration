@@ -12,4 +12,6 @@
 
 # Output
 /artifacts/
+/*.xml
+/*.tar.gz
 **/TestResults/

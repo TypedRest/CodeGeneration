@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<interface xmlns="http://zero-install.sourceforge.net/2004/injector/interface">
+  <name>typedrest-codegen</name>
+  <summary>C# code generator for TypedRest clients from OpenAPI/Swagger</summary>
+  <description>Tool that automatically infers TypedRest Endpoints from patterns in OpenAPI/Swagger documents and generates source code for TypedRest clients.</description>
+  <homepage>https://typedrest.net/code-generation/</homepage>
+  <icon href="https://code-generation.typedrest.net/icon.png" type="image/png"/>
+  <category>Development</category>
+  <needs-terminal/>
+
+  <entry-point binary-name="typedrest-codegen" command="run"/>
+
+  <feed-for interface="https://code-generation.typedrest.net/typedrest-codegen.xml"/>
+
+  <group license="MIT">
+    <command name="run" path="TypedRest.CodeGeneration.Cli.dll">
+      <runner interface="https://apps.0install.net/dotnet/runtime.xml" version="10.0..!11.0"/>
+    </command>
+
+    <implementation version="{version}" stability="stable" local-path="artifacts/Release/net10.0/publish">
+      <manifest-digest/>
+      <archive href="typedrest-codegen-{version}.tar.gz" type="application/x-compressed-tar"/>
+    </implementation>
+  </group>
+</interface>
