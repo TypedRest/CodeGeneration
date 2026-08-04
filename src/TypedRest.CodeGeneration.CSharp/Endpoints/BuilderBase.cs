@@ -37,6 +37,7 @@ public abstract class BuilderBase<TEndpoint> : IBuilder<TEndpoint>
             {
                 var customInterface = CustomInterface(endpoint, interfaceType, customImplementation);
                 types.Add(customInterface);
+                AddInterfaceAdapters(customImplementation, interfaceType);
                 interfaceType = customInterface.Identifier;
             }
             else
@@ -97,6 +98,15 @@ public abstract class BuilderBase<TEndpoint> : IBuilder<TEndpoint>
 
     protected virtual (IEnumerable<ICSharpType> types, IEnumerable<CSharpIdentifier> typeArguments) GetAdditional(string key, TEndpoint endpoint, IEndpointGenerator generator)
         => (Enumerable.Empty<CSharpType>(), Enumerable.Empty<CSharpIdentifier>());
+
+    /// <summary>
+    /// Adds explicit interface implementations to a generated class for members that it inherits with concrete
+    /// endpoint types while <paramref name="interfaceType"/> declares them with the corresponding interface types
+    /// (e.g. an indexer returning <c>IFooEndpoint</c> rather than <c>FooEndpoint</c>).
+    /// </summary>
+    /// <param name="implementation">The generated class to add the members to.</param>
+    /// <param name="interfaceType">The endpoint interface the generated interface derives from.</param>
+    protected virtual void AddInterfaceAdapters(CSharpClass implementation, CSharpIdentifier interfaceType) {}
 
     protected abstract CSharpIdentifier GetImplementationType(TEndpoint endpoint, INamingStrategy naming);
 

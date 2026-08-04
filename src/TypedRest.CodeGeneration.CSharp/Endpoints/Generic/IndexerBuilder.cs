@@ -27,4 +27,7 @@ public class IndexerBuilder : BuilderBase<IndexerEndpoint>
             identifier.TypeArguments[0] = identifier.TypeArguments[0].ToInterface();
         return identifier;
     }
+
+    protected override void AddInterfaceAdapters(CSharpClass implementation, CSharpIdentifier interfaceType)
+        => implementation.Indexers.Add(InterfaceAdapters.IndexerById(interfaceType.TypeArguments[0]));
 }

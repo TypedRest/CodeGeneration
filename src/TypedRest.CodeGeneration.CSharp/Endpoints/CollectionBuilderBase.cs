@@ -1,4 +1,5 @@
 ﻿using NanoByte.CodeGeneration;
+using TypedRest.CodeGeneration.CSharp.Endpoints.Generic;
 using TypedRest.CodeGeneration.Endpoints.Generic;
 
 namespace TypedRest.CodeGeneration.CSharp.Endpoints;
@@ -43,5 +44,22 @@ public abstract class CollectionBuilderBase<TEndpoint> : BuilderBase<TEndpoint>
             identifier.TypeArguments[1] = identifier.TypeArguments[1].ToInterface();
 
         return identifier;
+    }
+
+    protected override void AddInterfaceAdapters(CSharpClass implementation, CSharpIdentifier interfaceType)
+    {
+        // Without a separate element endpoint the base class is the specialized CollectionEndpoint<TEntity>,
+        // which already implements the interface-typed members itself
+        if (interfaceType.TypeArguments.Count != 2) return;
+
+        var entity = interfaceType.TypeArguments[0];
+        var element = interfaceType.TypeArguments[1];
+
+        // CreateAsync() returns a nullable element endpoint
+        implementation.NullableContext = true;
+
+        implementation.Indexers.Add(InterfaceAdapters.IndexerById(element));
+        implementation.Indexers.Add(InterfaceAdapters.IndexerByEntity(entity, element));
+        implementation.Methods.Add(InterfaceAdapters.CreateAsync(entity, element));
     }
 }

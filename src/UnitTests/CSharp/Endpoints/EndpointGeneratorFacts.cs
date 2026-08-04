@@ -1,6 +1,8 @@
 ﻿using NanoByte.CodeGeneration;
 using TypedRest.CodeGeneration.Endpoints;
 using TypedRest.CodeGeneration.Endpoints.Rpc;
+using CollectionEndpointModel = TypedRest.CodeGeneration.Endpoints.Generic.CollectionEndpoint;
+using ElementEndpointModel = TypedRest.CodeGeneration.Endpoints.Generic.ElementEndpoint;
 
 namespace TypedRest.CodeGeneration.CSharp.Endpoints;
 
@@ -139,6 +141,71 @@ public class EndpointGeneratorFacts
 
         generatedNames.Should().Contain(["ContractsCommitsEndpoint", "CustomersContractsCommitsEndpoint"]);
         generatedNames.Should().OnlyHaveUniqueItems();
+    }
+
+    [Fact]
+    public void AddsExplicitImplementationsForElementEndpointInterfaces()
+    {
+        var entry = new EntryEndpoint
+        {
+            Children =
+            {
+                // The child endpoint forces a custom class and interface to be generated for the collection itself
+                ["contacts"] = new CollectionEndpointModel
+                {
+                    Uri = "./contacts",
+                    Schema = Sample.ContactSchema,
+                    Element = new ElementEndpointModel {Schema = Sample.ContactSchema},
+                    Children = {["poke"] = new ActionEndpoint {Uri = "./poke"}}
+                }
+            }
+        };
+
+        var collection = _generator.Generate(entry)
+                                   .OfType<CSharpClass>()
+                                   .Single(x => x.Identifier.Name == "ContactsEndpoint");
+
+        // The base class hands out ElementEndpoint<Contact>, but the interface promises IElementEndpoint<Contact>
+        collection.Indexers.Should().SatisfyRespectively(
+            indexer =>
+            {
+                indexer.ExplicitInterface!.Name.Should().Be("IIndexerEndpoint");
+                indexer.Type.Name.Should().Be("IElementEndpoint");
+                indexer.Parameter.Name.Should().Be("id");
+                indexer.GetterExpression.Should().Be("this[id]");
+            },
+            indexer =>
+            {
+                indexer.ExplicitInterface!.Name.Should().Be("ICollectionEndpoint");
+                indexer.Type.Name.Should().Be("IElementEndpoint");
+                indexer.Parameter.Type.Name.Should().Be("Contact");
+                indexer.GetterExpression.Should().Be("this[entity]");
+            });
+
+        var createAsync = collection.Methods.Should().ContainSingle().Subject;
+        createAsync.Name.Should().Be("CreateAsync");
+        createAsync.ExplicitInterface!.Name.Should().Be("ICollectionEndpoint");
+        createAsync.ReturnType.TypeArguments.Single().Nullable.Should().BeTrue();
+        createAsync.BodyExpression.Should().Be("CreateAsync(entity, cancellationToken)");
+        collection.NullableContext.Should().BeTrue();
+    }
+
+    [Fact]
+    public void OmitsExplicitImplementationsWithoutInterfaces()
+    {
+        var generator = new EndpointGenerator(
+            new NamingStrategy("MyService", "MyNamespace", "MyNamespace"),
+            BuilderRegistry.Default)
+        {
+            WithInterfaces = false
+        };
+
+        var contactEndpoint = generator.Generate(Sample.EntryEndpoint)
+                                       .OfType<CSharpClass>()
+                                       .Single(x => x.Identifier.Name == "ContactElementEndpoint");
+
+        contactEndpoint.Indexers.Should().BeEmpty();
+        contactEndpoint.Methods.Should().BeEmpty();
     }
 
     [Fact]
