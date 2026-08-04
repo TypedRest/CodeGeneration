@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <TypedRestOpenApi Include="..\UnitTests\sample-v3.yml" ServiceName="Sample" Namespace="SmokeTest.Client" />
+    <TypedRestOpenApi Include="nested.yml" ServiceName="Nested" Namespace="SmokeTest.NestedClient" />
   </ItemGroup>
 
   <!-- Simulates what consumers get from the NuGet package -->

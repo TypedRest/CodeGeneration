@@ -1,0 +1,70 @@
+openapi: 3.0.4
+info:
+  title: Nested Service
+  version: 1.0.0
+paths: { }
+components:
+  schemas:
+    Team:
+      required:
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the team.
+        name:
+          type: string
+          description: The name of the team.
+      description: A team.
+    Project:
+      required:
+        - title
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title of the project.
+      description: A project.
+# Collection and indexer endpoints that have children of their own, so that classes are generated for them
+# rather than the built-in ones being used directly. Their element endpoints then have to be adapted to the
+# generated interfaces, which only compiles with the right explicit interface implementations.
+x-typedrest:
+  teams:
+    kind: collection
+    uri: ./teams
+    description: Collection of teams.
+    schema:
+      $ref: '#/components/schemas/Team'
+    element:
+      kind: element
+      description: A specific team.
+      children:
+        archive:
+          kind: action
+          uri: ./archive
+          description: Archives a team.
+    children:
+      sync:
+        kind: action
+        uri: ./sync
+        description: Syncs all teams.
+  projects:
+    kind: indexer
+    uri: ./projects
+    description: Projects addressable by ID.
+    element:
+      kind: element
+      description: A specific project.
+      schema:
+        $ref: '#/components/schemas/Project'
+      children:
+        rename:
+          kind: action
+          uri: ./rename
+          description: Renames a project.
+    children:
+      search:
+        kind: action
+        uri: ./search
+        description: Searches all projects.
