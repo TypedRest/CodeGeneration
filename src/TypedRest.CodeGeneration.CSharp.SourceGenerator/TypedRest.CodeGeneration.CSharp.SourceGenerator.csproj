@@ -37,15 +37,19 @@
     <None Update="build\$(MSBuildProjectName).targets" Pack="true" PackagePath="build\$(MSBuildProjectName).targets" />
   </ItemGroup>
 
-  <!-- The assemblies that make up the analyzer. Evaluated inside a target so that $(OutDir) includes the target framework. -->
+  <!-- The assemblies that make up the analyzer. Evaluated inside a target so that $(OutDir) includes the target framework.
+       $(OutDir) is relative to this project, so it has to be made absolute for projects in other directories referencing this one. -->
   <Target Name="_CollectTypedRestAnalyzerAssemblies">
+    <PropertyGroup>
+      <_TypedRestAnalyzerDir>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\$(OutDir)'))</_TypedRestAnalyzerDir>
+    </PropertyGroup>
     <ItemGroup>
-      <TypedRestAnalyzerAssembly Include="$(OutDir)TypedRest.CodeGeneration.dll" />
-      <TypedRestAnalyzerAssembly Include="$(OutDir)TypedRest.CodeGeneration.CSharp.dll" />
-      <TypedRestAnalyzerAssembly Include="$(OutDir)NanoByte.CodeGeneration.dll" />
-      <TypedRestAnalyzerAssembly Include="$(OutDir)Microsoft.OpenApi.dll" />
-      <TypedRestAnalyzerAssembly Include="$(OutDir)Microsoft.OpenApi.Readers.dll" />
-      <TypedRestAnalyzerAssembly Include="$(OutDir)SharpYaml.dll" />
+      <TypedRestAnalyzerAssembly Include="$(_TypedRestAnalyzerDir)TypedRest.CodeGeneration.dll" />
+      <TypedRestAnalyzerAssembly Include="$(_TypedRestAnalyzerDir)TypedRest.CodeGeneration.CSharp.dll" />
+      <TypedRestAnalyzerAssembly Include="$(_TypedRestAnalyzerDir)NanoByte.CodeGeneration.dll" />
+      <TypedRestAnalyzerAssembly Include="$(_TypedRestAnalyzerDir)Microsoft.OpenApi.dll" />
+      <TypedRestAnalyzerAssembly Include="$(_TypedRestAnalyzerDir)Microsoft.OpenApi.Readers.dll" />
+      <TypedRestAnalyzerAssembly Include="$(_TypedRestAnalyzerDir)SharpYaml.dll" />
     </ItemGroup>
   </Target>
 
