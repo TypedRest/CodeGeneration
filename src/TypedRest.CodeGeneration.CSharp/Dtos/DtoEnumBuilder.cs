@@ -3,8 +3,8 @@ using NanoByte.CodeGeneration;
 
 namespace TypedRest.CodeGeneration.CSharp.Dtos;
 
-public class DtoEnumBuilder(string key, OpenApiSchema schema, INamingStrategy naming, LanguageVersion languageVersion = LanguageVersion.Latest)
-    : DtoBuilder(key, schema, naming, languageVersion)
+public class DtoEnumBuilder(string key, OpenApiSchema schema, INamingStrategy naming, LanguageVersion languageVersion = LanguageVersion.Latest, TypeNameRegistry? typeNames = null)
+    : DtoBuilder(key, schema, naming, languageVersion, typeNames)
 {
     protected override ICSharpType BuildTypeInner()
     {

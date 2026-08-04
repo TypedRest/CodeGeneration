@@ -18,14 +18,15 @@ public interface IEndpointGenerator
     (CSharpProperty property, IEnumerable<ICSharpType> types) Generate(string key, IEndpoint endpoint);
 
     /// <summary>
-    /// Returns a disambiguating prefix for an endpoint with the given <paramref name="key"/>, or <c>null</c> if no prefix is needed.
-    /// Currently returns the parent key when the same key produces a custom endpoint class in more than one place.
+    /// Returns the name to use for the class generated for an endpoint with the given <paramref name="key"/>.
+    /// Endpoints that share a key are disambiguated with a prefix derived from their parents, or failing that a number.
     /// </summary>
-    string? GetCollisionPrefix(string key);
+    /// <remarks>Every call hands out a new name, so this must be called exactly once per generated class.</remarks>
+    CSharpIdentifier EndpointType(string key, IEndpoint endpoint);
 
     /// <summary>
     /// Pushes a key onto the parent stack. Builders call this around recursion into child endpoints
-    /// so that <see cref="GetCollisionPrefix"/> can return the current parent.
+    /// so that <see cref="EndpointType"/> can derive prefixes from the current parents.
     /// </summary>
     void PushParent(string key);
 

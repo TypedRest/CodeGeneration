@@ -50,6 +50,27 @@ public class DtoGeneratorFacts
     }
 
     [Fact]
+    public void NumbersInlineTypeNamesCollidingWithDocumentSchemas()
+    {
+        var generated = _generator.Generate(new Dictionary<string, OpenApiSchema>
+        {
+            // The inline enum for this property wants to be called MyEnum, just like the schema below
+            ["my"] = new()
+            {
+                Type = "object",
+                Properties = {["enum"] = _enumSchema}
+            },
+            ["myEnum"] = _enumSchema
+        }).ToList();
+
+        // The schema from the document keeps the name, because $refs point at it
+        generated.Select(x => x.Identifier.Name).Should().Equal("My", "MyEnum2", "MyEnum");
+
+        generated.OfType<CSharpClass>().Single()
+                 .Properties.Single().Type.Name.Should().Be("MyEnum2");
+    }
+
+    [Fact]
     public void GeneratesInheritanceFromAllOf()
     {
         var baseType = new OpenApiSchema

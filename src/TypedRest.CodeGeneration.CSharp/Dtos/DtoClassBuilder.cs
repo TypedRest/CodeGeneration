@@ -3,8 +3,8 @@ using NanoByte.CodeGeneration;
 
 namespace TypedRest.CodeGeneration.CSharp.Dtos;
 
-public class DtoClassBuilder(string key, OpenApiSchema schema, INamingStrategy naming, LanguageVersion languageVersion = LanguageVersion.Latest)
-    : DtoBuilder(key, schema, naming, languageVersion)
+public class DtoClassBuilder(string key, OpenApiSchema schema, INamingStrategy naming, LanguageVersion languageVersion = LanguageVersion.Latest, TypeNameRegistry? typeNames = null)
+    : DtoBuilder(key, schema, naming, languageVersion, typeNames)
 {
     /// <summary>
     /// The properties of this type, including any merged in from inline <c>allOf</c> schemas.
@@ -119,11 +119,11 @@ public class DtoClassBuilder(string key, OpenApiSchema schema, INamingStrategy n
         {
             // Inline enum
             {Reference: null, Type: "string" or "integer", Enum.Count: > 0} =>
-                AddChildType(new DtoEnumBuilder(ChildKey(nameHint), schema, Naming, LanguageVersion)),
+                AddChildType(new DtoEnumBuilder(ChildKey(nameHint), schema, Naming, LanguageVersion, TypeNames)),
 
             // Inline object
             {Reference: null, Properties.Count: > 0} =>
-                AddChildType(new DtoClassBuilder(ChildKey(nameHint), schema, Naming, LanguageVersion)),
+                AddChildType(new DtoClassBuilder(ChildKey(nameHint), schema, Naming, LanguageVersion, TypeNames)),
 
             // Array of inline enums/objects
             {Type: "array", Items: {} items} when NeedsChildType(items) =>

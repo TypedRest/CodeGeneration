@@ -7,13 +7,18 @@ public class DtoGenerator(INamingStrategy naming, LanguageVersion languageVersio
 {
     public IEnumerable<ICSharpType> Generate(IEnumerable<KeyValuePair<string, OpenApiSchema>> schemas)
     {
-        foreach ((string key, var schema) in schemas)
+        var typeNames = new TypeNameRegistry();
+
+        // Create all builders first, so that types from the document claim their names before the types
+        // generated for inline schemas, which get a number appended if their name is already taken
+        var builders = schemas.Select(x => DtoBuilder.For(x.Key, x.Value, naming, languageVersion, typeNames))
+                              .OfType<DtoBuilder>()
+                              .ToList();
+
+        foreach (var builder in builders)
         {
-            if (DtoBuilder.For(key, schema, naming, languageVersion) is {} builder)
-            {
-                foreach (var type in builder.BuildTypes())
-                    yield return type;
-            }
+            foreach (var type in builder.BuildTypes())
+                yield return type;
         }
     }
 }

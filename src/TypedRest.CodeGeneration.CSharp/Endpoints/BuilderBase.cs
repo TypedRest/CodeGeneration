@@ -54,7 +54,7 @@ public abstract class BuilderBase<TEndpoint> : IBuilder<TEndpoint>
 
     private static CSharpClass CustomImplementation(string key, TEndpoint endpoint, CSharpObjectCreation baseConstructor, List<ICSharpType> types, IEndpointGenerator generator)
     {
-        var customImplementation = new CSharpClass(generator.Naming.EndpointType(key, endpoint, generator.GetCollisionPrefix(key)))
+        var customImplementation = new CSharpClass(generator.EndpointType(key, endpoint))
         {
             Summary = endpoint.Description,
             Attributes = {Attributes.GeneratedCode},

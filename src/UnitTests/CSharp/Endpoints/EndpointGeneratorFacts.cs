@@ -108,6 +108,40 @@ public class EndpointGeneratorFacts
     }
 
     [Fact]
+    public void NumbersTypeNamesThatCollideDespitePrefixes()
+    {
+        // Both "commits" endpoints share their key and their parent's key, so the parent prefix is not enough
+        var entry = new EntryEndpoint
+        {
+            Children =
+            {
+                ["contracts"] = new Endpoint
+                {
+                    Uri = "./contracts",
+                    Children = {["commits"] = new Endpoint {Uri = "./commits", Children = {["edit"] = new ActionEndpoint {Uri = "./edit"}}}}
+                },
+                ["customers"] = new Endpoint
+                {
+                    Uri = "./customers",
+                    Children =
+                    {
+                        ["contracts"] = new Endpoint
+                        {
+                            Uri = "./contracts",
+                            Children = {["commits"] = new Endpoint {Uri = "./commits", Children = {["retire"] = new ActionEndpoint {Uri = "./retire"}}}}
+                        }
+                    }
+                }
+            }
+        };
+
+        var generatedNames = _generator.Generate(entry).OfType<CSharpClass>().Select(x => x.Identifier.Name).ToList();
+
+        generatedNames.Should().Contain(["ContractsCommitsEndpoint", "CustomersContractsCommitsEndpoint"]);
+        generatedNames.Should().OnlyHaveUniqueItems();
+    }
+
+    [Fact]
     public void OmitsEntryConstructorWhenDisabled()
     {
         var generator = new EndpointGenerator(
