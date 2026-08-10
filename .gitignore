@@ -9,7 +9,10 @@
 /src/*/bin/
 /doc/obj/
 /doc/api/
+**/node_modules/
 
 # Output
 /artifacts/
 **/TestResults/
+/src/SmokeTest.TypeScript/package-lock.json
+/src/SmokeTest.TypeScript/generated/
