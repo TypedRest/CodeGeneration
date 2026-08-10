@@ -27,6 +27,7 @@ public class ClientGenerationOptions
         GenerateInterfaces = other.GenerateInterfaces;
         GenerateDtos = other.GenerateDtos;
         GenerateEntryConstructor = other.GenerateEntryConstructor;
+        Serializer = other.Serializer;
     }
 
     /// <summary>
@@ -60,4 +61,21 @@ public class ClientGenerationOptions
     /// Not supported by all target languages.
     /// </summary>
     public bool GenerateEntryConstructor { get; set; } = true;
+
+    /// <summary>
+    /// The JSON serializer the generated DTOs are annotated for, or <c>null</c> to use the target language's default.
+    /// </summary>
+    /// <remarks>
+    /// The serializer decides which attributes/annotations carry the wire names of properties, so choosing one that
+    /// does not match the serializer configured on the endpoint at runtime silently changes the wire format.
+    /// See <see cref="SupportedSerializers"/> for the values a target language accepts.
+    /// </remarks>
+    public string? Serializer { get; set; }
+
+    /// <summary>
+    /// The names accepted by <see cref="Serializer"/>, most preferred first. Empty if the target language has no
+    /// serializer to choose, either because it does not annotate DTOs or because it only supports one.
+    /// </summary>
+    /// <remarks>Target languages override this to declare what they can generate for.</remarks>
+    public virtual IReadOnlyCollection<string> SupportedSerializers => [];
 }

@@ -61,6 +61,13 @@ public static class Messages
         => Warning("TRCG111", null,
             "The C# language version has no effect for TypeScript.");
 
+    /// <summary>
+    /// TypedRest for TypeScript deserializes with <c>JSON.parse()</c> and a cast, so there is no serializer to pick.
+    /// </summary>
+    public static GenerationMessage SerializerNotSupported()
+        => Warning("TRCG112", null,
+            "Choosing a serializer has no effect for TypeScript, which deserializes with JSON.parse() and a cast. Generated DTO properties always keep the exact name used on the wire.");
+
     private static GenerationMessage Warning(string code, string? endpointKey, string text)
         => new(GenerationSeverity.Warning, code, text, endpointKey);
 }

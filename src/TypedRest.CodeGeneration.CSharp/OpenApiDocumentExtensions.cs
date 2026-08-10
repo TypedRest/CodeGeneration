@@ -13,7 +13,7 @@ public static class OpenApiDocumentExtensions
         var naming = options.NamingStrategy();
         var types = doc.GenerateTypedRestEndpoints(naming, options.GenerateInterfaces, options.GenerateEntryConstructor, patterns, builders);
         return options.GenerateDtos
-            ? types.Concat(doc.GenerateDtos(naming, options.LanguageVersion))
+            ? types.Concat(doc.GenerateDtos(naming, options.LanguageVersion, options.JsonAttributes()))
             : types;
     }
 
@@ -28,9 +28,9 @@ public static class OpenApiDocumentExtensions
         return generator.Generate(entryEndpoint);
     }
 
-    public static IEnumerable<ICSharpType> GenerateDtos(this OpenApiDocument doc, INamingStrategy naming, LanguageVersion languageVersion = LanguageVersion.Latest)
+    public static IEnumerable<ICSharpType> GenerateDtos(this OpenApiDocument doc, INamingStrategy naming, LanguageVersion languageVersion = LanguageVersion.Latest, JsonAttributes? jsonAttributes = null)
     {
-        var generator = new DtoGenerator(naming, languageVersion);
+        var generator = new DtoGenerator(naming, languageVersion, jsonAttributes);
         return generator.Generate(doc.Components?.Schemas ?? new Dictionary<string, OpenApiSchema>());
     }
 }

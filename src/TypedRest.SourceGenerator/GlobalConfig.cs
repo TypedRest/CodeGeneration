@@ -12,7 +12,8 @@ internal sealed record GlobalConfig(
     string? DtoNamespace,
     bool? GenerateInterfaces,
     bool? GenerateDtos,
-    bool? GenerateEntryConstructor)
+    bool? GenerateEntryConstructor,
+    string? Serializer)
 {
     public static GlobalConfig From(AnalyzerConfigOptions options)
         => new(
@@ -22,7 +23,8 @@ internal sealed record GlobalConfig(
             GetString(options, ConfigKeys.DtoNamespace),
             GetBool(options, ConfigKeys.GenerateInterfaces),
             GetBool(options, ConfigKeys.GenerateDtos),
-            GetBool(options, ConfigKeys.GenerateEntryConstructor));
+            GetBool(options, ConfigKeys.GenerateEntryConstructor),
+            GetString(options, ConfigKeys.Serializer));
 
     private static string? GetString(AnalyzerConfigOptions options, string name)
         => options.TryGetValue(ConfigKeys.Property(name), out string? value) && !string.IsNullOrWhiteSpace(value)

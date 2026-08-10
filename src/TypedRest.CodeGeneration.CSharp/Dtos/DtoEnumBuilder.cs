@@ -3,8 +3,8 @@ using NanoByte.CodeGeneration;
 
 namespace TypedRest.CodeGeneration.CSharp.Dtos;
 
-public class DtoEnumBuilder(string key, OpenApiSchema schema, INamingStrategy naming, LanguageVersion languageVersion = LanguageVersion.Latest, TypeNameRegistry? typeNames = null)
-    : DtoBuilder(key, schema, naming, languageVersion, typeNames)
+public class DtoEnumBuilder(string key, OpenApiSchema schema, INamingStrategy naming, LanguageVersion languageVersion = LanguageVersion.Latest, TypeNameRegistry? typeNames = null, JsonAttributes? jsonAttributes = null)
+    : DtoBuilder(key, schema, naming, languageVersion, typeNames, jsonAttributes)
 {
     protected override ICSharpType BuildTypeInner()
     {
@@ -18,7 +18,7 @@ public class DtoEnumBuilder(string key, OpenApiSchema schema, INamingStrategy na
                 case OpenApiString str:
                     type.Values.Add(new CSharpEnumValue(UniqueName(usedNames, Naming.Property(str.Value)))
                     {
-                        Attributes = {Attributes.EnumMember(str.Value)}
+                        Attributes = {Json.EnumMemberName(str.Value)}
                     });
                     break;
                 case OpenApiInteger num:

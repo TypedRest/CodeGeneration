@@ -28,9 +28,20 @@ public class GenerationOptions : ClientGenerationOptions
     /// </summary>
     public LanguageVersion LanguageVersion { get; set; } = LanguageVersion.Latest;
 
+    /// <inheritdoc/>
+    public override IReadOnlyCollection<string> SupportedSerializers => CSharp.JsonAttributes.Names;
+
     /// <summary>
     /// Builds a <see cref="CSharp.NamingStrategy"/> applying the namespace fallbacks.
     /// </summary>
     public NamingStrategy NamingStrategy()
         => new(ServiceName, Namespace ?? ServiceName, DtoNamespace ?? Namespace ?? ServiceName);
+
+    /// <summary>
+    /// Builds the <see cref="CSharp.JsonAttributes"/> for <see cref="ClientGenerationOptions.Serializer"/>,
+    /// falling back to Newtonsoft.Json as TypedRest for .NET does.
+    /// </summary>
+    /// <exception cref="ArgumentException">The serializer is not one of <see cref="SupportedSerializers"/>.</exception>
+    public JsonAttributes JsonAttributes()
+        => CSharp.JsonAttributes.For(Serializer);
 }

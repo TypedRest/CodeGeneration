@@ -32,8 +32,28 @@ Each `TypedRestOpenApi` item supports the following metadata. Each can also be s
 | `GenerateInterfaces`       | Controls whether to generate interfaces for endpoints.                      | `true`                                |
 | `GenerateDtos`             | Controls whether to generate DTOs.                                          | `true`                                |
 | `GenerateEntryConstructor` | Controls whether the entry endpoint gets a constructor taking the base URI. | `true`                                |
+| `Serializer`               | The JSON serializer the generated DTOs are annotated for. See below.        | `newtonsoft`                          |
 
 Note that `GenerateInterfaces` and `GenerateDtos` default to `true` here, while the [command-line tool](https://www.nuget.org/packages/typedrest-codegen/) requires them to be turned on explicitly. Generated endpoints reference the DTO types by name, so turning `GenerateDtos` off means you have to provide those types yourself.
+
+## Choosing a serializer
+
+`Serializer` picks which attributes carry the wire names on the generated DTOs:
+
+| Value              | Property attribute   | Enum value attribute         | Runtime package                                                                        |
+| ------------------ | -------------------- | ---------------------------- | -------------------------------------------------------------------------------------- |
+| `newtonsoft`       | `[JsonProperty]`     | `[EnumMember]`               | [`TypedRest`](https://www.nuget.org/packages/TypedRest/)                               |
+| `system-text-json` | `[JsonPropertyName]` | `[JsonStringEnumMemberName]` | [`TypedRest.SystemTextJson`](https://www.nuget.org/packages/TypedRest.SystemTextJson/) |
+
+```xml
+<PropertyGroup>
+  <TypedRestSerializer>system-text-json</TypedRestSerializer>
+</PropertyGroup>
+```
+
+This has to match the serializer the endpoint is configured with at runtime. The two read entirely different attributes, so a DTO annotated for one silently falls back to its C# member names under the other, changing the wire format without any error.
+
+`[JsonStringEnumMemberName]` requires .NET 9 or later. It is what `JsonStringEnumConverter` reads; System.Text.Json ignores `[EnumMember]` entirely.
 
 ## Customizing the entry point
 
@@ -67,6 +87,7 @@ To inspect the generated code set `<EmitCompilerGeneratedFiles>true</EmitCompile
 | `TRCG003` | Warning  | The OpenAPI document contains something questionable.                                     |
 | `TRCG004` | Error    | Code generation failed for a document.                                                    |
 | `TRCG005` | Warning  | The content of a spec file could not be read.                                             |
+| `TRCG006` | Error    | A `TypedRestOpenApi` item specifies an unknown `Serializer`.                              |
 
 ## Limitations
 

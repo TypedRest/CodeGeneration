@@ -36,6 +36,9 @@ public class Generate : CommandBase
     [Option("lang-version", Default = "latest", HelpText = "The minimum C# version the generated DTOs must compile with, using the same values as the MSBuild LangVersion property. C# only.")]
     public string LangVersion { get; set; } = "latest";
 
+    [Option("serializer", HelpText = "The JSON serializer the generated DTOs are annotated for. C#: 'newtonsoft' (default) or 'system-text-json'. Ignored for languages that do not annotate DTOs.")]
+    public string? Serializer { get; set; }
+
     /// <summary>
     /// The target languages this tool can generate.
     /// </summary>
@@ -61,6 +64,18 @@ public class Generate : CommandBase
         options.GenerateEntryConstructor = GenerateEntryConstructor;
 
         var log = new ConsoleGenerationLog();
+
+        if (Serializer != null)
+        {
+            if (options.SupportedSerializers.Count == 0)
+                log.Report(Messages.SerializerNotSupported());
+            else if (!options.SupportedSerializers.Contains(Serializer, StringComparer.OrdinalIgnoreCase))
+            {
+                Console.Error.WriteLine($"Error: Unknown serializer '{Serializer}' for language '{generator.Language}'. Expected one of: {string.Join(", ", options.SupportedSerializers)}.");
+                return 1;
+            }
+            else options.Serializer = Serializer;
+        }
 
         if (options is GenerationOptions csharp)
         {

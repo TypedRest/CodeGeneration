@@ -16,6 +16,7 @@
     <CompilerVisibleProperty Include="TypedRestGenerateInterfaces" />
     <CompilerVisibleProperty Include="TypedRestGenerateDtos" />
     <CompilerVisibleProperty Include="TypedRestGenerateEntryConstructor" />
+    <CompilerVisibleProperty Include="TypedRestSerializer" />
   </ItemGroup>
 
   <!-- Make TypedRestOpenApi item metadata readable by the generator via build_metadata.TypedRestOpenApi.* -->
@@ -27,6 +28,7 @@
     <CompilerVisibleItemMetadata Include="TypedRestOpenApi" MetadataName="GenerateInterfaces" />
     <CompilerVisibleItemMetadata Include="TypedRestOpenApi" MetadataName="GenerateDtos" />
     <CompilerVisibleItemMetadata Include="TypedRestOpenApi" MetadataName="GenerateEntryConstructor" />
+    <CompilerVisibleItemMetadata Include="TypedRestOpenApi" MetadataName="Serializer" />
   </ItemGroup>
 
 </Project>

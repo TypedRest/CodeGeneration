@@ -34,4 +34,9 @@ internal static class Diagnostics
         "TRCG005", "Unreadable OpenAPI specification",
         "Could not read the content of '{0}'",
         Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, helpLinkUri: HelpLink);
+
+    public static readonly DiagnosticDescriptor UnknownSerializer = new(
+        "TRCG006", "Unknown serializer",
+        "The TypedRestOpenApi item '{0}' specifies the unknown serializer '{1}', expected one of: {2}",
+        Category, DiagnosticSeverity.Error, isEnabledByDefault: true, helpLinkUri: HelpLink);
 }

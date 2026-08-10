@@ -10,21 +10,6 @@ internal static class Attributes
             Arguments = {"TypedRest.CodeGeneration", "1.0.0"}
         };
 
-    public static CSharpAttribute JsonProperty(string name)
-        => new(new CSharpIdentifier("Newtonsoft.Json", "JsonPropertyAttribute"))
-        {
-            Arguments = {name}
-        };
-
-    public static CSharpAttribute EnumMember(string name)
-        => new(new CSharpIdentifier("System.Runtime.Serialization", "EnumMemberAttribute"))
-        {
-            NamedArguments =
-            {
-                ("Value", name)
-            }
-        };
-
     public static CSharpAttribute Obsolete
         => new(new CSharpIdentifier("System", "ObsoleteAttribute"));
 

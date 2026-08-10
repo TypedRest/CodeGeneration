@@ -50,6 +50,13 @@ public class TypedRestSourceGenerator : IIncrementalGenerator
             return;
         }
 
+        string? serializer = spec.Serializer ?? globalConfig.Serializer;
+        if (serializer != null && !JsonAttributes.Names.Contains(serializer))
+        {
+            context.ReportDiagnostic(Diagnostic.Create(Diagnostics.UnknownSerializer, location, fileName, serializer, string.Join(", ", JsonAttributes.Names)));
+            return;
+        }
+
         OpenApiDocument doc;
         OpenApiDiagnostic diagnostic;
         try
@@ -74,7 +81,8 @@ public class TypedRestSourceGenerator : IIncrementalGenerator
             GenerateInterfaces = spec.GenerateInterfaces ?? globalConfig.GenerateInterfaces ?? true,
             GenerateDtos = spec.GenerateDtos ?? globalConfig.GenerateDtos ?? true,
             GenerateEntryConstructor = spec.GenerateEntryConstructor ?? globalConfig.GenerateEntryConstructor ?? true,
-            LanguageVersion = languageVersion
+            LanguageVersion = languageVersion,
+            Serializer = serializer
         };
 
         string prefix = PathHelper.Sanitize(PathHelper.FileStem(spec.Path));

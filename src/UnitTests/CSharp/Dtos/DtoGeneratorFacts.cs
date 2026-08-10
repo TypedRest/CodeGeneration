@@ -8,6 +8,11 @@ public class DtoGeneratorFacts
     private readonly DtoGenerator _generator = new(
         new NamingStrategy("MyService", "MyNamespace", "MyNamespace"));
 
+    /// <summary>
+    /// The attributes of the default serializer, which is what <see cref="_generator"/> annotates for.
+    /// </summary>
+    private static readonly JsonAttributes _json = JsonAttributes.For(null);
+
     [Fact]
     public void GeneratesClasses()
     {
@@ -105,7 +110,7 @@ public class DtoGeneratorFacts
             new CSharpProperty(CSharpIdentifier.String, "Name")
             {
                 Summary = "My name.",
-                Attributes = {Attributes.JsonProperty("name"), Attributes.Required},
+                Attributes = {_json.PropertyName("name"), Attributes.Required},
                 HasSetter = true,
                 IsRequired = true
             }
@@ -175,7 +180,7 @@ public class DtoGeneratorFacts
                 new CSharpProperty(CSharpIdentifier.String.ToNullable(), "Legacy")
                 {
                     Summary = "My legacy value.",
-                    Attributes = {Attributes.JsonProperty("legacy"), Attributes.Obsolete},
+                    Attributes = {_json.PropertyName("legacy"), Attributes.Obsolete},
                     HasSetter = true
                 })
         ]);
@@ -232,7 +237,7 @@ public class DtoGeneratorFacts
             DtoClass("MyTypeAddress", "My address.",
                 new CSharpProperty(CSharpIdentifier.String.ToNullable(), "City")
                 {
-                    Attributes = {Attributes.JsonProperty("city")},
+                    Attributes = {_json.PropertyName("city")},
                     HasSetter = true
                 })
         });
@@ -259,13 +264,13 @@ public class DtoGeneratorFacts
                 new CSharpProperty(CSharpIdentifier.String.ToNullable(), "Name")
                 {
                     Summary = "My name.",
-                    Attributes = {Attributes.JsonProperty("name"), Attributes.Required},
+                    Attributes = {_json.PropertyName("name"), Attributes.Required},
                     HasSetter = true
                 },
                 new CSharpProperty(CSharpIdentifier.Int.ToNullable(), "Age")
                 {
                     Summary = "My age.",
-                    Attributes = {Attributes.JsonProperty("age")},
+                    Attributes = {_json.PropertyName("age")},
                     HasSetter = true
                 })
         ]);
@@ -295,14 +300,14 @@ public class DtoGeneratorFacts
                            new CSharpProperty(list, "Notes")
                            {
                                Summary = "My notes.",
-                               Attributes = {Attributes.JsonProperty("notes")},
+                               Attributes = {_json.PropertyName("notes")},
                                HasSetter = true,
                                Initializer = new CSharpObjectCreation(list)
                            },
                            new CSharpProperty(dictionary, "Tags")
                            {
                                Summary = "My tags.",
-                               Attributes = {Attributes.JsonProperty("tags"), Attributes.Required},
+                               Attributes = {_json.PropertyName("tags"), Attributes.Required},
                                HasSetter = true,
                                Initializer = new CSharpObjectCreation(dictionary)
                            })
@@ -330,14 +335,14 @@ public class DtoGeneratorFacts
                            new CSharpProperty(CSharpIdentifier.String, "Name")
                            {
                                Summary = "My name.",
-                               Attributes = {Attributes.JsonProperty("name"), Attributes.Required},
+                               Attributes = {_json.PropertyName("name"), Attributes.Required},
                                HasSetter = true,
                                IsRequired = true
                            },
                            new CSharpProperty(CSharpIdentifier.Int, "Age")
                            {
                                Summary = "My age.",
-                               Attributes = {Attributes.JsonProperty("age"), Attributes.Required},
+                               Attributes = {_json.PropertyName("age"), Attributes.Required},
                                HasSetter = true,
                                IsRequired = true
                            })
@@ -354,14 +359,14 @@ public class DtoGeneratorFacts
                     new CSharpProperty(CSharpIdentifier.String, "Name")
                     {
                         Summary = "My name.",
-                        Attributes = {Attributes.JsonProperty("name"), Attributes.Required},
+                        Attributes = {_json.PropertyName("name"), Attributes.Required},
                         HasSetter = true,
                         InitializerExpression = "null!"
                     },
                     new CSharpProperty(CSharpIdentifier.Int, "Age")
                     {
                         Summary = "My age.",
-                        Attributes = {Attributes.JsonProperty("age"), Attributes.Required},
+                        Attributes = {_json.PropertyName("age"), Attributes.Required},
                         HasSetter = true
                     })
             ]);
@@ -394,26 +399,26 @@ public class DtoGeneratorFacts
                     new CSharpProperty(CSharpIdentifier.String, "Name")
                     {
                         Summary = "My name.",
-                        Attributes = {Attributes.JsonProperty("name"), Attributes.Required},
+                        Attributes = {_json.PropertyName("name"), Attributes.Required},
                         HasSetter = true
                     },
                     new CSharpProperty(CSharpIdentifier.String, "Nickname")
                     {
                         Summary = "My nickname.",
-                        Attributes = {Attributes.JsonProperty("nickname")},
+                        Attributes = {_json.PropertyName("nickname")},
                         HasSetter = true
                     },
                     // Nullable value types predate C# 8, so they are unaffected
                     new CSharpProperty(CSharpIdentifier.Int.ToNullable(), "Age")
                     {
                         Summary = "My age.",
-                        Attributes = {Attributes.JsonProperty("age")},
+                        Attributes = {_json.PropertyName("age")},
                         HasSetter = true
                     },
                     new CSharpProperty(list, "Aliases")
                     {
                         Summary = "My aliases.",
-                        Attributes = {Attributes.JsonProperty("aliases")},
+                        Attributes = {_json.PropertyName("aliases")},
                         HasSetter = true,
                         Initializer = new CSharpObjectCreation(list)
                     })
@@ -445,7 +450,7 @@ public class DtoGeneratorFacts
         var property = new CSharpProperty(required ? type : type.ToNullable(), name)
         {
             Summary = description,
-            Attributes = {Attributes.JsonProperty(jsonName)},
+            Attributes = {_json.PropertyName(jsonName)},
             HasSetter = true
         };
         if (required)
@@ -470,5 +475,55 @@ public class DtoGeneratorFacts
     }
 
     private static CSharpEnumValue DtoEnumValue(string name, string jsonName)
-        => new(name) {Attributes = { Attributes.EnumMember(jsonName)}};
+        => new(name) {Attributes = { _json.EnumMemberName(jsonName)}};
+
+    [Fact]
+    public void AnnotatesPropertiesForTheChosenSerializer()
+    {
+        var generator = new DtoGenerator(
+            new NamingStrategy("MyService", "MyNamespace", "MyNamespace"),
+            jsonAttributes: JsonAttributes.For(JsonAttributes.SystemTextJson));
+
+        var generated = generator.Generate(new Dictionary<string, OpenApiSchema>
+        {
+            ["myType"] = new()
+            {
+                Type = "object",
+                Properties = {["myName"] = new() {Type = "string"}}
+            }
+        }).OfType<CSharpClass>().Single();
+
+        generated.Properties.Single().Attributes.Should().BeEquivalentTo([
+            new CSharpAttribute(new CSharpIdentifier("System.Text.Json.Serialization", "JsonPropertyNameAttribute"))
+            {
+                Arguments = {"myName"}
+            }
+        ]);
+    }
+
+    [Fact]
+    public void AnnotatesEnumValuesForTheChosenSerializer()
+    {
+        var generator = new DtoGenerator(
+            new NamingStrategy("MyService", "MyNamespace", "MyNamespace"),
+            jsonAttributes: JsonAttributes.For(JsonAttributes.SystemTextJson));
+
+        var generated = generator.Generate(new Dictionary<string, OpenApiSchema>
+        {
+            ["myEnum"] = _enumSchema
+        }).OfType<CSharpEnum>().Single();
+
+        // System.Text.Json ignores [EnumMember], so the values carry [JsonStringEnumMemberName] instead
+        generated.Values.Select(x => x.Attributes.Single().Identifier.Name)
+                 .Should().AllBe("JsonStringEnumMemberNameAttribute");
+    }
+
+    [Fact]
+    public void DefaultsToNewtonsoft()
+        => JsonAttributes.For(null).Serializer.Should().Be(JsonAttributes.Newtonsoft);
+
+    [Fact]
+    public void RejectsUnknownSerializers()
+        => new Func<JsonAttributes>(() => JsonAttributes.For("protobuf"))
+          .Should().Throw<ArgumentException>().WithMessage("*protobuf*");
 }

@@ -16,18 +16,19 @@ Generates a TypedRest client.
 
     typedrest-codegen generate -f myapi.yml -o myclient/ -s MyService --generate-interfaces --generate-dtos
 
-| Option                            | Description                                                                                                                        | Default                |
-| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ---------------------- |
-| `-f`, `--file` (required)         | The path to the Swagger or OpenAPI spec file. Use `-` to read from standard input.                                                 |                        |
-| `-o`, `--output` (required)       | The directory to write the generated source code to.                                                                               |                        |
-| `-s`, `--service-name` (required) | The service name to use for the entry endpoint.                                                                                    |                        |
-| `-l`, `--language`                | The language to generate: `csharp` or `typescript`.                                                                                | `csharp`               |
-| `-n`, `--namespace`               | The C# namespace for the endpoints, or the directory for TypeScript.                                                               | the service name       |
-| `--dto-namespace`                 | The C# namespace for the DTOs, or the directory for TypeScript.                                                                    | see below              |
-| `--generate-interfaces`           | Also generate interfaces for the endpoints. **C# only.**                                                                           | off                    |
-| `--generate-dtos`                 | Also generate DTOs for the schemas in the document.                                                                                | off                    |
-| `--generate-entry-constructor`    | Give the entry endpoint a constructor taking the base URI. Pass `false` to write your own in a partial class. **C# only.**          | on                     |
-| `--lang-version`                  | The minimum C# version the generated code must compile with, using the same values as the MSBuild `LangVersion` property. **C# only.** | `latest`            |
+| Option                            | Description                                                                                                                            | Default          |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
+| `-f`, `--file` (required)         | The path to the Swagger or OpenAPI spec file. Use `-` to read from standard input.                                                     |                  |
+| `-o`, `--output` (required)       | The directory to write the generated source code to.                                                                                   |                  |
+| `-s`, `--service-name` (required) | The service name to use for the entry endpoint.                                                                                        |                  |
+| `-l`, `--language`                | The language to generate: `csharp` or `typescript`.                                                                                    | `csharp`         |
+| `-n`, `--namespace`               | The C# namespace for the endpoints, or the directory for TypeScript.                                                                   | the service name |
+| `--dto-namespace`                 | The C# namespace for the DTOs, or the directory for TypeScript.                                                                        | see below        |
+| `--generate-interfaces`           | Also generate interfaces for the endpoints. **C# only.**                                                                               | off              |
+| `--generate-dtos`                 | Also generate DTOs for the schemas in the document.                                                                                    | off              |
+| `--generate-entry-constructor`    | Give the entry endpoint a constructor taking the base URI. Pass `false` to write your own in a partial class. **C# only.**             | on               |
+| `--lang-version`                  | The minimum C# version the generated code must compile with, using the same values as the MSBuild `LangVersion` property. **C# only.** | `latest`         |
+| `--serializer`                    | The JSON serializer the generated DTOs are annotated for. See below.                                                                   | per language     |
 
 ### C#
 
@@ -36,6 +37,19 @@ The generated code derives from the [`TypedRest`](https://www.nuget.org/packages
 Unlike the [source generator](https://www.nuget.org/packages/TypedRest.SourceGenerator/), interfaces and DTOs are opt-in here. Generated endpoints reference the DTO types by name, so without `--generate-dtos` you have to provide those types yourself.
 
 Use `--generate-entry-constructor false` when the entry endpoint needs a custom error handler or default headers. The class and its base type are still generated, but the constructor is left for you to write in a partial class.
+
+`--serializer` picks which attributes carry the wire names on the generated DTOs:
+
+| Value              | Property attribute   | Enum value attribute         | Runtime package                                                                        |
+| ------------------ | -------------------- | ---------------------------- | -------------------------------------------------------------------------------------- |
+| `newtonsoft`       | `[JsonProperty]`     | `[EnumMember]`               | [`TypedRest`](https://www.nuget.org/packages/TypedRest/)                               |
+| `system-text-json` | `[JsonPropertyName]` | `[JsonStringEnumMemberName]` | [`TypedRest.SystemTextJson`](https://www.nuget.org/packages/TypedRest.SystemTextJson/) |
+
+    typedrest-codegen generate -f myapi.yml -o myclient/ -s MyService --generate-dtos --serializer system-text-json
+
+This has to match the serializer the endpoint is configured with at runtime. The two read entirely different attributes, so a DTO annotated for one silently falls back to its C# member names under the other, changing the wire format without any error.
+
+`[JsonStringEnumMemberName]` requires .NET 9 or later. It is what `JsonStringEnumConverter` reads; System.Text.Json ignores `[EnumMember]` entirely.
 
 ### TypeScript
 
@@ -46,6 +60,8 @@ The generated code imports from the [`typedrest`](https://www.npmjs.com/package/
 Each generated type gets its own file, plus an `index.ts` re-exporting all of them. Here `--namespace` and `--dto-namespace` are directories relative to `--output` rather than namespaces, defaulting to the output directory itself and to `dtos`. Dotted values such as `MyCompany.MyService` become nested directories.
 
 Endpoints become classes deriving from the TypedRest endpoint types and exposing their children as getters. DTOs become interfaces whose properties keep the exact name used on the wire, because TypedRest for TypeScript deserializes with `JSON.parse()` and a cast and so has no way to map a property to a differently named field. Schemas with an `enum` become literal union type aliases.
+
+`--serializer` has no effect here, for the same reason: there is no serializer to choose and nothing to annotate.
 
 ## `pattern`
 

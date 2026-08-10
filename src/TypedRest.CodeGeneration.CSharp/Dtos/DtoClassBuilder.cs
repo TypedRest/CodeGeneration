@@ -3,8 +3,8 @@ using NanoByte.CodeGeneration;
 
 namespace TypedRest.CodeGeneration.CSharp.Dtos;
 
-public class DtoClassBuilder(string key, OpenApiSchema schema, INamingStrategy naming, LanguageVersion languageVersion = LanguageVersion.Latest, TypeNameRegistry? typeNames = null)
-    : DtoBuilder(key, schema, naming, languageVersion, typeNames)
+public class DtoClassBuilder(string key, OpenApiSchema schema, INamingStrategy naming, LanguageVersion languageVersion = LanguageVersion.Latest, TypeNameRegistry? typeNames = null, JsonAttributes? jsonAttributes = null)
+    : DtoBuilder(key, schema, naming, languageVersion, typeNames, jsonAttributes)
 {
     /// <summary>
     /// The properties of this type, including any merged in from inline <c>allOf</c> schemas.
@@ -93,7 +93,7 @@ public class DtoClassBuilder(string key, OpenApiSchema schema, INamingStrategy n
             propertyName)
         {
             Summary = schema?.Description,
-            Attributes = {Attributes.JsonProperty(key)},
+            Attributes = {Json.PropertyName(key)},
             HasSetter = true
         };
 
@@ -119,11 +119,11 @@ public class DtoClassBuilder(string key, OpenApiSchema schema, INamingStrategy n
         {
             // Inline enum
             {Reference: null, Type: "string" or "integer", Enum.Count: > 0} =>
-                AddChildType(new DtoEnumBuilder(ChildKey(nameHint), schema, Naming, LanguageVersion, TypeNames)),
+                AddChildType(new DtoEnumBuilder(ChildKey(nameHint), schema, Naming, LanguageVersion, TypeNames, Json)),
 
             // Inline object
             {Reference: null, Properties.Count: > 0} =>
-                AddChildType(new DtoClassBuilder(ChildKey(nameHint), schema, Naming, LanguageVersion, TypeNames)),
+                AddChildType(new DtoClassBuilder(ChildKey(nameHint), schema, Naming, LanguageVersion, TypeNames, Json)),
 
             // Array of inline enums/objects
             {Type: "array", Items: {} items} when NeedsChildType(items) =>
