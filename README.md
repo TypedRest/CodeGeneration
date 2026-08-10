@@ -35,7 +35,10 @@ Parses OpenAPI/Swagger documents and infers TypedRest Endpoints from patterns.
 [![TypedRest.CodeGeneration.CSharp](https://img.shields.io/nuget/v/TypedRest.CodeGeneration.CSharp.svg?label=TypedRest.CodeGeneration.CSharp)](https://www.nuget.org/packages/TypedRest.CodeGeneration.CSharp/)  
 Generates C# source code for TypedRest .NET clients from OpenAPI/Swagger documents.
 
-Use the latter two to [build your own generator](https://typedrest.net/code-generation/custom-code/) for more complex APIs. For their types and methods take a look at the **[API documentation](https://code-generation.typedrest.net/)**.
+[![TypedRest.CodeGeneration.TypeScript](https://img.shields.io/nuget/v/TypedRest.CodeGeneration.TypeScript.svg?label=TypedRest.CodeGeneration.TypeScript)](https://www.nuget.org/packages/TypedRest.CodeGeneration.TypeScript/)  
+Generates TypeScript source code for TypedRest clients from OpenAPI/Swagger documents.
+
+You can also [build your own generator](https://typedrest.net/code-generation/custom-code/) for more complex APIs. For the relevant types and methods take a look at the **[API documentation](https://code-generation.typedrest.net/)**.
 
 ## Building
 
