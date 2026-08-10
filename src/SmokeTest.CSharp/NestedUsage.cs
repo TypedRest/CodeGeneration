@@ -1,6 +1,6 @@
-using SmokeTest.NestedClient;
+using SmokeTest.CSharp.NestedClient;
 
-namespace SmokeTest;
+namespace SmokeTest.CSharp;
 
 public static class NestedUsage
 {
