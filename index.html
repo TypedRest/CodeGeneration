@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Home | TypedRest Code Generation </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Home | TypedRest Code Generation ">
+      
+      
+      <link rel="icon" href="favicon.ico">
+      <link rel="stylesheet" href="public/docfx.min.css">
+      <link rel="stylesheet" href="public/main.css">
+      <meta name="docfx:navrel" content="toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/TypedRest/CodeGeneration/blob/0.2.0/doc/index.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="index.html">
+            <img id="logo" class="svg" src="icon.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+
+      <div class="content">
+        <div class="actionbar">
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="typedrest-code-generation">TypedRest Code Generation</h1>
+
+<p>This website documents the API of the TypedRest Code Generation libraries. Use them to build your own tools that infer <a href="https://typedrest.net/endpoints/">TypedRest Endpoints</a> from patterns in OpenAPI/Swagger documents and generate client source code.</p>
+<p>If you just want to generate a client for your API, use the <a href="https://typedrest.net/code-generation/source-generator/">source generator</a> or the <a href="https://typedrest.net/code-generation/cli/">command-line tool</a> instead. Both are built on these libraries.</p>
+<pre><code class="lang-csharp">var reader = new OpenApiStreamReader(new OpenApiReaderSettings().AddTypedRest());
+var doc = reader.Read(File.OpenRead(&quot;myapi.yml&quot;), out _);
+
+foreach (var type in doc.GenerateTypedRest(new GenerationOptions(&quot;MyService&quot;)
+{
+    Namespace = &quot;MyCompany.MyService&quot;,
+    GenerateInterfaces = true,
+    GenerateDtos = true
+}))
+    type.WriteToDirectory(&quot;myclient/&quot;);
+</code></pre>
+<h2 id="nuget-packages">NuGet packages</h2>
+<table>
+<thead>
+<tr>
+<th>Package</th>
+<th>Namespace</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.nuget.org/packages/TypedRest.CodeGeneration/">TypedRest.CodeGeneration</a></td>
+<td><a class="xref" href="api/TypedRest.CodeGeneration.html">TypedRest.CodeGeneration</a></td>
+<td>Parses OpenAPI/Swagger documents and infers TypedRest Endpoints from patterns.</td>
+</tr>
+<tr>
+<td><a href="https://www.nuget.org/packages/TypedRest.CodeGeneration.CSharp/">TypedRest.CodeGeneration.CSharp</a></td>
+<td><a class="xref" href="api/TypedRest.CodeGeneration.CSharp.html">TypedRest.CodeGeneration.CSharp</a></td>
+<td>Generates C# source code for TypedRest .NET clients from OpenAPI/Swagger documents.</td>
+</tr>
+<tr>
+<td><a href="https://www.nuget.org/packages/TypedRest.CodeGeneration.TypeScript/">TypedRest.CodeGeneration.TypeScript</a></td>
+<td><a class="xref" href="api/TypedRest.CodeGeneration.TypeScript.html">TypedRest.CodeGeneration.TypeScript</a></td>
+<td>Generates TypeScript source code for TypedRest clients from OpenAPI/Swagger documents.</td>
+</tr>
+<tr>
+<td><a href="https://www.nuget.org/packages/TypedRest.SourceGenerator/">TypedRest.SourceGenerator</a></td>
+<td></td>
+<td>Roslyn <a href="https://typedrest.net/code-generation/source-generator/">source generator</a> that builds clients during compilation.</td>
+</tr>
+<tr>
+<td><a href="https://www.nuget.org/packages/typedrest-codegen/">typedrest-codegen</a></td>
+<td></td>
+<td><a href="https://typedrest.net/code-generation/cli/">Command-line tool</a> that writes the generated code to disk.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dependencies">Dependencies</h3>
+<pre><code class="lang-mermaid">flowchart TD
+    cli[&quot;typedrest-codegen&quot;] --&gt; csharp
+    cli --&gt; typescript
+    sourcegen[&quot;TypedRest.SourceGenerator&quot;] --&gt; csharp
+    csharp[&quot;TypedRest.CodeGeneration.&lt;br&gt;CSharp&quot;] --&gt; core
+    typescript[&quot;TypedRest.CodeGeneration.&lt;br&gt;TypeScript&quot;] --&gt; core
+    core[&quot;TypedRest.CodeGeneration&quot;]
+</code></pre>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/TypedRest/CodeGeneration/blob/0.2.0/doc/index.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
