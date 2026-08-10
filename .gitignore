@@ -13,3 +13,5 @@
 # Output
 /artifacts/
 **/TestResults/
+**/node_modules/
+/src/SmokeTest.TypeScript/generated/

@@ -2,9 +2,9 @@
 
 [![Build](https://github.com/TypedRest/CodeGeneration/actions/workflows/build.yml/badge.svg)](https://github.com/TypedRest/CodeGeneration/actions/workflows/build.yml)
 [![API documentation](https://img.shields.io/badge/api-docs-orange.svg)](https://code-generation.typedrest.net/)  
-Tool that automatically infers [TypedRest Endpoints](https://typedrest.net/endpoints/) from patterns in [OpenAPI/Swagger](https://swagger.io/resources/open-api/) documents and generates source code for TypedRest clients. It currently only supports generating C# clients.
+Tool that automatically infers [TypedRest Endpoints](https://typedrest.net/endpoints/) from patterns in [OpenAPI/Swagger](https://swagger.io/resources/open-api/) documents and generates source code for TypedRest clients. It can generate C# and TypeScript clients.
 
-Generate the client during compilation:
+Generate a C# client during compilation:
 
     dotnet add package TypedRest.CodeGeneration.CSharp.SourceGenerator
 
@@ -18,6 +18,10 @@ Or write it to disk with the command-line tool:
 
     dotnet tool install -g typedrest-codegen
     typedrest-codegen generate -f myapi.yml -o myclient/ -s MyService --generate-interfaces --generate-dtos
+
+The same tool generates TypeScript clients for [TypedRest for TypeScript](https://github.com/TypedRest/TypedRest-TypeScript):
+
+    typedrest-codegen generate -l typescript -f myapi.yml -o src/myclient/ -s MyService --generate-dtos
 
 Read the **[Code generation documentation](https://typedrest.net/code-generation/)** for how the inference works, how to configure both tools and what to do when the inferred client is not what you want.
 
