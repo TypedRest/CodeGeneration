@@ -13,6 +13,9 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <NoWarn>$(NoWarn);1591</NoWarn><!-- Missing XML comments -->
   </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="TypedRest.Codegeneration.UnitTests" />
+  </ItemGroup>
 
   <!-- NuGet Metadata -->
   <PropertyGroup>
