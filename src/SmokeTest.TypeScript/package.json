@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
-    "@types/url-template": "^2.0.31",
+    "@types/url-template": "^3.0.0",
     "typescript": "^5.9.0"
   }
 }
