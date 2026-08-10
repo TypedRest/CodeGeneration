@@ -6,6 +6,9 @@
   <Project Path="TypedRest.CodeGeneration.Cli/TypedRest.CodeGeneration.Cli.csproj" />
   <Project Path="TypedRest.CodeGeneration.CSharp/TypedRest.CodeGeneration.CSharp.csproj" />
   <Project Path="TypedRest.SourceGenerator/TypedRest.SourceGenerator.csproj" />
+  <Project Path="TypedRest.CodeGeneration.Java/TypedRest.CodeGeneration.Java.csproj" />
+  <Project Path="TypedRest.CodeGeneration.Jvm/TypedRest.CodeGeneration.Jvm.csproj" />
+  <Project Path="TypedRest.CodeGeneration.Kotlin/TypedRest.CodeGeneration.Kotlin.csproj" />
   <Project Path="TypedRest.CodeGeneration.TypeScript/TypedRest.CodeGeneration.TypeScript.csproj" />
   <Project Path="TypedRest.CodeGeneration/TypedRest.CodeGeneration.csproj" />
   <Project Path="UnitTests/UnitTests.csproj" />

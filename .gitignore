@@ -15,3 +15,6 @@
 /artifacts/
 **/TestResults/
 /src/SmokeTest.TypeScript/generated/
+/src/SmokeTest.Jvm/generated/
+/src/SmokeTest.Jvm/.gradle/
+/src/SmokeTest.Jvm/build/

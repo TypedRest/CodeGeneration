@@ -18,6 +18,8 @@
   <ItemGroup>
     <ProjectReference Include="..\TypedRest.CodeGeneration.CSharp\TypedRest.CodeGeneration.CSharp.csproj" />
     <ProjectReference Include="..\TypedRest.CodeGeneration.TypeScript\TypedRest.CodeGeneration.TypeScript.csproj" />
+    <ProjectReference Include="..\TypedRest.CodeGeneration.Java\TypedRest.CodeGeneration.Java.csproj" />
+    <ProjectReference Include="..\TypedRest.CodeGeneration.Kotlin\TypedRest.CodeGeneration.Kotlin.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.9.1" />

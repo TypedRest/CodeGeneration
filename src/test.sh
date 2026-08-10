@@ -18,6 +18,13 @@ else
     npm="$zeroinstall run --command=npm https://apps.0install.net/javascript/node.xml"
 fi
 
+# Find gradle
+if command -v gradle > /dev/null 2> /dev/null; then
+    gradle="gradle"
+else
+    gradle="$zeroinstall run https://apps.0install.net/java/gradle.xml"
+fi
+
 # Unit tests
 $dotnet test --no-build --logger trx --configuration Release UnitTests/UnitTests.csproj
 
@@ -31,4 +38,15 @@ $dotnet "$cli" generate -l typescript -f UnitTests/sample-nested.yml -o SmokeTes
     cd SmokeTest.TypeScript
     $npm ci
     $npm run check
+)
+
+# JVM smoke test
+rm -rf SmokeTest.Jvm/generated
+$dotnet "$cli" generate -l kotlin -f UnitTests/sample-v3.yml -o SmokeTest.Jvm/generated/kotlin -s Sample -n net.typedrest.smoketest.kotlin --generate-dtos
+$dotnet "$cli" generate -l java -f UnitTests/sample-v3.yml -o SmokeTest.Jvm/generated/java -s Sample -n net.typedrest.smoketest.java --generate-dtos
+$dotnet "$cli" generate -l kotlin -f UnitTests/sample-nested.yml -o SmokeTest.Jvm/generated/kotlin -s NestedSample -n net.typedrest.smoketest.nested.kotlin --generate-dtos
+$dotnet "$cli" generate -l java -f UnitTests/sample-nested.yml -o SmokeTest.Jvm/generated/java -s NestedSample -n net.typedrest.smoketest.nested.java --generate-dtos
+(
+    cd SmokeTest.Jvm
+    $gradle --quiet --no-daemon compileKotlin compileJava
 )
