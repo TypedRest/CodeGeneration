@@ -15,14 +15,14 @@
 
   <!-- Dependencies -->
   <ItemGroup>
-    <ProjectReference Include="..\TypedRest.CodeGeneration.CSharp.SourceGenerator\TypedRest.CodeGeneration.CSharp.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="False" />
+    <ProjectReference Include="..\TypedRest.SourceGenerator\TypedRest.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="False" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="TypedRest" Version="1.7.0" />
   </ItemGroup>
 
   <!-- Simulates what consumers get from the NuGet package -->
-  <Import Project="..\TypedRest.CodeGeneration.CSharp.SourceGenerator\build\TypedRest.CodeGeneration.CSharp.SourceGenerator.props" />
+  <Import Project="..\TypedRest.SourceGenerator\build\TypedRest.SourceGenerator.props" />
 
   <ItemGroup>
     <TypedRestOpenApi Include="..\UnitTests\sample-v3.yml" ServiceName="Sample" Namespace="SmokeTest.CSharp.Client" />
@@ -30,6 +30,6 @@
   </ItemGroup>
 
   <!-- Simulates what consumers get from the NuGet package -->
-  <Import Project="..\TypedRest.CodeGeneration.CSharp.SourceGenerator\build\TypedRest.CodeGeneration.CSharp.SourceGenerator.targets" />
+  <Import Project="..\TypedRest.SourceGenerator\build\TypedRest.SourceGenerator.targets" />
 
 </Project>

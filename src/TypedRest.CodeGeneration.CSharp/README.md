@@ -4,7 +4,7 @@ Generates C# source code for [TypedRest .NET](https://github.com/TypedRest/Typed
 
     dotnet add package TypedRest.CodeGeneration.CSharp
 
-Use this to build your own code generator. If you just want to generate a client for your API, use the [source generator](https://www.nuget.org/packages/TypedRest.CodeGeneration.CSharp.SourceGenerator/) or the [command-line tool](https://www.nuget.org/packages/typedrest-codegen/) instead; both are built on this library.
+Use this to build your own code generator. If you just want to generate a client for your API, use the [source generator](https://www.nuget.org/packages/TypedRest.SourceGenerator/) or the [command-line tool](https://www.nuget.org/packages/typedrest-codegen/) instead; both are built on this library.
 
 ## Usage
 
@@ -42,7 +42,7 @@ To change how types and properties are named, derive from `NamingStrategy` and p
 ## Related packages
 
 - [TypedRest.CodeGeneration](https://www.nuget.org/packages/TypedRest.CodeGeneration/) is the basis of this library. It parses OpenAPI/Swagger documents and infers TypedRest Endpoints from patterns.
-- [TypedRest.CodeGeneration.CSharp.SourceGenerator](https://www.nuget.org/packages/TypedRest.CodeGeneration.CSharp.SourceGenerator/) builds on this library to generate clients during compilation.
+- [TypedRest.SourceGenerator](https://www.nuget.org/packages/TypedRest.SourceGenerator/) builds on this library to generate clients during compilation.
 - [typedrest-codegen](https://www.nuget.org/packages/typedrest-codegen/) is a command-line tool that builds on this library and writes the generated code to disk.
 
 ## Links

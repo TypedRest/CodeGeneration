@@ -18,7 +18,7 @@
   <!-- Dependencies -->
   <ItemGroup>
     <ProjectReference Include="..\TypedRest.CodeGeneration.CSharp\TypedRest.CodeGeneration.CSharp.csproj" />
-    <ProjectReference Include="..\TypedRest.CodeGeneration.CSharp.SourceGenerator\TypedRest.CodeGeneration.CSharp.SourceGenerator.csproj" />
+    <ProjectReference Include="..\TypedRest.SourceGenerator\TypedRest.SourceGenerator.csproj" />
     <ProjectReference Include="..\TypedRest.CodeGeneration.TypeScript\TypedRest.CodeGeneration.TypeScript.csproj" />
     <ProjectReference Include="..\TypedRest.CodeGeneration.Cli\TypedRest.CodeGeneration.Cli.csproj" />
   </ItemGroup>

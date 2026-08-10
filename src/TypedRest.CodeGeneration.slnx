@@ -5,7 +5,7 @@
   <Project Path="SmokeTest.CSharp/SmokeTest.CSharp.csproj" />
   <Project Path="TypedRest.CodeGeneration.Cli/TypedRest.CodeGeneration.Cli.csproj" />
   <Project Path="TypedRest.CodeGeneration.CSharp/TypedRest.CodeGeneration.CSharp.csproj" />
-  <Project Path="TypedRest.CodeGeneration.CSharp.SourceGenerator/TypedRest.CodeGeneration.CSharp.SourceGenerator.csproj" />
+  <Project Path="TypedRest.SourceGenerator/TypedRest.SourceGenerator.csproj" />
   <Project Path="TypedRest.CodeGeneration.TypeScript/TypedRest.CodeGeneration.TypeScript.csproj" />
   <Project Path="TypedRest.CodeGeneration/TypedRest.CodeGeneration.csproj" />
   <Project Path="UnitTests/UnitTests.csproj" />

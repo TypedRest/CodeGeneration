@@ -6,7 +6,7 @@ Make sure you have the [.NET SDK](https://dotnet.microsoft.com/download) install
 
     dotnet tool install -g typedrest-codegen
 
-If you build your client with the .NET SDK, consider the [source generator](https://www.nuget.org/packages/TypedRest.CodeGeneration.CSharp.SourceGenerator/) instead. It runs the same generator during compilation, without writing files to your source tree.
+If you build your client with the .NET SDK, consider the [source generator](https://www.nuget.org/packages/TypedRest.SourceGenerator/) instead. It runs the same generator during compilation, without writing files to your source tree.
 
 For a walkthrough see the **[usage guide](https://typedrest.net/code-generation/cli/)**.
 
@@ -33,7 +33,7 @@ Generates a TypedRest client.
 
 The generated code derives from the [`TypedRest`](https://www.nuget.org/packages/TypedRest/) package, so run `dotnet add package TypedRest` in the consuming project.
 
-Unlike the [source generator](https://www.nuget.org/packages/TypedRest.CodeGeneration.CSharp.SourceGenerator/), interfaces and DTOs are opt-in here. Generated endpoints reference the DTO types by name, so without `--generate-dtos` you have to provide those types yourself.
+Unlike the [source generator](https://www.nuget.org/packages/TypedRest.SourceGenerator/), interfaces and DTOs are opt-in here. Generated endpoints reference the DTO types by name, so without `--generate-dtos` you have to provide those types yourself.
 
 Use `--generate-entry-constructor false` when the entry endpoint needs a custom error handler or default headers. The class and its base type are still generated, but the constructor is left for you to write in a partial class.
 
