@@ -1,6 +1,6 @@
-using SmokeTest.Client;
+using SmokTest.CSharp.Client;
 
-namespace SmokeTest;
+namespace SmokTest.CSharp;
 
 /// <summary>
 /// References the generated client, so that the compiler has to resolve the generated types.
