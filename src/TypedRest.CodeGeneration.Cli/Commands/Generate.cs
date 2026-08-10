@@ -1,7 +1,7 @@
 using CommandLine;
 using Microsoft.CodeAnalysis.CSharp;
 using TypedRest.CodeGeneration.CSharp;
-using NanoByte.CodeGeneration;
+using TypedRest.CodeGeneration.Generation;
 
 namespace TypedRest.CodeGeneration.Cli.Commands;
 
@@ -40,9 +40,8 @@ public class Generate : CommandBase
             return 1;
         }
 
-        var (doc, _) = ReadDoc();
-
-        WriteSource(doc.GenerateTypedRest(new(ServiceName)
+        IClientGenerator generator = new CSharpClientGenerator();
+        var options = new GenerationOptions(ServiceName)
         {
             Namespace = Namespace,
             DtoNamespace = DtoNamespace,
@@ -50,15 +49,14 @@ public class Generate : CommandBase
             GenerateDtos = GenerateDtos,
             GenerateEntryConstructor = GenerateEntryConstructor,
             LanguageVersion = languageVersion
-        }));
+        };
+
+        var (doc, _) = ReadDoc();
+
+        Directory.CreateDirectory(OutputDir);
+        foreach (var file in generator.Generate(doc, options, new ConsoleGenerationLog()))
+            file.WriteToDirectory(OutputDir);
 
         return 0;
-    }
-
-    private void WriteSource(IEnumerable<ICSharpType> types)
-    {
-        Directory.CreateDirectory(OutputDir);
-        foreach (var type in types)
-            type.WriteToDirectory(OutputDir);
     }
 }

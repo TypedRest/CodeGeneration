@@ -1,43 +1,27 @@
 using Microsoft.CodeAnalysis.CSharp;
+using TypedRest.CodeGeneration.Generation;
 
 namespace TypedRest.CodeGeneration.CSharp;
 
 /// <summary>
-/// Options controlling the generation of a TypedRest client.
+/// Options controlling the generation of a C# TypedRest client.
 /// </summary>
-/// <param name="serviceName">The service name to use for the entry endpoint.</param>
-public class GenerationOptions(string serviceName)
+public class GenerationOptions : ClientGenerationOptions
 {
     /// <summary>
-    /// The service name to use for the entry endpoint.
+    /// Creates new generation options.
     /// </summary>
-    public string ServiceName { get; } = serviceName;
+    /// <param name="serviceName">The service name to use for the entry endpoint.</param>
+    public GenerationOptions(string serviceName)
+        : base(serviceName)
+    {}
 
     /// <summary>
-    /// The C# namespace for the endpoints. Uses <see cref="ServiceName"/> if not set.
+    /// Creates new generation options, copying the common options from <paramref name="other"/>.
     /// </summary>
-    public string? Namespace { get; set; }
-
-    /// <summary>
-    /// The C# namespace for the DTOs. Uses <see cref="Namespace"/> if not set.
-    /// </summary>
-    public string? DtoNamespace { get; set; }
-
-    /// <summary>
-    /// Controls whether to generate interfaces for endpoints.
-    /// </summary>
-    public bool GenerateInterfaces { get; set; }
-
-    /// <summary>
-    /// Controls whether to generate DTOs.
-    /// </summary>
-    public bool GenerateDtos { get; set; }
-
-    /// <summary>
-    /// Controls whether the entry endpoint gets a generated constructor taking the base URI.
-    /// Turn this off to supply the constructors yourself in a partial class, e.g. to pass an error handler or custom headers.
-    /// </summary>
-    public bool GenerateEntryConstructor { get; set; } = true;
+    public GenerationOptions(ClientGenerationOptions other)
+        : base(other)
+    {}
 
     /// <summary>
     /// The minimum C# version the generated code must compile with.

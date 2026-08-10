@@ -3,13 +3,14 @@ using TypedRest.CodeGeneration.CSharp.Endpoints.Raw;
 using TypedRest.CodeGeneration.CSharp.Endpoints.Reactive;
 using TypedRest.CodeGeneration.CSharp.Endpoints.Rpc;
 using TypedRest.CodeGeneration.Endpoints;
+using TypedRest.CodeGeneration.Generation;
 
 namespace TypedRest.CodeGeneration.CSharp.Endpoints;
 
 /// <summary>
 /// A list of all known <see cref="IBuilder"/>s.
 /// </summary>
-public class BuilderRegistry
+public class BuilderRegistry : BuilderRegistry<IBuilder>
 {
     /// <summary>
     /// Builder registry with the built-in default <see cref="IBuilder"/>s.
@@ -31,8 +32,6 @@ public class BuilderRegistry
           .Add(new SseStreamingBuilder())
           .Add(new StreamingCollectionBuilder());
 
-    private readonly Dictionary<string, IBuilder> _builders = new();
-
     public BuilderRegistry()
     {
         // Must always be registered
@@ -45,19 +44,7 @@ public class BuilderRegistry
     public BuilderRegistry Add<TEndpoint>(IBuilder<TEndpoint> builder)
         where TEndpoint : IEndpoint, new()
     {
-        _builders.Add(new TEndpoint().Kind, builder);
+        Register<TEndpoint>(builder);
         return this;
-    }
-
-    /// <summary>
-    /// Returns an <see cref="IBuilder"/> suitable for the kind of <paramref name="endpoint"/>.
-    /// </summary>
-    /// <exception cref="KeyNotFoundException">No builder matching the endpoint's kind found.</exception>
-    public IBuilder For(IEndpoint endpoint)
-    {
-        if (!_builders.TryGetValue(endpoint.Kind, out var builder))
-            throw new KeyNotFoundException($"No builder registered for endpoint kind '{endpoint.Kind}'.");
-
-        return builder;
     }
 }

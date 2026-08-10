@@ -1,4 +1,5 @@
 using NanoByte.CodeGeneration;
+using TypedRest.CodeGeneration.Endpoints;
 using TypedRest.CodeGeneration.Endpoints.Generic;
 
 namespace TypedRest.CodeGeneration.CSharp.Endpoints.Generic;
@@ -12,8 +13,7 @@ public class IndexerBuilder : BuilderBase<IndexerEndpoint>
     {
         if (endpoint.Element == null) throw new InvalidOperationException($"Missing element for endpoint '{key}'.");
 
-        string elementKey = key.Depluralize() + "_Element";
-        var (property, types) = generator.Generate(elementKey, endpoint.Element);
+        var (property, types) = generator.Generate(EndpointTree.ElementKey(key), endpoint.Element);
         return (types, typeArguments: new [] {property.GetterExpression!.Type});
     }
 

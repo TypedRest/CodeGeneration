@@ -1,7 +1,7 @@
-namespace TypedRest.CodeGeneration.CSharp;
+namespace TypedRest.CodeGeneration;
 
 /// <summary>
-/// Helpers for transforming OpenAPI path/property keys before they become C# identifiers.
+/// Helpers for transforming OpenAPI path/property keys before they become identifiers.
 /// </summary>
 public static class KeyExtensions
 {

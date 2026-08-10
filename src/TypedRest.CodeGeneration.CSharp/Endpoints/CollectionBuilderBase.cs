@@ -1,5 +1,6 @@
 ﻿using NanoByte.CodeGeneration;
 using TypedRest.CodeGeneration.CSharp.Endpoints.Generic;
+using TypedRest.CodeGeneration.Endpoints;
 using TypedRest.CodeGeneration.Endpoints.Generic;
 
 namespace TypedRest.CodeGeneration.CSharp.Endpoints;
@@ -31,8 +32,7 @@ public abstract class CollectionBuilderBase<TEndpoint> : BuilderBase<TEndpoint>
 
         endpoint.Element.Schema ??= endpoint.Schema;
 
-        string elementKey = key.Depluralize() + "_Element";
-        var (property, types) = generator.Generate(elementKey, endpoint.Element);
+        var (property, types) = generator.Generate(EndpointTree.ElementKey(key), endpoint.Element);
         return (types, typeArguments: new [] {property.GetterExpression!.Type});
     }
 
