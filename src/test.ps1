@@ -8,6 +8,15 @@ function Run-DotNet {
     if ($LASTEXITCODE -ne 0) {throw "Exit Code: $LASTEXITCODE"}
 }
 
+function Run-Gradle {
+    if (Get-Command gradle -ErrorAction SilentlyContinue) {
+        gradle @args
+    } else {
+        & $zeroInstall run --batch https://apps.0install.net/java/gradle.xml @args
+    }
+    if ($LASTEXITCODE -ne 0) {throw "Exit Code: $LASTEXITCODE"}
+}
+
 function Run-Npm {
     if (Get-Command npm -ErrorAction SilentlyContinue) {
         npm @args
@@ -21,6 +30,16 @@ function Run-Npm {
 Run-DotNet test --no-build --logger trx --configuration Release UnitTests\UnitTests.csproj
 
 $cli = "..\artifacts\Release\net10.0\TypedRest.CodeGeneration.Cli.dll"
+
+# JVM smoke test
+if (Test-Path SmokeTest.Jvm\generated) {Remove-Item SmokeTest.Jvm\generated -Recurse -Force}
+Run-DotNet $cli generate -l kotlin -f UnitTests\sample-v3.yml -o SmokeTest.Jvm\generated\kotlin -s Sample -n net.typedrest.smoketest.kotlin --generate-dtos
+Run-DotNet $cli generate -l java -f UnitTests\sample-v3.yml -o SmokeTest.Jvm\generated\java -s Sample -n net.typedrest.smoketest.java --generate-dtos
+Run-DotNet $cli generate -l kotlin -f UnitTests\sample-nested.yml -o SmokeTest.Jvm\generated\kotlin -s NestedSample -n net.typedrest.smoketest.nested.kotlin --generate-dtos
+Run-DotNet $cli generate -l java -f UnitTests\sample-nested.yml -o SmokeTest.Jvm\generated\java -s NestedSample -n net.typedrest.smoketest.nested.java --generate-dtos
+pushd SmokeTest.Jvm
+Run-Gradle --quiet --no-daemon compileKotlin compileJava
+popd
 
 # TypeScript smoke test
 if (Test-Path SmokeTest.TypeScript\generated) {Remove-Item SmokeTest.TypeScript\generated -Recurse -Force}

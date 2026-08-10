@@ -2,6 +2,8 @@ using CommandLine;
 using Microsoft.CodeAnalysis.CSharp;
 using TypedRest.CodeGeneration.CSharp;
 using TypedRest.CodeGeneration.Generation;
+using TypedRest.CodeGeneration.Java;
+using TypedRest.CodeGeneration.Kotlin;
 using TypedRest.CodeGeneration.TypeScript;
 
 namespace TypedRest.CodeGeneration.Cli.Commands;
@@ -15,7 +17,7 @@ public class Generate : CommandBase
     [Option('s', "service-name", HelpText = "The service name to use for the entry endpoint.", Required = true)]
     public string ServiceName { get; set; } = default!;
 
-    [Option('l', "language", Default = CSharpClientGenerator.LanguageName, HelpText = "The language to generate: 'csharp' or 'typescript'.")]
+    [Option('l', "language", Default = CSharpClientGenerator.LanguageName, HelpText = "The language to generate: 'csharp', 'typescript', 'kotlin' or 'java'.")]
     public string Language { get; set; } = CSharpClientGenerator.LanguageName;
 
     [Option('n', "namespace", HelpText = "The C# namespace for the endpoints, or the directory for TypeScript. Uses service-name if not set.")]
@@ -45,7 +47,9 @@ public class Generate : CommandBase
     private static ClientGeneratorRegistry Generators
         => new ClientGeneratorRegistry()
           .Add(new CSharpClientGenerator())
-          .Add(new TypeScriptClientGenerator());
+          .Add(new TypeScriptClientGenerator())
+          .Add(new KotlinClientGenerator())
+          .Add(new JavaClientGenerator());
 
     public override int Run()
     {

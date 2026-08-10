@@ -21,12 +21,12 @@ Generates a TypedRest client.
 | `-f`, `--file` (required)         | The path to the Swagger or OpenAPI spec file. Use `-` to read from standard input.                                                     |                  |
 | `-o`, `--output` (required)       | The directory to write the generated source code to.                                                                                   |                  |
 | `-s`, `--service-name` (required) | The service name to use for the entry endpoint.                                                                                        |                  |
-| `-l`, `--language`                | The language to generate: `csharp` or `typescript`.                                                                                    | `csharp`         |
-| `-n`, `--namespace`               | The C# namespace for the endpoints, or the directory for TypeScript.                                                                   | the service name |
-| `--dto-namespace`                 | The C# namespace for the DTOs, or the directory for TypeScript.                                                                        | see below        |
+| `-l`, `--language`                | The language to generate: `csharp`, `typescript`, `kotlin` or `java`.                                                                  | `csharp`         |
+| `-n`, `--namespace`               | The namespace (C#), package (Kotlin/Java) or directory (TypeScript) for the endpoints.                                                 | the service name |
+| `--dto-namespace`                 | The same for the DTOs.                                                                                                                 | see below        |
 | `--generate-interfaces`           | Also generate interfaces for the endpoints. **C# only.**                                                                               | off              |
 | `--generate-dtos`                 | Also generate DTOs for the schemas in the document.                                                                                    | off              |
-| `--generate-entry-constructor`    | Give the entry endpoint a constructor taking the base URI. Pass `false` to write your own in a partial class. **C# only.**             | on               |
+| `--generate-entry-constructor`    | Give the entry endpoint a constructor taking the base URI. Pass `false` to write your own. **Not for TypeScript.**                     | on               |
 | `--lang-version`                  | The minimum C# version the generated code must compile with, using the same values as the MSBuild `LangVersion` property. **C# only.** | `latest`         |
 | `--serializer`                    | The JSON serializer the generated DTOs are annotated for. See below.                                                                   | per language     |
 
@@ -62,6 +62,32 @@ Each generated type gets its own file, plus an `index.ts` re-exporting all of th
 Endpoints become classes deriving from the TypedRest endpoint types and exposing their children as getters. DTOs become interfaces whose properties keep the exact name used on the wire, because TypedRest for TypeScript deserializes with `JSON.parse()` and a cast and so has no way to map a property to a differently named field. Schemas with an `enum` become literal union type aliases.
 
 `--serializer` has no effect here, for the same reason: there is no serializer to choose and nothing to annotate.
+
+### Kotlin
+
+    typedrest-codegen generate -l kotlin -f myapi.yml -o src/main/kotlin/ -s MyService -n com.mycompany.myservice --generate-dtos
+
+The generated code derives from [TypedRest for the JVM](https://github.com/TypedRest/TypedRest-Java), so add `net.typedrest:typedrest` to the consuming project — plus `net.typedrest:typedrest-reactive` if the document describes any polling or streaming endpoints.
+
+One file per type, in a directory matching its package, so `--output` is the source root (`src/main/kotlin/`) rather than the package directory. `--namespace` is the package for the endpoints and `--dto-namespace` the one for the DTOs, defaulting to a `dtos` subpackage of the endpoints.
+
+Endpoints become `open class`es deriving from the TypedRest `Impl` classes and exposing their children as `val`s. DTOs become `data class`es, and schemas with an `enum` become `enum class`es. Optional properties are nullable and default to `null`; required ones get no default, so a missing value is a compile error.
+
+`--serializer` picks `kotlinx` (default), `jackson` or `moshi`. kotlinx.serialization is what `EntryEndpoint` itself defaults to, so a client generated for it passes no serializer at all; the others are passed explicitly.
+
+Generating DTOs for `kotlinx` needs both the `kotlin("plugin.serialization")` Gradle plugin **and** an explicit `org.jetbrains.kotlinx:kotlinx-serialization-json` dependency: TypedRest depends on it only as `implementation`, so it does not reach your compile classpath, and the plugin adds the compiler plugin but no dependency.
+
+### Java
+
+    typedrest-codegen generate -l java -f myapi.yml -o src/main/java/ -s MyService -n com.mycompany.myservice --generate-dtos
+
+Prefer the Kotlin generator if you can: TypedRest for the JVM is written in Kotlin, so that is the lower-friction direction. Use this one when your own source is Java.
+
+The layout matches the Kotlin generator's. Endpoints expose their children as `public final` fields rather than getters, because a getter recomputing the endpoint on every call would hand out a new instance each time and throw away the response cache. DTOs become plain classes with public fields, a no-argument constructor and a full one.
+
+Properties the document does not require are annotated with JSpecify's `@Nullable`, so that Kotlin consumers get real null safety instead of platform types. Add `org.jspecify:jspecify` to the consuming project, or drop the annotations by generating Kotlin instead.
+
+`--serializer` picks `jackson` (default) or `moshi`. `kotlinx` is rejected here: kotlinx.serialization generates its serializers with a Kotlin compiler plugin and cannot handle a class written in Java, so a client generated for it would compile and then fail to deserialize anything.
 
 ## `pattern`
 

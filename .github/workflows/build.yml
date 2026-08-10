@@ -17,6 +17,11 @@ jobs:
         id: gitversion
       - name: Add NuGet package source
         run: dotnet nuget add source https://nuget.pkg.github.com/${{github.repository_owner}}/index.json --name github --username ${{github.actor}} --password ${{github.token}} --store-password-in-clear-text
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v4
       - uses: actions/setup-node@v7
         with:
           node-version: 24

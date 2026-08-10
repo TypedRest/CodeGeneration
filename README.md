@@ -2,7 +2,7 @@
 
 [![Build](https://github.com/TypedRest/CodeGeneration/actions/workflows/build.yml/badge.svg)](https://github.com/TypedRest/CodeGeneration/actions/workflows/build.yml)
 [![API documentation](https://img.shields.io/badge/api-docs-orange.svg)](https://code-generation.typedrest.net/)  
-Tool that automatically infers [TypedRest Endpoints](https://typedrest.net/endpoints/) from patterns in [OpenAPI/Swagger](https://swagger.io/resources/open-api/) documents and generates source code for TypedRest clients. It can generate C# and TypeScript clients.
+Tool that automatically infers [TypedRest Endpoints](https://typedrest.net/endpoints/) from patterns in [OpenAPI/Swagger](https://swagger.io/resources/open-api/) documents and generates source code for TypedRest clients. It can generate C#, TypeScript, Kotlin and Java clients.
 
 Write a C# client to disk with the command-line tool:
 
@@ -12,6 +12,11 @@ Write a C# client to disk with the command-line tool:
 Write a TypeScript client to disk with the command-line tool:
 
     typedrest-codegen generate -l typescript -f myapi.yml -o src/myclient/ -s MyService --generate-dtos
+
+Write a Java or Kotlin client to disk with the command-line tool:
+
+    typedrest-codegen generate -l java -f myapi.yml -o src/main/java/ -s MyService -n com.mycompany.myservice --generate-dtos
+    typedrest-codegen generate -l kotlin -f myapi.yml -o src/main/kotlin/ -s MyService -n com.mycompany.myservice --generate-dtos
 
 Or generate a C# client during compilation instead, with nothing written to disk:
 
@@ -35,6 +40,15 @@ Generates C# source code for TypedRest .NET clients from OpenAPI/Swagger documen
 
 [![TypedRest.CodeGeneration.TypeScript](https://img.shields.io/nuget/v/TypedRest.CodeGeneration.TypeScript.svg?label=TypedRest.CodeGeneration.TypeScript)](https://www.nuget.org/packages/TypedRest.CodeGeneration.TypeScript/)  
 Generates TypeScript source code for TypedRest clients from OpenAPI/Swagger documents.
+
+[![TypedRest.CodeGeneration.Jvm](https://img.shields.io/nuget/v/TypedRest.CodeGeneration.Jvm.svg?label=TypedRest.CodeGeneration.Jvm)](https://www.nuget.org/packages/TypedRest.CodeGeneration.Jvm/)  
+Shared logic for generating source code for JVM-based languages.
+
+[![TypedRest.CodeGeneration.Java](https://img.shields.io/nuget/v/TypedRest.CodeGeneration.Java.svg?label=TypedRest.CodeGeneration.Java)](https://www.nuget.org/packages/TypedRest.CodeGeneration.Java/)  
+Generates Java source code for TypedRest clients from OpenAPI/Swagger documents. [TypedRest for the JVM](https://github.com/TypedRest/TypedRest-Java) is written in Kotlin, so prefer the Kotlin generator unless your own source is Java.
+
+[![TypedRest.CodeGeneration.Kotlin](https://img.shields.io/nuget/v/TypedRest.CodeGeneration.Kotlin.svg?label=TypedRest.CodeGeneration.Kotlin)](https://www.nuget.org/packages/TypedRest.CodeGeneration.Kotlin/)  
+Generates Kotlin source code for TypedRest clients from OpenAPI/Swagger documents.
 
 You can also [build your own generator](https://typedrest.net/code-generation/custom-code/) for more complex APIs. For the relevant types and methods take a look at the **[API documentation](https://code-generation.typedrest.net/)**.
 

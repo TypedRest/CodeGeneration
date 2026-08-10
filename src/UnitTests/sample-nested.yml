@@ -68,3 +68,11 @@ x-typedrest:
         kind: action
         uri: ./search
         description: Searches all projects.
+  admin:
+    uri: ./admin
+    description: Administrative operations.
+    children:
+      reindex:
+        kind: action
+        uri: ./reindex
+        description: Rebuilds the index.
