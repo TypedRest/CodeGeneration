@@ -4,9 +4,18 @@
 [![API documentation](https://img.shields.io/badge/api-docs-orange.svg)](https://code-generation.typedrest.net/)  
 Tool that automatically infers [TypedRest Endpoints](https://typedrest.net/endpoints/) from patterns in [OpenAPI/Swagger](https://swagger.io/resources/open-api/) documents and generates source code for TypedRest clients. It can generate C# and TypeScript clients.
 
-Generate a C# client during compilation:
+Write a C# client to disk with the command-line tool:
 
-    dotnet add package TypedRest.CodeGeneration.CSharp.SourceGenerator
+    dotnet tool install -g typedrest-codegen
+    typedrest-codegen generate -f myapi.yml -o myclient/ -s MyService --generate-interfaces --generate-dtos
+
+Write a TyepScript client to disk with the command-line tool:
+
+    typedrest-codegen generate -l typescript -f myapi.yml -o src/myclient/ -s MyService --generate-dtos
+
+Or generate a C# client during compilation instead, with nothing written to disk:
+
+    dotnet add package TypedRest.SourceGenerator
 
 ```xml
 <ItemGroup>
@@ -14,24 +23,9 @@ Generate a C# client during compilation:
 </ItemGroup>
 ```
 
-Or write it to disk with the command-line tool:
-
-    dotnet tool install -g typedrest-codegen
-    typedrest-codegen generate -f myapi.yml -o myclient/ -s MyService --generate-interfaces --generate-dtos
-
-The same tool generates TypeScript clients for [TypedRest for TypeScript](https://github.com/TypedRest/TypedRest-TypeScript):
-
-    typedrest-codegen generate -l typescript -f myapi.yml -o src/myclient/ -s MyService --generate-dtos
-
-Read the **[Code generation documentation](https://typedrest.net/code-generation/)** for how the inference works, how to configure both tools and what to do when the inferred client is not what you want.
+Read the **[Code generation documentation](https://typedrest.net/code-generation/)** for how the inference works, how to configure the tools and what to do when the inferred client is not what you want.
 
 ## NuGet packages
-
-[![TypedRest.CodeGeneration.CSharp.SourceGenerator](https://img.shields.io/nuget/v/TypedRest.CodeGeneration.CSharp.SourceGenerator.svg?label=TypedRest.CodeGeneration.CSharp.SourceGenerator)](https://www.nuget.org/packages/TypedRest.CodeGeneration.CSharp.SourceGenerator/)  
-Roslyn source generator that builds clients during compilation.
-
-[![typedrest-codegen](https://img.shields.io/nuget/v/typedrest-codegen.svg?label=typedrest-codegen)](https://www.nuget.org/packages/typedrest-codegen/)  
-Command-line tool that writes the generated code to disk.
 
 [![TypedRest.CodeGeneration](https://img.shields.io/nuget/v/TypedRest.CodeGeneration.svg?label=TypedRest.CodeGeneration)](https://www.nuget.org/packages/TypedRest.CodeGeneration/)  
 Parses OpenAPI/Swagger documents and infers TypedRest Endpoints from patterns.
@@ -43,6 +37,12 @@ Generates C# source code for TypedRest .NET clients from OpenAPI/Swagger documen
 Generates TypeScript source code for TypedRest clients from OpenAPI/Swagger documents.
 
 You can also [build your own generator](https://typedrest.net/code-generation/custom-code/) for more complex APIs. For the relevant types and methods take a look at the **[API documentation](https://code-generation.typedrest.net/)**.
+
+[![TypedRest.SourceGenerator](https://img.shields.io/nuget/v/TypedRest.SourceGenerator.svg?label=TypedRest.SourceGenerator)](https://www.nuget.org/packages/TypedRest.SourceGenerator/)  
+Roslyn source generator that builds C# clients during compilation.
+
+[![typedrest-codegen](https://img.shields.io/nuget/v/typedrest-codegen.svg?label=typedrest-codegen)](https://www.nuget.org/packages/typedrest-codegen/)  
+Command-line tool that writes the generated code to disk.
 
 ## Building
 

@@ -4,7 +4,7 @@ namespace TypedRest.CodeGeneration.CSharp;
 /// The MSBuild property and item metadata names the generator reads.
 /// </summary>
 /// <remarks>
-/// These must be kept in sync with <c>build/TypedRest.CodeGeneration.CSharp.SourceGenerator.props</c>,
+/// These must be kept in sync with <c>build/TypedRest.SourceGenerator.props</c>,
 /// which is what makes them visible to the compiler.
 /// </remarks>
 internal static class ConfigKeys

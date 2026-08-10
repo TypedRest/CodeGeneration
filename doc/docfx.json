@@ -5,7 +5,7 @@
         {
           "src": "../src",
           "files": ["*/*.csproj"],
-          "exclude": ["UnitTests/*", "SmokeTest/*", "TypedRest.CodeGeneration.Cli/*", "TypedRest.CodeGeneration.CSharp.SourceGenerator/*"]
+          "exclude": ["UnitTests/*", "SmokeTest/*", "TypedRest.CodeGeneration.Cli/*", "TypedRest.SourceGenerator/*"]
         }
       ],
       "properties": {

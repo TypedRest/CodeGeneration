@@ -1,8 +1,8 @@
-# ![TypedRest](https://raw.githubusercontent.com/TypedRest/TypedRest-DotNet/master/logo.svg) Code Generation Source Generator
+# ![TypedRest](https://raw.githubusercontent.com/TypedRest/TypedRest-DotNet/master/logo.svg) Source Generator
 
 Roslyn source generator that builds [TypedRest](https://typedrest.net/) clients from [OpenAPI/Swagger](https://swagger.io/resources/open-api/) documents during compilation.
 
-    dotnet add package TypedRest.CodeGeneration.CSharp.SourceGenerator
+    dotnet add package TypedRest.SourceGenerator
 
 Then reference the OpenAPI/Swagger document from your project file:
 
