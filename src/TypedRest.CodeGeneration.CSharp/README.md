@@ -23,6 +23,10 @@ foreach (var type in doc.GenerateTypedRest(new GenerationOptions("MyService")
 
 `GenerateTypedRest()` uses the endpoints described by the document's `x-typedrest` extension, or infers them from the paths using [TypedRest.CodeGeneration](https://www.nuget.org/packages/TypedRest.CodeGeneration/) if there is no such extension.
 
+The generated code derives from the [`TypedRest`](https://www.nuget.org/packages/TypedRest/) package, so consumers need to run:
+
+    dotnet add package TypedRest
+
 ## Extension points
 
 `GenerateTypedRest()` takes an optional `PatternRegistry` controlling what is inferred, and an optional `BuilderRegistry` controlling what is emitted:
