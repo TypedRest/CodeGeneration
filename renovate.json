@@ -26,6 +26,11 @@
       "matchPackagePatterns": ["docfx", "SourceLink", "OpenApi"],
       "automerge": true,
       "automergeType": "branch"
+    },
+    {
+      "description": "TypedRest for TypeScript is currently pinned to url-template 2.x",
+      "matchPackagePatterns": ["url-template$"],
+      "allowedVersions": "<3"
     }
   ]
 }
