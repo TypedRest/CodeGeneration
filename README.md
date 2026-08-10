@@ -9,7 +9,7 @@ Write a C# client to disk with the command-line tool:
     dotnet tool install -g typedrest-codegen
     typedrest-codegen generate -f myapi.yml -o myclient/ -s MyService --generate-interfaces --generate-dtos
 
-Write a TyepScript client to disk with the command-line tool:
+Write a TypeScript client to disk with the command-line tool:
 
     typedrest-codegen generate -l typescript -f myapi.yml -o src/myclient/ -s MyService --generate-dtos
 
