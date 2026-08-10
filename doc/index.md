@@ -28,6 +28,9 @@ foreach (var type in doc.GenerateTypedRest(new GenerationOptions("MyService")
 | [TypedRest.CodeGeneration](https://www.nuget.org/packages/TypedRest.CodeGeneration/)                       | <xref:TypedRest.CodeGeneration>            | Parses OpenAPI/Swagger documents and infers TypedRest Endpoints from patterns.                                             |
 | [TypedRest.CodeGeneration.CSharp](https://www.nuget.org/packages/TypedRest.CodeGeneration.CSharp/)         | <xref:TypedRest.CodeGeneration.CSharp>     | Generates C# source code for TypedRest .NET clients from OpenAPI/Swagger documents.                                        |
 | [TypedRest.CodeGeneration.TypeScript](https://www.nuget.org/packages/TypedRest.CodeGeneration.TypeScript/) | <xref:TypedRest.CodeGeneration.TypeScript> | Generates TypeScript source code for TypedRest clients from OpenAPI/Swagger documents.                                     |
+| [TypedRest.CodeGeneration.Jvm](https://www.nuget.org/packages/TypedRest.CodeGeneration.Jvm/)               | <xref:TypedRest.CodeGeneration.Jvm>        | Shared logic for generating source code for JVM-based languages.                                                           |
+| [TypedRest.CodeGeneration.Kotlin](https://www.nuget.org/packages/TypedRest.CodeGeneration.Kotlin/)         | <xref:TypedRest.CodeGeneration.Kotlin>     | Generates Kotlin source code for TypedRest clients from OpenAPI/Swagger documents.                                         |
+| [TypedRest.CodeGeneration.Java](https://www.nuget.org/packages/TypedRest.CodeGeneration.Java/)             | <xref:TypedRest.CodeGeneration.Java>       | Generates Java source code for TypedRest clients from OpenAPI/Swagger documents.                                           |
 | [TypedRest.SourceGenerator](https://www.nuget.org/packages/TypedRest.SourceGenerator/)                     |                                            | Roslyn [source generator](https://typedrest.net/code-generation/source-generator/) that builds clients during compilation. |
 | [typedrest-codegen](https://www.nuget.org/packages/typedrest-codegen/)                                     |                                            | [Command-line tool](https://typedrest.net/code-generation/cli/) that writes the generated code to disk.                    |
 
@@ -36,9 +39,14 @@ foreach (var type in doc.GenerateTypedRest(new GenerationOptions("MyService")
 ```mermaid
 flowchart TD
     cli["typedrest-codegen"] --> csharp
+    cli --> java
+    cli --> kotlin
     cli --> typescript
     sourcegen["TypedRest.SourceGenerator"] --> csharp
     csharp["TypedRest.CodeGeneration.<br>CSharp"] --> core
+    jvm["TypedRest.CodeGeneration.<br>Jvm"] --> core
+    java["TypedRest.CodeGeneration.<br>Java"] --> jvm
+    kotlin["TypedRest.CodeGeneration.<br>Kotlin"] --> jvm
     typescript["TypedRest.CodeGeneration.<br>TypeScript"] --> core
     core["TypedRest.CodeGeneration"]
 ```
