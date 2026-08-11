@@ -25,7 +25,7 @@ dependencies {
     // The @Serializable and @SerialName annotations the Kotlin generator emits. TypedRest depends on
     // kotlinx-serialization only as `implementation`, so it does not reach a consumer's compile classpath and has
     // to be declared here; the kotlin("plugin.serialization") plugin adds the compiler plugin but no dependency.
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
 
     // Carries the @Nullable annotations the Java generator emits, so Kotlin sees real nullability
     compileOnly("org.jspecify:jspecify:1.0.1")
