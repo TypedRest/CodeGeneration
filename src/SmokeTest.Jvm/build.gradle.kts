@@ -20,7 +20,7 @@ sourceSets {
 
 dependencies {
     implementation("net.typedrest:typedrest:0.33.0")
-    implementation("net.typedrest:typedrest-serializers-jackson:0.32.0")
+    implementation("net.typedrest:typedrest-serializers-jackson:0.33.0")
 
     // The @Serializable and @SerialName annotations the Kotlin generator emits. TypedRest depends on
     // kotlinx-serialization only as `implementation`, so it does not reach a consumer's compile classpath and has
