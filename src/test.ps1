@@ -27,7 +27,7 @@ function Run-Npm {
 }
 
 # Unit tests
-Run-DotNet test --no-build --logger trx --configuration Release UnitTests\UnitTests.csproj
+Run-DotNet test --no-build --configuration Release UnitTests\UnitTests.csproj
 
 $cli = "..\artifacts\Release\net10.0\TypedRest.CodeGeneration.Cli.dll"
 

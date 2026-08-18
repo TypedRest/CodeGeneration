@@ -26,7 +26,7 @@ else
 fi
 
 # Unit tests
-$dotnet test --no-build --logger trx --configuration Release UnitTests/UnitTests.csproj
+$dotnet test --no-build --configuration Release UnitTests/UnitTests.csproj
 
 cli="../artifacts/Release/net10.0/TypedRest.CodeGeneration.Cli.dll"
 
