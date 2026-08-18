@@ -15,7 +15,7 @@
 
   <!-- Dependencies -->
   <ItemGroup>
-    <ProjectReference Include="..\TypedRest.SourceGenerator\TypedRest.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="False" />
+    <ProjectReference Include="..\TypedRest.SourceGenerator\TypedRest.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="False" AdditionalProperties="_FlowAnalyzerDependencies=true" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="TypedRest" Version="1.7.0" />

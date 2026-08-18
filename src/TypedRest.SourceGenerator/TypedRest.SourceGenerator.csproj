@@ -63,8 +63,8 @@
     </ItemGroup>
   </Target>
 
-  <!-- Also flow the dependencies when this project is referenced with OutputItemType="Analyzer" -->
-  <PropertyGroup>
+  <!-- Allow usage as local ProjectReference (e.g., for smoke tests). -->
+  <PropertyGroup Condition="'$(_FlowAnalyzerDependencies)' == 'true'">
     <GetTargetPathDependsOn>$(GetTargetPathDependsOn);_AddTypedRestAnalyzerDependencies</GetTargetPathDependsOn>
   </PropertyGroup>
   <Target Name="_AddTypedRestAnalyzerDependencies" DependsOnTargets="_CollectTypedRestAnalyzerAssemblies">
