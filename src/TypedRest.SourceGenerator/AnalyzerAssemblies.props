@@ -1,0 +1,14 @@
+<Project>
+
+  <!-- The dependencies that have to ship/load alongside the generator itself.
+       Shared between the generator (for packing) and local consumers (e.g., smoke tests). -->
+  <ItemGroup>
+    <TypedRestAnalyzerAssemblyName Include="TypedRest.CodeGeneration.dll" />
+    <TypedRestAnalyzerAssemblyName Include="TypedRest.CodeGeneration.CSharp.dll" />
+    <TypedRestAnalyzerAssemblyName Include="NanoByte.CodeGeneration.dll" />
+    <TypedRestAnalyzerAssemblyName Include="Microsoft.OpenApi.dll" />
+    <TypedRestAnalyzerAssemblyName Include="Microsoft.OpenApi.Readers.dll" />
+    <TypedRestAnalyzerAssemblyName Include="SharpYaml.dll" />
+  </ItemGroup>
+
+</Project>

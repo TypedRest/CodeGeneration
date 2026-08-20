@@ -37,19 +37,11 @@
     <None Update="build\$(MSBuildProjectName).targets" Pack="true" PackagePath="build\$(MSBuildProjectName).targets" />
   </ItemGroup>
 
-  <!-- The assemblies that make up the analyzer. Evaluated inside a target so that $(OutDir) includes the target framework.
-       $(OutDir) is relative to this project, so it has to be made absolute for projects in other directories referencing this one. -->
+  <!-- The assemblies that make up the analyzer. Evaluated inside a target so that $(OutDir) includes the target framework. -->
+  <Import Project="AnalyzerAssemblies.props" />
   <Target Name="_CollectTypedRestAnalyzerAssemblies">
-    <PropertyGroup>
-      <_TypedRestAnalyzerDir>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\$(OutDir)'))</_TypedRestAnalyzerDir>
-    </PropertyGroup>
     <ItemGroup>
-      <TypedRestAnalyzerAssembly Include="$(_TypedRestAnalyzerDir)TypedRest.CodeGeneration.dll" />
-      <TypedRestAnalyzerAssembly Include="$(_TypedRestAnalyzerDir)TypedRest.CodeGeneration.CSharp.dll" />
-      <TypedRestAnalyzerAssembly Include="$(_TypedRestAnalyzerDir)NanoByte.CodeGeneration.dll" />
-      <TypedRestAnalyzerAssembly Include="$(_TypedRestAnalyzerDir)Microsoft.OpenApi.dll" />
-      <TypedRestAnalyzerAssembly Include="$(_TypedRestAnalyzerDir)Microsoft.OpenApi.Readers.dll" />
-      <TypedRestAnalyzerAssembly Include="$(_TypedRestAnalyzerDir)SharpYaml.dll" />
+      <TypedRestAnalyzerAssembly Include="@(TypedRestAnalyzerAssemblyName->'$(OutDir)%(Identity)')" />
     </ItemGroup>
   </Target>
 
@@ -60,16 +52,6 @@
   <Target Name="_PackTypedRestAnalyzer" DependsOnTargets="_CollectTypedRestAnalyzerAssemblies">
     <ItemGroup>
       <TfmSpecificPackageFile Include="$(TargetPath);@(TypedRestAnalyzerAssembly)" PackagePath="analyzers/dotnet/cs/" />
-    </ItemGroup>
-  </Target>
-
-  <!-- Also flow the dependencies when this project is referenced with OutputItemType="Analyzer" -->
-  <PropertyGroup>
-    <GetTargetPathDependsOn>$(GetTargetPathDependsOn);_AddTypedRestAnalyzerDependencies</GetTargetPathDependsOn>
-  </PropertyGroup>
-  <Target Name="_AddTypedRestAnalyzerDependencies" DependsOnTargets="_CollectTypedRestAnalyzerAssemblies">
-    <ItemGroup>
-      <TargetPathWithTargetPlatformMoniker Include="@(TypedRestAnalyzerAssembly)" IncludeRuntimeDependency="false" />
     </ItemGroup>
   </Target>
 
