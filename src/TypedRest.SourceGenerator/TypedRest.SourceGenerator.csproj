@@ -27,7 +27,8 @@
     <ProjectReference Include="..\TypedRest.CodeGeneration.CSharp\TypedRest.CodeGeneration.CSharp.csproj" PrivateAssets="all" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.6.0" PrivateAssets="all" ExcludeAssets="runtime" />
+    <!-- Keep this at the oldest Roslyn version the generator actually needs. Referencing a newer one makes hosts with an older compiler (e.g. docfx) refuse to load the analyzer. -->
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" PrivateAssets="all" ExcludeAssets="runtime" />
   </ItemGroup>
 
   <!-- MSBuild integration files -->
