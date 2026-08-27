@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class GenerationMessage | TypedRest Code Generation </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class GenerationMessage | TypedRest Code Generation ">
+      
+      <meta name="description" content="A message reported by an  while generating a client.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/TypedRest/CodeGeneration/new/0.3.0/apiSpec/new?filename=TypedRest_CodeGeneration_Generation_GenerationMessage.md&amp;value=---%0Auid%3A%20TypedRest.CodeGeneration.Generation.GenerationMessage%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="TypedRest.CodeGeneration.Generation.GenerationMessage">
+
+
+
+  <h1 id="TypedRest_CodeGeneration_Generation_GenerationMessage" data-uid="TypedRest.CodeGeneration.Generation.GenerationMessage" class="text-break">
+Class GenerationMessage  <a class="header-action link-secondary" title="View source" href="https://github.com/TypedRest/CodeGeneration/blob/0.3.0/src/TypedRest.CodeGeneration/Generation/GenerationMessage.cs/#L22"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="TypedRest.html">TypedRest</a>.<a class="xref" href="TypedRest.CodeGeneration.html">CodeGeneration</a>.<a class="xref" href="TypedRest.CodeGeneration.Generation.html">Generation</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>TypedRest.CodeGeneration.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>A message reported by an <a class="xref" href="TypedRest.CodeGeneration.Generation.IClientGenerator.html">IClientGenerator</a> while generating a client.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed class GenerationMessage</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><span class="xref">GenerationMessage</span></div>
+    </dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="TypedRest_CodeGeneration_Generation_GenerationMessage__ctor_" data-uid="TypedRest.CodeGeneration.Generation.GenerationMessage.#ctor*"></a>
+
+  <h3 id="TypedRest_CodeGeneration_Generation_GenerationMessage__ctor_TypedRest_CodeGeneration_Generation_GenerationSeverity_System_String_System_String_System_String_" data-uid="TypedRest.CodeGeneration.Generation.GenerationMessage.#ctor(TypedRest.CodeGeneration.Generation.GenerationSeverity,System.String,System.String,System.String)">
+  GenerationMessage(GenerationSeverity, string, string, string?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/TypedRest/CodeGeneration/blob/0.3.0/src/TypedRest.CodeGeneration/Generation/GenerationMessage.cs/#L31"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a new generation message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public GenerationMessage(GenerationSeverity severity, string code, string text, string? endpointKey = null)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>severity</code> <a class="xref" href="TypedRest.CodeGeneration.Generation.GenerationSeverity.html">GenerationSeverity</a></dt>
+    <dd><p>How important the message is.</p>
+</dd>
+    <dt><code>code</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>A stable identifier for the kind of message, e.g. <code>TRCG101</code>.</p>
+</dd>
+    <dt><code>text</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>A human-readable description.</p>
+</dd>
+    <dt><code>endpointKey</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The key of the endpoint the message is about, if any.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="TypedRest_CodeGeneration_Generation_GenerationMessage_Code_" data-uid="TypedRest.CodeGeneration.Generation.GenerationMessage.Code*"></a>
+
+  <h3 id="TypedRest_CodeGeneration_Generation_GenerationMessage_Code" data-uid="TypedRest.CodeGeneration.Generation.GenerationMessage.Code">
+  Code
+  <a class="header-action link-secondary" title="View source" href="https://github.com/TypedRest/CodeGeneration/blob/0.3.0/src/TypedRest.CodeGeneration/Generation/GenerationMessage.cs/#L47"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A stable identifier for the kind of message, e.g. <code>TRCG101</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Code { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="TypedRest_CodeGeneration_Generation_GenerationMessage_EndpointKey_" data-uid="TypedRest.CodeGeneration.Generation.GenerationMessage.EndpointKey*"></a>
+
+  <h3 id="TypedRest_CodeGeneration_Generation_GenerationMessage_EndpointKey" data-uid="TypedRest.CodeGeneration.Generation.GenerationMessage.EndpointKey">
+  EndpointKey
+  <a class="header-action link-secondary" title="View source" href="https://github.com/TypedRest/CodeGeneration/blob/0.3.0/src/TypedRest.CodeGeneration/Generation/GenerationMessage.cs/#L57"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The key of the endpoint the message is about, if any.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string? EndpointKey { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="TypedRest_CodeGeneration_Generation_GenerationMessage_Severity_" data-uid="TypedRest.CodeGeneration.Generation.GenerationMessage.Severity*"></a>
+
+  <h3 id="TypedRest_CodeGeneration_Generation_GenerationMessage_Severity" data-uid="TypedRest.CodeGeneration.Generation.GenerationMessage.Severity">
+  Severity
+  <a class="header-action link-secondary" title="View source" href="https://github.com/TypedRest/CodeGeneration/blob/0.3.0/src/TypedRest.CodeGeneration/Generation/GenerationMessage.cs/#L42"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>How important the message is.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public GenerationSeverity Severity { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="TypedRest.CodeGeneration.Generation.GenerationSeverity.html">GenerationSeverity</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="TypedRest_CodeGeneration_Generation_GenerationMessage_Text_" data-uid="TypedRest.CodeGeneration.Generation.GenerationMessage.Text*"></a>
+
+  <h3 id="TypedRest_CodeGeneration_Generation_GenerationMessage_Text" data-uid="TypedRest.CodeGeneration.Generation.GenerationMessage.Text">
+  Text
+  <a class="header-action link-secondary" title="View source" href="https://github.com/TypedRest/CodeGeneration/blob/0.3.0/src/TypedRest.CodeGeneration/Generation/GenerationMessage.cs/#L52"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>A human-readable description.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Text { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="TypedRest_CodeGeneration_Generation_GenerationMessage_ToString_" data-uid="TypedRest.CodeGeneration.Generation.GenerationMessage.ToString*"></a>
+
+  <h3 id="TypedRest_CodeGeneration_Generation_GenerationMessage_ToString" data-uid="TypedRest.CodeGeneration.Generation.GenerationMessage.ToString">
+  ToString()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/TypedRest/CodeGeneration/blob/0.3.0/src/TypedRest.CodeGeneration/Generation/GenerationMessage.cs/#L60"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns a string that represents the current object.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>A string that represents the current object.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/TypedRest/CodeGeneration/blob/0.3.0/src/TypedRest.CodeGeneration/Generation/GenerationMessage.cs/#L22" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

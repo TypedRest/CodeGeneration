@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class BuilderBase&lt;TEndpoint&gt; | TypedRest Code Generation </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class BuilderBase&lt;TEndpoint&gt; | TypedRest Code Generation ">
+      
+      <meta name="description" content="Common base class for s.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/TypedRest/CodeGeneration/new/0.3.0/apiSpec/new?filename=TypedRest_CodeGeneration_TypeScript_Endpoints_BuilderBase_1.md&amp;value=---%0Auid%3A%20TypedRest.CodeGeneration.TypeScript.Endpoints.BuilderBase%601%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="TypedRest.CodeGeneration.TypeScript.Endpoints.BuilderBase`1">
+
+
+
+  <h1 id="TypedRest_CodeGeneration_TypeScript_Endpoints_BuilderBase_1" data-uid="TypedRest.CodeGeneration.TypeScript.Endpoints.BuilderBase`1" class="text-break">
+Class BuilderBase&lt;TEndpoint&gt;  <a class="header-action link-secondary" title="View source" href="https://github.com/TypedRest/CodeGeneration/blob/0.3.0/src/TypedRest.CodeGeneration.TypeScript/Endpoints/BuilderBase.cs/#L10"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="TypedRest.html">TypedRest</a>.<a class="xref" href="TypedRest.CodeGeneration.html">CodeGeneration</a>.<a class="xref" href="TypedRest.CodeGeneration.TypeScript.html">TypeScript</a>.<a class="xref" href="TypedRest.CodeGeneration.TypeScript.Endpoints.html">Endpoints</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>TypedRest.CodeGeneration.TypeScript.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Common base class for <a class="xref" href="TypedRest.CodeGeneration.TypeScript.Endpoints.IBuilder-1.html">IBuilder&lt;TEndpoint&gt;</a>s.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class BuilderBase&lt;TEndpoint&gt; : IBuilder&lt;TEndpoint&gt;, IBuilder where TEndpoint : IEndpoint</code></pre>
+  </div>
+
+
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>TEndpoint</code></dt>
+    <dd><p>The type of <a class="xref" href="TypedRest.CodeGeneration.Endpoints.IEndpoint.html">IEndpoint</a> to generate code for.</p>
+</dd>
+  </dl>
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><span class="xref">BuilderBase&lt;TEndpoint&gt;</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="TypedRest.CodeGeneration.TypeScript.Endpoints.IBuilder-1.html">IBuilder</a>&lt;TEndpoint&gt;</div>
+      <div><a class="xref" href="TypedRest.CodeGeneration.TypeScript.Endpoints.IBuilder.html">IBuilder</a></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist derived">
+    <dt>Derived</dt>
+    <dd>
+      <div><a class="xref" href="TypedRest.CodeGeneration.TypeScript.Endpoints.CollectionBuilderBase-1.html">CollectionBuilderBase&lt;TEndpoint&gt;</a></div>
+      <div><a class="xref" href="TypedRest.CodeGeneration.TypeScript.Endpoints.DefaultBuilder.html">DefaultBuilder</a></div>
+      <div><a class="xref" href="TypedRest.CodeGeneration.TypeScript.Endpoints.EntryBuilder.html">EntryBuilder</a></div>
+      <div><a class="xref" href="TypedRest.CodeGeneration.TypeScript.Endpoints.Generic.ElementBuilder.html">ElementBuilder</a></div>
+      <div><a class="xref" href="TypedRest.CodeGeneration.TypeScript.Endpoints.Generic.IndexerBuilder.html">IndexerBuilder</a></div>
+      <div><a class="xref" href="TypedRest.CodeGeneration.TypeScript.Endpoints.Raw.BlobBuilder.html">BlobBuilder</a></div>
+      <div><a class="xref" href="TypedRest.CodeGeneration.TypeScript.Endpoints.Raw.UploadBuilder.html">UploadBuilder</a></div>
+      <div><a class="xref" href="TypedRest.CodeGeneration.TypeScript.Endpoints.Reactive.PollingBuilder.html">PollingBuilder</a></div>
+      <div><a class="xref" href="TypedRest.CodeGeneration.TypeScript.Endpoints.Reactive.SseStreamingBuilder.html">SseStreamingBuilder</a></div>
+      <div><a class="xref" href="TypedRest.CodeGeneration.TypeScript.Endpoints.Reactive.StreamingBuilder.html">StreamingBuilder</a></div>
+      <div><a class="xref" href="TypedRest.CodeGeneration.TypeScript.Endpoints.Rpc.ActionBuilder.html">ActionBuilder</a></div>
+      <div><a class="xref" href="TypedRest.CodeGeneration.TypeScript.Endpoints.Rpc.ConsumerBuilder.html">ConsumerBuilder</a></div>
+      <div><a class="xref" href="TypedRest.CodeGeneration.TypeScript.Endpoints.Rpc.FunctionBuilder.html">FunctionBuilder</a></div>
+      <div><a class="xref" href="TypedRest.CodeGeneration.TypeScript.Endpoints.Rpc.ProducerBuilder.html">ProducerBuilder</a></div>
+    </dd>
+  </dl>
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="TypedRest_CodeGeneration_TypeScript_Endpoints_BuilderBase_1_Build_" data-uid="TypedRest.CodeGeneration.TypeScript.Endpoints.BuilderBase`1.Build*"></a>
+
+  <h3 id="TypedRest_CodeGeneration_TypeScript_Endpoints_BuilderBase_1_Build_System_String_TypedRest_CodeGeneration_Endpoints_IEndpoint_TypedRest_CodeGeneration_TypeScript_Endpoints_IEndpointGenerator_" data-uid="TypedRest.CodeGeneration.TypeScript.Endpoints.BuilderBase`1.Build(System.String,TypedRest.CodeGeneration.Endpoints.IEndpoint,TypedRest.CodeGeneration.TypeScript.Endpoints.IEndpointGenerator)">
+  Build(string, IEndpoint, IEndpointGenerator)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/TypedRest/CodeGeneration/blob/0.3.0/src/TypedRest.CodeGeneration.TypeScript/Endpoints/BuilderBase.cs/#L14"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Builds the getter exposing <code class="paramref">endpoint</code> on its parent, plus any types needed for it.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public (TsGetter getter, IEnumerable&lt;ITsType&gt; types) Build(string key, IEndpoint endpoint, IEndpointGenerator generator)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>key</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>endpoint</code> <a class="xref" href="TypedRest.CodeGeneration.Endpoints.IEndpoint.html">IEndpoint</a></dt>
+    <dd></dd>
+    <dt><code>generator</code> <a class="xref" href="TypedRest.CodeGeneration.TypeScript.Endpoints.IEndpointGenerator.html">IEndpointGenerator</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt>(<a class="xref" href="TypedRest.CodeGeneration.TypeScript.Model.TsGetter.html">TsGetter</a> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetuple-typedrest.codegeneration.typescript.model.tsgetter,system.collections.generic.ienumerable-typedrest.codegeneration.typescript.model.itstype--.getter">getter</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="TypedRest.CodeGeneration.TypeScript.Model.ITsType.html">ITsType</a>&gt; <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetuple-typedrest.codegeneration.typescript.model.tsgetter,system.collections.generic.ienumerable-typedrest.codegeneration.typescript.model.itstype--.types">types</a>)</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="TypedRest_CodeGeneration_TypeScript_Endpoints_BuilderBase_1_Build_" data-uid="TypedRest.CodeGeneration.TypeScript.Endpoints.BuilderBase`1.Build*"></a>
+
+  <h3 id="TypedRest_CodeGeneration_TypeScript_Endpoints_BuilderBase_1_Build_System_String__0_TypedRest_CodeGeneration_TypeScript_Endpoints_IEndpointGenerator_" data-uid="TypedRest.CodeGeneration.TypeScript.Endpoints.BuilderBase`1.Build(System.String,`0,TypedRest.CodeGeneration.TypeScript.Endpoints.IEndpointGenerator)">
+  Build(string, TEndpoint, IEndpointGenerator)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/TypedRest/CodeGeneration/blob/0.3.0/src/TypedRest.CodeGeneration.TypeScript/Endpoints/BuilderBase.cs/#L18"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Builds the getter exposing <code class="paramref">endpoint</code> on its parent, plus any types needed for it.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public (TsGetter getter, IEnumerable&lt;ITsType&gt; types) Build(string key, TEndpoint endpoint, IEndpointGenerator generator)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>key</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>endpoint</code> <span class="xref">TEndpoint</span></dt>
+    <dd></dd>
+    <dt><code>generator</code> <a class="xref" href="TypedRest.CodeGeneration.TypeScript.Endpoints.IEndpointGenerator.html">IEndpointGenerator</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt>(<a class="xref" href="TypedRest.CodeGeneration.TypeScript.Model.TsGetter.html">TsGetter</a> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetuple-typedrest.codegeneration.typescript.model.tsgetter,system.collections.generic.ienumerable-typedrest.codegeneration.typescript.model.itstype--.getter">getter</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="TypedRest.CodeGeneration.TypeScript.Model.ITsType.html">ITsType</a>&gt; <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetuple-typedrest.codegeneration.typescript.model.tsgetter,system.collections.generic.ienumerable-typedrest.codegeneration.typescript.model.itstype--.types">types</a>)</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="TypedRest_CodeGeneration_TypeScript_Endpoints_BuilderBase_1_BuildConstructor_" data-uid="TypedRest.CodeGeneration.TypeScript.Endpoints.BuilderBase`1.BuildConstructor*"></a>
+
+  <h3 id="TypedRest_CodeGeneration_TypeScript_Endpoints_BuilderBase_1_BuildConstructor__0_System_Collections_Generic_List_TypedRest_CodeGeneration_TypeScript_Model_TsExpression__TypedRest_CodeGeneration_TypeScript_Endpoints_IEndpointGenerator_" data-uid="TypedRest.CodeGeneration.TypeScript.Endpoints.BuilderBase`1.BuildConstructor(`0,System.Collections.Generic.List{TypedRest.CodeGeneration.TypeScript.Model.TsExpression},TypedRest.CodeGeneration.TypeScript.Endpoints.IEndpointGenerator)">
+  BuildConstructor(TEndpoint, List&lt;TsExpression&gt;, IEndpointGenerator)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/TypedRest/CodeGeneration/blob/0.3.0/src/TypedRest.CodeGeneration.TypeScript/Endpoints/BuilderBase.cs/#L86"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Builds the constructor of a generated endpoint class, or <code>null</code> to inherit the base constructor.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual TsConstructor? BuildConstructor(TEndpoint endpoint, List&lt;TsExpression&gt; extraArguments, IEndpointGenerator generator)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>endpoint</code> <span class="xref">TEndpoint</span></dt>
+    <dd></dd>
+    <dt><code>extraArguments</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="TypedRest.CodeGeneration.TypeScript.Model.TsExpression.html">TsExpression</a>&gt;</dt>
+    <dd></dd>
+    <dt><code>generator</code> <a class="xref" href="TypedRest.CodeGeneration.TypeScript.Endpoints.IEndpointGenerator.html">IEndpointGenerator</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="TypedRest.CodeGeneration.TypeScript.Model.TsConstructor.html">TsConstructor</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="TypedRest_CodeGeneration_TypeScript_Endpoints_BuilderBase_1_BuildConstructor__0_System_Collections_Generic_List_TypedRest_CodeGeneration_TypeScript_Model_TsExpression__TypedRest_CodeGeneration_TypeScript_Endpoints_IEndpointGenerator__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>An endpoint that knows its own relative URI bakes it into the <code>super()</code> call and drops the parameter.
+An endpoint in an element position does not know its URI - it is handed one per element by the collection
+or indexer that owns it - so it must keep forwarding the parameter. Hard-coding a URI there would still
+compile, because TypeScript accepts a constructor with fewer parameters where one with more is expected,
+but every element would silently resolve to the same URI at runtime.</p>
+</div>
+
+
+
+
+  <a id="TypedRest_CodeGeneration_TypeScript_Endpoints_BuilderBase_1_GetBase_" data-uid="TypedRest.CodeGeneration.TypeScript.Endpoints.BuilderBase`1.GetBase*"></a>
+
+  <h3 id="TypedRest_CodeGeneration_TypeScript_Endpoints_BuilderBase_1_GetBase_System_String__0_TypedRest_CodeGeneration_TypeScript_Endpoints_IEndpointGenerator_" data-uid="TypedRest.CodeGeneration.TypeScript.Endpoints.BuilderBase`1.GetBase(System.String,`0,TypedRest.CodeGeneration.TypeScript.Endpoints.IEndpointGenerator)">
+  GetBase(string, TEndpoint, IEndpointGenerator)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/TypedRest/CodeGeneration/blob/0.3.0/src/TypedRest.CodeGeneration.TypeScript/Endpoints/BuilderBase.cs/#L111"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the TypedRest type the endpoint derives from, any additional types generated along the way, and
+any constructor arguments beyond the referrer and the relative URI.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual (TsIdentifier baseType, IEnumerable&lt;ITsType&gt; types, IEnumerable&lt;TsExpression&gt; extraArguments) GetBase(string key, TEndpoint endpoint, IEndpointGenerator generator)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>key</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>endpoint</code> <span class="xref">TEndpoint</span></dt>
+    <dd></dd>
+    <dt><code>generator</code> <a class="xref" href="TypedRest.CodeGeneration.TypeScript.Endpoints.IEndpointGenerator.html">IEndpointGenerator</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt>(<a class="xref" href="TypedRest.CodeGeneration.TypeScript.Model.TsIdentifier.html">TsIdentifier</a> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetuple-typedrest.codegeneration.typescript.model.tsidentifier,system.collections.generic.ienumerable-typedrest.codegeneration.typescript.model.itstype-,system.collections.generic.ienumerable-typedrest.codegeneration.typescript.model.tsexpression--.basetype">baseType</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="TypedRest.CodeGeneration.TypeScript.Model.ITsType.html">ITsType</a>&gt; <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetuple-typedrest.codegeneration.typescript.model.tsidentifier,system.collections.generic.ienumerable-typedrest.codegeneration.typescript.model.itstype-,system.collections.generic.ienumerable-typedrest.codegeneration.typescript.model.tsexpression--.types">types</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="TypedRest.CodeGeneration.TypeScript.Model.TsExpression.html">TsExpression</a>&gt; <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetuple-typedrest.codegeneration.typescript.model.tsidentifier,system.collections.generic.ienumerable-typedrest.codegeneration.typescript.model.itstype-,system.collections.generic.ienumerable-typedrest.codegeneration.typescript.model.tsexpression--.extraarguments">extraArguments</a>)</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="TypedRest_CodeGeneration_TypeScript_Endpoints_BuilderBase_1_GetBaseType_" data-uid="TypedRest.CodeGeneration.TypeScript.Endpoints.BuilderBase`1.GetBaseType*"></a>
+
+  <h3 id="TypedRest_CodeGeneration_TypeScript_Endpoints_BuilderBase_1_GetBaseType__0_TypedRest_CodeGeneration_TypeScript_Endpoints_IEndpointGenerator_" data-uid="TypedRest.CodeGeneration.TypeScript.Endpoints.BuilderBase`1.GetBaseType(`0,TypedRest.CodeGeneration.TypeScript.Endpoints.IEndpointGenerator)">
+  GetBaseType(TEndpoint, IEndpointGenerator)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/TypedRest/CodeGeneration/blob/0.3.0/src/TypedRest.CodeGeneration.TypeScript/Endpoints/BuilderBase.cs/#L117"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the TypedRest type the endpoint derives from.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected abstract TsIdentifier GetBaseType(TEndpoint endpoint, IEndpointGenerator generator)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>endpoint</code> <span class="xref">TEndpoint</span></dt>
+    <dd></dd>
+    <dt><code>generator</code> <a class="xref" href="TypedRest.CodeGeneration.TypeScript.Endpoints.IEndpointGenerator.html">IEndpointGenerator</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="TypedRest.CodeGeneration.TypeScript.Model.TsIdentifier.html">TsIdentifier</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/TypedRest/CodeGeneration/blob/0.3.0/src/TypedRest.CodeGeneration.TypeScript/Endpoints/BuilderBase.cs/#L10" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
