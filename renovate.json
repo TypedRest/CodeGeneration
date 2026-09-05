@@ -30,6 +30,18 @@
       "allowedVersions": "<4.9"
     },
     {
+      "matchDatasources": ["maven"],
+      "groupName": "Java smoke testing deps",
+      "automerge": true,
+      "automergeType": "branch"
+    },
+    {
+      "matchDatasources": ["npm"],
+      "groupName": "TypeScript smoke testing deps",
+      "automerge": true,
+      "automergeType": "branch"
+    },
+    {
       "description": "TypedRest for TypeScript is currently pinned to url-template 2.x",
       "matchPackagePatterns": ["url-template$"],
       "allowedVersions": "<3"
