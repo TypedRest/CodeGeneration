@@ -25,12 +25,12 @@ else
     npm="$zeroinstall run --command=npm https://apps.0install.net/javascript/node.xml"
 fi
 
-# Unit tests
+echo "Run unit tests"
 $dotnet test --no-build --configuration Release
 
 cli="../artifacts/Release/net10.0/TypedRest.CodeGeneration.Cli.dll"
 
-# JVM smoke test
+echo "Run JVM smoke test"
 rm -rf SmokeTest.Jvm/generated
 $dotnet "$cli" generate -l java -f UnitTests/sample-v3.yml -o SmokeTest.Jvm/generated/java -s Sample -n net.typedrest.smoketest.java --generate-dtos
 $dotnet "$cli" generate -l java -f UnitTests/sample-v3.yml -o SmokeTest.Jvm/generated/java -s Sample -n net.typedrest.smoketest.interfaces.java --generate-dtos --generate-interfaces
@@ -45,7 +45,7 @@ $dotnet "$cli" generate -l kotlin -f UnitTests/sample-nested.yml -o SmokeTest.Jv
     $gradle --quiet --no-daemon compileKotlin compileJava
 )
 
-# TypeScript smoke test
+echo "Run TypeScript smoke test"
 rm -rf SmokeTest.TypeScript/generated
 $dotnet "$cli" generate -l typescript -f UnitTests/sample-v3.yml -o SmokeTest.TypeScript/generated/sample -s Sample --generate-dtos
 $dotnet "$cli" generate -l typescript -f UnitTests/sample-nested.yml -o SmokeTest.TypeScript/generated/nested-sample -s NestedSample --generate-dtos

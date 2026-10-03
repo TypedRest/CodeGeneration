@@ -26,12 +26,12 @@ function Run-Npm {
     if ($LASTEXITCODE -ne 0) {throw "Exit Code: $LASTEXITCODE"}
 }
 
-# Unit tests
+echo "Run unit tests"
 Run-DotNet test --no-build --configuration Release
 
 $cli = "..\artifacts\Release\net10.0\TypedRest.CodeGeneration.Cli.dll"
 
-# JVM smoke test
+echo "Run JVM smoke test"
 if (Test-Path SmokeTest.Jvm\generated) {Remove-Item SmokeTest.Jvm\generated -Recurse -Force}
 Run-DotNet $cli generate -l java -f UnitTests\sample-v3.yml -o SmokeTest.Jvm\generated\java -s Sample -n net.typedrest.smoketest.java --generate-dtos
 Run-DotNet $cli generate -l java -f UnitTests\sample-v3.yml -o SmokeTest.Jvm\generated\java -s Sample -n net.typedrest.smoketest.interfaces.java --generate-dtos --generate-interfaces
@@ -45,7 +45,7 @@ pushd SmokeTest.Jvm
 Run-Gradle --quiet --no-daemon compileKotlin compileJava
 popd
 
-# TypeScript smoke test
+echo "Run TypeScript smoke test"
 if (Test-Path SmokeTest.TypeScript\generated) {Remove-Item SmokeTest.TypeScript\generated -Recurse -Force}
 Run-DotNet $cli generate -l typescript -f UnitTests\sample-v3.yml -o SmokeTest.TypeScript\generated\sample -s Sample --generate-dtos
 Run-DotNet $cli generate -l typescript -f UnitTests\sample-nested.yml -o SmokeTest.TypeScript\generated\nested-sample -s NestedSample --generate-dtos
