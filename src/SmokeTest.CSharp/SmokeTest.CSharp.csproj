@@ -27,7 +27,7 @@
     <Analyzer Include="@(TypedRestAnalyzerAssemblyName->'$(MSBuildThisFileDirectory)..\..\artifacts\$(Configuration)\netstandard2.0\%(Identity)')" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="TypedRest" Version="1.7.0" />
+    <PackageReference Include="TypedRest" Version="1.7.1" />
   </ItemGroup>
 
   <!-- Simulates what consumers get from the NuGet package -->
