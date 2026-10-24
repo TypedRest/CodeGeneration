@@ -36,6 +36,12 @@
       "allowedVersions": "<4.9"
     },
     {
+      "matchPackageNames": ["TypedRest"],
+      "groupName": "C# smoke testing deps",
+      "automerge": true,
+      "automergeType": "branch"
+    },
+    {
       "matchDatasources": ["maven"],
       "groupName": "Java smoke testing deps",
       "automerge": true,
