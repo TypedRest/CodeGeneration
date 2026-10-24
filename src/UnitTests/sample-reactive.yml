@@ -1,0 +1,93 @@
+openapi: 3.0.4
+info:
+  title: Reactive Service
+  version: 1.0.0
+paths: { }
+components:
+  schemas:
+    Contact:
+      required:
+        - name
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the contact.
+        name:
+          type: string
+          description: The name of the contact.
+      description: A contact in an address book.
+    Note:
+      type: object
+      properties:
+        content:
+          type: string
+          description: The content of the note.
+      description: A note about a specific contact.
+    ContactEvent:
+      type: object
+      properties:
+        type:
+          type: string
+          description: The kind of change.
+        contact:
+          $ref: '#/components/schemas/Contact'
+      description: A change to a contact.
+# Every reactive kind, both standalone and in the positions where they replace a non-reactive endpoint: as the
+# element of a collection, and as a collection whose element has children of its own.
+x-typedrest:
+  contacts:
+    kind: streaming-collection
+    uri: ./contacts
+    description: Collection of contacts, observable as a stream.
+    schema:
+      $ref: '#/components/schemas/Contact'
+    element:
+      kind: element
+      description: A specific contact.
+      children:
+        note:
+          kind: polling
+          uri: ./note
+          description: The note for a specific contact, polled for changes.
+          schema:
+            $ref: '#/components/schemas/Note'
+        poke:
+          kind: action
+          uri: ./poke
+          description: Pokes a contact.
+        events:
+          kind: sse
+          uri: ./events
+          description: Changes to a specific contact.
+          schema:
+            $ref: '#/components/schemas/ContactEvent'
+  watched:
+    kind: collection
+    uri: ./watched
+    description: Collection of contacts whose elements are polled for changes.
+    schema:
+      $ref: '#/components/schemas/Contact'
+    element:
+      kind: polling
+      description: A specific watched contact.
+  changes:
+    kind: streaming-collection
+    uri: ./changes
+    description: Append-only log of changes.
+    schema:
+      $ref: '#/components/schemas/ContactEvent'
+  updates:
+    kind: sse
+    uri: ./updates
+    description: Changes to any contact, filtered by event type.
+    event-type: contact-changed
+    schema:
+      $ref: '#/components/schemas/ContactEvent'
+  log:
+    kind: streaming
+    uri: ./log
+    description: Changes to any contact as a raw HTTP stream.
+    separator: "\n\n"
+    schema:
+      $ref: '#/components/schemas/ContactEvent'

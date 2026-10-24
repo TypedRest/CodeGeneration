@@ -49,6 +49,7 @@ echo "Run TypeScript smoke test"
 if (Test-Path SmokeTest.TypeScript\generated) {Remove-Item SmokeTest.TypeScript\generated -Recurse -Force}
 Run-DotNet $cli generate -l typescript -f UnitTests\sample-v3.yml -o SmokeTest.TypeScript\generated\sample -s Sample --generate-dtos
 Run-DotNet $cli generate -l typescript -f UnitTests\sample-nested.yml -o SmokeTest.TypeScript\generated\nested-sample -s NestedSample --generate-dtos
+Run-DotNet $cli generate -l typescript -f UnitTests\sample-reactive.yml -o SmokeTest.TypeScript\generated\reactive-sample -s ReactiveSample --generate-dtos
 pushd SmokeTest.TypeScript
 Run-Npm ci
 Run-Npm run check

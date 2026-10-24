@@ -46,4 +46,9 @@ public class Modules(string package = Modules.DefaultPackage)
     /// Holds <c>BlobEndpoint</c> and <c>UploadEndpoint</c>.
     /// </summary>
     public TsModule Raw { get; } = TsModule.External($"{package}/endpoints/raw");
+
+    /// <summary>
+    /// Holds <c>PollingEndpoint</c>, <c>StreamingEndpoint</c>, <c>SseStreamingEndpoint</c>, <c>StreamingCollectionEndpoint</c> and <c>GenericStreamingCollectionEndpoint</c>.
+    /// </summary>
+    public TsModule Reactive { get; } = TsModule.External($"{package}/endpoints/reactive");
 }

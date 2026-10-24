@@ -8,37 +8,12 @@ namespace TypedRest.CodeGeneration.TypeScript;
 /// <remarks>
 /// The <c>TRCG1xx</c> range is reserved for target language backends, so these never collide with the
 /// <c>TRCG0xx</c> diagnostics of the C# source generator.
+/// <c>TRCG101</c> to <c>TRCG104</c> reported reactive endpoints degrading to non-reactive ones, back when
+/// TypedRest for TypeScript had none. They are retired rather than reused, so that existing suppressions keep
+/// meaning what they did.
 /// </remarks>
 public static class Messages
 {
-    /// <summary>
-    /// TypedRest for TypeScript has no <c>PollingEndpoint</c>.
-    /// </summary>
-    public static GenerationMessage PollingNotSupported(string key, string entity)
-        => Warning("TRCG101", key,
-            $"Endpoint '{key}' uses kind 'polling'. TypedRest for TypeScript has no polling support; generating ElementEndpoint<{entity}> instead. Change notifications are not available.");
-
-    /// <summary>
-    /// TypedRest for TypeScript has no <c>StreamingEndpoint</c>.
-    /// </summary>
-    public static GenerationMessage StreamingNotSupported(string key)
-        => Warning("TRCG102", key,
-            $"Endpoint '{key}' uses kind 'streaming'. TypedRest for TypeScript has no streaming support; generating a plain Endpoint instead. The element type and separator are not preserved.");
-
-    /// <summary>
-    /// TypedRest for TypeScript has no <c>SseStreamingEndpoint</c>.
-    /// </summary>
-    public static GenerationMessage SseNotSupported(string key)
-        => Warning("TRCG103", key,
-            $"Endpoint '{key}' uses kind 'sse'. TypedRest for TypeScript has no server-sent event support; generating a plain Endpoint instead. The element type and event type are not preserved.");
-
-    /// <summary>
-    /// TypedRest for TypeScript has no <c>StreamingCollectionEndpoint</c>.
-    /// </summary>
-    public static GenerationMessage StreamingCollectionNotSupported(string key)
-        => Warning("TRCG104", key,
-            $"Endpoint '{key}' uses kind 'streaming-collection'. TypedRest for TypeScript has no streaming support; generating a plain collection endpoint instead.");
-
     /// <summary>
     /// The element of a collection describes a different type than the collection itself, which TypeScript
     /// cannot express because <c>TElementEndpoint</c> is constrained to <c>ElementEndpoint&lt;TEntity&gt;</c>.

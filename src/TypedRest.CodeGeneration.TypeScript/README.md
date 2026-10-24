@@ -26,6 +26,8 @@ The generated code imports from the [`typedrest`](https://www.npmjs.com/package/
 
     npm install typedrest
 
+Polling and streaming endpoints need version 0.5.0 or later.
+
 ## Output
 
 One file per generated type, plus an `index.ts` re-exporting all of them. `Namespace` and `DtoNamespace` are directories relative to the output directory, defaulting to the root and `dtos` respectively.

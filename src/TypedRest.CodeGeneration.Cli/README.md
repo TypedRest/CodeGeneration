@@ -85,7 +85,7 @@ Generating DTOs for `kotlinx` needs both the `kotlin("plugin.serialization")` Gr
 
     typedrest-codegen generate -l typescript -f myapi.yml -o src/myclient/ -s MyService --generate-dtos
 
-The generated code imports from the [`typedrest`](https://www.npmjs.com/package/typedrest) package, so run `npm install typedrest` in the consuming project.
+The generated code imports from the [`typedrest`](https://www.npmjs.com/package/typedrest) package, so run `npm install typedrest` in the consuming project. Polling and streaming endpoints need version 0.5.0 or later.
 
 Each generated type gets its own file, plus an `index.ts` re-exporting all of them. Here `--namespace` and `--dto-namespace` are directories relative to `--output` rather than namespaces, defaulting to the output directory itself and to `dtos`. Dotted values such as `MyCompany.MyService` become nested directories.
 

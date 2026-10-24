@@ -23,8 +23,6 @@ foreach (var file in doc.GenerateTypedRestTypeScript(new TypeScriptGenerationOpt
 
 ## Differences from the C# generator
 
-TypedRest for TypeScript has no reactive endpoints, so the `polling`, `streaming`, `sse` and `streaming-collection` kinds are degraded to their closest non-reactive equivalent and reported through the <xref:TypedRest.CodeGeneration.Generation.IGenerationLog>.
-
 TypeScript is structurally typed and TypedRest for TypeScript has no endpoint interfaces, so <xref:TypedRest.CodeGeneration.Generation.ClientGenerationOptions.GenerateInterfaces> has no effect.
 
 DTO properties keep the exact name used on the wire, because TypedRest for TypeScript deserializes with `JSON.parse()` and a cast and therefore has no way to map a property to a differently named field.

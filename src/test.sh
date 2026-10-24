@@ -49,6 +49,7 @@ echo "Run TypeScript smoke test"
 rm -rf SmokeTest.TypeScript/generated
 $dotnet "$cli" generate -l typescript -f UnitTests/sample-v3.yml -o SmokeTest.TypeScript/generated/sample -s Sample --generate-dtos
 $dotnet "$cli" generate -l typescript -f UnitTests/sample-nested.yml -o SmokeTest.TypeScript/generated/nested-sample -s NestedSample --generate-dtos
+$dotnet "$cli" generate -l typescript -f UnitTests/sample-reactive.yml -o SmokeTest.TypeScript/generated/reactive-sample -s ReactiveSample --generate-dtos
 (
     cd SmokeTest.TypeScript
     $npm ci

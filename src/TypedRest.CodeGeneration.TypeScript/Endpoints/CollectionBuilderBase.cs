@@ -44,7 +44,7 @@ public abstract class CollectionBuilderBase<TEndpoint> : BuilderBase<TEndpoint>
             return (CollectionType(generator, entity), types, []);
 
         return (
-            new TsIdentifier(generator.Modules.Generic, GenericTypeName) {TypeArguments = {entity, elementType}},
+            new TsIdentifier(TypeModule(generator), GenericTypeName) {TypeArguments = {entity, elementType}},
             types,
             [new TsTypeRef(elementType)]);
     }
@@ -52,6 +52,12 @@ public abstract class CollectionBuilderBase<TEndpoint> : BuilderBase<TEndpoint>
     /// <inheritdoc/>
     protected override TsIdentifier GetBaseType(TEndpoint endpoint, IEndpointGenerator generator)
         => CollectionType(generator, generator.Naming.TypeFor(endpoint.Schema));
+
+    /// <summary>
+    /// The module holding <see cref="TypeName"/> and <see cref="GenericTypeName"/>.
+    /// </summary>
+    protected virtual TsModule TypeModule(IEndpointGenerator generator)
+        => generator.Modules.Generic;
 
     /// <summary>
     /// The name of the TypedRest type creating its element endpoints itself, e.g. <c>CollectionEndpoint</c>.
@@ -65,7 +71,7 @@ public abstract class CollectionBuilderBase<TEndpoint> : BuilderBase<TEndpoint>
     protected abstract string GenericTypeName { get; }
 
     private TsIdentifier CollectionType(IEndpointGenerator generator, TsIdentifier entity)
-        => new(generator.Modules.Generic, TypeName) {TypeArguments = {entity}};
+        => new(TypeModule(generator), TypeName) {TypeArguments = {entity}};
 
     private static bool IsPlainElementEndpoint(TsIdentifier elementType, TsIdentifier entity, IEndpointGenerator generator)
         => elementType.Name == "ElementEndpoint"
