@@ -228,6 +228,51 @@ public class EndpointGeneratorFacts
         entry.Properties.Should().NotBeEmpty();
     }
 
+    [Fact]
+    public void PassesRuntimeSerializerToEntryConstructor()
+    {
+        var serializer = new CSharpIdentifier("TypedRest.Serializers", "SystemTextJsonSerializer");
+        var generator = new EndpointGenerator(
+            new NamingStrategy("MyService", "MyNamespace", "MyNamespace"),
+            BuilderRegistry.Default)
+        {
+            RuntimeSerializer = serializer
+        };
+
+        var entry = generator.Generate(Sample.EntryEndpoint)
+                             .OfType<CSharpClass>()
+                             .Single(x => x.Identifier.Name == "MyServiceClient");
+
+        entry.BaseConstructor!.Parameters.Should().SatisfyRespectively(
+            uri => uri.Name.Should().Be("uri"),
+            serializerParameter =>
+            {
+                serializerParameter.Name.Should().Be("serializer");
+                serializerParameter.Value.Should().BeOfType<CSharpObjectCreation>()
+                                   .Which.Type.Should().Be(serializer);
+            });
+        entry.ToObjectCreation().Parameters.Select(x => x.Name).Should().Equal(["uri"],
+            "the serializer is fixed, not a parameter of the generated constructor");
+    }
+
+    [Fact]
+    public void OmitsRuntimeSerializerWhenEntryConstructorDisabled()
+    {
+        var generator = new EndpointGenerator(
+            new NamingStrategy("MyService", "MyNamespace", "MyNamespace"),
+            BuilderRegistry.Default)
+        {
+            GenerateEntryConstructor = false,
+            RuntimeSerializer = new CSharpIdentifier("TypedRest.Serializers", "SystemTextJsonSerializer")
+        };
+
+        var entry = generator.Generate(Sample.EntryEndpoint)
+                             .OfType<CSharpClass>()
+                             .Single(x => x.Identifier.Name == "MyServiceClient");
+
+        entry.BaseConstructor!.Parameters.Should().BeEmpty();
+    }
+
     private static CSharpParameter Referrer
         => new(new CSharpIdentifier("TypedRest.Endpoints", "IEndpoint"), "referrer")
         {

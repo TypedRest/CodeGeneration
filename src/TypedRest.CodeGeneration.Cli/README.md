@@ -47,7 +47,7 @@ Use `--generate-entry-constructor false` when the entry endpoint needs a custom 
 
     typedrest-codegen generate -f myapi.yml -o myclient/ -s MyService --generate-dtos --serializer system-text-json
 
-This has to match the serializer the endpoint is configured with at runtime. The two read entirely different attributes, so a DTO annotated for one silently falls back to its C# member names under the other, changing the wire format without any error.
+The generated entry constructor configures the matching serializer at runtime (e.g. `base(uri, serializer: new SystemTextJsonSerializer())`). If you write your own constructor with `--generate-entry-constructor false`, pass the same serializer yourself.
 
 `[JsonStringEnumMemberName]` requires .NET 9 or later. It is what `JsonStringEnumConverter` reads; System.Text.Json ignores `[EnumMember]` entirely.
 

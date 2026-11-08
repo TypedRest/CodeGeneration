@@ -28,6 +28,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="TypedRest" Version="1.7.3" />
+    <PackageReference Include="TypedRest.SystemTextJson" Version="1.7.3" />
   </ItemGroup>
 
   <!-- Simulates what consumers get from the NuGet package -->
@@ -35,7 +36,7 @@
 
   <ItemGroup>
     <TypedRestOpenApi Include="..\UnitTests\sample-v3.yml" ServiceName="Sample" Namespace="SmokeTest.CSharp.Client" />
-    <TypedRestOpenApi Include="..\UnitTests\sample-nested.yml" ServiceName="Nested" Namespace="SmokeTest.CSharp.NestedClient" />
+    <TypedRestOpenApi Include="..\UnitTests\sample-nested.yml" ServiceName="Nested" Namespace="SmokeTest.CSharp.NestedClient" Serializer="system-text-json" />
   </ItemGroup>
 
   <!-- Simulates what consumers get from the NuGet package -->

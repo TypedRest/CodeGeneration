@@ -11,6 +11,8 @@ public class EndpointGenerator(INamingStrategy namingStrategy, BuilderRegistry b
 
     public bool GenerateEntryConstructor { get; set; } = true;
 
+    public CSharpIdentifier? RuntimeSerializer { get; set; }
+
     private HashSet<string> _collidingKeys = new();
     private readonly Stack<string> _parentKeys = new();
     private TypeNameRegistry _typeNames = new();

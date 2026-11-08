@@ -150,6 +150,46 @@ public class TypedRestSourceGeneratorFacts
     }
 
     [Fact]
+    public void ConfiguresSystemTextJsonInEntryConstructor()
+    {
+        var result = new GeneratorTestHarness(Sample.YamlV3)
+                    .ForService("MyService")
+                    .WithMetadata("Namespace", "MyNamespace")
+                    .WithMetadata("Serializer", "system-text-json")
+                    .Run();
+
+        result.Diagnostics.Should().BeEmpty();
+        Source(result, "sample-v3.MyNamespace.MyServiceClient.g.cs")
+           .Should().Contain("using TypedRest.Serializers;")
+           .And.Contain("public MyServiceClient(Uri uri) : base(uri, serializer: new SystemTextJsonSerializer())",
+                "the DTOs are annotated for System.Text.Json, so the client has to serialize with it");
+    }
+
+    [Fact]
+    public void UsesDefaultSerializerInEntryConstructorForNewtonsoft()
+    {
+        var result = new GeneratorTestHarness(Sample.YamlV3)
+                    .ForService("MyService")
+                    .WithMetadata("Namespace", "MyNamespace")
+                    .WithMetadata("Serializer", "newtonsoft")
+                    .Run();
+
+        result.Diagnostics.Should().BeEmpty();
+        Source(result, "sample-v3.MyNamespace.MyServiceClient.g.cs")
+           .Should().Contain("public MyServiceClient(Uri uri) : base(uri)");
+    }
+
+    [Fact]
+    public void StampsGeneratedCodeWithGeneratorVersion()
+    {
+        var result = new GeneratorTestHarness(Sample.YamlV3).ForService("MyService").Run();
+
+        string version = typeof(JsonAttributes).Assembly.GetName().Version!.ToString(3);
+        Source(result, "sample-v3.MyService.MyServiceClient.g.cs")
+           .Should().Contain($"[GeneratedCode(\"TypedRest.CodeGeneration\", \"{version}");
+    }
+
+    [Fact]
     public void UsesDtoNamespace()
     {
         var result = new GeneratorTestHarness(Sample.YamlV3)

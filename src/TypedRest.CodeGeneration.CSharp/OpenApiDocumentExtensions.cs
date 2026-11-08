@@ -11,18 +11,20 @@ public static class OpenApiDocumentExtensions
     public static IEnumerable<ICSharpType> GenerateTypedRest(this OpenApiDocument doc, GenerationOptions options, PatternRegistry? patterns = null, BuilderRegistry? builders = null)
     {
         var naming = options.NamingStrategy();
-        var types = doc.GenerateTypedRestEndpoints(naming, options.GenerateInterfaces, options.GenerateEntryConstructor, patterns, builders);
+        var jsonAttributes = options.JsonAttributes();
+        var types = doc.GenerateTypedRestEndpoints(naming, options.GenerateInterfaces, options.GenerateEntryConstructor, patterns, builders, jsonAttributes);
         return options.GenerateDtos
-            ? types.Concat(doc.GenerateDtos(naming, options.LanguageVersion, options.JsonAttributes()))
+            ? types.Concat(doc.GenerateDtos(naming, options.LanguageVersion, jsonAttributes))
             : types;
     }
 
-    public static IEnumerable<ICSharpType> GenerateTypedRestEndpoints(this OpenApiDocument doc, INamingStrategy naming, bool withInterfaces = true, bool generateEntryConstructor = true, PatternRegistry? patterns = null, BuilderRegistry? builders = null)
+    public static IEnumerable<ICSharpType> GenerateTypedRestEndpoints(this OpenApiDocument doc, INamingStrategy naming, bool withInterfaces = true, bool generateEntryConstructor = true, PatternRegistry? patterns = null, BuilderRegistry? builders = null, JsonAttributes? jsonAttributes = null)
     {
         var generator = new EndpointGenerator(naming, builders ?? BuilderRegistry.Default)
         {
             WithInterfaces = withInterfaces,
-            GenerateEntryConstructor = generateEntryConstructor
+            GenerateEntryConstructor = generateEntryConstructor,
+            RuntimeSerializer = jsonAttributes?.RuntimeSerializer
         };
         var entryEndpoint = doc.GetTypedRest() ?? doc.MatchTypedRestPatterns(patterns);
         return generator.Generate(entryEndpoint);

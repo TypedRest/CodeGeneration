@@ -45,6 +45,11 @@ public abstract class JsonAttributes
     public abstract string Serializer { get; }
 
     /// <summary>
+    /// The runtime serializer the entry endpoint has to be constructed with, or <c>null</c> if it is the one TypedRest for .NET uses by default.
+    /// </summary>
+    public abstract CSharpIdentifier? RuntimeSerializer { get; }
+
+    /// <summary>
     /// Carries the wire name of a property whose C# name differs from it.
     /// </summary>
     public abstract CSharpAttribute PropertyName(string name);
@@ -62,6 +67,9 @@ public sealed class NewtonsoftAttributes : JsonAttributes
 {
     /// <inheritdoc/>
     public override string Serializer => Newtonsoft;
+
+    /// <inheritdoc/>
+    public override CSharpIdentifier? RuntimeSerializer => null;
 
     /// <inheritdoc/>
     public override CSharpAttribute PropertyName(string name)
@@ -89,6 +97,9 @@ public sealed class SystemTextJsonAttributes : JsonAttributes
 {
     /// <inheritdoc/>
     public override string Serializer => SystemTextJson;
+
+    /// <inheritdoc/>
+    public override CSharpIdentifier? RuntimeSerializer => new("TypedRest.Serializers", "SystemTextJsonSerializer");
 
     /// <inheritdoc/>
     public override CSharpAttribute PropertyName(string name)

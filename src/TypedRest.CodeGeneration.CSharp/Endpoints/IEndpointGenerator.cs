@@ -15,6 +15,11 @@ public interface IEndpointGenerator
     /// </summary>
     bool GenerateEntryConstructor { get; }
 
+    /// <summary>
+    /// The runtime serializer the generated entry constructor passes to <c>EntryEndpoint</c>; <c>null</c> for TypedRest's default.
+    /// </summary>
+    CSharpIdentifier? RuntimeSerializer { get; }
+
     (CSharpProperty property, IEnumerable<ICSharpType> types) Generate(string key, IEndpoint endpoint);
 
     /// <summary>

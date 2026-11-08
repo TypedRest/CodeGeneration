@@ -15,7 +15,12 @@ public class EntryBuilder : BuilderBase<EntryEndpoint>
         => new(Namespace.Name, "IEndpoint");
 
     protected override IEnumerable<CSharpParameter> GetParameters(EntryEndpoint endpoint, IEndpointGenerator generator)
-        => generator.GenerateEntryConstructor
-            ? [new CSharpParameter(CSharpIdentifier.Uri, "uri")]
-            : [];
+    {
+        if (!generator.GenerateEntryConstructor) yield break;
+
+        yield return new CSharpParameter(CSharpIdentifier.Uri, "uri");
+
+        if (generator.RuntimeSerializer is {} serializer)
+            yield return new CSharpParameter(serializer, "serializer") {Value = new CSharpObjectCreation(serializer)};
+    }
 }
