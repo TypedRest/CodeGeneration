@@ -3,12 +3,13 @@
 Roslyn source generator that builds [TypedRest](https://typedrest.net/) clients from [OpenAPI/Swagger](https://swagger.io/resources/open-api/) documents during compilation.
 
     dotnet add package TypedRest.SourceGenerator
+    dotnet add package TypedRest
 
 Then reference the OpenAPI/Swagger document from your project file:
 
 ```xml
 <ItemGroup>
-  <TypedRestOpenApi Include="myapi.yml" ServiceName="MyService" Namespace="MyCompany.MyService" />
+  <TypedRestOpenApi Include="myapi.yml" ServiceName="MyService" />
 </ItemGroup>
 ```
 
@@ -17,6 +18,8 @@ The client is now part of your compilation:
 ```csharp
 var client = new MyServiceClient(new Uri("https://example.com/api/"));
 ```
+
+Add `TypedRest.Reactive` as well if your document uses polling or streaming endpoints.
 
 For a walkthrough see the **[usage guide](https://typedrest.net/code-generation/source-generator/)**. This page is the reference for the configuration knobs and diagnostics.
 
@@ -45,25 +48,29 @@ Note that `GenerateInterfaces` and `GenerateDtos` default to `true` here, while 
 | `newtonsoft`       | `[JsonProperty]`     | `[EnumMember]`               | [`TypedRest`](https://www.nuget.org/packages/TypedRest/)                               |
 | `system-text-json` | `[JsonPropertyName]` | `[JsonStringEnumMemberName]` | [`TypedRest.SystemTextJson`](https://www.nuget.org/packages/TypedRest.SystemTextJson/) |
 
+To use System.Text.Json, add `TypedRest.SystemTextJson` to the consuming project and select it:
+
 ```xml
-<PropertyGroup>
-  <TypedRestSerializer>system-text-json</TypedRestSerializer>
-</PropertyGroup>
+<ItemGroup>
+  <TypedRestOpenApi Include="myapi.yml" ServiceName="MyService" Serializer="system-text-json" />
+</ItemGroup>
 ```
 
-The generated entry constructor configures the matching serializer at runtime (e.g. `base(uri, serializer: new SystemTextJsonSerializer())`). If you write your own constructor (see below), pass the same serializer yourself.
-
-`[JsonStringEnumMemberName]` requires .NET 9 or later. It is what `JsonStringEnumConverter` reads; System.Text.Json ignores `[EnumMember]` entirely.
+The generated entry constructor selects the matching serializer at runtime (e.g. `base(uri, serializer: new SystemTextJsonSerializer())`). If you write your own constructor (see below), pass the same serializer yourself.
 
 ## Customizing the entry point
 
-Every generated type is `partial`, so you can add members in your own files. The entry endpoint is the one place where that is not enough on its own: its constructor is what passes the base URI, the error handler and any default headers to `EntryEndpoint`, and a partial class cannot change a constructor that has already been generated.
+Generated classes and interfaces are `partial`, so you can add members in your own files; generated enums cannot be partial. You can add constructor overloads to the entry endpoint, but a partial class cannot replace a constructor that has already been generated.
 
-Set `GenerateEntryConstructor="false"` to have the generator emit the class and its base type but no constructor, then write your own:
+To replace the generated constructor or prevent callers from using it:
 
 ```xml
-<TypedRestOpenApi Include="myapi.yml" ServiceName="MyService" GenerateEntryConstructor="false" />
+<ItemGroup>
+  <TypedRestOpenApi Include="myapi.yml" ServiceName="MyService" GenerateEntryConstructor="false" />
+</ItemGroup>
 ```
+
+Write your constructor in the same namespace as the generated class. For example, with your own `MyServiceErrorHandler`:
 
 ```csharp
 public partial class MyServiceClient
@@ -76,22 +83,11 @@ public partial class MyServiceClient
 }
 ```
 
-To inspect the generated code set `<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>`; the files are then written to `obj/`.
-
-## Diagnostics
-
-| ID        | Severity | Meaning                                                                                   |
-| --------- | -------- | ----------------------------------------------------------------------------------------- |
-| `TRCG001` | Error    | A `TypedRestOpenApi` item has no `ServiceName` and no `$(TypedRestServiceName)` fallback. |
-| `TRCG002` | Error    | The OpenAPI document contains an error.                                                   |
-| `TRCG003` | Warning  | The OpenAPI document contains something questionable.                                     |
-| `TRCG004` | Error    | Code generation failed for a document.                                                    |
-| `TRCG005` | Warning  | The content of a spec file could not be read.                                             |
-| `TRCG006` | Error    | A `TypedRestOpenApi` item specifies an unknown `Serializer`.                              |
+If you selected `system-text-json`, also pass a `SystemTextJsonSerializer` to `base`, configured with string enum converters as needed.
 
 ## Limitations
 
-- The generator runs inside the compiler, so it requires a .NET SDK that ships Roslyn 5.6 or newer (.NET SDK 10.0.302+). Use the [command-line tool](https://www.nuget.org/packages/typedrest-codegen/) for older toolchains.
+- The generator runs inside the compiler. It references Roslyn 4.8 and depends on System.Text.Json 8 through its OpenAPI reader; the compiler host must provide compatible versions of both. Use the [command-line tool](https://www.nuget.org/packages/typedrest-codegen/) if your toolchain is incompatible.
 - Only local `$ref`s are resolved. Bundle multi-file specs into a single document first.
 
 ## Related packages
