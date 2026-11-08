@@ -6,7 +6,7 @@ namespace TypedRest.CodeGeneration.Endpoints;
 /// <param name="endpointRegistry">A list of all known <see cref="IEndpoint"/> kinds.</param>
 public class EndpointParser(EndpointRegistry endpointRegistry) : IEndpointParser
 {
-    public IEndpoint Parse(OpenApiObject data, string defaultKind = "")
+    public IEndpoint Parse(JsonObject data, string defaultKind = "")
     {
         var endpoint = endpointRegistry.OfKind(data.GetString("kind") ?? defaultKind);
         endpoint.Parse(data, this);

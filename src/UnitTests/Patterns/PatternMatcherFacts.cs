@@ -7,6 +7,8 @@ public class PatternMatcherFacts
     {
         var entryEndpoint = Sample.Doc.MatchTypedRestPatterns();
 
-        entryEndpoint.Should().BeEquivalentTo(Sample.Doc.GetTypedRest(), options => options.IncludingAllRuntimeProperties());
+        entryEndpoint.Should().BeEquivalentTo(Sample.Doc.GetTypedRest(), options =>
+            options.IncludingAllRuntimeProperties()
+                   .Excluding(info => info.Path.Contains("HostDocument")));
     }
 }

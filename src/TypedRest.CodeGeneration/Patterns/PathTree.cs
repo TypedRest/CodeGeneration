@@ -1,14 +1,14 @@
 namespace TypedRest.CodeGeneration.Patterns;
 
 /// <summary>
-/// A tree-like structure organizing <see cref="OpenApiPathItem"/>s based on path prefixes.
+/// A tree-like structure organizing <see cref="IOpenApiPathItem"/>s based on path prefixes.
 /// </summary>
 public class PathTree
 {
     /// <summary>
-    /// The <see cref="OpenApiPathItem"/> at this level of the tree, if any.
+    /// The <see cref="IOpenApiPathItem"/> at this level of the tree, if any.
     /// </summary>
-    public OpenApiPathItem? Item { get; set; }
+    public IOpenApiPathItem? Item { get; set; }
 
     /// <summary>
     /// A map of sub-paths to sub-trees.
@@ -16,11 +16,11 @@ public class PathTree
     public IDictionary<string, PathTree> Children { get; } = new Dictionary<string, PathTree>();
 
     /// <summary>
-    /// Adds a <see cref="OpenApiPathItem"/> to the tree.
+    /// Adds a <see cref="IOpenApiPathItem"/> to the tree.
     /// </summary>
     /// <param name="path">The path of the item.</param>
     /// <param name="item">The item.</param>
-    public void Add(string[] path, OpenApiPathItem item)
+    public void Add(string[] path, IOpenApiPathItem item)
     {
         if (path.Length == 0)
         {

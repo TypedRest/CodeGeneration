@@ -7,7 +7,7 @@ public class EntryEndpoint : Endpoint
 {
     public override string Kind => "entry";
 
-    public override void Parse(OpenApiObject data, IEndpointParser parser)
+    public override void Parse(JsonObject data, IEndpointParser parser)
         => ParseChildren(data, parser);
 
     public override void Write(IOpenApiWriter writer, OpenApiSpecVersion specVersion)

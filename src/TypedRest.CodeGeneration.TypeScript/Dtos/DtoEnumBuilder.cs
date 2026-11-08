@@ -12,7 +12,7 @@ namespace TypedRest.CodeGeneration.TypeScript.Dtos;
 /// assignment of a bare string literal - which is exactly what <c>JSON.parse()</c> produces. Unions accept the
 /// literals directly and are fully erased at runtime.
 /// </remarks>
-public class DtoEnumBuilder(string key, OpenApiSchema schema, INamingStrategy naming, TypeNameRegistry? typeNames = null)
+public class DtoEnumBuilder(string key, IOpenApiSchema schema, INamingStrategy naming, TypeNameRegistry? typeNames = null)
     : DtoBuilder(key, schema, naming, typeNames)
 {
     /// <inheritdoc/>
@@ -20,15 +20,11 @@ public class DtoEnumBuilder(string key, OpenApiSchema schema, INamingStrategy na
     {
         var literals = new List<string>();
 
-        foreach (var value in Schema.Enum)
+        foreach (var value in Schema.Enum ?? [])
         {
-            string? literal = value switch
-            {
-                OpenApiString {Value: not null} str => Ts.Quote(str.Value),
-                OpenApiInteger num => num.Value.ToString(CultureInfo.InvariantCulture),
-                OpenApiLong num => num.Value.ToString(CultureInfo.InvariantCulture),
-                _ => null
-            };
+            string? literal = value.AsString() is {} str
+                ? Ts.Quote(str)
+                : value.AsInteger()?.ToString(CultureInfo.InvariantCulture);
 
             // Unlike C# enum members, duplicate literals are not an error - they are just redundant
             if (literal != null && !literals.Contains(literal)) literals.Add(literal);

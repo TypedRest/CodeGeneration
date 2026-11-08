@@ -10,20 +10,20 @@ public class ElementEndpoint : Endpoint
     /// <summary>
     /// Schema describing the representation of this resource. Inherited from the containing <see cref="CollectionEndpoint"/> when unset.
     /// </summary>
-    public OpenApiSchema? Schema { get; set; }
+    public IOpenApiSchema? Schema { get; set; }
 
-    public override void Parse(OpenApiObject data, IEndpointParser parser)
+    public override void Parse(JsonObject data, IEndpointParser parser)
     {
         base.Parse(data, parser);
 
         Schema = data.GetSchema("schema");
     }
 
-    public override void ResolveReferences(OpenApiComponents components)
+    public override void ResolveReferences(OpenApiDocument document)
     {
-        base.ResolveReferences(components);
+        base.ResolveReferences(document);
 
-        Schema = Schema?.Resolve(components);
+        Schema = Schema?.Resolve(document);
     }
 
     protected override void WriteBody(IOpenApiWriter writer, OpenApiSpecVersion specVersion)

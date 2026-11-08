@@ -12,9 +12,9 @@ public class UploadPatternFacts : PatternFactsBase<UploadPattern>
         {
             Item = new OpenApiPathItem
             {
-                Operations =
+                Operations = new Dictionary<HttpMethod, OpenApiOperation>
                 {
-                    [OperationType.Post] = Sample.Operation(statusCode: HttpStatusCode.Accepted, mimeType: "application/octet-stream", request: new OpenApiSchema(), description: "Upload a file.")
+                    [HttpMethod.Post] = Sample.Operation(statusCode: HttpStatusCode.Accepted, mimeType: "application/octet-stream", request: new OpenApiSchema(), description: "Upload a file.")
                 }
             }
         };
@@ -30,9 +30,9 @@ public class UploadPatternFacts : PatternFactsBase<UploadPattern>
     {
         var formSchema = new OpenApiSchema
         {
-            Properties =
+            Properties = new Dictionary<string, IOpenApiSchema>
             {
-                ["my-file"] = new OpenApiSchema {Type = "binary"}
+                ["my-file"] = new OpenApiSchema {Type = JsonSchemaType.String, Format = "binary"}
             }
         };
 
@@ -40,9 +40,9 @@ public class UploadPatternFacts : PatternFactsBase<UploadPattern>
         {
             Item = new OpenApiPathItem
             {
-                Operations =
+                Operations = new Dictionary<HttpMethod, OpenApiOperation>
                 {
-                    [OperationType.Post] = Sample.Operation(statusCode: HttpStatusCode.Accepted, mimeType: "multipart/form-data", request: formSchema, description: "Upload a file.")
+                    [HttpMethod.Post] = Sample.Operation(statusCode: HttpStatusCode.Accepted, mimeType: "multipart/form-data", request: formSchema, description: "Upload a file.")
                 }
             }
         };

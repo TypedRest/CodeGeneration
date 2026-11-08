@@ -11,7 +11,7 @@ public class CollectionPattern : IndexerPattern
     public override IEndpoint? TryGetEndpoint(PathTree tree, IPatternMatcher patternMatcher)
     {
         var item = tree.Item;
-        if (item == null || !item.Operations.TryGetValue(OperationType.Get, out var operation))
+        if (item?.GetOperation(HttpMethod.Get) is not {} operation)
             return null;
 
         var children = patternMatcher.GetEndpoints(tree);
@@ -22,7 +22,7 @@ public class CollectionPattern : IndexerPattern
         var schema = response?.GetJsonSchema();
 
         // Ensure collection and element schemas match
-        if (schema?.Type != "array" || schema.Items?.Reference?.Id != element.Schema?.Reference?.Id) return null;
+        if (schema == null || !schema.Is(JsonSchemaType.Array) || schema.Items.GetReferenceId() != element.Schema.GetReferenceId()) return null;
         element.Schema = null;
 
         var endpoint = new CollectionEndpoint

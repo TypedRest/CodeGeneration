@@ -53,5 +53,5 @@ public static class OpenApiDocumentExtensions
     /// Generates Java types for the schemas in <paramref name="doc"/>.
     /// </summary>
     public static IEnumerable<IJvmType> GenerateJavaDtos(this OpenApiDocument doc, INamingStrategy naming, TypeNameRegistry? typeNames = null)
-        => new DtoGenerator(naming, typeNames).Generate(doc.Components?.Schemas ?? new Dictionary<string, OpenApiSchema>());
+        => new DtoGenerator(naming, typeNames).Generate(doc.Components?.Schemas ?? new Dictionary<string, IOpenApiSchema>());
 }

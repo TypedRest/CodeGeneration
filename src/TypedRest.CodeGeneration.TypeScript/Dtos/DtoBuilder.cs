@@ -9,13 +9,13 @@ namespace TypedRest.CodeGeneration.TypeScript.Dtos;
 /// <param name="schema">The schema to generate a type for.</param>
 /// <param name="naming">Decides what the generated type is called.</param>
 /// <param name="typeNames">Keeps the names of types generated for inline schemas from colliding with other generated types.</param>
-public abstract class DtoBuilder(string key, OpenApiSchema schema, INamingStrategy naming, TypeNameRegistry? typeNames = null)
+public abstract class DtoBuilder(string key, IOpenApiSchema schema, INamingStrategy naming, TypeNameRegistry? typeNames = null)
 {
     /// <summary>The name and module of the generated type.</summary>
     protected readonly TsIdentifier Identifier = typeNames?.Register(naming.DtoType(key)) ?? naming.DtoType(key);
 
     /// <summary>The schema to generate a type for.</summary>
-    protected readonly OpenApiSchema Schema = schema;
+    protected readonly IOpenApiSchema Schema = schema;
 
     /// <summary>Decides what the generated type is called.</summary>
     protected readonly INamingStrategy Naming = naming;
@@ -33,12 +33,12 @@ public abstract class DtoBuilder(string key, OpenApiSchema schema, INamingStrate
     /// <summary>
     /// Returns a builder suitable for <paramref name="schema"/>, or <c>null</c> if it needs no type of its own.
     /// </summary>
-    public static DtoBuilder? For(string key, OpenApiSchema schema, INamingStrategy naming, TypeNameRegistry? typeNames = null)
-        => (schema.Type ?? "object") switch
+    public static DtoBuilder? For(string key, IOpenApiSchema schema, INamingStrategy naming, TypeNameRegistry? typeNames = null)
+        => (schema.GetTypeIdentifier() ?? "object") switch
         {
             "object" => new DtoInterfaceBuilder(key, schema, naming, typeNames),
-            "string" when schema.Enum.Count != 0 => new DtoEnumBuilder(key, schema, naming, typeNames),
-            "integer" when schema.Enum.Count != 0 => new DtoEnumBuilder(key, schema, naming, typeNames),
+            "string" when schema.Enum is {Count: > 0} => new DtoEnumBuilder(key, schema, naming, typeNames),
+            "integer" when schema.Enum is {Count: > 0} => new DtoEnumBuilder(key, schema, naming, typeNames),
             _ => null
         };
 

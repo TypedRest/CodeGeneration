@@ -74,17 +74,17 @@ public class NamingStrategyFacts
     [InlineData("number", "decimal", "number")]
     [InlineData("boolean", null, "boolean")]
     public void MapsPrimitiveTypes(string type, string? format, string expected)
-        => _namingStrategy.TypeFor(new OpenApiSchema {Type = type, Format = format})
+        => _namingStrategy.TypeFor(new OpenApiSchema {Type = type.ToJsonSchemaType(), Format = format})
                           .ToTypeExpression().Should().Be(expected);
 
     [Fact]
     public void MapsArrays()
-        => _namingStrategy.TypeFor(new OpenApiSchema {Type = "array", Items = new OpenApiSchema {Type = "string"}})
+        => _namingStrategy.TypeFor(new OpenApiSchema {Type = JsonSchemaType.Array, Items = new OpenApiSchema {Type = JsonSchemaType.String}})
                           .ToTypeExpression().Should().Be("string[]");
 
     [Fact]
     public void MapsAdditionalPropertiesToRecord()
-        => _namingStrategy.TypeFor(new OpenApiSchema {AdditionalProperties = new OpenApiSchema {Type = "integer"}})
+        => _namingStrategy.TypeFor(new OpenApiSchema {AdditionalProperties = new OpenApiSchema {Type = JsonSchemaType.Integer}})
                           .ToTypeExpression().Should().Be("Record<string, number>");
 
     [Fact]
@@ -103,6 +103,6 @@ public class NamingStrategyFacts
 
     [Fact]
     public void MapsNullableToUnionWithNull()
-        => _namingStrategy.TypeFor(new OpenApiSchema {Type = "string", Nullable = true})
+        => _namingStrategy.TypeFor(new OpenApiSchema {Type = JsonSchemaType.String | JsonSchemaType.Null})
                           .ToTypeExpression().Should().Be("string | null");
 }

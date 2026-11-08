@@ -60,21 +60,21 @@ public class NamingStrategy(string serviceName, string endpointDirectory, string
     /// Every string format maps to <c>string</c>: TypedRest for TypeScript deserializes with <c>JSON.parse()</c>
     /// and a cast, so there is nothing that could turn a <c>date-time</c> into a <c>Date</c>.
     /// </remarks>
-    public virtual TsIdentifier TypeFor(OpenApiSchema? schema)
+    public virtual TsIdentifier TypeFor(IOpenApiSchema? schema)
     {
-        var type = (schema?.Type, schema?.Format) switch
+        var type = schema.GetTypeIdentifier() switch
         {
-            ("string", _) => TsIdentifier.String,
-            ("integer", _) => TsIdentifier.Number,
-            ("number", _) => TsIdentifier.Number,
-            ("boolean", _) => TsIdentifier.Boolean,
-            ("array", _) => TsIdentifier.ArrayOf(TypeFor(schema!.Items)),
-            _ when schema?.Reference?.Id is {Length: > 0} id => DtoType(id),
+            "string" => TsIdentifier.String,
+            "integer" => TsIdentifier.Number,
+            "number" => TsIdentifier.Number,
+            "boolean" => TsIdentifier.Boolean,
+            "array" => TsIdentifier.ArrayOf(TypeFor(schema!.Items)),
+            _ when schema.GetReferenceId() is {Length: > 0} id => DtoType(id),
             _ when schema?.AdditionalProperties is {} props => TsIdentifier.RecordOf(TsIdentifier.String, TypeFor(props)),
             _ => UntypedFallback
         };
 
-        return schema is {Nullable: true} ? type.ToNullable() : type;
+        return schema.IsNullable() ? type.ToNullable() : type;
     }
 
     /// <summary>

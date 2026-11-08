@@ -112,7 +112,7 @@ public class NamingStrategyFacts
     public void TypeForString()
     {
         _namingStrategy
-           .TypeFor(new OpenApiSchema {Type = "string"})
+           .TypeFor(new OpenApiSchema {Type = JsonSchemaType.String})
            .Should().BeEquivalentTo(CSharpIdentifier.String);
     }
 
@@ -120,7 +120,7 @@ public class NamingStrategyFacts
     public void TypeForNullableString()
     {
         _namingStrategy
-           .TypeFor(new OpenApiSchema {Type = "string", Nullable = true})
+           .TypeFor(new OpenApiSchema {Type = JsonSchemaType.String | JsonSchemaType.Null})
            .Should().BeEquivalentTo(CSharpIdentifier.String.ToNullable());
     }
 
@@ -128,7 +128,7 @@ public class NamingStrategyFacts
     public void TypeForNullableStringWithoutNullableReferenceTypes()
     {
         _namingStrategy
-           .TypeFor(new OpenApiSchema {Type = "array", Items = new OpenApiSchema {Type = "string", Nullable = true}}, nullableReferenceTypes: false)
+           .TypeFor(new OpenApiSchema {Type = JsonSchemaType.Array, Items = new OpenApiSchema {Type = JsonSchemaType.String | JsonSchemaType.Null}}, nullableReferenceTypes: false)
            .Should().BeEquivalentTo(CSharpIdentifier.ListOf(CSharpIdentifier.String));
     }
 
@@ -136,7 +136,7 @@ public class NamingStrategyFacts
     public void TypeForNullableIntegerWithoutNullableReferenceTypes()
     {
         _namingStrategy
-           .TypeFor(new OpenApiSchema {Type = "integer", Nullable = true}, nullableReferenceTypes: false)
+           .TypeFor(new OpenApiSchema {Type = JsonSchemaType.Integer | JsonSchemaType.Null}, nullableReferenceTypes: false)
            .Should().BeEquivalentTo(CSharpIdentifier.Int.ToNullable());
     }
 
@@ -151,7 +151,7 @@ public class NamingStrategyFacts
     public void TypeForFormat(string type, string format, string? ns, string name)
     {
         _namingStrategy
-           .TypeFor(new OpenApiSchema {Type = type, Format = format})
+           .TypeFor(new OpenApiSchema {Type = type.ToJsonSchemaType(), Format = format})
            .Should().BeEquivalentTo(new CSharpIdentifier(ns, name));
     }
 
@@ -160,7 +160,7 @@ public class NamingStrategyFacts
     {
         // Formats that map to value types stay nullable even without nullable reference types
         _namingStrategy
-           .TypeFor(new OpenApiSchema {Type = "string", Format = "uuid", Nullable = true}, nullableReferenceTypes: false)
+           .TypeFor(new OpenApiSchema {Type = JsonSchemaType.String | JsonSchemaType.Null, Format = "uuid"}, nullableReferenceTypes: false)
            .Should().BeEquivalentTo(new CSharpIdentifier("System", "Guid").ToNullable());
     }
 
@@ -168,7 +168,7 @@ public class NamingStrategyFacts
     public void TypeForInteger()
     {
         _namingStrategy
-           .TypeFor(new OpenApiSchema {Type = "integer"})
+           .TypeFor(new OpenApiSchema {Type = JsonSchemaType.Integer})
            .Should().BeEquivalentTo(CSharpIdentifier.Int);
     }
 
@@ -176,7 +176,7 @@ public class NamingStrategyFacts
     public void TypeForArrayOfUri()
     {
         _namingStrategy
-           .TypeFor(new OpenApiSchema {Type = "array", Items = new OpenApiSchema {Type = "string", Format = "uri"}})
+           .TypeFor(new OpenApiSchema {Type = JsonSchemaType.Array, Items = new OpenApiSchema {Type = JsonSchemaType.String, Format = "uri"}})
            .Should().BeEquivalentTo(CSharpIdentifier.ListOf(CSharpIdentifier.Uri));
     }
 
@@ -184,7 +184,7 @@ public class NamingStrategyFacts
     public void TypeForReference()
     {
         _namingStrategy
-           .TypeFor(new OpenApiSchema {Reference = new OpenApiReference {Id = "myType"}})
+           .TypeFor(new OpenApiSchemaReference("myType"))
            .Should().BeEquivalentTo(_namingStrategy.DtoType("myType"));
     }
 }

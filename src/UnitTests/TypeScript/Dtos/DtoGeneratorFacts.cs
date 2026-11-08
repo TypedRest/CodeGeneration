@@ -7,9 +7,9 @@ public class DtoGeneratorFacts
 {
     private readonly DtoGenerator _generator = new(new NamingStrategy("MyService", "", "dtos"));
 
-    private string Generate(params (string key, OpenApiSchema schema)[] schemas)
+    private string Generate(params (string key, IOpenApiSchema schema)[] schemas)
     {
-        var types = _generator.Generate(schemas.Select(x => new KeyValuePair<string, OpenApiSchema>(x.key, x.schema))).ToList();
+        var types = _generator.Generate(schemas.Select(x => new KeyValuePair<string, IOpenApiSchema>(x.key, x.schema))).ToList();
 
         var file = new TsFile("dtos/Combined.ts");
         file.Types.AddRange(types);
@@ -35,13 +35,13 @@ public class DtoGeneratorFacts
     public void KeepsWireNamesAndQuotesInvalidIdentifiers()
         => Generate(("Thing", new OpenApiSchema
         {
-            Type = "object",
-            Required = {"first-name"},
-            Properties =
+            Type = JsonSchemaType.Object,
+            Required = new HashSet<string> {"first-name"},
+            Properties = new Dictionary<string, IOpenApiSchema>
             {
-                ["first-name"] = new OpenApiSchema {Type = "string"},
-                ["snake_case"] = new OpenApiSchema {Type = "string"},
-                ["2fa"] = new OpenApiSchema {Type = "boolean"}
+                ["first-name"] = new OpenApiSchema {Type = JsonSchemaType.String},
+                ["snake_case"] = new OpenApiSchema {Type = JsonSchemaType.String},
+                ["2fa"] = new OpenApiSchema {Type = JsonSchemaType.Boolean}
             }
         })).Should().Contain(
             """
@@ -56,14 +56,14 @@ public class DtoGeneratorFacts
     public void KeepsOptionalAndNullableDistinct()
         => Generate(("Thing", new OpenApiSchema
         {
-            Type = "object",
-            Required = {"required"},
-            Properties =
+            Type = JsonSchemaType.Object,
+            Required = new HashSet<string> {"required"},
+            Properties = new Dictionary<string, IOpenApiSchema>
             {
-                ["required"] = new OpenApiSchema {Type = "string"},
-                ["optional"] = new OpenApiSchema {Type = "string"},
-                ["nullable"] = new OpenApiSchema {Type = "string", Nullable = true, Required = {}},
-                ["both"] = new OpenApiSchema {Type = "string", Nullable = true}
+                ["required"] = new OpenApiSchema {Type = JsonSchemaType.String},
+                ["optional"] = new OpenApiSchema {Type = JsonSchemaType.String},
+                ["nullable"] = new OpenApiSchema {Type = JsonSchemaType.String | JsonSchemaType.Null, Required = new HashSet<string>()},
+                ["both"] = new OpenApiSchema {Type = JsonSchemaType.String | JsonSchemaType.Null}
             }
         })).Should().Contain(
             """
@@ -79,12 +79,12 @@ public class DtoGeneratorFacts
     public void TurnsEveryReferencedAllOfEntryIntoAnExtends()
         => Generate(("Employee", new OpenApiSchema
         {
-            Type = "object",
-            AllOf =
+            Type = JsonSchemaType.Object,
+            AllOf = new List<IOpenApiSchema>
             {
-                new OpenApiSchema {Reference = new OpenApiReference {Id = "Person", Type = ReferenceType.Schema}},
-                new OpenApiSchema {Reference = new OpenApiReference {Id = "Auditable", Type = ReferenceType.Schema}},
-                new OpenApiSchema {Type = "object", Required = {"salary"}, Properties = {["salary"] = new OpenApiSchema {Type = "number"}}}
+                new OpenApiSchemaReference("Person"),
+                new OpenApiSchemaReference("Auditable"),
+                new OpenApiSchema {Type = JsonSchemaType.Object, Required = new HashSet<string> {"salary"}, Properties = new Dictionary<string, IOpenApiSchema> {["salary"] = new OpenApiSchema {Type = JsonSchemaType.Number}}}
             }
         })).Should().Contain(
             """
@@ -97,9 +97,9 @@ public class DtoGeneratorFacts
     public void GeneratesStringEnumAsLiteralUnion()
         => Generate(("Priority", new OpenApiSchema
         {
-            Type = "string",
+            Type = JsonSchemaType.String,
             Description = "How urgent something is.",
-            Enum = {new OpenApiString("low"), new OpenApiString("high"), new OpenApiString("")}
+            Enum = new List<JsonNode> {"low", "high", ""}
         })).Should().Contain(
             """
             /** How urgent something is. */
@@ -110,8 +110,8 @@ public class DtoGeneratorFacts
     public void GeneratesIntegerEnumAsLiteralUnion()
         => Generate(("Level", new OpenApiSchema
         {
-            Type = "integer",
-            Enum = {new OpenApiInteger(-1), new OpenApiInteger(0), new OpenApiInteger(1), new OpenApiInteger(1)}
+            Type = JsonSchemaType.Integer,
+            Enum = new List<JsonNode> {-1, 0, 1, 1}
         })).Should().Contain("export type Level = -1 | 0 | 1;");
 
     [Fact]
@@ -119,11 +119,11 @@ public class DtoGeneratorFacts
     {
         string content = Generate(("Task", new OpenApiSchema
         {
-            Type = "object",
-            Required = {"status"},
-            Properties =
+            Type = JsonSchemaType.Object,
+            Required = new HashSet<string> {"status"},
+            Properties = new Dictionary<string, IOpenApiSchema>
             {
-                ["status"] = new OpenApiSchema {Type = "string", Enum = {new OpenApiString("open"), new OpenApiString("done")}}
+                ["status"] = new OpenApiSchema {Type = JsonSchemaType.String, Enum = new List<JsonNode> {"open", "done"}}
             }
         }));
 
@@ -136,14 +136,14 @@ public class DtoGeneratorFacts
     {
         string content = Generate(("Order", new OpenApiSchema
         {
-            Type = "object",
-            Required = {"lines"},
-            Properties =
+            Type = JsonSchemaType.Object,
+            Required = new HashSet<string> {"lines"},
+            Properties = new Dictionary<string, IOpenApiSchema>
             {
                 ["lines"] = new OpenApiSchema
                 {
-                    Type = "array",
-                    Items = new OpenApiSchema {Type = "object", Required = {"sku"}, Properties = {["sku"] = new OpenApiSchema {Type = "string"}}}
+                    Type = JsonSchemaType.Array,
+                    Items = new OpenApiSchema {Type = JsonSchemaType.Object, Required = new HashSet<string> {"sku"}, Properties = new Dictionary<string, IOpenApiSchema> {["sku"] = new OpenApiSchema {Type = JsonSchemaType.String}}}
                 }
             }
         }));
@@ -162,13 +162,13 @@ public class DtoGeneratorFacts
     {
         var types = _generator.Generate(
         [
-            new("TaskStatus", new OpenApiSchema {Type = "string", Enum = {new OpenApiString("other")}}),
+            new("TaskStatus", new OpenApiSchema {Type = JsonSchemaType.String, Enum = new List<JsonNode> {"other"}}),
             new("Task", new OpenApiSchema
             {
-                Type = "object",
-                Properties =
+                Type = JsonSchemaType.Object,
+                Properties = new Dictionary<string, IOpenApiSchema>
                 {
-                    ["status"] = new OpenApiSchema {Type = "string", Enum = {new OpenApiString("open")}}
+                    ["status"] = new OpenApiSchema {Type = JsonSchemaType.String, Enum = new List<JsonNode> {"open"}}
                 }
             })
         ]).ToList();
@@ -181,9 +181,9 @@ public class DtoGeneratorFacts
     public void MarksDeprecatedSchemasAndProperties()
         => Generate(("Legacy", new OpenApiSchema
         {
-            Type = "object",
+            Type = JsonSchemaType.Object,
             Deprecated = true,
-            Properties = {["old"] = new OpenApiSchema {Type = "string", Deprecated = true}}
+            Properties = new Dictionary<string, IOpenApiSchema> {["old"] = new OpenApiSchema {Type = JsonSchemaType.String, Deprecated = true}}
         })).Should().Contain(
             """
             /** @deprecated */
@@ -195,5 +195,5 @@ public class DtoGeneratorFacts
 
     [Fact]
     public void GeneratesNothingForSchemasThatNeedNoType()
-        => _generator.Generate([new("Name", new OpenApiSchema {Type = "string"})]).Should().BeEmpty();
+        => _generator.Generate([new("Name", new OpenApiSchema {Type = JsonSchemaType.String})]).Should().BeEmpty();
 }

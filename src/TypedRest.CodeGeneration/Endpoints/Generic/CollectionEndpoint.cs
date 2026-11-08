@@ -10,14 +10,14 @@ public class CollectionEndpoint : Endpoint
     /// <summary>
     /// Schema describing the representation of individual elements in the collection.
     /// </summary>
-    public OpenApiSchema? Schema { get; set; }
+    public IOpenApiSchema? Schema { get; set; }
 
     /// <summary>
     /// A template for child endpoints addressable by ID.
     /// </summary>
     public ElementEndpoint? Element { get; set; }
 
-    public override void Parse(OpenApiObject data, IEndpointParser parser)
+    public override void Parse(JsonObject data, IEndpointParser parser)
     {
         base.Parse(data, parser);
 
@@ -26,12 +26,12 @@ public class CollectionEndpoint : Endpoint
             Element = parser.Parse(element, defaultKind: "element") as ElementEndpoint;
     }
 
-    public override void ResolveReferences(OpenApiComponents components)
+    public override void ResolveReferences(OpenApiDocument document)
     {
-        base.ResolveReferences(components);
+        base.ResolveReferences(document);
 
-        Schema = Schema?.Resolve(components);
-        Element?.ResolveReferences(components);
+        Schema = Schema?.Resolve(document);
+        Element?.ResolveReferences(document);
     }
 
     protected override void WriteBody(IOpenApiWriter writer, OpenApiSpecVersion specVersion)

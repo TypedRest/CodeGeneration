@@ -1,3 +1,4 @@
+using Microsoft.OpenApi.YamlReader;
 using TypedRest.CodeGeneration.Endpoints;
 
 namespace TypedRest.CodeGeneration;
@@ -8,7 +9,7 @@ namespace TypedRest.CodeGeneration;
 public static class OpenApiReaderSettingsExtensions
 {
     /// <summary>
-    /// Registers the TypedRest OpenAPI extension parser.
+    /// Registers the TypedRest OpenAPI extension parser and the YAML reader.
     /// </summary>
     /// <param name="settings">The settings to register the extension parser in.</param>
     /// <param name="endpointRegistry">A list of all known <see cref="IEndpoint"/> kinds; leave <c>null</c> for default.</param>
@@ -16,14 +17,17 @@ public static class OpenApiReaderSettingsExtensions
     {
         var parser = new EndpointParser(endpointRegistry ?? EndpointRegistry.Default);
 
-        settings.ExtensionParsers.Add(OpenApiDocumentExtensions.TypedRestKey, (data, _) =>
+        settings.ExtensionParsers ??= new();
+        settings.ExtensionParsers[OpenApiDocumentExtensions.TypedRestKey] = (data, _) =>
         {
-            if (data is not OpenApiObject objData) throw new FormatException($"{OpenApiDocumentExtensions.TypedRestKey} is not an object.");
+            if (data is not JsonObject objData) throw new FormatException($"{OpenApiDocumentExtensions.TypedRestKey} is not an object.");
 
             var entryEndpoint = new EntryEndpoint();
             entryEndpoint.Parse(objData, parser);
             return entryEndpoint;
-        });
+        };
+
+        settings.AddYamlReader();
         return settings;
     }
 }

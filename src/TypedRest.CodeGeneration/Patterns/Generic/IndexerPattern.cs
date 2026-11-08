@@ -11,8 +11,7 @@ public class IndexerPattern : IPattern
     public virtual IEndpoint? TryGetEndpoint(PathTree tree, IPatternMatcher patternMatcher)
     {
         var item = tree.Item;
-        OpenApiOperation? operation = null;
-        item?.Operations.TryGetValue(OperationType.Get, out operation);
+        var operation = item?.GetOperation(HttpMethod.Get);
 
         var children = patternMatcher.GetEndpoints(tree);
         var element = ExtractElement<IEndpoint>(children);

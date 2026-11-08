@@ -16,7 +16,7 @@ public class DtoGeneratorFacts
     [Fact]
     public void GeneratesClasses()
     {
-        _generator.Generate(new Dictionary<string, OpenApiSchema>
+        _generator.Generate(new Dictionary<string, IOpenApiSchema>
         {
             ["contact"] = Sample.ContactSchema,
             ["note"] = Sample.NoteSchema
@@ -33,11 +33,11 @@ public class DtoGeneratorFacts
     private static readonly OpenApiSchema _enumSchema = new()
     {
         Description = "My enum",
-        Type = "string",
-        Enum = new List<IOpenApiAny>
+        Type = JsonSchemaType.String,
+        Enum = new List<JsonNode>
         {
-            new OpenApiString("value1"),
-            new OpenApiString("value2")
+            "value1",
+            "value2"
         }
     };
 
@@ -48,7 +48,7 @@ public class DtoGeneratorFacts
     [Fact]
     public void GeneratesEnums()
     {
-        _generator.Generate(new Dictionary<string, OpenApiSchema>
+        _generator.Generate(new Dictionary<string, IOpenApiSchema>
         {
             ["myEnum"] = _enumSchema
         }).Should().BeEquivalentTo([_dtoEnum]);
@@ -57,13 +57,13 @@ public class DtoGeneratorFacts
     [Fact]
     public void NumbersInlineTypeNamesCollidingWithDocumentSchemas()
     {
-        var generated = _generator.Generate(new Dictionary<string, OpenApiSchema>
+        var generated = _generator.Generate(new Dictionary<string, IOpenApiSchema>
         {
             // The inline enum for this property wants to be called MyEnum, just like the schema below
-            ["my"] = new()
+            ["my"] = new OpenApiSchema()
             {
-                Type = "object",
-                Properties = {["enum"] = _enumSchema}
+                Type = JsonSchemaType.Object,
+                Properties = new Dictionary<string, IOpenApiSchema> {["enum"] = _enumSchema}
             },
             ["myEnum"] = _enumSchema
         }).ToList();
@@ -78,27 +78,21 @@ public class DtoGeneratorFacts
     [Fact]
     public void GeneratesInheritanceFromAllOf()
     {
-        var baseType = new OpenApiSchema
-        {
-            Type = "object",
-            Reference = new OpenApiReference {Id = "myBase"},
-            Required = {"kind"},
-            Properties = new Dictionary<string, OpenApiSchema> {["kind"] = new() {Type = "string"}}
-        };
+        var baseType = new OpenApiSchemaReference("myBase");
 
-        var derived = _generator.Generate(new Dictionary<string, OpenApiSchema>
+        var derived = _generator.Generate(new Dictionary<string, IOpenApiSchema>
         {
-            ["myDerived"] = new()
+            ["myDerived"] = new OpenApiSchema()
             {
                 Description = "My derived type",
-                AllOf =
+                AllOf = new List<IOpenApiSchema>
                 {
                     baseType,
                     new OpenApiSchema
                     {
-                        Type = "object",
-                        Required = {"name"},
-                        Properties = new Dictionary<string, OpenApiSchema> {["name"] = new() {Type = "string", Description = "My name."}}
+                        Type = JsonSchemaType.Object,
+                        Required = new HashSet<string> {"name"},
+                        Properties = new Dictionary<string, IOpenApiSchema> {["name"] = new OpenApiSchema() {Type = JsonSchemaType.String, Description = "My name."}}
                     }
                 }
             }
@@ -120,18 +114,18 @@ public class DtoGeneratorFacts
     [Fact]
     public void GeneratesUniqueEnumValueNames()
     {
-        _generator.Generate(new Dictionary<string, OpenApiSchema>
+        _generator.Generate(new Dictionary<string, IOpenApiSchema>
         {
-            ["myEnum"] = new()
+            ["myEnum"] = new OpenApiSchema()
             {
                 Description = "My enum",
-                Type = "string",
-                Enum =
+                Type = JsonSchemaType.String,
+                Enum = new List<JsonNode>
                 {
-                    new OpenApiString(""),
-                    new OpenApiString("1st"),
-                    new OpenApiString("foo-bar"),
-                    new OpenApiString("foo_bar")
+                    "",
+                    "1st",
+                    "foo-bar",
+                    "foo_bar"
                 }
             }
         }).Should().BeEquivalentTo([
@@ -146,13 +140,13 @@ public class DtoGeneratorFacts
     [Fact]
     public void GeneratesNamesForNegativeEnumValues()
     {
-        _generator.Generate(new Dictionary<string, OpenApiSchema>
+        _generator.Generate(new Dictionary<string, IOpenApiSchema>
         {
-            ["myEnum"] = new()
+            ["myEnum"] = new OpenApiSchema()
             {
                 Description = "My enum",
-                Type = "integer",
-                Enum = {new OpenApiInteger(-1), new OpenApiInteger(1)}
+                Type = JsonSchemaType.Integer,
+                Enum = new List<JsonNode> {-1, 1}
             }
         }).Should().BeEquivalentTo([
             DtoEnum("MyEnum", "My enum",
@@ -164,15 +158,15 @@ public class DtoGeneratorFacts
     [Fact]
     public void MarksDeprecatedPropertiesAsObsolete()
     {
-        _generator.Generate(new Dictionary<string, OpenApiSchema>
+        _generator.Generate(new Dictionary<string, IOpenApiSchema>
         {
-            ["myType"] = new()
+            ["myType"] = new OpenApiSchema()
             {
                 Description = "My type",
-                Type = "object",
-                Properties = new Dictionary<string, OpenApiSchema>
+                Type = JsonSchemaType.Object,
+                Properties = new Dictionary<string, IOpenApiSchema>
                 {
-                    ["legacy"] = new() {Type = "string", Deprecated = true, Description = "My legacy value."}
+                    ["legacy"] = new OpenApiSchema() {Type = JsonSchemaType.String, Deprecated = true, Description = "My legacy value."}
                 }
             }
         }).Should().BeEquivalentTo([
@@ -189,13 +183,13 @@ public class DtoGeneratorFacts
     [Fact]
     public void GeneratesInlineEnums()
     {
-        _generator.Generate(new Dictionary<string, OpenApiSchema>
+        _generator.Generate(new Dictionary<string, IOpenApiSchema>
         {
-            ["myType"] = new()
+            ["myType"] = new OpenApiSchema()
             {
                 Description = "My type",
-                Type = "object",
-                Properties = new Dictionary<string, OpenApiSchema>
+                Type = JsonSchemaType.Object,
+                Properties = new Dictionary<string, IOpenApiSchema>
                 {
                     ["myEnum"] = _enumSchema
                 }
@@ -214,19 +208,19 @@ public class DtoGeneratorFacts
     [Fact]
     public void GeneratesClassesForInlineObjects()
     {
-        _generator.Generate(new Dictionary<string, OpenApiSchema>
+        _generator.Generate(new Dictionary<string, IOpenApiSchema>
         {
-            ["myType"] = new()
+            ["myType"] = new OpenApiSchema()
             {
                 Description = "My type",
-                Type = "object",
-                Properties = new Dictionary<string, OpenApiSchema>
+                Type = JsonSchemaType.Object,
+                Properties = new Dictionary<string, IOpenApiSchema>
                 {
-                    ["address"] = new()
+                    ["address"] = new OpenApiSchema()
                     {
                         Description = "My address.",
-                        Type = "object",
-                        Properties = new Dictionary<string, OpenApiSchema> {["city"] = new() {Type = "string"}}
+                        Type = JsonSchemaType.Object,
+                        Properties = new Dictionary<string, IOpenApiSchema> {["city"] = new OpenApiSchema() {Type = JsonSchemaType.String}}
                     }
                 }
             }
@@ -246,17 +240,17 @@ public class DtoGeneratorFacts
     [Fact]
     public void GeneratesNullableProperties()
     {
-        _generator.Generate(new Dictionary<string, OpenApiSchema>
+        _generator.Generate(new Dictionary<string, IOpenApiSchema>
         {
-            ["myType"] = new()
+            ["myType"] = new OpenApiSchema()
             {
                 Description = "My type",
-                Type = "object",
-                Required = {"name"},
-                Properties = new Dictionary<string, OpenApiSchema>
+                Type = JsonSchemaType.Object,
+                Required = new HashSet<string> {"name"},
+                Properties = new Dictionary<string, IOpenApiSchema>
                 {
-                    ["name"] = new() {Type = "string", Nullable = true, Description = "My name."},
-                    ["age"] = new() {Type = "integer", Description = "My age."}
+                    ["name"] = new OpenApiSchema() {Type = JsonSchemaType.String | JsonSchemaType.Null, Description = "My name."},
+                    ["age"] = new OpenApiSchema() {Type = JsonSchemaType.Integer, Description = "My age."}
                 }
             }
         }).Should().BeEquivalentTo([
@@ -279,12 +273,12 @@ public class DtoGeneratorFacts
     private static readonly OpenApiSchema _collectionSchema = new()
     {
         Description = "My type",
-        Type = "object",
-        Required = {"tags"},
-        Properties = new Dictionary<string, OpenApiSchema>
+        Type = JsonSchemaType.Object,
+        Required = new HashSet<string> {"tags"},
+        Properties = new Dictionary<string, IOpenApiSchema>
         {
-            ["notes"] = new() {Type = "array", Items = new OpenApiSchema {Type = "string"}, Description = "My notes."},
-            ["tags"] = new() {Type = "object", AdditionalProperties = new OpenApiSchema {Type = "string"}, Description = "My tags."}
+            ["notes"] = new OpenApiSchema() {Type = JsonSchemaType.Array, Items = new OpenApiSchema {Type = JsonSchemaType.String}, Description = "My notes."},
+            ["tags"] = new OpenApiSchema() {Type = JsonSchemaType.Object, AdditionalProperties = new OpenApiSchema {Type = JsonSchemaType.String}, Description = "My tags."}
         }
     };
 
@@ -294,7 +288,7 @@ public class DtoGeneratorFacts
         var list = CSharpIdentifier.ListOf(CSharpIdentifier.String);
         var dictionary = CSharpIdentifier.DictionaryOf(CSharpIdentifier.String, CSharpIdentifier.String);
 
-        _generator.Generate(new Dictionary<string, OpenApiSchema> {["myType"] = _collectionSchema})
+        _generator.Generate(new Dictionary<string, IOpenApiSchema> {["myType"] = _collectionSchema})
                   .Should().BeEquivalentTo([
                        DtoClass("MyType", "My type",
                            new CSharpProperty(list, "Notes")
@@ -317,19 +311,19 @@ public class DtoGeneratorFacts
     private static readonly OpenApiSchema _requiredSchema = new()
     {
         Description = "My type",
-        Type = "object",
-        Required = {"name", "age"},
-        Properties = new Dictionary<string, OpenApiSchema>
+        Type = JsonSchemaType.Object,
+        Required = new HashSet<string> {"name", "age"},
+        Properties = new Dictionary<string, IOpenApiSchema>
         {
-            ["name"] = new() {Type = "string", Description = "My name."},
-            ["age"] = new() {Type = "integer", Description = "My age."}
+            ["name"] = new OpenApiSchema() {Type = JsonSchemaType.String, Description = "My name."},
+            ["age"] = new OpenApiSchema() {Type = JsonSchemaType.Integer, Description = "My age."}
         }
     };
 
     [Fact]
     public void GeneratesRequiredMembers()
     {
-        _generator.Generate(new Dictionary<string, OpenApiSchema> {["myType"] = _requiredSchema})
+        _generator.Generate(new Dictionary<string, IOpenApiSchema> {["myType"] = _requiredSchema})
                   .Should().BeEquivalentTo([
                        DtoClass("MyType", "My type",
                            new CSharpProperty(CSharpIdentifier.String, "Name")
@@ -353,7 +347,7 @@ public class DtoGeneratorFacts
     public void GeneratesNullForgivingInitializersBelowCSharp11()
     {
         Generator(LanguageVersion.CSharp10)
-           .Generate(new Dictionary<string, OpenApiSchema> {["myType"] = _requiredSchema})
+           .Generate(new Dictionary<string, IOpenApiSchema> {["myType"] = _requiredSchema})
            .Should().BeEquivalentTo([
                 DtoClass("MyType", "My type",
                     new CSharpProperty(CSharpIdentifier.String, "Name")
@@ -378,19 +372,19 @@ public class DtoGeneratorFacts
         var list = CSharpIdentifier.ListOf(CSharpIdentifier.String);
 
         Generator(LanguageVersion.CSharp7_3)
-           .Generate(new Dictionary<string, OpenApiSchema>
+           .Generate(new Dictionary<string, IOpenApiSchema>
             {
-                ["myType"] = new()
+                ["myType"] = new OpenApiSchema()
                 {
                     Description = "My type",
-                    Type = "object",
-                    Required = {"name"},
-                    Properties = new Dictionary<string, OpenApiSchema>
+                    Type = JsonSchemaType.Object,
+                    Required = new HashSet<string> {"name"},
+                    Properties = new Dictionary<string, IOpenApiSchema>
                     {
-                        ["name"] = new() {Type = "string", Description = "My name."},
-                        ["nickname"] = new() {Type = "string", Nullable = true, Description = "My nickname."},
-                        ["age"] = new() {Type = "integer", Description = "My age."},
-                        ["aliases"] = new() {Type = "array", Items = new OpenApiSchema {Type = "string", Nullable = true}, Description = "My aliases."}
+                        ["name"] = new OpenApiSchema() {Type = JsonSchemaType.String, Description = "My name."},
+                        ["nickname"] = new OpenApiSchema() {Type = JsonSchemaType.String | JsonSchemaType.Null, Description = "My nickname."},
+                        ["age"] = new OpenApiSchema() {Type = JsonSchemaType.Integer, Description = "My age."},
+                        ["aliases"] = new OpenApiSchema() {Type = JsonSchemaType.Array, Items = new OpenApiSchema {Type = JsonSchemaType.String | JsonSchemaType.Null}, Description = "My aliases."}
                     }
                 }
             })
@@ -484,12 +478,12 @@ public class DtoGeneratorFacts
             new NamingStrategy("MyService", "MyNamespace", "MyNamespace"),
             jsonAttributes: JsonAttributes.For(JsonAttributes.SystemTextJson));
 
-        var generated = generator.Generate(new Dictionary<string, OpenApiSchema>
+        var generated = generator.Generate(new Dictionary<string, IOpenApiSchema>
         {
-            ["myType"] = new()
+            ["myType"] = new OpenApiSchema()
             {
-                Type = "object",
-                Properties = {["myName"] = new() {Type = "string"}}
+                Type = JsonSchemaType.Object,
+                Properties = new Dictionary<string, IOpenApiSchema> {["myName"] = new OpenApiSchema() {Type = JsonSchemaType.String}}
             }
         }).OfType<CSharpClass>().Single();
 
@@ -508,7 +502,7 @@ public class DtoGeneratorFacts
             new NamingStrategy("MyService", "MyNamespace", "MyNamespace"),
             jsonAttributes: JsonAttributes.For(JsonAttributes.SystemTextJson));
 
-        var generated = generator.Generate(new Dictionary<string, OpenApiSchema>
+        var generated = generator.Generate(new Dictionary<string, IOpenApiSchema>
         {
             ["myEnum"] = _enumSchema
         }).OfType<CSharpEnum>().Single();

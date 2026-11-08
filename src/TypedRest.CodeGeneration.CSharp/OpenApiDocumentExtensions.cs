@@ -33,6 +33,6 @@ public static class OpenApiDocumentExtensions
     public static IEnumerable<ICSharpType> GenerateDtos(this OpenApiDocument doc, INamingStrategy naming, LanguageVersion languageVersion = LanguageVersion.Latest, JsonAttributes? jsonAttributes = null)
     {
         var generator = new DtoGenerator(naming, languageVersion, jsonAttributes);
-        return generator.Generate(doc.Components?.Schemas ?? new Dictionary<string, OpenApiSchema>());
+        return generator.Generate(doc.Components?.Schemas ?? new Dictionary<string, IOpenApiSchema>());
     }
 }

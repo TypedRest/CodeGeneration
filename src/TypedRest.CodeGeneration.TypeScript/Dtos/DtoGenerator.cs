@@ -12,7 +12,7 @@ public class DtoGenerator(INamingStrategy naming, TypeNameRegistry? typeNames = 
     /// <summary>
     /// Generates a type for each of the <paramref name="schemas"/> that needs one.
     /// </summary>
-    public IEnumerable<ITsType> Generate(IEnumerable<KeyValuePair<string, OpenApiSchema>> schemas)
+    public IEnumerable<ITsType> Generate(IEnumerable<KeyValuePair<string, IOpenApiSchema>> schemas)
     {
         var names = typeNames ?? new TypeNameRegistry();
 

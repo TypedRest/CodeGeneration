@@ -11,9 +11,9 @@ public class ProducerPatternFacts : PatternFactsBase<ProducerPattern>
         {
             Item = new OpenApiPathItem
             {
-                Operations =
+                Operations = new Dictionary<HttpMethod, OpenApiOperation>
                 {
-                    [OperationType.Post] = Sample.Operation(response: Sample.ContactSchema, description: "A producer.")
+                    [HttpMethod.Post] = Sample.Operation(response: Sample.ContactSchema, description: "A producer.")
                 }
             }
         };

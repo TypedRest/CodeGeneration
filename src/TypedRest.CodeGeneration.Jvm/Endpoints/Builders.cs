@@ -50,7 +50,7 @@ public class ElementBuilder : BuilderBase<ElementEndpoint>
     protected override IEnumerable<JvmExpression> ExtraArguments(ElementEndpoint endpoint, IEndpointGenerator generator)
         => [new JvmClassLiteral(generator.Naming.TypeFor(endpoint.Schema))];
 
-    internal static JvmIdentifier ElementEndpointType(OpenApiSchema? schema, IEndpointGenerator generator)
+    internal static JvmIdentifier ElementEndpointType(IOpenApiSchema? schema, IEndpointGenerator generator)
         => Packages.Implementation(Packages.Generic, "ElementEndpoint")
                    .WithTypeArguments(generator.Naming.TypeFor(schema));
 }

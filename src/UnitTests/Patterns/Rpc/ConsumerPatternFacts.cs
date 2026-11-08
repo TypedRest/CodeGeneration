@@ -12,9 +12,9 @@ public class ConsumerPatternFacts : PatternFactsBase<ConsumerPattern>
         {
             Item = new OpenApiPathItem
             {
-                Operations =
+                Operations = new Dictionary<HttpMethod, OpenApiOperation>
                 {
-                    [OperationType.Post] = Sample.Operation(statusCode: HttpStatusCode.NoContent, request: Sample.ContactSchema, description: "A consumer.")
+                    [HttpMethod.Post] = Sample.Operation(statusCode: HttpStatusCode.NoContent, request: Sample.ContactSchema, description: "A consumer.")
                 }
             }
         };

@@ -11,10 +11,10 @@ public class BlobPatternFacts : PatternFactsBase<BlobPattern>
         {
             Item = new OpenApiPathItem
             {
-                Operations =
+                Operations = new Dictionary<HttpMethod, OpenApiOperation>
                 {
-                    [OperationType.Get] = Sample.Operation(mimeType: "application/octet-stream", response: new OpenApiSchema(), description: "A blob."),
-                    [OperationType.Put] = Sample.Operation(mimeType: "application/octet-stream", request: new OpenApiSchema())
+                    [HttpMethod.Get] = Sample.Operation(mimeType: "application/octet-stream", response: new OpenApiSchema(), description: "A blob."),
+                    [HttpMethod.Put] = Sample.Operation(mimeType: "application/octet-stream", request: new OpenApiSchema())
                 }
             }
         };
@@ -32,7 +32,7 @@ public class BlobPatternFacts : PatternFactsBase<BlobPattern>
         {
             Item = new OpenApiPathItem
             {
-                Operations = {[OperationType.Get] = Sample.Operation(response: Sample.ContactSchema)}
+                Operations = new Dictionary<HttpMethod, OpenApiOperation> {[HttpMethod.Get] = Sample.Operation(response: Sample.ContactSchema)}
             }
         };
 
@@ -46,7 +46,7 @@ public class BlobPatternFacts : PatternFactsBase<BlobPattern>
         {
             Item = new OpenApiPathItem
             {
-                Operations = {[OperationType.Get] = Sample.Operation()}
+                Operations = new Dictionary<HttpMethod, OpenApiOperation> {[HttpMethod.Get] = Sample.Operation()}
             }
         };
 

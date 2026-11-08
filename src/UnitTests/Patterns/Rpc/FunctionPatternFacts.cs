@@ -11,9 +11,9 @@ public class FunctionPatternFacts : PatternFactsBase<FunctionPattern>
         {
             Item = new OpenApiPathItem
             {
-                Operations =
+                Operations = new Dictionary<HttpMethod, OpenApiOperation>
                 {
-                    [OperationType.Post] = Sample.Operation(request: Sample.ContactSchema, response: Sample.NoteSchema, description: "A function.")
+                    [HttpMethod.Post] = Sample.Operation(request: Sample.ContactSchema, response: Sample.NoteSchema, description: "A function.")
                 }
             }
         };

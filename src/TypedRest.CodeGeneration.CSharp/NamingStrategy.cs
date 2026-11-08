@@ -37,9 +37,9 @@ public class NamingStrategy(string serviceName, string endpointNamespace, string
         return new($"{DtoNamespace}.{subNamespace}", Normalize(parts[parts.Length - 1]));
     }
 
-    public virtual CSharpIdentifier TypeFor(OpenApiSchema? schema, bool nullableReferenceTypes = true)
+    public virtual CSharpIdentifier TypeFor(IOpenApiSchema? schema, bool nullableReferenceTypes = true)
     {
-        var type = (schema?.Type, schema?.Format) switch
+        var type = (schema.GetTypeIdentifier(), schema?.Format) switch
         {
             ("string", "uri") => CSharpIdentifier.Uri,
             ("string", "uuid" or "guid") => Guid,
@@ -53,14 +53,14 @@ public class NamingStrategy(string serviceName, string endpointNamespace, string
             ("number", "decimal") => Decimal,
             ("number", _) => CSharpIdentifier.Double,
             ("boolean", _) => CSharpIdentifier.Bool,
-            ("array", _) => CSharpIdentifier.ListOf(TypeFor(schema.Items, nullableReferenceTypes)),
-            _ when schema?.Reference?.Id is {Length: > 0} id => DtoType(id),
+            ("array", _) => CSharpIdentifier.ListOf(TypeFor(schema!.Items, nullableReferenceTypes)),
+            _ when schema.GetReferenceId() is {Length: > 0} id => DtoType(id),
             _ when schema?.AdditionalProperties is {} props => CSharpIdentifier.DictionaryOf(CSharpIdentifier.String, TypeFor(props, nullableReferenceTypes)),
             _ => new CSharpIdentifier("Newtonsoft.Json.Linq", "JObject")
         };
 
-        bool isValueType = schema?.Type is "integer" or "number" or "boolean" || schema.HasValueTypeFormat();
-        return schema is {Nullable: true} && (nullableReferenceTypes || isValueType)
+        bool isValueType = schema.GetTypeIdentifier() is "integer" or "number" or "boolean" || schema.HasValueTypeFormat();
+        return schema.IsNullable() && (nullableReferenceTypes || isValueType)
             ? type.ToNullable()
             : type;
     }

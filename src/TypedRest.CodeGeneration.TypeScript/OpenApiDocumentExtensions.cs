@@ -56,7 +56,7 @@ public static class OpenApiDocumentExtensions
     /// Generates TypeScript types for the schemas in <paramref name="doc"/>.
     /// </summary>
     public static IEnumerable<ITsType> GenerateTypeScriptDtos(this OpenApiDocument doc, INamingStrategy naming, TypeNameRegistry? typeNames = null)
-        => new DtoGenerator(naming, typeNames).Generate(doc.Components?.Schemas ?? new Dictionary<string, OpenApiSchema>());
+        => new DtoGenerator(naming, typeNames).Generate(doc.Components?.Schemas ?? new Dictionary<string, IOpenApiSchema>());
 
     /// <summary>
     /// Groups types into one file per module, optionally followed by an <c>index.ts</c> re-exporting them all.

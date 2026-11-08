@@ -12,7 +12,7 @@ public class ElementBuilder : BuilderBase<ElementEndpoint>
     protected override TsIdentifier GetBaseType(ElementEndpoint endpoint, IEndpointGenerator generator)
         => ElementEndpointType(endpoint.Schema, generator);
 
-    internal static TsIdentifier ElementEndpointType(OpenApiSchema? schema, IEndpointGenerator generator)
+    internal static TsIdentifier ElementEndpointType(IOpenApiSchema? schema, IEndpointGenerator generator)
         => new(generator.Modules.Generic, "ElementEndpoint")
         {
             TypeArguments = {generator.Naming.TypeFor(schema)}

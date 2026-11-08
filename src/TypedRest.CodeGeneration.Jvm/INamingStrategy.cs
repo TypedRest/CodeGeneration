@@ -26,5 +26,5 @@ public interface INamingStrategy
     /// <summary>
     /// The JVM type a schema maps to.
     /// </summary>
-    JvmIdentifier TypeFor(OpenApiSchema? schema);
+    JvmIdentifier TypeFor(IOpenApiSchema? schema);
 }

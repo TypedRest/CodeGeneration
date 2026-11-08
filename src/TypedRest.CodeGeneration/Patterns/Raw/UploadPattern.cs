@@ -8,20 +8,20 @@ namespace TypedRest.CodeGeneration.Patterns.Raw;
 /// </summary>
 public class UploadPattern : PatternBase
 {
-    protected override OperationType[] RequiredOperations
-        => [OperationType.Post];
+    protected override HttpMethod[] RequiredOperations
+        => [HttpMethod.Post];
 
-    protected override IEndpoint? BuildEndpoint(OpenApiPathItem item)
+    protected override IEndpoint? BuildEndpoint(IOpenApiPathItem item)
     {
-        var operation = item.Operations[OperationType.Post];
+        var operation = item.Operations![HttpMethod.Post];
 
         var request = operation.RequestBody;
         if (request == null) return null;
 
         return new UploadEndpoint
         {
-            FormField = request.Content.TryGetValue("multipart/form-data", out var mediaType)
-                ? mediaType?.Schema.Properties.FirstOrDefault(x => x.Value.Type == "binary").Key
+            FormField = request.Content != null && request.Content.TryGetValue("multipart/form-data", out var mediaType)
+                ? mediaType?.Schema?.Properties?.FirstOrDefault(x => x.Value.Format == "binary").Key
                 : null,
             Description = item.Description ?? operation.Description ?? operation.Summary ?? request.Description ?? operation.RequestBody?.Description ?? operation.Get20XResponse()?.Description
         };

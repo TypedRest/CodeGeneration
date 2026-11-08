@@ -57,11 +57,11 @@ public class TypedRestSourceGenerator : IIncrementalGenerator
             return;
         }
 
-        OpenApiDocument doc;
-        OpenApiDiagnostic diagnostic;
+        OpenApiDocument? doc;
+        OpenApiDiagnostic? diagnostic;
         try
         {
-            doc = new OpenApiStringReader(new OpenApiReaderSettings().AddTypedRest()).Read(spec.Content, out diagnostic);
+            (doc, diagnostic) = OpenApiDocumentReader.Parse(spec.Content);
         }
         catch (Exception ex)
         {
@@ -69,10 +69,16 @@ public class TypedRestSourceGenerator : IIncrementalGenerator
             return;
         }
 
-        foreach (var error in diagnostic.Errors)
+        foreach (var error in diagnostic?.Errors ?? [])
             context.ReportDiagnostic(Diagnostic.Create(Diagnostics.SpecError, location, fileName, error.Message));
-        foreach (var warning in diagnostic.Warnings)
+        foreach (var warning in diagnostic?.Warnings ?? [])
             context.ReportDiagnostic(Diagnostic.Create(Diagnostics.SpecWarning, location, fileName, warning.Message));
+
+        if (doc == null)
+        {
+            context.ReportDiagnostic(Diagnostic.Create(Diagnostics.GenerationFailed, location, fileName, nameof(OpenApiDocument), "The document could not be parsed."));
+            return;
+        }
 
         var options = new GenerationOptions(serviceName)
         {

@@ -7,8 +7,9 @@
     <TypedRestAnalyzerAssemblyName Include="TypedRest.CodeGeneration.CSharp.dll" />
     <TypedRestAnalyzerAssemblyName Include="NanoByte.CodeGeneration.dll" />
     <TypedRestAnalyzerAssemblyName Include="Microsoft.OpenApi.dll" />
-    <TypedRestAnalyzerAssemblyName Include="Microsoft.OpenApi.Readers.dll" />
+    <TypedRestAnalyzerAssemblyName Include="Microsoft.OpenApi.YamlReader.dll" />
     <TypedRestAnalyzerAssemblyName Include="SharpYaml.dll" />
+    <!-- System.Text.Json (required by Microsoft.OpenApi) is not shipped: every compiler host the generator supports already provides it -->
   </ItemGroup>
 
 </Project>

@@ -42,6 +42,70 @@ public class TypedRestSourceGeneratorFacts
     }
 
     [Fact]
+    public void GeneratesFromOpenApi32()
+    {
+        var result = new GeneratorTestHarness("""
+                         openapi: 3.2.1
+                         info:
+                           title: Pets
+                           version: 1.0.0
+                         paths:
+                           /pets:
+                             get:
+                               responses:
+                                 '200':
+                                   description: OK
+                                   content:
+                                     application/json:
+                                       schema:
+                                         type: array
+                                         items:
+                                           $ref: '#/components/schemas/Pet'
+                           /pets/{id}:
+                             get:
+                               parameters:
+                                 - name: id
+                                   in: path
+                                   required: true
+                                   schema:
+                                     type: string
+                               responses:
+                                 '200':
+                                   description: OK
+                                   content:
+                                     application/json:
+                                       schema:
+                                         $ref: '#/components/schemas/Pet'
+                         components:
+                           schemas:
+                             Pet:
+                               type: object
+                               required: [name]
+                               properties:
+                                 name:
+                                   type: string
+                                 nickname:
+                                   type: [string, 'null']
+                                 kind:
+                                   type: string
+                                   enum: [cat, dog]
+                         """, path: "pets.yml")
+                    .ForService("Pets")
+                    .WithMetadata("Namespace", "MyNamespace")
+                    .Run();
+
+        result.Diagnostics.Should().BeEmpty();
+        Source(result, "pets.MyNamespace.PetsClient.g.cs")
+           .Should().Contain("ICollectionEndpoint<Pet> Pets => new CollectionEndpoint<Pet>(this, relativeUri: \"./pets\")");
+        Source(result, "pets.MyNamespace.Pet.g.cs")
+           .Should().Contain("public required string Name { get; set; }")
+           .And.Contain("public string? Nickname { get; set; }", "type: [string, 'null'] is how OpenAPI 3.1+ expresses nullability")
+           .And.Contain("public PetKind? Kind { get; set; }");
+        Source(result, "pets.MyNamespace.PetKind.g.cs")
+           .Should().Contain("Cat,").And.Contain("Dog");
+    }
+
+    [Fact]
     public void SkipsUnmarkedAdditionalFiles()
     {
         var result = new GeneratorTestHarness(Sample.YamlV3)

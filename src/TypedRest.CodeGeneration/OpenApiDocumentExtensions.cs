@@ -20,11 +20,12 @@ public static class OpenApiDocumentExtensions
     /// <param name="resolveReferences">Automatically runs <see cref="IEndpoint.ResolveReferences"/> on the endpoints before returning them.</param>
     public static EntryEndpoint? GetTypedRest(this OpenApiDocument document, bool resolveReferences = true)
     {
-        document.Extensions.TryGetValue(TypedRestKey, out var output);
-        if (output is EntryEndpoint endpoint)
+        if (document.Extensions != null
+         && document.Extensions.TryGetValue(TypedRestKey, out var output)
+         && output is EntryEndpoint endpoint)
         {
             if (resolveReferences)
-                endpoint.ResolveReferences(document.Components);
+                endpoint.ResolveReferences(document);
             return endpoint;
         }
         else return null;
@@ -35,6 +36,7 @@ public static class OpenApiDocumentExtensions
     /// </summary>
     public static OpenApiDocument SetTypedRest(this OpenApiDocument document, EntryEndpoint endpoint)
     {
+        document.Extensions ??= new Dictionary<string, IOpenApiExtension>();
         document.Extensions[TypedRestKey] = endpoint;
         return document;
     }

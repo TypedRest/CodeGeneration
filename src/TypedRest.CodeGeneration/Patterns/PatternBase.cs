@@ -10,7 +10,7 @@ public abstract class PatternBase : IPattern
     public IEndpoint? TryGetEndpoint(PathTree tree, IPatternMatcher patternMatcher)
     {
         var item = tree.Item;
-        if (item == null || !RequiredOperations.All(item.Operations.Keys.Contains))
+        if (item == null || !RequiredOperations.All(item.HasOperation))
             return null;
 
         var endpoint = BuildEndpoint(item);
@@ -19,12 +19,12 @@ public abstract class PatternBase : IPattern
     }
 
     /// <summary>
-    /// A list of <see cref="OperationType"/>s the root of the path tree must support in order for this pattern to be applicable.
+    /// A list of <see cref="HttpMethod"/>s the root of the path tree must support in order for this pattern to be applicable.
     /// </summary>
-    protected abstract OperationType[] RequiredOperations { get; }
+    protected abstract HttpMethod[] RequiredOperations { get; }
 
     /// <summary>
     /// Builds the endpoint using information from the <paramref name="item"/>. <c>null</c> if the pattern does not match.
     /// </summary>
-    protected abstract IEndpoint? BuildEndpoint(OpenApiPathItem item);
+    protected abstract IEndpoint? BuildEndpoint(IOpenApiPathItem item);
 }

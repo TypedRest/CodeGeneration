@@ -144,30 +144,30 @@ paths:
           description: ''
 definitions:
   Contact:
+    type: object
     description: A contact in an address book.
     required:
       - firstName
       - lastName
-    type: object
     properties:
       id:
+        type: string
         description: The ID of the contact.
-        type: string
       firstName:
+        type: string
         description: The first name of the contact.
-        type: string
       lastName:
-        description: The last name of the contact.
         type: string
+        description: The last name of the contact.
   Note:
+    type: object
     description: A note about a specific contact.
     required:
       - content
-    type: object
     properties:
       content:
-        description: The content of the note.
         type: string
+        description: The content of the note.
 x-typedrest:
   contacts:
     kind: collection

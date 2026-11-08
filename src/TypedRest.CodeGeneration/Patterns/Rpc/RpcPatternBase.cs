@@ -7,12 +7,12 @@ namespace TypedRest.CodeGeneration.Patterns.Rpc;
 /// </summary>
 public abstract class RpcPatternBase : PatternBase
 {
-    protected override OperationType[] RequiredOperations
-        => [OperationType.Post];
+    protected override HttpMethod[] RequiredOperations
+        => [HttpMethod.Post];
 
-    protected override IEndpoint? BuildEndpoint(OpenApiPathItem item)
+    protected override IEndpoint? BuildEndpoint(IOpenApiPathItem item)
     {
-        var operation = item.Operations[OperationType.Post];
+        var operation = item.Operations![HttpMethod.Post];
 
         if (BuildEndpoint(operation) is {} endpoint)
         {

@@ -5,7 +5,7 @@ namespace TypedRest.CodeGeneration.CSharp.Dtos;
 
 public class DtoGenerator(INamingStrategy naming, LanguageVersion languageVersion = LanguageVersion.Latest, JsonAttributes? jsonAttributes = null)
 {
-    public IEnumerable<ICSharpType> Generate(IEnumerable<KeyValuePair<string, OpenApiSchema>> schemas)
+    public IEnumerable<ICSharpType> Generate(IEnumerable<KeyValuePair<string, IOpenApiSchema>> schemas)
     {
         var typeNames = new TypeNameRegistry();
 

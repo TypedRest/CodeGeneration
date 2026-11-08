@@ -64,10 +64,10 @@ public class CollectionPatternFacts : PatternFactsBase<CollectionPattern>
         {
             Item = new OpenApiPathItem
             {
-                Operations =
+                Operations = new Dictionary<HttpMethod, OpenApiOperation>
                 {
-                    [OperationType.Get] = Sample.Operation(response: new OpenApiSchema {Type = "array", Items = Sample.ContactSchema}, description: "Collection of contacts."),
-                    [OperationType.Post] = Sample.Operation(request: Sample.ContactSchema)
+                    [HttpMethod.Get] = Sample.Operation(response: new OpenApiSchema {Type = JsonSchemaType.Array, Items = Sample.ContactSchema}, description: "Collection of contacts."),
+                    [HttpMethod.Post] = Sample.Operation(request: Sample.ContactSchema)
                 }
             }
         };

@@ -12,9 +12,9 @@ public class ActionPatternFacts : PatternFactsBase<ActionPattern>
         {
             Item = new OpenApiPathItem
             {
-                Operations =
+                Operations = new Dictionary<HttpMethod, OpenApiOperation>
                 {
-                    [OperationType.Post] = Sample.Operation(statusCode: HttpStatusCode.NoContent, description: "An action.")
+                    [HttpMethod.Post] = Sample.Operation(statusCode: HttpStatusCode.NoContent, description: "An action.")
                 }
             }
         };

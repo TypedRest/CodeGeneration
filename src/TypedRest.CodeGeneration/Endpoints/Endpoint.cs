@@ -13,28 +13,28 @@ public class Endpoint : IEndpoint
 
     public IDictionary<string, IEndpoint> Children { get; } = new Dictionary<string, IEndpoint>();
 
-    public virtual void Parse(OpenApiObject data, IEndpointParser parser)
+    public virtual void Parse(JsonObject data, IEndpointParser parser)
     {
         Description = data.GetString("description");
         Uri = data.GetString("uri");
 
-        if (data.TryGetValue("children", out var anyData) && anyData is OpenApiObject objData)
-            ParseChildren(objData, parser);
+        if (data.TryGetObject("children") is {} children)
+            ParseChildren(children, parser);
     }
 
-    protected void ParseChildren(OpenApiObject data, IEndpointParser parser)
+    protected void ParseChildren(JsonObject data, IEndpointParser parser)
     {
         foreach ((string key, var value) in data)
         {
-            if (value is OpenApiObject objData)
+            if (value is JsonObject objData)
                 Children.Add(key, parser.Parse(objData));
         }
     }
 
-    public virtual void ResolveReferences(OpenApiComponents components)
+    public virtual void ResolveReferences(OpenApiDocument document)
     {
         foreach (var child in Children.Values)
-            child.ResolveReferences(components);
+            child.ResolveReferences(document);
     }
 
     /// <summary>
@@ -62,6 +62,12 @@ public class Endpoint : IEndpoint
 
     public void SerializeAsV3(IOpenApiWriter writer)
         => Write(writer, OpenApiSpecVersion.OpenApi3_0);
+
+    public void SerializeAsV31(IOpenApiWriter writer)
+        => Write(writer, OpenApiSpecVersion.OpenApi3_1);
+
+    public void SerializeAsV32(IOpenApiWriter writer)
+        => Write(writer, OpenApiSpecVersion.OpenApi3_2);
 
     public override string ToString()
         => $"{Kind} ({Uri})";

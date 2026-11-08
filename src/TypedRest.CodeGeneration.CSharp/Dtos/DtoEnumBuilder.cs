@@ -3,7 +3,7 @@ using NanoByte.CodeGeneration;
 
 namespace TypedRest.CodeGeneration.CSharp.Dtos;
 
-public class DtoEnumBuilder(string key, OpenApiSchema schema, INamingStrategy naming, LanguageVersion languageVersion = LanguageVersion.Latest, TypeNameRegistry? typeNames = null, JsonAttributes? jsonAttributes = null)
+public class DtoEnumBuilder(string key, IOpenApiSchema schema, INamingStrategy naming, LanguageVersion languageVersion = LanguageVersion.Latest, TypeNameRegistry? typeNames = null, JsonAttributes? jsonAttributes = null)
     : DtoBuilder(key, schema, naming, languageVersion, typeNames, jsonAttributes)
 {
     protected override ICSharpType BuildTypeInner()
@@ -11,23 +11,17 @@ public class DtoEnumBuilder(string key, OpenApiSchema schema, INamingStrategy na
         var type = new CSharpEnum(Identifier);
         var usedNames = new HashSet<string>();
 
-        foreach (var value in Schema.Enum)
+        foreach (var value in Schema.Enum ?? [])
         {
-            switch (value)
+            if (value.AsString() is {} str)
             {
-                case OpenApiString str:
-                    type.Values.Add(new CSharpEnumValue(UniqueName(usedNames, Naming.Property(str.Value)))
-                    {
-                        Attributes = {Json.EnumMemberName(str.Value)}
-                    });
-                    break;
-                case OpenApiInteger num:
-                    type.Values.Add(new CSharpEnumValue(UniqueName(usedNames, NumericName(num.Value))) {Value = num.Value});
-                    break;
-                case OpenApiLong num when num.Value is >= int.MinValue and <= int.MaxValue:
-                    type.Values.Add(new CSharpEnumValue(UniqueName(usedNames, NumericName((int)num.Value))) {Value = (int)num.Value});
-                    break;
+                type.Values.Add(new CSharpEnumValue(UniqueName(usedNames, Naming.Property(str)))
+                {
+                    Attributes = {Json.EnumMemberName(str)}
+                });
             }
+            else if (value.AsInteger() is >= int.MinValue and <= int.MaxValue and var num)
+                type.Values.Add(new CSharpEnumValue(UniqueName(usedNames, NumericName((int)num))) {Value = (int)num});
         }
 
         return type;

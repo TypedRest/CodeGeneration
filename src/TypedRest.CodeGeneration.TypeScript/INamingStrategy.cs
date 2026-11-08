@@ -26,5 +26,5 @@ public interface INamingStrategy
     /// <summary>
     /// The TypeScript type a schema maps to.
     /// </summary>
-    TsIdentifier TypeFor(OpenApiSchema? schema);
+    TsIdentifier TypeFor(IOpenApiSchema? schema);
 }

@@ -6,9 +6,9 @@ namespace TypedRest.CodeGeneration.Endpoints;
 public interface IEndpointParser
 {
     /// <summary>
-    /// Parses an OpenAPI Object as an <see cref="IEndpoint"/>.
+    /// Parses a JSON object as an <see cref="IEndpoint"/>.
     /// </summary>
-    /// <param name="data">The OpenAPI Object to parse.</param>
+    /// <param name="data">The JSON object to parse.</param>
     /// <param name="defaultKind">The default value to assume for <see cref="IEndpoint.Kind"/> if it is not specified in <paramref name="data"/>.</param>
-    IEndpoint Parse(OpenApiObject data, string defaultKind = "");
+    IEndpoint Parse(JsonObject data, string defaultKind = "");
 }

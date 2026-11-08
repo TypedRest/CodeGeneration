@@ -3,10 +3,10 @@ using NanoByte.CodeGeneration;
 
 namespace TypedRest.CodeGeneration.CSharp.Dtos;
 
-public abstract class DtoBuilder(string key, OpenApiSchema schema, INamingStrategy naming, LanguageVersion languageVersion = LanguageVersion.Latest, TypeNameRegistry? typeNames = null, JsonAttributes? jsonAttributes = null)
+public abstract class DtoBuilder(string key, IOpenApiSchema schema, INamingStrategy naming, LanguageVersion languageVersion = LanguageVersion.Latest, TypeNameRegistry? typeNames = null, JsonAttributes? jsonAttributes = null)
 {
     protected readonly CSharpIdentifier Identifier = typeNames?.Register(naming.DtoType(key)) ?? naming.DtoType(key);
-    protected readonly OpenApiSchema Schema = schema;
+    protected readonly IOpenApiSchema Schema = schema;
     protected readonly INamingStrategy Naming = naming;
 
     /// <summary>
@@ -29,12 +29,12 @@ public abstract class DtoBuilder(string key, OpenApiSchema schema, INamingStrate
     /// </summary>
     protected bool NullableReferenceTypes => LanguageVersion >= LanguageVersion.CSharp8;
 
-    public static DtoBuilder? For(string key, OpenApiSchema schema, INamingStrategy naming, LanguageVersion languageVersion = LanguageVersion.Latest, TypeNameRegistry? typeNames = null, JsonAttributes? jsonAttributes = null)
-        => (schema.Type ?? "object") switch
+    public static DtoBuilder? For(string key, IOpenApiSchema schema, INamingStrategy naming, LanguageVersion languageVersion = LanguageVersion.Latest, TypeNameRegistry? typeNames = null, JsonAttributes? jsonAttributes = null)
+        => (schema.GetTypeIdentifier() ?? "object") switch
         {
             "object" => new DtoClassBuilder(key, schema, naming, languageVersion, typeNames, jsonAttributes),
-            "string" when schema.Enum.Count != 0 => new DtoEnumBuilder(key, schema, naming, languageVersion, typeNames, jsonAttributes),
-            "integer" when schema.Enum.Count != 0 => new DtoEnumBuilder(key, schema, naming, languageVersion, typeNames, jsonAttributes),
+            "string" when schema.Enum is {Count: > 0} => new DtoEnumBuilder(key, schema, naming, languageVersion, typeNames, jsonAttributes),
+            "integer" when schema.Enum is {Count: > 0} => new DtoEnumBuilder(key, schema, naming, languageVersion, typeNames, jsonAttributes),
             _ => null
         };
 

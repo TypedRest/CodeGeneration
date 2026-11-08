@@ -17,7 +17,7 @@ public class SseStreamingEndpointFacts
     {
         Parser.Parse(Data())
               .Should().BeOfType<SseStreamingEndpoint>()
-              .Which.Schema!.Reference.Id.Should().Be("Note");
+              .Which.Schema.GetReferenceId().Should().Be("Note");
     }
 
     [Fact]
@@ -36,18 +36,18 @@ public class SseStreamingEndpointFacts
               .Which.EventType.Should().BeNull();
     }
 
-    private static OpenApiObject Data(string? eventType = null)
+    private static JsonObject Data(string? eventType = null)
     {
-        var data = new OpenApiObject
+        var data = new JsonObject
         {
-            ["kind"] = new OpenApiString("sse"),
-            ["uri"] = new OpenApiString("./events"),
-            ["schema"] = new OpenApiObject
+            ["kind"] = "sse",
+            ["uri"] = "./events",
+            ["schema"] = new JsonObject
             {
-                ["$ref"] = new OpenApiString("#/components/schemas/Note")
+                ["$ref"] = "#/components/schemas/Note"
             }
         };
-        if (eventType != null) data["event-type"] = new OpenApiString(eventType);
+        if (eventType != null) data["event-type"] = eventType;
         return data;
     }
 }

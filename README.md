@@ -2,7 +2,7 @@
 
 [![Build](https://github.com/TypedRest/CodeGeneration/actions/workflows/build.yml/badge.svg)](https://github.com/TypedRest/CodeGeneration/actions/workflows/build.yml)
 [![API documentation](https://img.shields.io/badge/api-docs-orange.svg)](https://code-generation.typedrest.net/)  
-Tool that automatically infers [TypedRest Endpoints](https://typedrest.net/endpoints/) from patterns in [OpenAPI/Swagger](https://swagger.io/resources/open-api/) documents and generates source code for TypedRest clients. It can generate C#, TypeScript, Kotlin and Java clients.
+Tool that automatically infers [TypedRest Endpoints](https://typedrest.net/endpoints/) from patterns in [OpenAPI/Swagger](https://swagger.io/resources/open-api/) documents and generates source code for TypedRest clients. It can generate C#, TypeScript, Kotlin and Java clients. It reads Swagger 2.0 and OpenAPI 3.0, 3.1 and 3.2 documents in JSON or YAML.
 
 Write a C# client to disk with the command-line tool:
 

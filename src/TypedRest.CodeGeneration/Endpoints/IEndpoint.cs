@@ -6,17 +6,17 @@ namespace TypedRest.CodeGeneration.Endpoints;
 public interface IEndpoint : IOpenApiSerializable, IOpenApiExtension
 {
     /// <summary>
-    /// Fills the endpoint with information parsed from an OpenAPI Object.
+    /// Fills the endpoint with information parsed from a JSON object in an OpenAPI document.
     /// </summary>
-    /// <param name="data">The OpenAPI Object to parse.</param>
+    /// <param name="data">The JSON object to parse.</param>
     /// <param name="parser">The endpoint parser to use for parsing child objects.</param>
-    void Parse(OpenApiObject data, IEndpointParser parser);
+    void Parse(JsonObject data, IEndpointParser parser);
 
     /// <summary>
-    /// Resolves <see cref="OpenApiReference"/>s.
+    /// Resolves <see cref="OpenApiSchemaReference"/>s against the schema components of a document.
     /// </summary>
-    /// <param name="components">The components that references can point to.</param>
-    void ResolveReferences(OpenApiComponents components);
+    /// <param name="document">The document that references can point to.</param>
+    void ResolveReferences(OpenApiDocument document);
 
     /// <summary>
     /// The kind/type of endpoint.

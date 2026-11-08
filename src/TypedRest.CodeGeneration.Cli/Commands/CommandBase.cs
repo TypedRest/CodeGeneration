@@ -9,18 +9,17 @@ public abstract class CommandBase
 
     protected (OpenApiDocument, OpenApiSpecVersion) ReadDoc()
     {
-        var reader = new OpenApiStreamReader(new OpenApiReaderSettings().AddTypedRest());
-
         using var stream = InputPath == "-"
             ? Console.OpenStandardInput()
             : File.OpenRead(InputPath);
-        var doc = reader.Read(stream, out var diagnostic);
+        var (doc, diagnostic) = OpenApiDocumentReader.Read(stream);
 
-        foreach (var warning in diagnostic.Warnings)
+        foreach (var warning in diagnostic?.Warnings ?? [])
             Console.Error.WriteLine("Warning: " + warning.Message);
-        foreach (var error in diagnostic.Errors)
+        foreach (var error in diagnostic?.Errors ?? [])
             Console.Error.WriteLine("Error: " + error.Message);
 
-        return (doc, diagnostic.SpecificationVersion);
+        if (doc == null) throw new InvalidDataException($"Unable to parse {InputPath} as an OpenAPI or Swagger document.");
+        return (doc, diagnostic!.SpecificationVersion);
     }
 }

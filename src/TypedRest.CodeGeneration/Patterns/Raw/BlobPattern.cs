@@ -8,18 +8,18 @@ namespace TypedRest.CodeGeneration.Patterns.Raw;
 /// </summary>
 public class BlobPattern : PatternBase
 {
-    protected override OperationType[] RequiredOperations
-        => [OperationType.Get /*, OperationType.Put*/];
+    protected override HttpMethod[] RequiredOperations
+        => [HttpMethod.Get /*, HttpMethod.Put*/];
 
-    protected override IEndpoint? BuildEndpoint(OpenApiPathItem item)
+    protected override IEndpoint? BuildEndpoint(IOpenApiPathItem item)
     {
-        var operation = item.Operations[OperationType.Get];
+        var operation = item.Operations![HttpMethod.Get];
 
         var response = operation.Get200Response();
         if (response == null) return null;
 
         // A blob is a binary payload. Anything served as JSON, or with no body at all, belongs to another pattern.
-        if (response.Content.Count == 0 || response.HasJsonContent()) return null;
+        if (response.Content is not {Count: > 0} || response.HasJsonContent()) return null;
 
         return new BlobEndpoint
         {

@@ -12,7 +12,7 @@ public class IndexerEndpoint : Endpoint
     /// </summary>
     public IEndpoint? Element { get; set; }
 
-    public override void Parse(OpenApiObject data, IEndpointParser parser)
+    public override void Parse(JsonObject data, IEndpointParser parser)
     {
         base.Parse(data, parser);
 
@@ -20,11 +20,11 @@ public class IndexerEndpoint : Endpoint
             Element = parser.Parse(element);
     }
 
-    public override void ResolveReferences(OpenApiComponents components)
+    public override void ResolveReferences(OpenApiDocument document)
     {
-        base.ResolveReferences(components);
+        base.ResolveReferences(document);
 
-        Element?.ResolveReferences(components);
+        Element?.ResolveReferences(document);
     }
 
     protected override void WriteBody(IOpenApiWriter writer, OpenApiSpecVersion specVersion)

@@ -12,11 +12,11 @@ public class ElementPatternFacts : PatternFactsBase<ElementPattern>
         {
             Item = new OpenApiPathItem
             {
-                Operations =
+                Operations = new Dictionary<HttpMethod, OpenApiOperation>
                 {
-                    [OperationType.Get] = Sample.Operation(response: Sample.ContactSchema, description: "A specific contact."),
-                    [OperationType.Put] = Sample.Operation(statusCode: HttpStatusCode.NoContent, request: Sample.ContactSchema),
-                    [OperationType.Delete] = Sample.Operation(statusCode: HttpStatusCode.NoContent)
+                    [HttpMethod.Get] = Sample.Operation(response: Sample.ContactSchema, description: "A specific contact."),
+                    [HttpMethod.Put] = Sample.Operation(statusCode: HttpStatusCode.NoContent, request: Sample.ContactSchema),
+                    [HttpMethod.Delete] = Sample.Operation(statusCode: HttpStatusCode.NoContent)
                 }
             }
         };
@@ -35,10 +35,10 @@ public class ElementPatternFacts : PatternFactsBase<ElementPattern>
         {
             Item = new OpenApiPathItem
             {
-                Operations =
+                Operations = new Dictionary<HttpMethod, OpenApiOperation>
                 {
-                    [OperationType.Get] = Sample.Operation(response: Sample.ContactSchema, description: "A specific contact."),
-                    [OperationType.Put] = Sample.Operation(statusCode: HttpStatusCode.NoContent, request: Sample.NoteSchema)
+                    [HttpMethod.Get] = Sample.Operation(response: Sample.ContactSchema, description: "A specific contact."),
+                    [HttpMethod.Put] = Sample.Operation(statusCode: HttpStatusCode.NoContent, request: Sample.NoteSchema)
                 }
             }
         };
@@ -53,10 +53,10 @@ public class ElementPatternFacts : PatternFactsBase<ElementPattern>
         {
             Item = new OpenApiPathItem
             {
-                Operations =
+                Operations = new Dictionary<HttpMethod, OpenApiOperation>
                 {
-                    [OperationType.Get] = Sample.Operation(response: Sample.ContactSchema, description: "A specific contact."),
-                    [OperationType.Patch] = Sample.Operation(statusCode: HttpStatusCode.NoContent, request: Sample.NoteSchema)
+                    [HttpMethod.Get] = Sample.Operation(response: Sample.ContactSchema, description: "A specific contact."),
+                    [OpenApiOperationExtensions.Patch] = Sample.Operation(statusCode: HttpStatusCode.NoContent, request: Sample.NoteSchema)
                 }
             }
         };
@@ -71,10 +71,10 @@ public class ElementPatternFacts : PatternFactsBase<ElementPattern>
         {
             Item = new OpenApiPathItem
             {
-                Operations =
+                Operations = new Dictionary<HttpMethod, OpenApiOperation>
                 {
-                    [OperationType.Get] = Sample.Operation(response: Sample.ContactSchema, description: "A specific contact."),
-                    [OperationType.Put] = Sample.Operation(statusCode: HttpStatusCode.NoContent)
+                    [HttpMethod.Get] = Sample.Operation(response: Sample.ContactSchema, description: "A specific contact."),
+                    [HttpMethod.Put] = Sample.Operation(statusCode: HttpStatusCode.NoContent)
                 }
             }
         };

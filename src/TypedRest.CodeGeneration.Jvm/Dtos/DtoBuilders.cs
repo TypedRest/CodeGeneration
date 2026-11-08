@@ -10,13 +10,13 @@ namespace TypedRest.CodeGeneration.Jvm.Dtos;
 /// <param name="schema">The schema to build a type for.</param>
 /// <param name="naming">Decides what the generated type is called.</param>
 /// <param name="typeNames">Keeps the generated names from colliding.</param>
-public abstract class DtoBuilder(string key, OpenApiSchema schema, INamingStrategy naming, TypeNameRegistry? typeNames = null)
+public abstract class DtoBuilder(string key, IOpenApiSchema schema, INamingStrategy naming, TypeNameRegistry? typeNames = null)
 {
     /// <summary>The name and package of the generated type.</summary>
     protected readonly JvmIdentifier Identifier = typeNames?.Register(naming.DtoType(key)) ?? naming.DtoType(key);
 
     /// <summary>The schema being generated for.</summary>
-    protected readonly OpenApiSchema Schema = schema;
+    protected readonly IOpenApiSchema Schema = schema;
 
     /// <summary>Decides what the generated types are called.</summary>
     protected readonly INamingStrategy Naming = naming;
@@ -30,12 +30,12 @@ public abstract class DtoBuilder(string key, OpenApiSchema schema, INamingStrate
     /// <summary>
     /// Returns the builder for <paramref name="schema"/>, or <c>null</c> if it needs no type of its own.
     /// </summary>
-    public static DtoBuilder? For(string key, OpenApiSchema schema, INamingStrategy naming, TypeNameRegistry? typeNames = null)
-        => (schema.Type ?? "object") switch
+    public static DtoBuilder? For(string key, IOpenApiSchema schema, INamingStrategy naming, TypeNameRegistry? typeNames = null)
+        => (schema.GetTypeIdentifier() ?? "object") switch
         {
             "object" => new DtoClassBuilder(key, schema, naming, typeNames),
-            "string" when schema.Enum.Count != 0 => new DtoEnumBuilder(key, schema, naming, typeNames),
-            "integer" when schema.Enum.Count != 0 => new DtoEnumBuilder(key, schema, naming, typeNames),
+            "string" when schema.Enum is {Count: > 0} => new DtoEnumBuilder(key, schema, naming, typeNames),
+            "integer" when schema.Enum is {Count: > 0} => new DtoEnumBuilder(key, schema, naming, typeNames),
             _ => null
         };
 
@@ -68,13 +68,13 @@ public abstract class DtoBuilder(string key, OpenApiSchema schema, INamingStrate
 /// <summary>
 /// Builds a DTO for an object schema.
 /// </summary>
-public class DtoClassBuilder(string key, OpenApiSchema schema, INamingStrategy naming, TypeNameRegistry? typeNames = null)
+public class DtoClassBuilder(string key, IOpenApiSchema schema, INamingStrategy naming, TypeNameRegistry? typeNames = null)
     : DtoBuilder(key, schema, naming, typeNames)
 {
     /// <summary>
     /// The properties of this type, including any merged in from <c>allOf</c> schemas.
     /// </summary>
-    protected readonly IReadOnlyDictionary<string, OpenApiSchema> Properties = GetProperties(schema);
+    protected readonly IReadOnlyDictionary<string, IOpenApiSchema> Properties = GetProperties(schema);
 
     /// <summary>
     /// The keys of the required properties, including any from <c>allOf</c> schemas.
@@ -95,31 +95,31 @@ public class DtoClassBuilder(string key, OpenApiSchema schema, INamingStrategy n
     /// <summary>
     /// Returns every schema contributing properties to this type.
     /// </summary>
-    private static IEnumerable<OpenApiSchema> GetSources(OpenApiSchema schema)
+    private static IEnumerable<IOpenApiSchema> GetSources(IOpenApiSchema schema)
     {
         yield return schema;
-        foreach (var source in schema.AllOf)
+        foreach (var source in schema.AllOf ?? [])
             yield return source;
     }
 
-    private static IReadOnlyDictionary<string, OpenApiSchema> GetProperties(OpenApiSchema schema)
+    private static IReadOnlyDictionary<string, IOpenApiSchema> GetProperties(IOpenApiSchema schema)
     {
-        var result = new Dictionary<string, OpenApiSchema>();
+        var result = new Dictionary<string, IOpenApiSchema>();
         foreach (var source in GetSources(schema))
         {
-            foreach ((string key, var value) in source.Properties)
+            foreach ((string key, var value) in source.Properties ?? new Dictionary<string, IOpenApiSchema>())
                 result[key] = value;
         }
         return result;
     }
 
-    private static ICollection<string> GetRequiredProperties(OpenApiSchema schema)
-        => new HashSet<string>(GetSources(schema).SelectMany(x => x.Required));
+    private static ICollection<string> GetRequiredProperties(IOpenApiSchema schema)
+        => new HashSet<string>(GetSources(schema).SelectMany(x => x.Required ?? new HashSet<string>()));
 
     /// <summary>
     /// Builds one property of the DTO.
     /// </summary>
-    protected virtual JvmDtoProperty BuildProperty(string key, OpenApiSchema? schema)
+    protected virtual JvmDtoProperty BuildProperty(string key, IOpenApiSchema? schema)
     {
         string propertyName = Naming.Property(key);
         if (propertyName == Identifier.Name)
@@ -140,34 +140,34 @@ public class DtoClassBuilder(string key, OpenApiSchema schema, INamingStrategy n
         };
     }
 
-    private JvmIdentifier GetPropertyType(string nameHint, OpenApiSchema? schema)
-        => schema switch
-        {
-            // Inline enum
-            {Reference: null, Type: "string" or "integer", Enum.Count: > 0} =>
-                AddChildType(new DtoEnumBuilder(ChildKey(nameHint), schema, Naming, TypeNames)),
+    private JvmIdentifier GetPropertyType(string nameHint, IOpenApiSchema? schema)
+    {
+        if (schema == null) return Naming.TypeFor(schema);
 
-            // Inline object
-            {Reference: null, Properties.Count: > 0} =>
-                AddChildType(new DtoClassBuilder(ChildKey(nameHint), schema, Naming, TypeNames)),
+        // Inline enum
+        if (schema.IsInlineEnum())
+            return AddChildType(new DtoEnumBuilder(ChildKey(nameHint), schema, Naming, TypeNames));
 
-            // Array of inline enums/objects
-            {Type: "array", Items: {} items} when NeedsChildType(items) =>
-                JvmIdentifier.ListOf(GetPropertyType(nameHint.Depluralize(), items)),
+        // Inline object
+        if (schema.IsInlineObject())
+            return AddChildType(new DtoClassBuilder(ChildKey(nameHint), schema, Naming, TypeNames));
 
-            // Map of inline enums/objects
-            {AdditionalProperties: {} values} when NeedsChildType(values) =>
-                JvmIdentifier.MapOf(GetPropertyType(nameHint, values)),
+        // Array of inline enums/objects
+        if (schema.Is(JsonSchemaType.Array) && schema.Items is {} items && NeedsChildType(items))
+            return JvmIdentifier.ListOf(GetPropertyType(nameHint.Depluralize(), items));
 
-            _ => Naming.TypeFor(schema)
-        };
+        // Map of inline enums/objects
+        if (schema.AdditionalProperties is {} values && NeedsChildType(values))
+            return JvmIdentifier.MapOf(GetPropertyType(nameHint, values));
+
+        return Naming.TypeFor(schema);
+    }
 
     /// <summary>
     /// Indicates whether a schema is inlined rather than referenced and therefore needs a type generated for it.
     /// </summary>
-    private static bool NeedsChildType(OpenApiSchema schema)
-        => schema is {Reference: null, Type: "string" or "integer", Enum.Count: > 0}
-                  or {Reference: null, Properties.Count: > 0};
+    private static bool NeedsChildType(IOpenApiSchema schema)
+        => schema.IsInlineEnum() || schema.IsInlineObject();
 
     /// <summary>
     /// Prefixes a child type's key with this type's name, so that e.g. two DTOs with an inline <c>status</c> enum
@@ -183,14 +183,14 @@ public class DtoClassBuilder(string key, OpenApiSchema schema, INamingStrategy n
         return types[0].Identifier;
     }
 
-    private static bool IsCollection(OpenApiSchema? schema)
-        => schema is {Type: "array"} or {AdditionalProperties: not null};
+    private static bool IsCollection(IOpenApiSchema? schema)
+        => schema.Is(JsonSchemaType.Array) || schema?.AdditionalProperties != null;
 }
 
 /// <summary>
 /// Builds an enum for a schema with an <c>enum</c>.
 /// </summary>
-public class DtoEnumBuilder(string key, OpenApiSchema schema, INamingStrategy naming, TypeNameRegistry? typeNames = null)
+public class DtoEnumBuilder(string key, IOpenApiSchema schema, INamingStrategy naming, TypeNameRegistry? typeNames = null)
     : DtoBuilder(key, schema, naming, typeNames)
 {
     /// <inheritdoc/>
@@ -199,20 +199,12 @@ public class DtoEnumBuilder(string key, OpenApiSchema schema, INamingStrategy na
         var type = new JvmEnum(Identifier);
         var usedNames = new HashSet<string>();
 
-        foreach (var value in Schema.Enum)
+        foreach (var value in Schema.Enum ?? [])
         {
-            switch (value)
-            {
-                case OpenApiString str:
-                    type.Values.Add(new JvmEnumValue(UniqueName(usedNames, ValueName(str.Value)), str.Value));
-                    break;
-                case OpenApiInteger num:
-                    type.Values.Add(new JvmEnumValue(UniqueName(usedNames, NumericName(num.Value)), num.Value.ToString()));
-                    break;
-                case OpenApiLong num:
-                    type.Values.Add(new JvmEnumValue(UniqueName(usedNames, NumericName(num.Value)), num.Value.ToString()));
-                    break;
-            }
+            if (value.AsString() is {} str)
+                type.Values.Add(new JvmEnumValue(UniqueName(usedNames, ValueName(str)), str));
+            else if (value.AsInteger() is {} num)
+                type.Values.Add(new JvmEnumValue(UniqueName(usedNames, NumericName(num)), num.ToString(System.Globalization.CultureInfo.InvariantCulture)));
         }
 
         return type;

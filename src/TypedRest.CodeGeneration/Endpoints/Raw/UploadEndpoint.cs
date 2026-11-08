@@ -12,7 +12,7 @@ public class UploadEndpoint : Endpoint
     /// </summary>
     public string? FormField { get; set; }
 
-    public override void Parse(OpenApiObject data, IEndpointParser parser)
+    public override void Parse(JsonObject data, IEndpointParser parser)
     {
         base.Parse(data, parser);
 

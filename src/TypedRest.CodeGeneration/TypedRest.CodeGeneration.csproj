@@ -11,7 +11,8 @@
 
   <!-- Dependencies -->
   <ItemGroup>
-    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.31" />
+    <PackageReference Include="Microsoft.OpenApi" Version="3.11.0" />
+    <PackageReference Include="Microsoft.OpenApi.YamlReader" Version="3.11.0" />
   </ItemGroup>
 
 </Project>

@@ -54,9 +54,9 @@ public class NamingStrategy(string serviceName, string endpointPackage, string d
     }
 
     /// <inheritdoc/>
-    public virtual JvmIdentifier TypeFor(OpenApiSchema? schema)
+    public virtual JvmIdentifier TypeFor(IOpenApiSchema? schema)
     {
-        var type = (schema?.Type, schema?.Format) switch
+        var type = (schema.GetTypeIdentifier(), schema?.Format) switch
         {
             ("string", "date-time") => JvmIdentifier.OffsetDateTime,
             ("string", "date") => JvmIdentifier.LocalDate,
@@ -68,11 +68,11 @@ public class NamingStrategy(string serviceName, string endpointPackage, string d
             ("number", _) => JvmIdentifier.Double,
             ("boolean", _) => JvmIdentifier.Boolean,
             ("array", _) => JvmIdentifier.ListOf(TypeFor(schema!.Items)),
-            _ when schema?.Reference?.Id is {Length: > 0} id => DtoType(id),
+            _ when schema.GetReferenceId() is {Length: > 0} id => DtoType(id),
             _ when schema?.AdditionalProperties is {} props => JvmIdentifier.MapOf(TypeFor(props)),
             _ => UntypedFallback
         };
 
-        return schema is {Nullable: true} ? type.ToNullable() : type;
+        return schema.IsNullable() ? type.ToNullable() : type;
     }
 }
