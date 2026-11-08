@@ -22,6 +22,7 @@
     <Authors>Bastian Eicher</Authors>
     <Copyright>Copyright Bastian Eicher et al.</Copyright>
     <RepositoryUrl>https://github.com/TypedRest/CodeGeneration</RepositoryUrl>
+    <PackageReleaseNotes>https://github.com/TypedRest/CodeGeneration/releases/tag/$(Version)</PackageReleaseNotes>
     <PackageProjectUrl>https://typedrest.net/code-generation/</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
