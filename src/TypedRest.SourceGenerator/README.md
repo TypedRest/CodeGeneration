@@ -83,7 +83,7 @@ public partial class MyServiceClient
 }
 ```
 
-If you selected `system-text-json`, also pass a `SystemTextJsonSerializer` to `base`, configured with string enum converters as needed.
+If you selected `system-text-json`, also pass a `SystemTextJsonSerializer` to `base`.
 
 ## Limitations
 

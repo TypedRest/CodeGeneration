@@ -25,7 +25,15 @@ components:
         title:
           type: string
           description: The title of the project.
+        status:
+          $ref: '#/components/schemas/ProjectStatus'
       description: A project.
+    ProjectStatus:
+      type: string
+      enum:
+        - active
+        - on-hold
+      description: The status of a project.
 # Collection and indexer endpoints that have children of their own, so that classes are generated for them
 # rather than the built-in ones being used directly. Their element endpoints then have to be adapted to the
 # generated interfaces, which only compiles with the right explicit interface implementations.

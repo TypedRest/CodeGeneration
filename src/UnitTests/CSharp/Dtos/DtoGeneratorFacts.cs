@@ -513,6 +513,51 @@ public class DtoGeneratorFacts
     }
 
     [Fact]
+    public void AddsStringEnumConverterForSystemTextJson()
+    {
+        var generator = new DtoGenerator(
+            new NamingStrategy("MyService", "MyNamespace", "MyNamespace"),
+            jsonAttributes: JsonAttributes.For(JsonAttributes.SystemTextJson));
+
+        var generated = generator.Generate(new Dictionary<string, IOpenApiSchema>
+        {
+            ["myEnum"] = _enumSchema
+        }).OfType<CSharpEnum>().Single();
+
+        // SystemTextJsonSerializer has no string enum converter by default, so the enum brings its own
+        generated.Attributes.Should().ContainEquivalentOf(
+            new CSharpAttribute(new CSharpIdentifier("System.Text.Json.Serialization", "JsonConverterAttribute"))
+            {
+                Arguments =
+                {
+                    new CSharpIdentifier("System.Text.Json.Serialization", "JsonStringEnumConverter")
+                    {
+                        TypeArguments = {new CSharpIdentifier("MyNamespace", "MyEnum")}
+                    }
+                }
+            });
+    }
+
+    [Fact]
+    public void DoesNotAddStringEnumConverterForIntegerEnums()
+    {
+        var generator = new DtoGenerator(
+            new NamingStrategy("MyService", "MyNamespace", "MyNamespace"),
+            jsonAttributes: JsonAttributes.For(JsonAttributes.SystemTextJson));
+
+        var generated = generator.Generate(new Dictionary<string, IOpenApiSchema>
+        {
+            ["myEnum"] = new OpenApiSchema
+            {
+                Type = JsonSchemaType.Integer,
+                Enum = new List<JsonNode> {1, 2}
+            }
+        }).OfType<CSharpEnum>().Single();
+
+        generated.Attributes.Should().NotContain(x => x.Identifier.Name == "JsonConverterAttribute");
+    }
+
+    [Fact]
     public void DefaultsToNewtonsoft()
         => JsonAttributes.For(null).Serializer.Should().Be(JsonAttributes.Newtonsoft);
 

@@ -49,8 +49,6 @@ Use `--generate-entry-constructor false` when the entry endpoint needs a custom 
 
 The generated entry constructor configures the matching serializer at runtime (e.g. `base(uri, serializer: new SystemTextJsonSerializer())`). If you write your own constructor with `--generate-entry-constructor false`, pass the same serializer yourself.
 
-`[JsonStringEnumMemberName]` requires .NET 9 or later. It is what `JsonStringEnumConverter` reads; System.Text.Json ignores `[EnumMember]` entirely.
-
 ### Java
 
     typedrest-codegen generate -l java -f myapi.yml -o src/main/java/ -s MyService -n com.mycompany.myservice --generate-dtos

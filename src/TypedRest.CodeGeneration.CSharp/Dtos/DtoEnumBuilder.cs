@@ -24,6 +24,9 @@ public class DtoEnumBuilder(string key, IOpenApiSchema schema, INamingStrategy n
                 type.Values.Add(new CSharpEnumValue(UniqueName(usedNames, NumericName((int)num))) {Value = (int)num});
         }
 
+        if (Schema.Enum?.Any(x => x.AsString() != null) == true && Json.StringEnumConverter(Identifier) is {} converter)
+            type.Attributes.Add(converter);
+
         return type;
     }
 

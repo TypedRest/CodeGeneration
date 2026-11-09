@@ -58,6 +58,12 @@ public abstract class JsonAttributes
     /// Carries the wire name of an enum value whose C# name differs from it.
     /// </summary>
     public abstract CSharpAttribute EnumMemberName(string name);
+
+    /// <summary>
+    /// Makes the serializer read and write an enum with string values by its <see cref="EnumMemberName"/>s, or <c>null</c> if the runtime serializer already does so by default.
+    /// </summary>
+    /// <param name="enumType">The enum the attribute is applied to.</param>
+    public virtual CSharpAttribute? StringEnumConverter(CSharpIdentifier enumType) => null;
 }
 
 /// <summary>
@@ -111,11 +117,22 @@ public sealed class SystemTextJsonAttributes : JsonAttributes
     /// <inheritdoc/>
     /// <remarks>
     /// System.Text.Json ignores <c>[EnumMember]</c>. <c>[JsonStringEnumMemberName]</c> is the attribute its
-    /// <c>JsonStringEnumConverter</c> reads instead, and it requires .NET 9 or later.
+    /// <c>JsonStringEnumConverter</c> reads instead, and it requires System.Text.Json 9 or later.
     /// </remarks>
     public override CSharpAttribute EnumMemberName(string name)
         => new(new CSharpIdentifier("System.Text.Json.Serialization", "JsonStringEnumMemberNameAttribute"))
         {
             Arguments = {name}
+        };
+
+    /// <inheritdoc/>
+    /// <remarks>
+    /// <c>SystemTextJsonSerializer</c> does not register a <c>JsonStringEnumConverter</c>, so without this attribute
+    /// enums would be written as numbers. Putting it on the type keeps the DTOs independent of runtime configuration.
+    /// </remarks>
+    public override CSharpAttribute StringEnumConverter(CSharpIdentifier enumType)
+        => new(new CSharpIdentifier("System.Text.Json.Serialization", "JsonConverterAttribute"))
+        {
+            Arguments = {new CSharpIdentifier("System.Text.Json.Serialization", "JsonStringEnumConverter") {TypeArguments = {enumType}}}
         };
 }

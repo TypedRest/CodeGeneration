@@ -19,6 +19,10 @@ public static class NestedUsage
     public static IProjectElementEndpoint GetProject(INestedClient client, string id)
         => client.Projects[id];
 
+    // Generated for System.Text.Json, so the enum has to carry its own string converter
+    public static string SerializeStatus(ProjectStatus status)
+        => System.Text.Json.JsonSerializer.Serialize(status);
+
     public static async Task ArchiveTeam(ITeamElementEndpoint team, CancellationToken cancellationToken = default)
         => await team.Archive.InvokeAsync(cancellationToken);
 }
