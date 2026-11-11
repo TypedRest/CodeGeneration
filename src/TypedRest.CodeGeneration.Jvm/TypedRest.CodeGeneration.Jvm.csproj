@@ -2,7 +2,7 @@
 
   <!-- Project properties -->
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net8.0;net10.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net10.0</TargetFrameworks>
     <Summary>Shared JVM code generator core for TypedRest clients from OpenAPI/Swagger</Summary>
     <Description>Everything the Java and Kotlin TypedRest client generators have in common: the JVM type model, the naming strategy and the endpoint builders.</Description>
     <PackageTags>Typed REST OpenAPI Swagger CodeGen JVM Java Kotlin</PackageTags>

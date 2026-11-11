@@ -2,7 +2,7 @@
 
   <!-- Project properties -->
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net8.0;net10.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net10.0</TargetFrameworks>
     <Summary>TypeScript code generator for TypedRest clients from OpenAPI/Swagger</Summary>
     <Description>Generates TypeScript source code for TypedRest clients from OpenAPI/Swagger documents.</Description>
     <PackageTags>Typed REST OpenAPI Swagger CodeGen TypeScript</PackageTags>
