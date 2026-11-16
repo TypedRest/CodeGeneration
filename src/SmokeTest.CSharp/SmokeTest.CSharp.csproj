@@ -28,7 +28,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="TypedRest" Version="1.7.4" />
-    <PackageReference Include="TypedRest.SystemTextJson" Version="1.7.3" />
+    <PackageReference Include="TypedRest.SystemTextJson" Version="1.7.4" />
   </ItemGroup>
 
   <!-- Simulates what consumers get from the NuGet package -->
