@@ -4,7 +4,7 @@ pushd $PSScriptRoot
 $zeroInstall = "$PSScriptRoot\..\0install.ps1"
 
 function Run-DotNet {
-    & $zeroInstall run --batch --version 10.0..!10.1 https://apps.0install.net/dotnet/sdk.xml @args
+    & $zeroInstall run --batch --version 11.0..!11.1 https://apps.0install.net/dotnet/sdk.xml @args
     if ($LASTEXITCODE -ne 0) {throw "Exit Code: $LASTEXITCODE"}
 }
 
