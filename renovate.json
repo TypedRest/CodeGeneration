@@ -36,6 +36,13 @@
       "allowedVersions": "<4.9"
     },
     {
+      "description": "Unlike the generator itself, the tests should run against the newest Roslyn",
+      "matchPackageNames": ["Microsoft.CodeAnalysis.CSharp"],
+      "matchFileNames": ["src/UnitTests/UnitTests.csproj"],
+      "automerge": true,
+      "automergeType": "branch"
+    },
+    {
       "matchPackageNames": ["TypedRest", "TypedRest.SystemTextJson"],
       "groupName": "C# smoke testing deps",
       "automerge": true,
