@@ -13,46 +13,48 @@ public static class OpenApiDocumentExtensions
     /// </summary>
     public const string TypedRestKey = "x-typedrest";
 
-    /// <summary>
-    /// Gets the TypedRest extension from the OpenAPI Spec <paramref name="document"/>, if present.
-    /// </summary>
     /// <param name="document">The document to get TypedRest data from.</param>
-    /// <param name="resolveReferences">Automatically runs <see cref="IEndpoint.ResolveReferences"/> on the endpoints before returning them.</param>
-    public static EntryEndpoint? GetTypedRest(this OpenApiDocument document, bool resolveReferences = true)
+    extension(OpenApiDocument document)
     {
-        if (document.Extensions != null
-         && document.Extensions.TryGetValue(TypedRestKey, out var output)
-         && output is EntryEndpoint endpoint)
+        /// <summary>
+        /// Gets the TypedRest extension from the OpenAPI Spec <paramref name="document"/>, if present.
+        /// </summary>
+        /// <param name="resolveReferences">Automatically runs <see cref="IEndpoint.ResolveReferences"/> on the endpoints before returning them.</param>
+        public EntryEndpoint? GetTypedRest(bool resolveReferences = true)
         {
-            if (resolveReferences)
-                endpoint.ResolveReferences(document);
-            return endpoint;
+            if (document.Extensions != null
+             && document.Extensions.TryGetValue(TypedRestKey, out var output)
+             && output is EntryEndpoint endpoint)
+            {
+                if (resolveReferences)
+                    endpoint.ResolveReferences(document);
+                return endpoint;
+            }
+            else return null;
         }
-        else return null;
-    }
 
-    /// <summary>
-    /// Adds the <paramref name="endpoint"/> as a TypedRest extension to the OpenAPI Spec <paramref name="document"/>.
-    /// </summary>
-    public static OpenApiDocument SetTypedRest(this OpenApiDocument document, EntryEndpoint endpoint)
-    {
-        document.Extensions ??= new Dictionary<string, IOpenApiExtension>();
-        document.Extensions[TypedRestKey] = endpoint;
-        return document;
-    }
+        /// <summary>
+        /// Adds the <paramref name="endpoint"/> as a TypedRest extension to the OpenAPI Spec <paramref name="document"/>.
+        /// </summary>
+        public OpenApiDocument SetTypedRest(EntryEndpoint endpoint)
+        {
+            document.Extensions ??= new Dictionary<string, IOpenApiExtension>();
+            document.Extensions[TypedRestKey] = endpoint;
+            return document;
+        }
 
-    /// <summary>
-    /// Generates an <see cref="EntryEndpoint"/> with children by matching patterns in the OpenAPI Spec document.
-    /// </summary>
-    /// <param name="document">The document to check for patterns.</param>
-    /// <param name="patterns">An ordered list of all known <see cref="IPattern"/>s; leave <c>null</c> for default.</param>
-    public static EntryEndpoint MatchTypedRestPatterns(this OpenApiDocument document, PatternRegistry? patterns = null)
-    {
-        var matcher = new PatternMatcher(patterns ?? PatternRegistry.Default);
+        /// <summary>
+        /// Generates an <see cref="EntryEndpoint"/> with children by matching patterns in the OpenAPI Spec document.
+        /// </summary>
+        /// <param name="patterns">An ordered list of all known <see cref="IPattern"/>s; leave <c>null</c> for default.</param>
+        public EntryEndpoint MatchTypedRestPatterns(PatternRegistry? patterns = null)
+        {
+            var matcher = new PatternMatcher(patterns ?? PatternRegistry.Default);
 
-        var entryEndpoint = new EntryEndpoint();
-        entryEndpoint.Children.AddRange(matcher.GetEndpoints(PathTree.From(document.Paths ?? new OpenApiPaths())));
+            var entryEndpoint = new EntryEndpoint();
+            entryEndpoint.Children.AddRange(matcher.GetEndpoints(PathTree.From(document.Paths ?? new OpenApiPaths())));
 
-        return entryEndpoint;
+            return entryEndpoint;
+        }
     }
 }

@@ -8,26 +8,29 @@ namespace TypedRest.CodeGeneration;
 /// </summary>
 public static class OpenApiReaderSettingsExtensions
 {
-    /// <summary>
-    /// Registers the TypedRest OpenAPI extension parser and the YAML reader.
-    /// </summary>
     /// <param name="settings">The settings to register the extension parser in.</param>
-    /// <param name="endpointRegistry">A list of all known <see cref="IEndpoint"/> kinds; leave <c>null</c> for default.</param>
-    public static OpenApiReaderSettings AddTypedRest(this OpenApiReaderSettings settings, EndpointRegistry? endpointRegistry = null)
+    extension(OpenApiReaderSettings settings)
     {
-        var parser = new EndpointParser(endpointRegistry ?? EndpointRegistry.Default);
-
-        settings.ExtensionParsers ??= new();
-        settings.ExtensionParsers[OpenApiDocumentExtensions.TypedRestKey] = (data, _) =>
+        /// <summary>
+        /// Registers the TypedRest OpenAPI extension parser and the YAML reader.
+        /// </summary>
+        /// <param name="endpointRegistry">A list of all known <see cref="IEndpoint"/> kinds; leave <c>null</c> for default.</param>
+        public OpenApiReaderSettings AddTypedRest(EndpointRegistry? endpointRegistry = null)
         {
-            if (data is not JsonObject objData) throw new FormatException($"{OpenApiDocumentExtensions.TypedRestKey} is not an object.");
+            var parser = new EndpointParser(endpointRegistry ?? EndpointRegistry.Default);
 
-            var entryEndpoint = new EntryEndpoint();
-            entryEndpoint.Parse(objData, parser);
-            return entryEndpoint;
-        };
+            settings.ExtensionParsers ??= new();
+            settings.ExtensionParsers[OpenApiDocumentExtensions.TypedRestKey] = (data, _) =>
+            {
+                if (data is not JsonObject objData) throw new FormatException($"{OpenApiDocumentExtensions.TypedRestKey} is not an object.");
 
-        settings.AddYamlReader();
-        return settings;
+                var entryEndpoint = new EntryEndpoint();
+                entryEndpoint.Parse(objData, parser);
+                return entryEndpoint;
+            };
+
+            settings.AddYamlReader();
+            return settings;
+        }
     }
 }

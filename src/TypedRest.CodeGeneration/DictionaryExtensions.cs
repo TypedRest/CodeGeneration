@@ -5,14 +5,16 @@
 /// </summary>
 public static class DictionaryExtensions
 {
-    /// <summary>
-    /// Adds multiple elements to the dictionary.
-    /// </summary>
-    public static void AddRange<TSourceKey, TSourceValue, TTargetKey, TTargetValue>(this IDictionary<TTargetKey, TTargetValue> target, IEnumerable<KeyValuePair<TSourceKey, TSourceValue>> source)
-        where TSourceKey : TTargetKey
-        where TSourceValue : TTargetValue
+    extension<TSourceKey, TSourceValue, TTargetKey, TTargetValue>(IDictionary<TTargetKey, TTargetValue> target)
+        where TSourceKey : TTargetKey where TSourceValue : TTargetValue
     {
-        foreach (var pair in source)
-            target.Add(pair.Key, pair.Value);
+        /// <summary>
+        /// Adds multiple elements to the dictionary.
+        /// </summary>
+        public void AddRange(IEnumerable<KeyValuePair<TSourceKey, TSourceValue>> source)
+        {
+            foreach (var pair in source)
+                target.Add(pair.Key, pair.Value);
+        }
     }
 }
