@@ -6,6 +6,8 @@ Make sure you have the [.NET SDK](https://dotnet.microsoft.com/download) install
 
     dotnet tool install -g typedrest-codegen
 
+Alternatively, download a self-contained executable for Windows, Linux or macOS from the [GitHub releases](https://github.com/TypedRest/CodeGeneration/releases). These do not need .NET to be installed.
+
 If you build your client with the .NET SDK, consider the [source generator](https://www.nuget.org/packages/TypedRest.SourceGenerator/) instead. It runs the same generator during compilation, without writing files to your source tree.
 
 For a walkthrough see the **[usage guide](https://typedrest.net/code-generation/cli/)**.

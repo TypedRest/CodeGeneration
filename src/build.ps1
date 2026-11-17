@@ -11,4 +11,12 @@ echo "Build binaries"
 if ($env:CI) { $ci = "/p:ContinuousIntegrationBuild=True" }
 Run-DotNet msbuild /v:Quiet /Restore /t:Build /p:Configuration=Release /p:Version=$Version $ci
 
+echo "Build single-file executables"
+foreach ($rid in "win-x64", "win-arm64", "linux-x64", "linux-arm64", "osx-arm64") {
+    $ext = if ($rid.StartsWith("win-")) { ".exe" } else { "" }
+    Run-DotNet publish TypedRest.CodeGeneration.Cli --verbosity quiet --configuration Release --runtime $rid --output ..\artifacts\Release\publish\$rid /p:Version=$Version $ci
+    New-Item -ItemType Directory -Force ..\artifacts\Executables | Out-Null
+    Copy-Item ..\artifacts\Release\publish\$rid\typedrest-codegen$ext ..\artifacts\Executables\typedrest-codegen-$rid$ext
+}
+
 popd

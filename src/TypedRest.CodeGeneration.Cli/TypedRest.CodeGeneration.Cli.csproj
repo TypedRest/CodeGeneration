@@ -14,6 +14,30 @@
     <OutputPath>..\..\artifacts\$(Configuration)\</OutputPath>
   </PropertyGroup>
 
+  <!-- Self-contained single-file executable (dotnet publish -r <RID>) -->
+  <PropertyGroup Condition="'$(RuntimeIdentifier)' != ''">
+    <AssemblyName>$(ToolCommandName)</AssemblyName>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>False</GenerateDocumentationFile>
+    <AllowedReferenceRelatedFileExtensions>none</AllowedReferenceRelatedFileExtensions>
+    <SelfContained>True</SelfContained>
+    <PublishSingleFile>True</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>True</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>True</EnableCompressionInSingleFile>
+    <DebugType>embedded</DebugType>
+    <PublishTrimmed>True</PublishTrimmed>
+    <TrimMode>full</TrimMode>
+    <InvariantGlobalization>True</InvariantGlobalization>
+    <UseSystemResourceKeys>True</UseSystemResourceKeys>
+    <!-- CommandLineParser is not trim-annotated, but it only reflects over the rooted assemblies below -->
+    <NoWarn>$(NoWarn);IL2104</NoWarn>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(RuntimeIdentifier)' != ''">
+    <!-- CommandLineParser discovers verbs and options via reflection -->
+    <TrimmerRootAssembly Include="CommandLine" />
+    <TrimmerRootAssembly Include="$(AssemblyName)" />
+  </ItemGroup>
+
   <!-- Dependencies -->
   <ItemGroup>
     <ProjectReference Include="..\TypedRest.CodeGeneration.CSharp\TypedRest.CodeGeneration.CSharp.csproj" />
