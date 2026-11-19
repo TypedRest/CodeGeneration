@@ -8,7 +8,7 @@
     "check": "tsc --noEmit"
   },
   "dependencies": {
-    "typedrest": "0.6.2"
+    "typedrest": "0.6.3"
   },
   "devDependencies": {
     "@types/node": "^26.2.0",
