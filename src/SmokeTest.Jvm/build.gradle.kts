@@ -19,8 +19,8 @@ sourceSets {
 }
 
 dependencies {
-    implementation("net.typedrest:typedrest:0.34.0")
-    implementation("net.typedrest:typedrest-serializers-jackson:0.34.0")
+    implementation("net.typedrest:typedrest:0.34.1")
+    implementation("net.typedrest:typedrest-serializers-jackson:0.34.1")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.13.0")
     compileOnly("org.jspecify:jspecify:1.0.1")
 }
